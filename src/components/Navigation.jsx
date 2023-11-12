@@ -15,7 +15,7 @@ function Navigation() {
     }
   };
   const RedirectToLink = () => {
-    const link = `/${inputValue}`;
+    const link = `/search/${inputValue}`;
     window.location.href = link;
   };
   return (
