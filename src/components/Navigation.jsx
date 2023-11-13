@@ -5,8 +5,10 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 function Navigation() {
   const [inputValue,setInputValue] = useState('');
-  const yellowTextStyle={
+  const textStyle={
     color: "yellow",
+    fontSize: "2vmin"
+    
   }
   const HandleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -21,10 +23,10 @@ function Navigation() {
   return (
     <Navbar expand='md' className='bg-body-tertiary' bg='dark' data-bs-theme='dark'>
       <Container fluid>
-        <Navbar.Brand style={yellowTextStyle} href='/'>BlitzForFriends</Navbar.Brand>
+        <Navbar.Brand style={textStyle} href='/'>BlitzForFriends</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav>
+            <Nav className='justify-content-evenly align-items-center' style={{width: '100%'}}>
             <Form inline>
               <Form.Control
                 type="text"
@@ -33,12 +35,13 @@ function Navigation() {
                 value={inputValue}
                 onChange={(e)=>setInputValue(e.target.value)}
                 onKeyDown={HandleKeyDown}
+                style={{fontSize: '2vmin'}}
               />
             </Form>
-          <Nav.Link style={yellowTextStyle} href='/friends'>Friends</Nav.Link>
-          <Nav.Link style={yellowTextStyle} href='/user/{id}'>User</Nav.Link>
-          <Nav.Link style={yellowTextStyle} href='/notifs'>Notifications</Nav.Link>
-          <Nav.Link style={yellowTextStyle} href='/blitz'>Blitz</Nav.Link>
+          <Nav.Link style={textStyle} href='/friends'>Friends</Nav.Link>
+          <Nav.Link style={textStyle} href='/user/{id}'>User</Nav.Link>
+          <Nav.Link style={textStyle} href='/notifs'>Notifications</Nav.Link>
+          <Nav.Link style={textStyle} href='/blitz'>Blitz</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>
