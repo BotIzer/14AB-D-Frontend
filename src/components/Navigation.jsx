@@ -25,11 +25,11 @@ function Navigation() {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav>
-            <Form inline className='col-2'>
+            <Form inline>
               <Form.Control
                 type="text"
                 placeholder="Search"
-                className="mt-5 mt-md-0"
+                className="mt-3 mt-md-0"
                 value={inputValue}
                 onChange={(e)=>setInputValue(e.target.value)}
                 onKeyDown={HandleKeyDown}
