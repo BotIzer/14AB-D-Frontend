@@ -7,7 +7,7 @@ function Navigation() {
   const [inputValue,setInputValue] = useState('');
   const textStyle={
     color: "yellow",
-    fontSize: "2vmin"
+    fontSize: "16px"
     
   }
   const HandleKeyDown = (event) => {
@@ -21,13 +21,16 @@ function Navigation() {
     window.location.href = link;
   };
   return (
-    <Navbar expand='md' className='bg-body-tertiary' bg='dark' data-bs-theme='dark'>
+    <Navbar expand='md' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
       <Container fluid>
         <Navbar.Brand style={textStyle} href='/'>BlitzForFriends</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='justify-content-evenly align-items-center' style={{width: '100%'}}>
-            <Form inline>
+            <Nav className='me-auto'>
+            <Nav.Link style={textStyle} href='/friends'>Friends</Nav.Link>
+            </Nav>
+            <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
+            <Form inline style={{width:'50vw'}}> 
               <Form.Control
                 type="text"
                 placeholder="Search"
@@ -35,10 +38,11 @@ function Navigation() {
                 value={inputValue}
                 onChange={(e)=>setInputValue(e.target.value)}
                 onKeyDown={HandleKeyDown}
-                style={{fontSize: '2vmin'}}
+                style={{fontSize: '16px'}}
               />
             </Form>
-          <Nav.Link style={textStyle} href='/friends'>Friends</Nav.Link>
+            </Nav>
+            <Nav>
           <Nav.Link style={textStyle} href='/user/{id}'>User</Nav.Link>
           <Nav.Link style={textStyle} href='/notifs'>Notifications</Nav.Link>
           <Nav.Link style={textStyle} href='/blitz'>Blitz</Nav.Link>

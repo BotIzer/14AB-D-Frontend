@@ -9,11 +9,9 @@ import Col from 'react-bootstrap/Col';
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    
     <Navigation/>
     <Container>
       <Row>
@@ -28,6 +26,7 @@ function App() {
         </Col>
       </Row>
     </Container>
+    
     </>
   )
 }
