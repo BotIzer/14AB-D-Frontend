@@ -28,6 +28,7 @@ function Navigation() {
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
             <Nav.Link style={textStyle} href='/friends'>Friends</Nav.Link>
+            <Nav.Link style={textStyle} href='/user/{id}'>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
             <Form inline style={{width:'50vw'}}> 
@@ -43,9 +44,9 @@ function Navigation() {
             </Form>
             </Nav>
             <Nav>
-          <Nav.Link style={textStyle} href='/user/{id}'>User</Nav.Link>
           <Nav.Link style={textStyle} href='/notifs'>Notifications</Nav.Link>
           <Nav.Link style={textStyle} href='/blitz'>Blitz</Nav.Link>
+          <Nav.Link style={textStyle} href='/login'>Login</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>
