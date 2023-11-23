@@ -15,13 +15,13 @@ function App() {
     <Navigation/>
     <Container fluid>
       <Row>
-        <Col xs={2} md={2} lg={2} xl={2} xxl={2}>
+        <Col className='border' xs={4} sm={3} md={2} lg={2} xl={2} xxl={2}>
           <FriendList/>
         </Col>
         <Col className='d-flex justify-content-center border'>
           Second Column
         </Col>
-        <Col xs={2} md={2} lg={2} xl={2} xxl={2}>
+        <Col className='border' xs={4} sm={3} md={2} lg={2} xl={2} xxl={2}>
           Third Column
         </Col>
       </Row>
