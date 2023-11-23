@@ -13,15 +13,15 @@ function App() {
   return (
     <>
     <Navigation/>
-    <Container>
+    <Container fluid>
       <Row>
-        <Col>
+        <Col xs={2} md={2} lg={2} xl={2} xxl={2}>
           <FriendList/>
         </Col>
+        <Col className='d-flex justify-content-center border'>
           Second Column
-        <Col>
         </Col>
-        <Col>
+        <Col xs={2} md={2} lg={2} xl={2} xxl={2}>
           Third Column
         </Col>
       </Row>
