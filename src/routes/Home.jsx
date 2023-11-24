@@ -1,5 +1,5 @@
-import Navigation from './Navigation'
-import FriendList from './FriendList'
+import Navigation from '../components/Navigation';
+import FriendList from '../components/FriendList'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
