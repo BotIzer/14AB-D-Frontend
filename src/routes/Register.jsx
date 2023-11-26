@@ -10,7 +10,7 @@ export default function Register(){
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
-const PWD_REGEX = /^(?=(.[a-z]){1,})(?=(.[A-Z]){1,})(?=(.[0-9]){1,})(?=(.[!@#$%^&*()-__+.]){1,}).{8,}$/;
+const PWD_REGEX = /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/;
 const REGISTER_URL = '/register';
 
 const userRef = useRef();
@@ -87,25 +87,25 @@ const handleSubmit = async (e)=>{
   return (
     <>
       <section>
-        <p ref={errRef} className={errMsg ? "errmsg":"offscreen"} aria-live="assertive">{errMsg}</p>
+        <p ref={errRef} className={errMsg ? "errmsg":"offcanvas"} aria-live="assertive">{errMsg}</p>
       </section>
       <Navigation></Navigation>
       <Container >
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
           <Col xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto" className="justify-content-center border border-warning rounded mt-5" style={{backgroundColor: "#4a4b4f"}}>
-            <div className="border border-warning rounded px-5 py-2 my-3" style={{height: "400px"}}>
+            <div className="border border-warning rounded px-5 py-2 my-3" style={{overflow:"auto"}}>
               <Form>
-              <Form.Group className="mb-3" controlId="username">
-                  <Form.Label>Username: 
+              <Form.Group className="mb-3">
+                  <Form.Label htmlFor="username">Username: 
                     {/* TODO: Fix this thing */}
-                    <span class="hide" className=".d-none" color="green">+</span>
-                    <span className={validName || !user ? "hide" : "invalid"} color="red">-</span>
+                    <span className={validName || !user ? "valid" : "d-none"}>+</span>
+                    <span className={validName || !user ? "d-none" : "invalid"} color="red">-</span>
                   </Form.Label>
-                  <Form.Control type="text" placeholder="Enter username"
+                  <Form.Control id="username" type="text" placeholder="Enter username"
                    ref={userRef} autoComplete="off" onChange={(e)=>setUser(e.target.value)}
                    required aria-invalid={validName?"false":"true"} aria-describedby="uidnote" 
                    onFocus={()=>setUserFocus(true)} onBlur={()=> setUserFocus(false)}/>
-                   <p id="uidnote" className={userFocus && user && !validName ? "instructions": "offscreen"}>
+                   <p id="uidnote" className={userFocus && user && !validName ? "instructions": "offcanvas"}>
                     4 to 24 characters. <br/>
                     Must begin with a letter <br/>
                     Letters, numbers, underscores, hyphens are allowed.
@@ -115,15 +115,30 @@ const handleSubmit = async (e)=>{
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" placeholder="Enter email" />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="password">Password: </Form.Label>
+                  <Form.Control id="password" type="password" placeholder="Password" onChange={(e)=> setPwd(e.target.value)} required
+                  aria-invalid={validPwd? "false" : true} aria-describedby="pwdnote" onFocus={() => setPwdFocus(true)} 
+                  onBlur={()=> setPwdFocus(false)}/>
+                  <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offcanvas"}>
+                    8 to 24 characters. <br/>
+                    Must include uppercase and lowercase letters, a number, and 
+                    a special character. <br/>
+                    Allowed characters: <span aria-label="exclamation mark">!</span>
+                    <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span>
+                    <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                  </p>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="password_again">
-                  <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password Again" />
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="confirm_pwd">Confirm Password</Form.Label>
+                  <span className={validMatch && matchPwd ? "valid" : "hide"}>+</span>
+                  <span className={validMatch || !matchPwd ? "hide" : "invalid"}>-</span>
+                  <Form.Control id="confirm_pwd" type="password" placeholder="Password Again" 
+                  onChange={(e)=> setMatchPwd(e.target.value)} required aria-invalid={validMatch?"false":"true"}
+                  aria-describedby="confirmnote" onFocus={() => setMatchFocus(true)} onBlur={()=> setMatchFocus(false)}/>
                 </Form.Group>
-                <button type="submit" className="btn btn-warning">Register</button>
+                <button disabled={!validName || !validPwd || !validMatch ? true : false} type="submit" className="btn btn-warning">Register</button>
               </Form>
             </div>
           </Col>

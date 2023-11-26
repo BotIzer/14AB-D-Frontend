@@ -2,7 +2,6 @@ body{
   color: yellow;
 }
 
-
 a {
   color: yellow;
   text-decoration: none !important;
@@ -11,4 +10,12 @@ a {
 a:hover {
   color: rgb(200, 185, 105);
   text-decoration: none !important;
+}
+.valid{
+  color: lightgreen;
+  font-weight: bold;
+}
+.invalid{
+  color: red;
+  font-weight: bold;
 }
