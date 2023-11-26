@@ -31,7 +31,7 @@ function Navigation() {
             <Nav.Link style={textStyle} href='/user/{id}'>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
-            <Form inline style={{width:'50vw'}}> 
+            <Form style={{width:'50vw'}}> 
               <Form.Control
                 type="text"
                 placeholder="Search"
