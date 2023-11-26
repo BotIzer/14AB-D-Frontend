@@ -13,8 +13,12 @@ export default function Register(){
       <Container >
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
           <Col xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto" className="justify-content-center border border-warning rounded mt-5" style={{backgroundColor: "#4a4b4f"}}>
-            <div className="border border-warning rounded p-5 my-3" style={{height: "400px"}}>
+            <div className="border border-warning rounded px-5 py-2 my-3" style={{height: "400px"}}>
               <Form>
+              <Form.Group className="mb-3" controlId="formGroupEmail">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control type="text" placeholder="Enter email" />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" placeholder="Enter email" />
