@@ -101,7 +101,7 @@ const handleSubmit = async (e)=>{
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
           <Col xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto" className="justify-content-center border border-warning rounded mt-5" style={{backgroundColor: "#4a4b4f"}}>
             <div className="border border-warning rounded px-5 py-2 my-3" style={{overflow:"auto"}}>
-              <Form>
+              <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                   <Form.Label htmlFor="username">Username: 
                     {/* TODO: Fix this thing */}
@@ -146,7 +146,7 @@ const handleSubmit = async (e)=>{
                   aria-describedby="confirmnote" onFocus={() => setMatchFocus(true)} onBlur={()=> setMatchFocus(false)}/>
                 </Form.Group>
                 <button disabled={!validName || !validPwd || !validMatch ? true : false} type="submit" className="btn btn-warning" 
-                onClick={()=>handleSubmit()}>Register</button>
+                >Register</button>
               </Form>
             </div>
           </Col>
