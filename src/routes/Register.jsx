@@ -138,7 +138,8 @@ const handleSubmit = async (e)=>{
                   onChange={(e)=> setMatchPwd(e.target.value)} required aria-invalid={validMatch?"false":"true"}
                   aria-describedby="confirmnote" onFocus={() => setMatchFocus(true)} onBlur={()=> setMatchFocus(false)}/>
                 </Form.Group>
-                <button disabled={!validName || !validPwd || !validMatch ? true : false} type="submit" className="btn btn-warning">Register</button>
+                <button disabled={!validName || !validPwd || !validMatch ? true : false} type="submit" className="btn btn-warning" 
+                onClick={()=>handleSubmit()}>Register</button>
               </Form>
             </div>
           </Col>
