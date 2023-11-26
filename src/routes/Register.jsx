@@ -76,7 +76,7 @@ const handleSubmit = async (e)=>{
       console.log(response.accessToken);
       console.log(JSON.stringify(response));
       setSuccess(true);
-  } catch (error) {
+  } catch (err) {
     if (!err?.response) {
       setErrMsg('No Server Response');
     }
@@ -144,6 +144,8 @@ const handleSubmit = async (e)=>{
                   <Form.Control id="confirm_pwd" type="password" placeholder="Password Again" 
                   onChange={(e)=> setMatchPwd(e.target.value)} required aria-invalid={validMatch?"false":"true"}
                   aria-describedby="confirmnote" onFocus={() => setMatchFocus(true)} onBlur={()=> setMatchFocus(false)}/>
+                  <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offcanvas"}
+                  >Must match the first password input field.</p>
                 </Form.Group>
                 <button disabled={!validName || !validPwd || !validMatch ? true : false} type="submit" className="btn btn-warning" 
                 >Register</button>
