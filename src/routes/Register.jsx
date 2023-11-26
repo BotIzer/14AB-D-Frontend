@@ -4,8 +4,62 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import axios from '../api/axios'
+import { useEffect, useState } from "react";
 
 export default function Register(){
+
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
+const PWD_REGEX = /^(?=(.[a-z]){1,})(?=(.[A-Z]){1,})(?=(.[0-9]){1,})(?=(.[!@#$%^&*()-__+.]){1,}).{8,}$/;
+
+const userRef = useRef();
+const errRef = useRef();
+
+const [user,setUser] = useState('');
+const [validName,setValidName] = useState(false);
+const [userFocus,setUserFocus] = useState(false);
+
+const [pwd,setPwd] = useState('');
+const [validPwd,setValidPwd] = useState(false);
+const [pwdFocus,setPwdFocus] = useState(false)
+
+const [matchPwd,setMatchPwd] = useState('');
+const [validMatch,setValidMatch] = useState(false);
+const [matchFocus, setMatchFocus] = useState(false);
+
+const [errMsg,setErrMsg] = useState('');
+const [success,setSuccess] = useState(false);
+
+useEffect(() =>{
+  userRef.current.focus();
+}, [])
+
+useEffect(()=>{
+const result = USER_REGEX.test(user);
+// TODO: REMOVE
+console.log(result);
+console.log(user);
+setValidName(result);
+},[user])
+
+useEffect(()=>{
+  const result = PWD_REGEX.test(pwd);
+  // TODO: REMOVE
+  console.log(result);
+  console.log(pwd);
+  setValidPwd(result);
+  const match = pwd === matchPwd;
+  setValidMatch(match);
+  },[pwd,matchPwd])
+
+  useEffect(()=>{
+    setErrMsg('');
+  },[user,pwd,matchPwd])
+
+const handleSubmit = async (e)=>{
+  
+}
+
 
   return (
     <>
