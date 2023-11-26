@@ -11,6 +11,7 @@ export default function Register(){
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=(.[a-z]){1,})(?=(.[A-Z]){1,})(?=(.[0-9]){1,})(?=(.[!@#$%^&*()-__+.]){1,}).{8,}$/;
+const REGISTER_URL = '/register';
 
 const userRef = useRef();
 const errRef = useRef();
@@ -57,7 +58,29 @@ useEffect(()=>{
   },[user,pwd,matchPwd])
 
 const handleSubmit = async (e)=>{
-  
+  try {
+    const response = await axios.post(REGISTER_URL,
+      JSON.stringify({user,pwd}),
+      {
+        headers: {'Content-Type': 'application/json'},
+        withCredentials: true
+      })
+      console.log(response.data);
+      console.log(response.accessToken);
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+  } catch (error) {
+    if (!err?.response) {
+      setErrMsg('No Server Response');
+    }
+    else if (err.response?.status === 409){
+      setErrMsg('Username Taken');
+    }
+    else{
+      setErrMsg('Registration failed');
+    }
+    errRef.current.focus();
+  }
 }
 
 
