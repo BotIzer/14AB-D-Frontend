@@ -3,9 +3,8 @@ import { Container } from "react-bootstrap";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { Link } from "react-router-dom";
 
-export default function Login(){
+export default function Register(){
 
   return (
     <>
@@ -23,10 +22,11 @@ export default function Login(){
                 <Form.Group className="mb-3" controlId="formGroupPassword">
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Password" />
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password Again" />
                 </Form.Group>
-                <button type="submit" className="btn btn-warning">Login</button>
+                <button type="submit" className="btn btn-warning">Register</button>
               </Form>
-              <Link to="/register">Register</Link>
             </div>
           </Col>
         </Row>

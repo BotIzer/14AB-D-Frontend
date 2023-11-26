@@ -47,6 +47,7 @@ function Navigation() {
           <Nav.Link style={textStyle} href='/notifs'>Notifications</Nav.Link>
           <Nav.Link style={textStyle} href='/blitz'>Blitz</Nav.Link>
           <Nav.Link style={textStyle} href='/login'>Login</Nav.Link>
+          <Nav.Link style={textStyle} href='/register'>Register</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>
