@@ -104,7 +104,7 @@ const handleSubmit = async (e)=>{
                   <Form.Control type="text" placeholder="Enter username"
                    ref={userRef} autoComplete="off" onChange={(e)=>setUser(e.target.value)}
                    required aria-invalid={validName?"false":"true"} aria-describedby="uidnote" 
-                   nFocus={()=>setUserFocus(true)} onBlur={()=> setUserFocus(false)}/>
+                   onFocus={()=>setUserFocus(true)} onBlur={()=> setUserFocus(false)}/>
                    <p id="uidnote" className={userFocus && user && !validName ? "instructions": "offscreen"}>
                     4 to 24 characters. <br/>
                     Must begin with a letter <br/>
