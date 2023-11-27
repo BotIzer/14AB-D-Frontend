@@ -14,7 +14,7 @@ export default function Login(){
       <Container >
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
           <Col xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto" className="justify-content-center border border-warning rounded mt-5" style={{backgroundColor: "#4a4b4f"}}>
-            <div className="border border-warning rounded p-5 my-3" style={{height: "400px"}}>
+            <div className="border border-warning rounded p-5 my-3" style={{overflow: 'auto'}}>
               <Form>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                   <Form.Label>Email address</Form.Label>
