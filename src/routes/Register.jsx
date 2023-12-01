@@ -20,6 +20,10 @@ export default function Register() {
   const [validName, setValidName] = useState(false)
   const [userFocus, setUserFocus] = useState(false)
 
+  const [email, setEmail] = useState('')
+  const [validEmail, setValidEmail] = useState(false)
+  const [emailFocus, setEmailFocus] = useState(false)
+  
   const [pwd, setPwd] = useState('')
   const [validPwd, setValidPwd] = useState(false)
   const [pwdFocus, setPwdFocus] = useState(false)
@@ -41,6 +45,13 @@ export default function Register() {
   }, [user])
 
   useEffect(() => {
+    const result = USER_REGEX.test(user)
+    setValidName(result)
+    const resultEmail = EMAIL_REGEX.test(email)
+    setValidEmail(resultEmail)
+  }, [user,email])
+
+  useEffect(() => {
     const result = PWD_REGEX.test(pwd)
     setValidPwd(result)
     const match = pwd === matchPwd
@@ -49,7 +60,7 @@ export default function Register() {
 
   useEffect(() => {
     setErrMsg('')
-  }, [user, pwd, matchPwd])
+  }, [user, pwd, matchPwd, email])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -61,20 +72,18 @@ export default function Register() {
     }
     try {
       const response = await axios.post(
-        REGISTER_URL,
-        {
-          email: 'randomemail@randomemail.com',
-          password: 'RandomPassworfd123!',
-          username: 'randomUserName',
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: false,
-        }
+          REGISTER_URL,
+          {
+              email: email,
+              password: pwd,
+              username: user,
+          },
+          {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: false,
+          }
       )
-      console.log(response.data)
-      console.log(response.accessToken)
-      console.log(JSON.stringify(response))
+      setErrMsg('Registration was successful!')
       setSuccess(true)
     } catch (err) {
       if (!err?.response) {
@@ -82,7 +91,7 @@ export default function Register() {
       } else if (err.response?.status === 409) {
         setErrMsg('Username Taken')
       } else {
-        setErrMsg('Registration failed')
+        setErrMsg(`${err.response.data.message}`)
       }
       errRef.current.focus()
     }
@@ -155,9 +164,11 @@ export default function Register() {
                     Letters, numbers, underscores, hyphens are allowed.
                   </p>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupEmail">
+                <Form.Group className="mb-3" >
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control id="email" type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} required aria-invalid={validEmail ? false : true}
+                    onFocus={() => setEmailFocus(true)}
+                    onBlur={() => setEmailFocus(false)}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
