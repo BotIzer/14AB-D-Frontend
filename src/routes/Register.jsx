@@ -127,7 +127,7 @@ export default function Register() {
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="username">
                     Username:
-                    {/* TODO: Fix this thing */}
+                    {/* TODO: Fix this thing +- */}
                     <span className={validName || !user ? 'valid' : 'd-none'}>
                       +
                     </span>
