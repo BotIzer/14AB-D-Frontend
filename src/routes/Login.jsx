@@ -3,11 +3,13 @@ import { Container } from "react-bootstrap";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
 
 export default function Login(){
+  const navigate = useNavigate();
+
   const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/
   const LOGIN_URL = '/login'
 
@@ -52,7 +54,7 @@ export default function Login(){
           withCredentials: false,
         }
       )
-      setSuccess(true)
+      navigate('/');
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')

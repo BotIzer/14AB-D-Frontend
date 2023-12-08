@@ -3,7 +3,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 function Navigation() {
+  const navigate = useNavigate();
   const [inputValue,setInputValue] = useState('');
   const textStyle={
     color: "yellow",
@@ -23,12 +25,12 @@ function Navigation() {
   return (
     <Navbar expand='md' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
       <Container fluid>
-        <Navbar.Brand style={textStyle} href='/'>BlitzForFriends</Navbar.Brand>
+        <Nav.Link style={textStyle} onClick={()=>navigate('/')}>BlitzForFriends</Nav.Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
-            <Nav.Link style={textStyle} href='/friends'>Friends</Nav.Link>
-            <Nav.Link style={textStyle} href='/user/{id}'>User</Nav.Link>
+            <Nav.Link style={textStyle} onClick={()=>navigate('/friends')}>Friends</Nav.Link>
+            <Nav.Link style={textStyle} onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
             <Form style={{width:'50vw'}}> 
@@ -44,10 +46,10 @@ function Navigation() {
             </Form>
             </Nav>
             <Nav>
-          <Nav.Link style={textStyle} href='/notifs'>Notifications</Nav.Link>
-          <Nav.Link style={textStyle} href='/blitz'>Blitz</Nav.Link>
-          <Nav.Link style={textStyle} href='/login'>Login</Nav.Link>
-          <Nav.Link style={textStyle} href='/register'>Register</Nav.Link>
+          <Nav.Link style={textStyle} onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
+          <Nav.Link style={textStyle} onClick={()=>navigate('/blitz')}>Blitz</Nav.Link>
+          <Nav.Link style={textStyle} onClick={()=>navigate('/login')}>Login</Nav.Link>
+          <Nav.Link style={textStyle} onClick={()=>navigate('/register')}>Register</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>
