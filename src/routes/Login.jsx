@@ -9,8 +9,6 @@ import { useEffect, useState, useRef } from 'react'
 
 export default function Login(){
   const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/
-  const PWD_REGEX =
-    /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
   const LOGIN_URL = '/login'
 
   const emailRef = useRef()
@@ -21,7 +19,6 @@ export default function Login(){
   const [emailFocus, setEmailFocus] = useState(false)
 
   const [pwd, setPwd] = useState('')
-  const [validPwd, setValidPwd] = useState(false)
   const [pwdFocus, setPwdFocus] = useState(false)
 
   const [errMsg, setErrMsg] = useState('')
@@ -43,18 +40,12 @@ export default function Login(){
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const v1 = EMAIL_REGEX.test(email)
-    const v2 = PWD_REGEX.test(pwd)
-    if (!v1 || !v2) {
-      setErrMsg('Invalid Entry')
-      return
-    }
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         LOGIN_URL,
         {
-          email: 'randomemail@randomemail.com',
-          password: 'RandomPassworfd123!',
+          email: email,
+          password: pwd,
         },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -65,7 +56,14 @@ export default function Login(){
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
-      } else {
+      }
+      else if(err.response?.status === 400){
+        setErrMsg("Missing Username or Password");
+      }
+      else if (err.response?.status === 401) {
+        setErrMsg("Unauthorized")
+      }
+      else {
         setErrMsg('Login failed')
       }
       errRef.current.focus()
@@ -87,6 +85,7 @@ export default function Login(){
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
           <Col xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto" className="justify-content-center border border-warning rounded mt-5" style={{backgroundColor: "#4a4b4f"}}>
             <div className="border border-warning rounded p-5 my-3" style={{overflow: 'auto'}}>
+              <h1>Sign in</h1>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="email">Email address</Form.Label>
@@ -96,7 +95,6 @@ export default function Login(){
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    aria-invalid={validEmail ? false : true}
                     aria-describedby="uidnote"
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}/>
@@ -108,7 +106,7 @@ export default function Login(){
                         : 'offcanvas'
                     }
                   >
-                    Must contain @ and . characters!
+                    Must contain @ and a . (dot) followed by a domain (ex: com)!
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
@@ -117,7 +115,6 @@ export default function Login(){
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
-                    aria-invalid={validPwd ? false : true}
                     aria-describedby="pwdnote"
                     onFocus={() => setPwdFocus(true)}
                     onBlur={() => setPwdFocus(false)}/>
