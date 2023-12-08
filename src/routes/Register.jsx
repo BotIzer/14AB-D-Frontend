@@ -83,7 +83,7 @@ export default function Register() {
               withCredentials: false,
           }
       )
-      setErrMsg('Registration was successful!')
+
       setSuccess(true)
     } catch (err) {
       if (!err?.response) {
