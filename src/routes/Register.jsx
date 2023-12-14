@@ -83,7 +83,7 @@ export default function Register() {
               withCredentials: false,
           }
       )
-
+      setErrMsg('User created!')
       setSuccess(true)
     } catch (err) {
       if (!err?.response) {
