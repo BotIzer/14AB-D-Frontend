@@ -88,8 +88,6 @@ export default function Register() {
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
-      } else if (err.response?.status === 409) {
-        setErrMsg('Username Taken')
       } else {
         setErrMsg(`${err.response.data.message}`)
       }
