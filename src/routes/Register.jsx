@@ -8,7 +8,7 @@ import { useEffect, useState, useRef } from 'react'
 
 export default function Register() {
   const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
-  const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/
+  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   const PWD_REGEX =
     /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
   const REGISTER_URL = '/register'
@@ -18,19 +18,15 @@ export default function Register() {
 
   const [user, setUser] = useState('')
   const [validName, setValidName] = useState(false)
-  const [userFocus, setUserFocus] = useState(false)
 
   const [email, setEmail] = useState('')
   const [validEmail, setValidEmail] = useState(false)
-  const [emailFocus, setEmailFocus] = useState(false)
   
   const [pwd, setPwd] = useState('')
   const [validPwd, setValidPwd] = useState(false)
-  const [pwdFocus, setPwdFocus] = useState(false)
 
   const [matchPwd, setMatchPwd] = useState('')
   const [validMatch, setValidMatch] = useState(false)
-  const [matchFocus, setMatchFocus] = useState(false)
 
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
@@ -107,6 +103,7 @@ export default function Register() {
         </p>
       </section>
       <Navigation></Navigation>
+      {/* TODO: Container dynamic size change with texts looks goofy */}
       <Container>
         <Row
           className="justify-content-center"
@@ -119,14 +116,13 @@ export default function Register() {
           >
             <div
               className="border border-warning rounded px-5 py-2 my-3"
-              style={{ overflow: 'auto' }}
+              style={{ overflow: 'auto'}}
             >
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="username">
                     Username:
-                    {/* TODO: Fix this thing +- */}
-                    <span className={validName || !user ? 'valid' : 'd-none'}>
+                    <span className={validName ? 'valid' : 'd-none'}>
                       +
                     </span>
                     <span
@@ -146,14 +142,12 @@ export default function Register() {
                     required
                     aria-invalid={validName ? false : true}
                     aria-describedby="uidnote"
-                    onFocus={() => setUserFocus(true)}
-                    onBlur={() => setUserFocus(false)}
                   />
                   <p
                     id="uidnote"
                     className={
-                      userFocus && user && !validName
-                        ? 'instructions'
+                       user && !validName
+                        ? 'error'
                         : 'offcanvas'
                     }
                   >
@@ -163,14 +157,47 @@ export default function Register() {
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control id="email" type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} required aria-invalid={validEmail ? false : true}
-                    onFocus={() => setEmailFocus(true)}
-                    onBlur={() => setEmailFocus(false)}/>
+                  <Form.Label htmlFor='email'>E-mail address</Form.Label>
+                  <span className={validEmail ? 'valid' : 'd-none'}>
+                      +
+                    </span>
+                    <span
+                      className={validEmail || !email ? 'd-none' : 'invalid'}
+                      color="red"
+                    >
+                      -
+                    </span>
+                  <Form.Control 
+                  id="email" 
+                  type="email" 
+                  placeholder="Enter e-mail" 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                  aria-invalid={validEmail ? false : true}
+                  aria-describedby='emailnote'/>
+                   <p
+                    id="emailnote"
+                    className={
+                       email && !validEmail
+                        ? 'error'
+                        : 'offcanvas'
+                    }
+                  >
+                    E-mail address is invalid! <br />
+                  </p>
                 </Form.Group>
-
-                <Form.Group className="mb-3">
+                {/* <Form.Group className="mb-3">
                   <Form.Label htmlFor="password">Password: </Form.Label>
+
+                  <span className={validPwd ? 'valid' : 'd-none'}>
+                      +
+                    </span>
+                    <span
+                      className={validPwd || !pwd ? 'd-none' : 'invalid'}
+                      color="red"
+                    >
+                      -
+                    </span>
                   <Form.Control
                     id="password"
                     type="password"
@@ -179,13 +206,53 @@ export default function Register() {
                     required
                     aria-invalid={validPwd ? false : true}
                     aria-describedby="pwdnote"
-                    onFocus={() => setPwdFocus(true)}
-                    onBlur={() => setPwdFocus(false)}
                   />
                   <p
                     id="pwdnote"
                     className={
-                      pwdFocus && !validPwd ? 'instructions' : 'offcanvas'
+                       pwd && !validPwd
+                        ? 'error'
+                        : 'offcanvas'
+                    }
+                  >
+                    8 to 24 characters. <br />
+                    Must include uppercase and lowercase letters, a number, and
+                    a special character. <br />
+                    Allowed characters:{' '}
+                    <span aria-label="exclamation mark">!</span>
+                    <span aria-label="at symbol">@</span>{' '}
+                    <span aria-label="hashtag">#</span>
+                    <span aria-label="dollar sign">$</span>{' '}
+                    <span aria-label="percent">%</span>
+                  </p>
+                </Form.Group> */}
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="password">Password: </Form.Label>
+
+                  <span className={validPwd ? 'valid' : 'd-none'}>
+                      +
+                    </span>
+                    <span
+                      className={validPwd || !pwd ? 'd-none' : 'invalid'}
+                      color="red"
+                    >
+                      -
+                    </span>
+                  <Form.Control
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPwd(e.target.value)}
+                    required
+                    aria-invalid={validPwd ? false : true}
+                    aria-describedby="pwdnote"
+                  />
+                  <p
+                    id="pwdnote"
+                    className={
+                       pwd && !validPwd
+                        ? 'error'
+                        : 'offcanvas'
                     }
                   >
                     8 to 24 characters. <br />
@@ -203,14 +270,6 @@ export default function Register() {
                   <Form.Label htmlFor="confirm_pwd">
                     Confirm Password
                   </Form.Label>
-                  <span className={validMatch && matchPwd ? 'valid' : 'hide'}>
-                    +
-                  </span>
-                  <span
-                    className={validMatch || !matchPwd ? 'hide' : 'invalid'}
-                  >
-                    -
-                  </span>
                   <Form.Control
                     id="confirm_pwd"
                     type="password"
@@ -219,14 +278,13 @@ export default function Register() {
                     required
                     aria-invalid={validMatch ? false : true}
                     aria-describedby="confirmnote"
-                    onFocus={() => setMatchFocus(true)}
-                    onBlur={() => setMatchFocus(false)}
                   />
                   <p
                     id="confirmnote"
                     className={
-                      matchFocus && !validMatch ? 'instructions' : 'offcanvas'
+                     !validMatch ? 'error' : 'offcanvas'
                     }
+                    
                   >
                     Must match the first password input field.
                   </p>

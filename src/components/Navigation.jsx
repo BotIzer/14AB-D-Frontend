@@ -33,11 +33,12 @@ function Navigation() {
             <Nav.Link style={textStyle} onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
+              {/* Ask someone */}
             <Form style={{width:'50vw'}}> 
               <Form.Control
                 type="text"
                 placeholder="Search"
-                className="mt-3 mt-md-0"
+                className="mt-2 mt-md-0"
                 value={inputValue}
                 onChange={(e)=>setInputValue(e.target.value)}
                 onKeyDown={HandleKeyDown}
