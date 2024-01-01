@@ -28,6 +28,7 @@ export default function Register() {
   const [matchPwd, setMatchPwd] = useState('')
   const [validMatch, setValidMatch] = useState(false)
 
+  // TODO: success message at top, better error message at top
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
 
