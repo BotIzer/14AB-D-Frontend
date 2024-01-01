@@ -5,7 +5,7 @@ function FriendList()
   const friends = [
     'Marnkneu22',
     'BotIzer',
-    'Lajtaib0802',
+    'Lajtaib0801',
     'Placeholder1',
   ];
 
@@ -15,7 +15,7 @@ function FriendList()
     backgroundColor: 'grey'
   }
 
-  const listItems = friends.map(friend => <a className='list-group-item list-group-item-yellow' href="/friends/{id}">{friend}</a>);
+  const listItems = friends.map(friend => <a className='list-group-item list-group-item-yellow' href={"/friends/"+friend} key={friend}>{friend}</a>);
   return <div className='list-group list-group-flush' data-bs-theme='dark' style={listStyle}>{listItems}</div>
   
 }
