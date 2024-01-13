@@ -23,7 +23,7 @@ function Navigation() {
     window.location.href = link;
   };
   return (
-    <Navbar expand='md' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
+    <Navbar expand='lg' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
       <Container fluid>
         <Nav.Link style={textStyle} onClick={()=>navigate('/')}>BlitzForFriends</Nav.Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -33,8 +33,7 @@ function Navigation() {
             <Nav.Link style={textStyle} onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
-              {/* Ask someone */}
-            <Form style={{width:'50vw'}}> 
+            <Form style={{width:'45vw'}}> 
               <Form.Control
                 type="text"
                 placeholder="Search"

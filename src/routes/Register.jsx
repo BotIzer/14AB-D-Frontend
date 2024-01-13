@@ -94,6 +94,7 @@ export default function Register() {
 
   return (
     <>
+    {success ? <section><h1>Success!</h1></section>:
       <section>
         <p
           ref={errRef}
@@ -102,7 +103,7 @@ export default function Register() {
         >
           {errMsg}
         </p>
-      </section>
+      </section>}
       <Navigation></Navigation>
       {/* TODO: Container dynamic size change with texts looks goofy */}
       <Container>
@@ -187,46 +188,6 @@ export default function Register() {
                     E-mail address is invalid! <br />
                   </p>
                 </Form.Group>
-                {/* <Form.Group className="mb-3">
-                  <Form.Label htmlFor="password">Password: </Form.Label>
-
-                  <span className={validPwd ? 'valid' : 'd-none'}>
-                      +
-                    </span>
-                    <span
-                      className={validPwd || !pwd ? 'd-none' : 'invalid'}
-                      color="red"
-                    >
-                      -
-                    </span>
-                  <Form.Control
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    required
-                    aria-invalid={validPwd ? false : true}
-                    aria-describedby="pwdnote"
-                  />
-                  <p
-                    id="pwdnote"
-                    className={
-                       pwd && !validPwd
-                        ? 'error'
-                        : 'offcanvas'
-                    }
-                  >
-                    8 to 24 characters. <br />
-                    Must include uppercase and lowercase letters, a number, and
-                    a special character. <br />
-                    Allowed characters:{' '}
-                    <span aria-label="exclamation mark">!</span>
-                    <span aria-label="at symbol">@</span>{' '}
-                    <span aria-label="hashtag">#</span>
-                    <span aria-label="dollar sign">$</span>{' '}
-                    <span aria-label="percent">%</span>
-                  </p>
-                </Form.Group> */}
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="password">Password: </Form.Label>
 
