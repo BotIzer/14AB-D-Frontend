@@ -9,8 +9,7 @@ function Navigation() {
   const [inputValue,setInputValue] = useState('');
   const textStyle={
     color: "yellow",
-    fontSize: "16px"
-    
+    fontSize: "20px"
   }
   const HandleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -33,7 +32,7 @@ function Navigation() {
             <Nav.Link style={textStyle} onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
-            <Form style={{width:'45vw'}}> 
+            <Form style={{width:'35vw'}}> 
               <Form.Control
                 type="text"
                 placeholder="Search"

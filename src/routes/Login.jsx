@@ -10,7 +10,7 @@ import { useEffect, useState, useRef } from 'react'
 export default function Login(){
   const navigate = useNavigate();
 
-  const EMAIL_REGEX = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/
+  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   const LOGIN_URL = '/login'
 
   const emailRef = useRef()
@@ -18,10 +18,8 @@ export default function Login(){
 
   const [email, setEmail] = useState('')
   const [validEmail, setValidEmail] = useState(false)
-  const [emailFocus, setEmailFocus] = useState(false)
 
   const [pwd, setPwd] = useState('')
-  const [pwdFocus, setPwdFocus] = useState(false)
 
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
@@ -54,6 +52,9 @@ export default function Login(){
           withCredentials: false,
         }
       )
+      setPwd('');
+      setEmail('');
+      setSuccess(true);
       navigate('/');
 
     } catch (err) {
@@ -74,6 +75,7 @@ export default function Login(){
   }
   return (
     <>
+    {success ? <section><h1>Success!</h1></section>:
       <section>
         <p
           ref={errRef}
@@ -82,12 +84,12 @@ export default function Login(){
         >
           {errMsg}
         </p>
-      </section>
+      </section>}
       <Navigation></Navigation>
       <Container >
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
           <Col xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto" className="justify-content-center border border-warning rounded mt-5" style={{backgroundColor: "#4a4b4f"}}>
-            <div className="border border-warning rounded p-5 my-3" style={{overflow: 'auto'}}>
+            <div className="border border-warning rounded p-5 my-3" style={{overflow: 'auto', width: '50vw'}}>
               <h1>Sign in</h1>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
@@ -98,14 +100,12 @@ export default function Login(){
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    aria-describedby="uidnote"
-                    onFocus={() => setEmailFocus(true)}
-                    onBlur={() => setEmailFocus(false)}/>
+                    aria-describedby="uidnote"/>
                      <p
                     id="uidnote"
                     className={
-                      emailFocus && email && !validEmail
-                        ? 'instructions'
+                      email && !validEmail
+                        ? 'error'
                         : 'offcanvas'
                     }
                   >
@@ -118,11 +118,9 @@ export default function Login(){
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
-                    aria-describedby="pwdnote"
-                    onFocus={() => setPwdFocus(true)}
-                    onBlur={() => setPwdFocus(false)}/>
+                    aria-describedby="pwdnote"/>
                 </Form.Group>
-                <button type="submit" className="btn btn-warning">Login</button>
+                <button disabled={!validEmail || !pwd} type="submit" className="btn btn-warning">Login</button>
               </Form>
               <Link to="/register">Register</Link>
             </div>
