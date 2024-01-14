@@ -1,22 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 function FriendList()
 {
   const friends = [
     'Marnkneu22',
     'BotIzer',
-    'Lajtaib0802',
+    'Lajtaib0801',
     'Placeholder1',
   ];
 
-  const listStyle = {
-    listStyle: 'none',
-    color: 'yellow',
-    backgroundColor: 'grey'
-  }
-
-  const listItems = friends.map(friend => <a className='list-group-item list-group-item-yellow' href="/friends/{id}">{friend}</a>);
-  return <div className='list-group list-group-flush' data-bs-theme='dark' style={listStyle}>{listItems}</div>
+  const listItems = friends.map(friend => <Link className='list-group-item primary' to={"/friends/"+friend} key={friend}>{friend}</Link>);
+  return <div data-bs-theme='dark' className='list-group list-group-flush'>{listItems}</div>
   
 }
 
