@@ -9,8 +9,7 @@ function Navigation() {
   const [inputValue,setInputValue] = useState('');
   const textStyle={
     color: "yellow",
-    fontSize: "16px"
-    
+    fontSize: "20px"
   }
   const HandleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -29,8 +28,8 @@ function Navigation() {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
-            <Nav.Link style={textStyle} className='mx-2' onClick={()=>navigate('/friends')}>Friends</Nav.Link>
-            <Nav.Link style={textStyle} className='mx-2' onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
+            <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/friends')}>Friends</Nav.Link>
+            <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
             <Form style={{width:'35vw'}}> 
@@ -46,10 +45,10 @@ function Navigation() {
             </Form>
             </Nav>
             <Nav>
-          <Nav.Link style={textStyle} className='mx-2' onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
-          <Nav.Link style={textStyle} className='mx-2' onClick={()=>navigate('/blitz')}>Blitz</Nav.Link>
-          <Nav.Link style={textStyle} className='mx-2' onClick={()=>navigate('/login')}>Login</Nav.Link>
-          <Nav.Link style={textStyle} className='mx-2' onClick={()=>navigate('/register')}>Register</Nav.Link>
+          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
+          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/blitz')}>Blitz</Nav.Link>
+          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/login')}>Login</Nav.Link>
+          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/register')}>Register</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>

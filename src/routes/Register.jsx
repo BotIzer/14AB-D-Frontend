@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Register() {
   const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
@@ -26,9 +27,8 @@ export default function Register() {
   const [validPwd, setValidPwd] = useState(false)
 
   const [matchPwd, setMatchPwd] = useState('')
-  const [validMatch, setValidMatch] = useState(false)
+  const [validMatch, setValidMatch] = useState(true)
 
-  // TODO: success message at top, better error message at top
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
 
@@ -78,34 +78,40 @@ export default function Register() {
           {
               headers: { 'Content-Type': 'application/json' },
               withCredentials: false,
-          }
+          },
+          setUser(''),
+          setPwd(''),
+          setMatchPwd('')
+,         setEmail('')
       )
       setErrMsg('User created!')
       setSuccess(true)
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
-      } else {
+        
+      } else if (err.response?.status === 409) {
+        setErrMsg('Username Taken') }
+        else {
         setErrMsg(`${err.response.data.message}`)
       }
       errRef.current.focus()
     }
   }
-
+  function successAlert() {
+    if (window.confirm("Registration was successful! Click OK to run a function.")) {
+      <Link to='/'></Link>
+  }
+  }
+  function errorAlert(errmsg){
+    window.confirm(`ERROR: ${errmsg}`)
+  }
   return (
     <>
-    {success ? <section><h1>Success!</h1></section>:
-      <section>
-        <p
-          ref={errRef}
-          className={errMsg ? 'errmsg' : 'offcanvas'}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
-      </section>}
+    {/* TODO: FIX ALERTS (MULTIPLE ALERTS AT THE SAME TIME) */}
+    {success ? successAlert():
+      (errMsg ? errorAlert(errMsg) : null)}
       <Navigation></Navigation>
-      {/* TODO: Container dynamic size change with texts looks goofy */}
       <Container>
         <Row
           className="justify-content-center"
@@ -117,9 +123,11 @@ export default function Register() {
             style={{ backgroundColor: '#4a4b4f' }}
           >
             <div
+              
               className="border border-warning rounded px-5 py-2 my-3"
-              style={{ overflow: 'auto'}}
+              style={{ overflow: 'auto', width: "50vw"}}
             >
+              <h1>Register</h1>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="username">
@@ -185,7 +193,7 @@ export default function Register() {
                         : 'offcanvas'
                     }
                   >
-                    E-mail address is invalid! <br />
+                    Must contain @ and a . (dot) followed by a domain (ex: com)! <br />
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
