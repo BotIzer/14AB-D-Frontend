@@ -73,18 +73,16 @@ export default function Login(){
       errRef.current.focus()
     }
   }
+  function successAlert() {
+    alert("Registration was succesful!")
+  }
+  function errorAlert(errmsg){
+    alert(`ERROR: ${errmsg}`)
+  }
   return (
     <>
-    {success ? <section><h1>Success!</h1></section>:
-      <section>
-        <p
-          ref={errRef}
-          className={errMsg ? 'errmsg' : 'offcanvas'}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
-      </section>}
+    {success ? successAlert():
+      (errMsg ? errorAlert(errMsg) : null)}
       <Navigation></Navigation>
       <Container >
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
