@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
 
 export default function Register() {
   const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
@@ -98,19 +97,19 @@ export default function Register() {
       errRef.current.focus()
     }
   }
-  function successAlert() {
-    if (window.confirm("Registration was successful! Click OK to run a function.")) {
-      <Link to='/'></Link>
-  }
-  }
-  function errorAlert(errmsg){
-    window.confirm(`ERROR: ${errmsg}`)
-  }
+  // function successAlert() {
+  //   if (window.confirm("Registration was successful! Click OK to run a function.")) {
+  //     <Link to='/'></Link>
+  // }
+  // }
+  // function errorAlert(errmsg){
+  //   window.confirm(`ERROR: ${errmsg}`)
+  // }
   return (
     <>
     {/* TODO: FIX ALERTS (MULTIPLE ALERTS AT THE SAME TIME) */}
-    {success ? successAlert():
-      (errMsg ? errorAlert(errMsg) : null)}
+    {/* {success ? successAlert():
+      (errMsg ? errorAlert(errMsg) : null)} */}
       <Navigation></Navigation>
       <Container>
         <Row

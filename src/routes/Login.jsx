@@ -6,9 +6,12 @@ import Form from 'react-bootstrap/Form';
 import { Link, useNavigate} from "react-router-dom";
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
+import { Cookies } from "react-cookie";
 
 export default function Login(){
   const navigate = useNavigate();
+
+  const cookies = new Cookies();
 
   const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   const LOGIN_URL = '/login'
@@ -23,6 +26,7 @@ export default function Login(){
 
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
+
 
   useEffect(() => {
     emailRef.current.focus()
@@ -55,6 +59,7 @@ export default function Login(){
       setPwd('');
       setEmail('');
       setSuccess(true);
+      cookies.set('token',response.data.token);
       navigate('/');
 
     } catch (err) {
@@ -73,16 +78,17 @@ export default function Login(){
       errRef.current.focus()
     }
   }
-  function successAlert() {
-    alert("Registration was succesful!")
-  }
-  function errorAlert(errmsg){
-    alert(`ERROR: ${errmsg}`)
-  }
+  // function successAlert() {
+  //   alert("Registration was succesful!")
+  // }
+  // function errorAlert(errmsg){
+  //   alert(`ERROR: ${errmsg}`)
+  // }
   return (
     <>
-    {success ? successAlert():
-      (errMsg ? errorAlert(errMsg) : null)}
+    {/* TODO: FIX ALERTS */}
+    {/* {success ? successAlert():
+      (errMsg ? errorAlert(errMsg) : null)} */}
       <Navigation></Navigation>
       <Container >
         <Row className="justify-content-center" xs="auto" sm="auto" md="auto" lg="auto" xl="auto" xxl="auto">
