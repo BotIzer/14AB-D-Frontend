@@ -2,14 +2,12 @@ body{
   color: yellow;
 }
 
-a {
+.primary {
   color: yellow;
-  text-decoration: none !important;
 }
 
 a:hover {
-  color: rgb(200, 185, 105);
-  text-decoration: none !important;
+  color: rgb(180, 145, 125);
 }
 .valid{
   color: lightgreen;
