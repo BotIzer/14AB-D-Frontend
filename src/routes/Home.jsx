@@ -3,9 +3,21 @@ import FriendList from '../components/FriendList'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Cookies } from 'react-cookie';
+import axios from '../api/axios'
 
 
 export default function Home() {
+  const LOGGED_USER_URL = '/user/'
+  const USER_INFORMATION = '/userInfo'
+  const cookies = new Cookies();
+  if (!cookies.userInformation) {
+    const userToken = cookies.get('token');
+    axios.get(USER_INFORMATION, {
+      headers: { 'Content-Type': 'application/json', 'authorization': `Bearer ${userToken}` },
+      withCredentials: false,
+    })
+  }
   return ( 
   <>
     <Navigation/>
