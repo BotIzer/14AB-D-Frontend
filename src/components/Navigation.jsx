@@ -60,7 +60,7 @@ function Navigation() {
           {cookies.get('token') ? 
         (<React.Fragment>
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>window.confirm('Are you sure you want to log out?') ? 
-          (cookies.remove('token'), window.location.reload()) : null}>Logout</Nav.Link>
+          (cookies.remove('token'),cookies.remove('userInfo'), window.location.reload()) : null}>Logout</Nav.Link>
          </React.Fragment>)
         :
         (
