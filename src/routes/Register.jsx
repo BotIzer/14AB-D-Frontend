@@ -6,13 +6,15 @@ import Form from 'react-bootstrap/Form'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
 
-export default function Register() {
-  const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
   const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   const PWD_REGEX =
     /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
   const REGISTER_URL = '/register'
 
+
+export default function Register() {
+  
   const userRef = useRef()
   const errRef = useRef()
 
@@ -67,7 +69,7 @@ export default function Register() {
       return
     }
     try {
-      const response = await axios.post(
+        await axios.post(
           REGISTER_URL,
           {
               email: email,
@@ -97,19 +99,9 @@ export default function Register() {
       errRef.current.focus()
     }
   }
-  // function successAlert() {
-  //   if (window.confirm("Registration was successful! Click OK to run a function.")) {
-  //     <Link to='/'></Link>
-  // }
-  // }
-  // function errorAlert(errmsg){
-  //   window.confirm(`ERROR: ${errmsg}`)
-  // }
+
   return (
     <>
-    {/* TODO: FIX ALERTS (MULTIPLE ALERTS AT THE SAME TIME) */}
-    {/* {success ? successAlert():
-      (errMsg ? errorAlert(errMsg) : null)} */}
       <Navigation></Navigation>
       <Container>
         <Row
@@ -210,7 +202,7 @@ export default function Register() {
                   <Form.Control
                     id="password"
                     type="password"
-                    placeholder="Password"
+                    placeholder="Enter password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
                     aria-invalid={validPwd ? false : true}
@@ -242,7 +234,7 @@ export default function Register() {
                   <Form.Control
                     id="confirm_pwd"
                     type="password"
-                    placeholder="Password Again"
+                    placeholder="Enter password again"
                     onChange={(e) => setMatchPwd(e.target.value)}
                     required
                     aria-invalid={validMatch ? false : true}
@@ -272,6 +264,9 @@ export default function Register() {
           </Col>
         </Row>
       </Container>
+      <span style={{width: '100%', textAlign: 'center', display: 'block', fontSize: '30px', 
+        fontWeight: 'bold', color: errMsg ? 'red' : 'green'}}>
+        {errMsg !== null ? errMsg : success !== null ? success : null}</span>
     </>
   )
 }

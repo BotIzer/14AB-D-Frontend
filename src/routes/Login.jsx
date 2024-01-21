@@ -8,13 +8,13 @@ import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
 import { Cookies } from 'react-cookie'
 
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+const LOGIN_URL = '/login'
+
 export default function Login() {
   const navigate = useNavigate()
 
   const cookies = new Cookies()
-
-  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-  const LOGIN_URL = '/login'
 
   const emailRef = useRef()
   const errRef = useRef()
@@ -46,7 +46,7 @@ export default function Login() {
       const response = await axios.post(
         LOGIN_URL,
         {
-          email: email,
+          email: email.toLowerCase(),
           password: pwd,
         },
         {
@@ -113,13 +113,14 @@ export default function Login() {
                   <Form.Label htmlFor="email">Email address</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter email"
+                    placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter email"}
                     id="email"
                     ref={emailRef}
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     aria-describedby="uidnote"
+                    disabled= {cookies.get('token') !== undefined}
                   />
                   <p
                     id="uidnote"
@@ -132,11 +133,12 @@ export default function Login() {
                   <Form.Label htmlFor="password">Password</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Password"
+                    placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter password"}
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
                     aria-describedby="pwdnote"
+                    disabled= {cookies.get('token') !== undefined}
                   />
                 </Form.Group>
                 <button

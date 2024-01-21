@@ -38,7 +38,7 @@ function Navigation() {
             </React.Fragment>) :
             (<React.Fragment> 
               <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/user/defaultuser')}>User</Nav.Link>
-            </React.Fragment>)}
+            </React.Fragment>)}n
            
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
