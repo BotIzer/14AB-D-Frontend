@@ -80,17 +80,8 @@ export default function Login() {
       errRef.current.focus()
     }
   }
-  // function successAlert() {
-  //   alert("Registration was succesful!")
-  // }
-  // function errorAlert(errmsg){
-  //   alert(`ERROR: ${errmsg}`)
-  // }
   return (
     <>
-      {/* TODO: FIX ALERTS */}
-      {/* {success ? successAlert():
-      (errMsg ? errorAlert(errMsg) : null)} */}
       <Navigation></Navigation>
       <Container>
         <Row
@@ -149,7 +140,7 @@ export default function Login() {
                   />
                 </Form.Group>
                 <button
-                  disabled={!validEmail || !pwd}
+                  disabled={!validEmail || !pwd || cookies.get('token') !== undefined}
                   type="submit"
                   className="btn btn-warning"
                 >
@@ -161,6 +152,12 @@ export default function Login() {
           </Col>
         </Row>
       </Container>
+
+        <span style={{width: '100%', textAlign: 'center', display: 'block', fontSize: '30px', 
+        fontWeight: 'bold', color: errMsg ? 'red' : 'green'}}>
+        {errMsg !== null ? errMsg : success !== null ? success : null}</span>
+
+      
     </>
   )
 }
