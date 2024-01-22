@@ -5,16 +5,21 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Cookies } from 'react-cookie'
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
-  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-  const PWD_REGEX =
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+const PWD_REGEX =
     /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
-  const REGISTER_URL = '/register'
-
+const REGISTER_URL = '/register'
+const LOGIN_URL = '/login'
 
 export default function Register() {
-  
+  const navigate = useNavigate()
+
+  const cookies = new Cookies()
+
   const userRef = useRef()
   const errRef = useRef()
 
@@ -72,7 +77,7 @@ export default function Register() {
         await axios.post(
           REGISTER_URL,
           {
-              email: email,
+              email: email.toLowerCase(),
               password: pwd,
               username: user,
           },
@@ -80,13 +85,36 @@ export default function Register() {
               headers: { 'Content-Type': 'application/json' },
               withCredentials: false,
           },
-          setUser(''),
-          setPwd(''),
-          setMatchPwd('')
-,         setEmail('')
       )
+      console.log(pwd);
+      console.log(email)
+      const response = await axios.post(
+        LOGIN_URL,
+        {
+          email: email.toLowerCase(),
+          password: pwd,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: false,
+        }
+      )
+      cookies.set('token', response.data.token)
+      const responseUserInfo = await axios.get('/getUserInfo', {
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `Bearer ${cookies.get('token')}`,
+        },
+        withCredentials: false,
+      })
+      cookies.set('userInfo', responseUserInfo.data.userInfo)
+      setUser(''),
+      setPwd(''),
+      setMatchPwd('')
+,     setEmail('')
       setErrMsg('User created!')
       setSuccess(true)
+      navigate('/')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')

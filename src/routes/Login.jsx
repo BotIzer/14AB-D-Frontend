@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
 import { Cookies } from 'react-cookie'
@@ -41,11 +41,14 @@ export default function Login() {
   }, [email, pwd])
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
     if(cookies.get('token') !== undefined)
     {
       return;
     }
+    e.preventDefault()
+    setPwd('')
+    setEmail('')
+    setSuccess(true)
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -58,8 +61,6 @@ export default function Login() {
           withCredentials: false,
         }
       )
-      setPwd('')
-      setEmail('')
       cookies.set('token', response.data.token)
       const responseUserInfo = await axios.get('/getUserInfo', {
         headers: {
@@ -69,7 +70,6 @@ export default function Login() {
         withCredentials: false,
       })
       cookies.set('userInfo', responseUserInfo.data.userInfo)
-      setSuccess(true)
       navigate('/')
     } catch (err) {
       if (!err?.response) {
@@ -153,7 +153,12 @@ export default function Login() {
                   Login
                 </button>
               </Form>
-              <Link to="/register">Register</Link>
+              <button
+                  onClick={()=>navigate('/register')}
+                  className="btn btn-warning"
+                >
+                  Register
+                </button>
             </div>
           </Col>
         </Row>
@@ -163,7 +168,6 @@ export default function Login() {
         fontWeight: 'bold', color: errMsg ? 'red' : 'green'}}>
         {errMsg !== null ? errMsg : success !== null ? success : null}</span>
 
-      
     </>
   )
 }

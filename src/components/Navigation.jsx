@@ -32,13 +32,7 @@ function Navigation() {
         <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
             <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/friends')}>Friends</Nav.Link>
-            {cookies.get('token') ? (<React.Fragment> 
-              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate(`/user/${cookies.get('userInfo').username}`)}>
-                {cookies.get('userInfo').username}</Nav.Link>
-            </React.Fragment>) :
-            (<React.Fragment> 
-              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/user/defaultuser')}>User</Nav.Link>
-            </React.Fragment>)}
+            <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
            
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
@@ -55,8 +49,13 @@ function Navigation() {
             </Form>
             </Nav>
             <Nav>
-          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
+          
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/blitz')}>Blitz</Nav.Link>
+          {cookies.get('token') ? (<React.Fragment> 
+              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate(`/user/${cookies.get('userInfo').username}`)}>
+                {cookies.get('userInfo').username}</Nav.Link>
+            </React.Fragment>) :
+            null}
           {cookies.get('token') ? 
         (<React.Fragment>
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>window.confirm('Are you sure you want to log out?') ? 
