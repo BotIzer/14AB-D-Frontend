@@ -42,6 +42,10 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if(cookies.get('token') !== undefined)
+    {
+      return;
+    }
     try {
       const response = await axios.post(
         LOGIN_URL,
