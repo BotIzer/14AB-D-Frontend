@@ -33,16 +33,16 @@ function Navigation() {
             <Nav className='me-auto'>
             <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/friends')}>Friends</Nav.Link>
             {cookies.get('token') ? (<React.Fragment> 
-              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
+              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate(`/user/${cookies.get('userInfo').username}`)}>
+                {cookies.get('userInfo').username}</Nav.Link>
             </React.Fragment>) :
             (<React.Fragment> 
-              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/user/{id}')}>User</Nav.Link>
+              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/user/defaultuser')}>User</Nav.Link>
             </React.Fragment>)}
-            
            
             </Nav>
             <Nav style={{width: '100%'}} className='mx-auto justify-content-center'>
-            <Form style={{width:'35vw'}}> 
+            <Form className='custom-mw'> 
               <Form.Control
                 type="text"
                 placeholder="Search"
@@ -60,7 +60,7 @@ function Navigation() {
           {cookies.get('token') ? 
         (<React.Fragment>
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>window.confirm('Are you sure you want to log out?') ? 
-          (cookies.remove('token'), window.location.reload()) : null}>Logout</Nav.Link>
+          (cookies.remove('token'),cookies.remove('userInfo'), window.location.reload()) : null}>Logout</Nav.Link>
          </React.Fragment>)
         :
         (
@@ -68,9 +68,7 @@ function Navigation() {
          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/login')}>Login</Nav.Link>
          <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/register')}>Register</Nav.Link>
         </React.Fragment>)
-        }
-          {console.log(`Token is: ${cookies.get('token')}`)}
-          
+        }     
             </Nav>
         </Navbar.Collapse>
       </Container>
