@@ -26,7 +26,6 @@ a:hover {
 
    .custom-mw {
     width: 100%;
-    transition: max-width 0.5s;
     max-width: 500px;
     @media (max-width: 992px) {
       width: 35vw;

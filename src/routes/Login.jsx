@@ -91,19 +91,9 @@ export default function Login() {
         <Row
           className="justify-content-center"
           xs="auto"
-          sm="auto"
-          md="auto"
-          lg="auto"
-          xl="auto"
-          xxl="auto"
         >
           <Col
             xs="auto"
-            sm="auto"
-            md="auto"
-            lg="auto"
-            xl="auto"
-            xxl="auto"
             className="justify-content-center border border-warning rounded mt-5"
             style={{ backgroundColor: '#4a4b4f' }}
           >
