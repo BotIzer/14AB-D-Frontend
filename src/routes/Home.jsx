@@ -11,13 +11,13 @@ export default function Home() {
     <Navigation/>
     <Container fluid>
      <Row>
-        <Col className='border' xs={4} sm={3} md={2} lg={2} xl={2} xxl={2}>
+        <Col className='border' xs={4} sm={3} md={2}>
           <FriendList/>
         </Col>
         <Col className='d-flex justify-content-center border'>
           <MyCarousel/>
         </Col>
-        <Col className='border' xs={4} sm={3} md={2} lg={2} xl={2} xxl={2}>
+        <Col className='border' xs={4} sm={3} md={2}>
           Third Column
         </Col>
       </Row>

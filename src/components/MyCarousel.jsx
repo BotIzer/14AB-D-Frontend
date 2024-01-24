@@ -2,14 +2,15 @@ import { CarouselCaption } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 
 function MyCarousel() {
-  const images = ["/src/assets/react.svg", "02.jpg", "03.jpg"];
+  const images = ["/src/assets/react.svg", "/src/assets/banner_test.jpg", "03.jpg"];
 
   const imageList = images.map((image) => (
     <Carousel.Item>
       <img
         src={image}
-        className="d-block w-50 img-fluid mx-auto"
+        className="img-fluid w-100"
         alt={image.slice(0, image.length - 4)}
+        style={{float:'center'}}
       />
     </Carousel.Item>
   ));

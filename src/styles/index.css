@@ -21,6 +21,10 @@ a:hover {
   color:red;
 }
 
+.customImg{
+  width: (100%) / 9;
+}
+
 /* Setting max size on different screen sizes
    used for Form in Navigation */
 
