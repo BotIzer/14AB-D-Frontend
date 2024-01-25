@@ -4,11 +4,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
 import React from 'react';
+import axios from '../api/axios';
 function Navigation() {
   const navigate = useNavigate();
-  const cookies = new Cookies();
   const [inputValue,setInputValue] = useState('');
   const textStyle={
     color: "yellow",
@@ -24,6 +23,17 @@ function Navigation() {
     const link = `/search/${inputValue}`;
     window.location.href = link;
   };
+  const HandleLogout = async (e) =>{
+    console.log('entered!')
+     await axios.post('/logout', {
+      headers: {
+        'Content-Type': 'application/json',
+        // 'authorization': `Bearer ${cookies.get('token')}`,
+      },
+      withCredentials: true,
+      credentials: 'include'
+    })
+  }
   return (
     <Navbar expand='lg' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
       <Container fluid>
@@ -51,15 +61,15 @@ function Navigation() {
             <Nav>
           
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/blitz')}>Blitz</Nav.Link>
-          {cookies.get('token') ? (<React.Fragment> 
-              <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate(`/user/${cookies.get('userInfo').username}`)}>
-                {cookies.get('userInfo').username}</Nav.Link>
+          {/*cookies.get('token')*/ true ? (<React.Fragment> 
+              <Nav.Link style={textStyle} className='mx-2 my-2' /*>onClick={()=>navigate(`/user/${cookies.get('userInfo').username}`)}*/>
+                {/*cookies.get('userInfo').username*/}</Nav.Link>
             </React.Fragment>) :
             null}
-          {cookies.get('token') ? 
+          {/*cookies.get('token')*/ true ? 
         (<React.Fragment>
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>window.confirm('Are you sure you want to log out?') ? 
-          (cookies.remove('token'),cookies.remove('userInfo'), window.location.reload()) : null}>Logout</Nav.Link>
+          (HandleLogout()): null}>Logout</Nav.Link>
          </React.Fragment>)
         :
         (

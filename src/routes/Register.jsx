@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Cookies } from 'react-cookie'
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -17,9 +16,6 @@ const LOGIN_URL = '/login'
 
 export default function Register() {
   const navigate = useNavigate()
-
-  const cookies = new Cookies()
-
   const userRef = useRef()
   const errRef = useRef()
 
@@ -88,6 +84,8 @@ export default function Register() {
       )
       console.log(pwd);
       console.log(email)
+
+      // CHANGE IT TO LIKE LOGIN
       const response = await axios.post(
         LOGIN_URL,
         {
@@ -96,18 +94,15 @@ export default function Register() {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: false,
+          withCredentials: true,
         }
       )
-      cookies.set('token', response.data.token)
       const responseUserInfo = await axios.get('/getUserInfo', {
         headers: {
           'Content-Type': 'application/json',
-          'authorization': `Bearer ${cookies.get('token')}`,
         },
-        withCredentials: false,
+        withCredentials: true,
       })
-      cookies.set('userInfo', responseUserInfo.data.userInfo)
       setUser(''),
       setPwd(''),
       setMatchPwd('')

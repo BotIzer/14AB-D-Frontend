@@ -6,15 +6,11 @@ import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
-import { Cookies } from 'react-cookie'
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-const LOGIN_URL = '/login'
 
 export default function Login() {
   const navigate = useNavigate()
-
-  const cookies = new Cookies()
 
   const emailRef = useRef()
   const errRef = useRef()
@@ -40,36 +36,35 @@ export default function Login() {
     setErrMsg('')
   }, [email, pwd])
 
-  const handleSubmit = async (e) => {
-    if(cookies.get('token') !== undefined)
-    {
-      return;
-    }
+  const HandleSubmit = async (e) => {
     e.preventDefault()
     setPwd('')
     setEmail('')
     setSuccess(true)
     try {
+      console.log('start here')
       const response = await axios.post(
-        LOGIN_URL,
+        '/login',
         {
           email: email.toLowerCase(),
           password: pwd,
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: false,
+          withCredentials: true,
+          credentials: 'include'
         }
       )
-      cookies.set('token', response.data.token)
+      // This does not run! WHY?
+      console.log('ran');
       const responseUserInfo = await axios.get('/getUserInfo', {
         headers: {
           'Content-Type': 'application/json',
-          'authorization': `Bearer ${cookies.get('token')}`,
+          // 'authorization': `Bearer ${cookies.get('token')}`,
         },
-        withCredentials: false,
+        withCredentials: true,
+        credentials: 'include'
       })
-      cookies.set('userInfo', responseUserInfo.data.userInfo)
       navigate('/')
     } catch (err) {
       if (!err?.response) {
@@ -102,19 +97,20 @@ export default function Login() {
               style={{ overflow: 'auto', width: '50vw' }}
             >
               <h1>Sign in</h1>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={HandleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="email">Email address</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter email"}
+                    // TODO
+                    // placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter email"}
                     id="email"
                     ref={emailRef}
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     aria-describedby="uidnote"
-                    disabled= {cookies.get('token') !== undefined}
+                    // disabled= {cookies.get('token') !== undefined}
                   />
                   <p
                     id="uidnote"
@@ -127,16 +123,16 @@ export default function Login() {
                   <Form.Label htmlFor="password">Password</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter password"}
+                    // placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter password"}
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
                     aria-describedby="pwdnote"
-                    disabled= {cookies.get('token') !== undefined}
+                    // disabled= {cookies.get('token') !== undefined}
                   />
                 </Form.Group>
                 <button
-                  disabled={!validEmail || !pwd || cookies.get('token') !== undefined}
+                  // disabled={!validEmail || !pwd || cookies.get('token') !== undefined}
                   type="submit"
                   className="btn btn-warning"
                 >
