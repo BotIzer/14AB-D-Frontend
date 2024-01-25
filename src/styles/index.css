@@ -1,37 +1,41 @@
-body{
+body {
   color: yellow;
 }
 
 .primary {
   color: yellow;
 }
+.secondary {
+  color: #e8cc80;
+}
 
 a:hover {
   color: rgb(180, 145, 125);
 }
-.valid{
+.valid {
   color: lightgreen;
   font-weight: bold;
 }
-.invalid{
+.invalid {
   color: red;
   font-weight: bold;
 }
-.error{
-  color:red;
+.error {
+  color: red;
 }
 
-.customImg{
-  width: (100%) / 9;
+.imgSize {
+  width: 100%;
+  height: 400px;
 }
 
 /* Setting max size on different screen sizes
    used for Form in Navigation */
 
-   .custom-mw {
-    width: 100%;
-    max-width: 500px;
-    @media (max-width: 992px) {
-      width: 35vw;
-    }
+.custom-mw {
+  width: 100%;
+  max-width: 500px;
+  @media (max-width: 992px) {
+    width: 35vw;
   }
+}
