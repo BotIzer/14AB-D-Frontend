@@ -8,17 +8,21 @@ function MyCarousel() {
   ];
 
   const imageList = images.map((image) => (
-    <Carousel.Item key={image}>
+    <Carousel.Item key={image} className="h-100">
       <img
         src={image}
-        className="img-fluid imgSize"
+        className="img-fluid imgSize py-3"
         alt={image.slice(0, image.length - 4)}
         style={{ float: "center" }}
       />
     </Carousel.Item>
   ));
 
-  return <Carousel className="d-block w-100">{imageList}</Carousel>;
+  return (
+    <Carousel className="d-block w-100 h-100 overflow-hidden">
+      {imageList}
+    </Carousel>
+  );
 }
 
 export default MyCarousel;

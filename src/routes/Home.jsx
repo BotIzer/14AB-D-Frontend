@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <Container fluid style={{ height: "200px" }}>
+      <Container fluid style={{ height: "800px" }}>
         <Row className="h-50">
           <Col className="border h-100" xs={4} sm={3} md={2}>
             <FriendList />
