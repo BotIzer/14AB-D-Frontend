@@ -5,6 +5,9 @@ body {
 .primary {
   color: yellow;
 }
+.secondary {
+  color: #e8cc80;
+}
 
 a:hover {
   color: rgb(180, 145, 125);
