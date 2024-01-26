@@ -49,8 +49,8 @@ export default function Login() {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: false,
-          // credentials: 'include'
+          withCredentials: false, //this needs fixing
+          credentials: 'include'
         }
         )
         // This does not run! WHY?
@@ -65,7 +65,7 @@ export default function Login() {
         // })
       setPwd('')
       setEmail('')
-      navigate('/')
+      // navigate('/')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
