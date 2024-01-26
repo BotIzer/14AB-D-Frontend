@@ -38,8 +38,6 @@ export default function Login() {
 
   const HandleSubmit = async (e) => {
     e.preventDefault()
-    setPwd('')
-    setEmail('')
     setSuccess(true)
     try {
       console.log('start here')
@@ -51,21 +49,22 @@ export default function Login() {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-          credentials: 'include'
+          withCredentials: true, //this needs fixing
         }
-      )
-      // This does not run! WHY?
-      console.log('ran');
-      const responseUserInfo = await axios.get('/getUserInfo', {
-        headers: {
-          'Content-Type': 'application/json',
-          // 'authorization': `Bearer ${cookies.get('token')}`,
-        },
-        withCredentials: true,
-        credentials: 'include'
-      })
-      navigate('/')
+        )
+        // This does not run! WHY?
+        console.log(response);
+        // const responseUserInfo = await axios.get('/getUserInfo', {
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     // 'authorization': `Bearer ${cookies.get('token')}`,
+        //   },
+        //   withCredentials: true,
+        //   credentials: 'include'
+        // })
+      setPwd('')
+      setEmail('')
+      // navigate('/')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
