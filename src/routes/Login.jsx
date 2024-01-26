@@ -49,8 +49,7 @@ export default function Login() {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: false, //this needs fixing
-          credentials: 'include'
+          withCredentials: true, //this needs fixing
         }
         )
         // This does not run! WHY?
