@@ -29,6 +29,21 @@ a:hover {
   height: 400px;
 }
 
+/* Create Post Css*/
+.nav-tabs .nav-link {
+  background-color: transparent !important;
+  color: #e8cc80 !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: solid 4px #e8cc80 !important;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: solid 4px yellow !important;
+  color: yellow !important;
+}
+
 /* Setting max size on different screen sizes
    used for Form in Navigation */
 
