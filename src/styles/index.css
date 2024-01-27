@@ -44,6 +44,72 @@ a:hover {
   color: yellow !important;
 }
 
+/* Text Editor css */
+
+.text-editor .ql-toolbar button:hover{
+    color: yellow;
+}
+.text-editor .ql-editor {
+  min-height: 10em;
+}
+
+.text-editor .ql-toolbar .ql-stroke {
+  fill: none;
+  stroke: #e8cc80;
+}
+
+.text-editor .ql-toolbar .ql-fill {
+  fill: #e8cc80;
+  stroke: none;
+}
+
+.text-editor .ql-toolbar .ql-picker {
+  color: #e8cc80;
+}
+
+
+
+.text-editor button:hover .ql-stroke,
+.text-editor .ql-picker-label:hover .ql-stroke {
+  fill: none;
+  stroke: yellow !important;
+}
+.text-editor .ql-active .ql-stroke {
+  fill: none;
+  stroke: yellow !important;
+}
+
+.text-editor button:hover .ql-fill,
+.text-editor .ql-picker-label:hover .ql-fill {
+  fill: yellow !important;
+  stroke: none;
+}
+
+.text-editor .ql-active .ql-fill {
+  fill: yellow !important;
+  stroke: none;
+} 
+
+.text-editor .ql-snow .ql-picker-options {
+  background-color: rgb(33, 37, 41) !important;
+}
+
+.text-editor .ql-snow.ql-toolbar .ql-picker-label:hover,
+.text-editor .ql-snow .ql-toolbar .ql-picker-label:hover,
+.text-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.text-editor .ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.text-editor .ql-snow.ql-toolbar .ql-picker-item:hover,
+.text-editor .ql-snow .ql-toolbar .ql-picker-item:hover {
+  color: yellow;
+}
+.text-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.text-editor .ql-snow .ql-toolbar .ql-picker-item.ql-selected{
+  color: #e8cc80;
+}
+
+
+
+
 /* Setting max size on different screen sizes
    used for Form in Navigation */
 
