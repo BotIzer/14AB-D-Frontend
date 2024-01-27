@@ -34,6 +34,19 @@ function Navigation() {
         withCredentials: true,
       }
       )
+
+      //TODO: Get request when logged out
+      // And get request when first logged in
+    await axios.get(
+      '/getUserInfo',
+      {
+
+      },
+      {
+        headers: {'Content-Type': 'application/json'},
+        withCredentials: true,
+      }
+    )
   }
   return (
     <Navbar expand='lg' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
