@@ -48,21 +48,12 @@ export default function Login() {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: true, //this needs fixing
+          withCredentials: true,
         }
         )
-        // This does not run! WHY?
-        // const responseUserInfo = await axios.get('/getUserInfo', {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     // 'authorization': `Bearer ${cookies.get('token')}`,
-        //   },
-        //   withCredentials: true,
-        //   credentials: 'include'
-        // })
       setPwd('')
       setEmail('')
-      // navigate('/')
+      navigate('/')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
