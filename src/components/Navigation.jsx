@@ -2,19 +2,24 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import axios from '../api/axios';
 import { Cookies } from 'react-cookie';
 function Navigation() {
   const navigate = useNavigate();
-  const cookie = new Cookies();
+  const cookie = useMemo(() => new Cookies(), []);
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(cookie.get('userInfo'));
+  },[cookie]);
   const [inputValue,setInputValue] = useState('');
   const textStyle={
     color: "yellow",
     fontSize: "20px"
   }
+  
   const HandleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -36,7 +41,10 @@ function Navigation() {
         withCredentials: true,
       }
       )
+      setIsLoggedIn(false);
   }
+  
+
   return (
     <Navbar expand='lg' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>
       <Container fluid>
@@ -64,12 +72,12 @@ function Navigation() {
             <Nav>
           
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate('/blitz')}>Blitz</Nav.Link>
-          {cookie.get('userInfo')? 
+          {isLoggedIn? 
           (<React.Fragment> 
             <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>navigate(`/user/${cookie.get('userInfo').username}`)}>{cookie.get('userInfo').username}</Nav.Link>
           </React.Fragment>) :
             null}
-          {cookie.get('userInfo') ? 
+          {isLoggedIn ? 
         (<React.Fragment>
           <Nav.Link style={textStyle} className='mx-2 my-2' onClick={()=>window.confirm('Are you sure you want to log out?') ? 
           (HandleLogout()): null}>Logout</Nav.Link>

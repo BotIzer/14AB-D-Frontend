@@ -11,8 +11,6 @@ const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 const PWD_REGEX =
     /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
-const REGISTER_URL = '/register'
-const LOGIN_URL = '/login'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -71,7 +69,7 @@ export default function Register() {
     }
     try {
         await axios.post(
-          REGISTER_URL,
+          '/register',
           {
               email: email.toLowerCase(),
               password: pwd,
@@ -82,12 +80,8 @@ export default function Register() {
               withCredentials: false,
           },
       )
-      console.log(pwd);
-      console.log(email)
-
-      // CHANGE IT TO LIKE LOGIN
-      const response = await axios.post(
-        LOGIN_URL,
+      await axios.post(
+        '/login',
         {
           email: email.toLowerCase(),
           password: pwd,
@@ -97,12 +91,6 @@ export default function Register() {
           withCredentials: true,
         }
       )
-      const responseUserInfo = await axios.get('/getUserInfo', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      })
       setUser(''),
       setPwd(''),
       setMatchPwd('')
