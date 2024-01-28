@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+
 import { Button, FormGroup, FormLabel } from "react-bootstrap";
-=======
-import { FormGroup} from "react-bootstrap";
->>>>>>> 3548ac0335de7407c699f2d5d11e1ad1ab3f85d0
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
