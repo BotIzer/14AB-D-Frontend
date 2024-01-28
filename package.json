@@ -16,6 +16,8 @@
     "react-bootstrap": "^2.9.1",
     "react-cookie": "^7.0.2",
     "react-dom": "^18.2.0",
+    "react-drag-drop-files": "^2.3.10",
+    "react-dropzone": "^14.2.3",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.20.1"
   },
