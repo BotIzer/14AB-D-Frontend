@@ -94,6 +94,9 @@ a:hover {
   background-color: rgb(33, 37, 41) !important;
 }
 
+/* My brother in Christ
+Can't we just give these to the parent? Somehow?*/
+
 .text-editor .ql-snow.ql-toolbar .ql-picker-label:hover,
 .text-editor .ql-snow .ql-toolbar .ql-picker-label:hover,
 .text-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,

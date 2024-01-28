@@ -23,16 +23,17 @@ function Navigation() {
     const link = `/search/${inputValue}`;
     window.location.href = link;
   };
-  const HandleLogout = async (e) =>{
-    console.log('entered!')
-     await axios.post('/logout', {
-      headers: {
-        'Content-Type': 'application/json',
-        // 'authorization': `Bearer ${cookies.get('token')}`,
+  const HandleLogout = async () =>{
+    const response = await axios.post(
+      '/logout',
+      {
+        
       },
-      withCredentials: true,
-      credentials: 'include'
-    })
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+      )
   }
   return (
     <Navbar expand='lg' className='bg-body-tertiary ' bg='dark' data-bs-theme='dark'>

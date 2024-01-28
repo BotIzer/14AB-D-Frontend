@@ -40,8 +40,7 @@ export default function Login() {
     e.preventDefault()
     setSuccess(true)
     try {
-      console.log('start here')
-      const response = await axios.post(
+      await axios.post(
         '/login',
         {
           email: email.toLowerCase(),
@@ -53,7 +52,6 @@ export default function Login() {
         }
         )
         // This does not run! WHY?
-        console.log(response);
         // const responseUserInfo = await axios.get('/getUserInfo', {
         //   headers: {
         //     'Content-Type': 'application/json',
