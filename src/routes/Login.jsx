@@ -102,7 +102,7 @@ export default function Login() {
                   />
                   <p
                     id="uidnote"
-                    className={email && !validEmail ? 'error' : 'offcanvas'}
+                    className={email && !validEmail ? 'invalid' : 'offcanvas'}
                   >
                     Must contain @ and a . (dot) followed by a domain (ex: com)!
                   </p>
