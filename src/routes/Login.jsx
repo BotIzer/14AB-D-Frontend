@@ -59,6 +59,8 @@ export default function Login() {
         setErrMsg('No Server Response')
       } else if (err.response?.status === 404) {
         setErrMsg(err.response.data.message)
+      } else if(err.response?.status === 403){
+        setErrMsg('Alread logged in!')
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized')
       } else {
