@@ -1,16 +1,16 @@
 body {
-  color: yellow;
+  color: gold;
 }
 
 .primary {
-  color: yellow;
+  color: gold;
 }
 .secondary {
   color: #e8cc80;
 }
 
 a:hover {
-  color: #B47D7D;
+  color: #b47d7d;
 }
 .valid {
   color: lightgreen;
@@ -28,7 +28,7 @@ a:hover {
 button {
   margin: 5px;
 }
-/* Create Post Css*/
+/* Create post css*/
 .nav-tabs .nav-link {
   background-color: transparent !important;
   color: #e8cc80 !important;
@@ -39,14 +39,14 @@ button {
 }
 
 .nav-tabs .nav-link.active {
-  border-bottom: solid 4px yellow !important;
-  color: yellow !important;
+  border-bottom: solid 4px gold !important;
+  color: gold !important;
 }
 
 /* Text Editor css */
 
 .text-editor .ql-toolbar button:hover {
-  color: yellow;
+  color: gold;
 }
 .text-editor .ql-editor {
   min-height: 10em;
@@ -69,21 +69,21 @@ button {
 .text-editor button:hover .ql-stroke,
 .text-editor .ql-picker-label:hover .ql-stroke {
   fill: none;
-  stroke: yellow !important;
+  stroke: gold !important;
 }
 .text-editor .ql-active .ql-stroke {
   fill: none;
-  stroke: yellow !important;
+  stroke: gold !important;
 }
 
 .text-editor button:hover .ql-fill,
 .text-editor .ql-picker-label:hover .ql-fill {
-  fill: yellow !important;
+  fill: gold !important;
   stroke: none;
 }
 
 .text-editor .ql-active .ql-fill {
-  fill: yellow !important;
+  fill: gold !important;
   stroke: none;
 }
 
@@ -91,29 +91,37 @@ button {
   background-color: #212529 !important;
 }
 
-/* My brother in Christ
-Can't we just give these to the parent? Somehow?*/
-
 .text-editor .ql-snow.ql-toolbar .ql-picker-label:hover,
 .text-editor .ql-snow .ql-toolbar .ql-picker-label:hover,
 .text-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,
 .text-editor .ql-snow .ql-toolbar .ql-picker-label.ql-active,
 .text-editor .ql-snow.ql-toolbar .ql-picker-item:hover,
 .text-editor .ql-snow .ql-toolbar .ql-picker-item:hover {
-  color: yellow;
+  color: gold;
 }
 .text-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
 .text-editor .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
   color: #e8cc80;
 }
 
+/*Friends page css for border and list size*/
 .custom-border {
   border: #e8cc80 2px solid;
+  border-left: 0px;
 }
 .custom-border a:hover {
   background-color: #e8cc80;
   color: #212529;
   font-weight: bold;
+}
+
+.friend-page-list-width {
+  max-width: 400px;
+  height: 100vh;
+  @media (max-width: 992px) {
+    max-width: 250px;
+    max-height: 70vh;
+  }
 }
 
 /* Setting max size on different screen sizes
