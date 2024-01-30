@@ -126,8 +126,8 @@ export default function Register() {
           >
             <div
               
-              className="border border-warning rounded px-5 py-2 my-3"
-              style={{ overflow: 'auto', width: "50vw"}}
+              className="border border-warning rounded p-5 my-3"
+              style={{ overflow: 'auto', width: "60vw", maxWidth: '500px'}}
             >
               <h1>Register</h1>
               <Form onSubmit={handleSubmit}>

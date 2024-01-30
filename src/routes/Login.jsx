@@ -82,7 +82,7 @@ export default function Login() {
           >
             <div
               className="border border-warning rounded p-5 my-3"
-              style={{ overflow: 'auto', width: '50vw' }}
+              style={{ overflow: 'auto', width: '60vw', maxWidth: '500px'}}
             >
               <h1>Sign in</h1>
               <Form onSubmit={HandleSubmit}>
