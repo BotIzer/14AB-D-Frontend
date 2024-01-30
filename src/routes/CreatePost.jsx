@@ -1,5 +1,5 @@
 
-import { Button, FormGroup, FormLabel } from "react-bootstrap";
+import { Button, FormGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -29,7 +29,7 @@ function CreatePost() {
             </div>
           </FormGroup>
         </Tab>
-        <Tab eventKey="test" title="Test" className="border w-50 mx-auto my-5 p-2">
+        <Tab eventKey="media" title="Media File" className="border w-50 mx-auto my-5 p-2">
           <FormGroup className="p-2 w-100 h-100" controlId="filePost">
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control size="lg" type="text" placeholder="Title" className="mb-3" />
