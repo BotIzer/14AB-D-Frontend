@@ -98,14 +98,18 @@ export default function Register() {
       setErrMsg('User created!')
       setSuccess(true)
       navigate('/')
+      //TODO: FIX catch
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
-        
-      } else if (err.response?.status === 409) {
-        setErrMsg('Username Taken') }
-        else {
-        setErrMsg(`${err.response.data.message}`)
+      } else if (err.response?.status === 409 && err.response?.username) {
+        setErrMsg('Username Taken') 
+      } else if (err.response?.status === 409 && err.response?.email) {
+        setErrMsg('Email Taken') 
+      } else if(err.response?.status === 403){
+          setErrMsg('Already logged in!')
+      } else {
+        setErrMsg('Registration failed')
       }
       errRef.current.focus()
     }
