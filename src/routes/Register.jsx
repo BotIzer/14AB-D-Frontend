@@ -159,7 +159,7 @@ export default function Register() {
                     id="uidnote"
                     className={
                        user && !validName
-                        ? 'error'
+                        ? 'invalid'
                         : 'offcanvas'
                     }
                   >
@@ -191,7 +191,7 @@ export default function Register() {
                     id="emailnote"
                     className={
                        email && !validEmail
-                        ? 'error'
+                        ? 'invalid'
                         : 'offcanvas'
                     }
                   >
@@ -223,7 +223,7 @@ export default function Register() {
                     id="pwdnote"
                     className={
                        pwd && !validPwd
-                        ? 'error'
+                        ? 'invalid'
                         : 'offcanvas'
                     }
                   >
@@ -254,7 +254,7 @@ export default function Register() {
                   <p
                     id="confirmnote"
                     className={
-                     !validMatch ? 'error' : 'offcanvas'
+                     !validMatch ? 'invalid' : 'offcanvas'
                     }
                     
                   >
