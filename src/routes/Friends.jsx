@@ -17,11 +17,10 @@ function Friends() {
   return (
     <>
       <Navigation></Navigation>
-      <Row>
+      <Row className="w-100">
         <Col
-          style={{ maxWidth: "400px", height: "100vh" }}
           data-bs-theme="dark"
-          className="list-group list-group-flush overflow-auto custom-border text-center"
+          className="list-group overflow-auto custom-border text-center friend-page-list-width"
         >
           {list}
         </Col>
