@@ -8,7 +8,7 @@ function Friends() {
 
   const list = friends.map((friend) => (
     <Row key={friend}>
-      <Link className="list-group-item secondary" to={"/friends/" + friend}>
+      <Link className="list-group-item secondary" to={"/user/" + friend}>
         {friend}
       </Link>
     </Row>
