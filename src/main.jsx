@@ -8,6 +8,7 @@ import Login from "./routes/Login.jsx";
 import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
+import FriendPopupActions from "./components/FriendPopupActions.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
     element: <Friends></Friends>,
     errorElement: <ErrorPage></ErrorPage>,
   },
+  {
+    path: "/test",
+    element: <FriendPopupActions></FriendPopupActions>,
+    errorElement: <ErrorPage></ErrorPage>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

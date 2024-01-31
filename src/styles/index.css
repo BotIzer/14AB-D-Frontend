@@ -109,13 +109,13 @@ button {
   border: #e8cc80 2px solid;
   border-left: 0px;
 }
-.custom-border a:hover {
+.custom-border a:hover{
   background-color: #e8cc80;
   color: #212529;
   font-weight: bold;
 }
 
-.friend-page-list-width {
+.friend-page-list-size {
   max-width: 400px;
   height: 100vh;
   @media (max-width: 992px) {
@@ -133,4 +133,10 @@ button {
   @media (max-width: 992px) {
     width: 35vw;
   }
+}
+
+.custom-button button:hover {
+  background-color: #e8cc80;
+  color: #212529;
+  font-weight: bold;
 }

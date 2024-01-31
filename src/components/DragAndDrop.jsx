@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import  {useMemo} from 'react';
 import {useDropzone} from 'react-dropzone'
 
 const baseStyle = {
@@ -29,7 +29,7 @@ const rejectStyle = {
   borderColor: 'red'
 };
 
-function DragAndDrop(props) {
+function DragAndDrop() {
   const {
     getRootProps,
     getInputProps,
@@ -60,7 +60,7 @@ function DragAndDrop(props) {
     <div className="container w-75">
       <div {...getRootProps({style})}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag & drop some files here, or click to select files</p>
       </div>
       <aside className='m-3'>
         <h5>Selected files:</h5>

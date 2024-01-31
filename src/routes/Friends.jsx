@@ -20,10 +20,11 @@ function Friends() {
       <Row className="w-100">
         <Col
           data-bs-theme="dark"
-          className="list-group overflow-auto custom-border text-center friend-page-list-width"
+          className="list-group overflow-auto custom-border text-center friend-page-list-size"
         >
           {list}
         </Col>
+        <Col></Col>
       </Row>
     </>
   );
