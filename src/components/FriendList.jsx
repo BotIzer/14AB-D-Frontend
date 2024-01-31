@@ -7,7 +7,7 @@ function FriendList() {
   const listItems = friends.map((friend) => (
     <Link
       className="list-group-item secondary"
-      to={"/friends/" + friend}
+      to={"/user/" + friend}
       key={friend}
     >
       {friend}
