@@ -8,6 +8,10 @@ import Navigation from "../components/Navigation";
 import DragAndDrop from "../components/DragAndDrop";
 
 function CreatePost() {
+  const Clear = async () => {
+    const editor = document.querySelector('.ql-editor');
+    editor.innerHTML = '';
+  };
   return (
     <>
       <Navigation></Navigation>
@@ -25,7 +29,7 @@ function CreatePost() {
             <TextEditor className='h-100'></TextEditor>
             <div className="d-flex justify-content-around my-3">
               <Button variant="outline-warning" size="lg">Post</Button>
-              <Button variant="outline-danger" size="lg">Clear</Button>
+              <Button variant="outline-danger" size="lg" onClick={()=>Clear()}>Clear</Button>
             </div>
           </FormGroup>
         </Tab>

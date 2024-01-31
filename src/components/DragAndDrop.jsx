@@ -58,6 +58,7 @@ function DragAndDrop() {
 
   return (
     <div className="container w-75">
+      <div style={{cursor: 'pointer'}}>
       <div {...getRootProps({style})}>
         <input {...getInputProps()} />
         <p>Drag & drop some files here, or click to select files</p>
@@ -67,6 +68,8 @@ function DragAndDrop() {
         <ul>{files}</ul>
       </aside>
     </div>
+      </div>
+      
   );
 }
 
