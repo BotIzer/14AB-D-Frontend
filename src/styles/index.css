@@ -107,7 +107,7 @@ button {
 /*Friends page css for border and list size*/
 .custom-border {
   border: #e8cc80 2px solid;
-  border-left: 0px;
+  margin: 20px 0px 0px 20px
 }
 .custom-border a:hover {
   background-color: #e8cc80;
@@ -116,11 +116,13 @@ button {
 }
 
 .friend-page-list-width {
-  max-width: 400px;
-  height: 100vh;
+  max-width: 25vw;
+  height: 70vh;
+  width: 25vw;
   @media (max-width: 992px) {
     max-width: 250px;
-    max-height: 70vh;
+    width: 25vw;
+    height: 70vh;
   }
 }
 
