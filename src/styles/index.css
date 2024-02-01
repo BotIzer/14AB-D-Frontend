@@ -107,9 +107,9 @@ button {
 /*Friends page css for border and list size*/
 .custom-border {
   border: #e8cc80 2px solid;
-  margin: 20px 0px 0px 20px
+  margin: 20px 0px 0px 20px;
 }
-.custom-border a:hover{
+.custom-border a:hover {
   background-color: #e8cc80;
   color: #212529;
   font-weight: bold;
@@ -137,8 +137,13 @@ button {
   }
 }
 
-.custom-button button:hover {
-  background-color: #e8cc80;
-  color: #212529;
+.custom-button:hover,
+.custom-button:active,
+.custom-button:focus,
+.custom-button:visited {
+  background-color: #e8cc80 !important;
+  color: #212529 !important;
+  background-image: none !important;
   font-weight: bold;
+  margin: 0px !important;
 }
