@@ -3,24 +3,25 @@ import Navigation from "../components/Navigation";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import FriendPopupActions from "../components/FriendPopupActions";
+import { useState } from "react";
 
 function Friends() {
   const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
-  let showPopup = false;
+  const [showPopup, setShowPopup] = useState(false);
   const list = friends.map((friend) => (
     <Row key={friend}>
       <Button
         className=" secondary clear-button m-0"
         to={"/user/" + friend}
-        onClick={() => {
-          showPopup = true;
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setShowPopup(true);
         }}
       >
         {friend}
       </Button>
     </Row>
   ));
-
   return (
     <>
       <Navigation></Navigation>
