@@ -40,8 +40,7 @@ export default function Login() {
     e.preventDefault()
     setSuccess(true)
     try {
-      console.log('start here')
-      const response = await axios.post(
+      await axios.post(
         '/login',
         {
           email: email.toLowerCase(),
@@ -49,28 +48,19 @@ export default function Login() {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          withCredentials: false, //this needs fixing
-          credentials: 'include'
+          withCredentials: true,
         }
         )
-        // This does not run! WHY?
-        console.log(response);
-        // const responseUserInfo = await axios.get('/getUserInfo', {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     // 'authorization': `Bearer ${cookies.get('token')}`,
-        //   },
-        //   withCredentials: true,
-        //   credentials: 'include'
-        // })
       setPwd('')
       setEmail('')
-      // navigate('/')
+      navigate('/')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
       } else if (err.response?.status === 404) {
         setErrMsg(err.response.data.message)
+      } else if(err.response?.status === 403){
+        setErrMsg('Already logged in!')
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized')
       } else {
@@ -94,7 +84,7 @@ export default function Login() {
           >
             <div
               className="border border-warning rounded p-5 my-3"
-              style={{ overflow: 'auto', width: '50vw' }}
+              style={{ overflow: 'auto', width: '60vw', maxWidth: '500px'}}
             >
               <h1>Sign in</h1>
               <Form onSubmit={HandleSubmit}>
@@ -114,7 +104,7 @@ export default function Login() {
                   />
                   <p
                     id="uidnote"
-                    className={email && !validEmail ? 'error' : 'offcanvas'}
+                    className={email && !validEmail ? 'invalid' : 'offcanvas'}
                   >
                     Must contain @ and a . (dot) followed by a domain (ex: com)!
                   </p>

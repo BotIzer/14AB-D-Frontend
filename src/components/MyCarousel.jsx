@@ -19,7 +19,10 @@ function MyCarousel() {
   ));
 
   return (
-    <Carousel className="d-block w-100 h-100 overflow-hidden">
+    <Carousel
+      className="d-block w-100 h-100 overflow-hidden"
+      indicators={false}
+    >
       {imageList}
     </Carousel>
   );
