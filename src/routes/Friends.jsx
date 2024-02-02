@@ -15,7 +15,7 @@ function Friends() {
         to={"/user/" + friend}
         onContextMenu={(e) => {
           e.preventDefault();
-          setShowPopup(true);
+          setShowPopup(!showPopup);
         }}
       >
         {friend}
@@ -32,9 +32,7 @@ function Friends() {
         >
           {list}
         </Col>
-        <Col>
-          {showPopup ? <FriendPopupActions /> : null}
-        </Col>
+        <Col>{showPopup ? <FriendPopupActions /> : null}</Col>
       </Row>
     </>
   );
