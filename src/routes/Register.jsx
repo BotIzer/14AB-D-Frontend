@@ -5,16 +5,15 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
-  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-  const PWD_REGEX =
-    /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
-  const REGISTER_URL = '/register'
-
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+const PWD_REGEX =
+  /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
 
 export default function Register() {
-  
+  const navigate = useNavigate()
   const userRef = useRef()
   const errRef = useRef()
 
@@ -23,7 +22,7 @@ export default function Register() {
 
   const [email, setEmail] = useState('')
   const [validEmail, setValidEmail] = useState(false)
-  
+
   const [pwd, setPwd] = useState('')
   const [validPwd, setValidPwd] = useState(false)
 
@@ -47,7 +46,7 @@ export default function Register() {
     setValidName(result)
     const resultEmail = EMAIL_REGEX.test(email)
     setValidEmail(resultEmail)
-  }, [user,email])
+  }, [user, email])
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd)
@@ -69,32 +68,43 @@ export default function Register() {
       return
     }
     try {
-        await axios.post(
-          REGISTER_URL,
-          {
-              email: email,
-              password: pwd,
-              username: user,
-          },
-          {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: false,
-          },
-          setUser(''),
-          setPwd(''),
-          setMatchPwd('')
-,         setEmail('')
+      await axios.post(
+        '/register',
+        {
+          email: email.toLowerCase(),
+          password: pwd,
+          username: user,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: false,
+        }
       )
+      await axios.post(
+        '/login',
+        {
+          email: email.toLowerCase(),
+          password: pwd,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+      )
+      setUser(''), setPwd(''), setMatchPwd(''), setEmail('')
       setErrMsg('User created!')
       setSuccess(true)
+      navigate('/')
+      //TODO: FIX catch
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
-        
       } else if (err.response?.status === 409) {
-        setErrMsg('Username Taken') }
-        else {
         setErrMsg(`${err.response.data.message}`)
+      } else if (err.response?.status === 403) {
+        setErrMsg('Already logged in!')
+      } else {
+        setErrMsg('Registration failed')
       }
       errRef.current.focus()
     }
@@ -104,28 +114,22 @@ export default function Register() {
     <>
       <Navigation></Navigation>
       <Container>
-        <Row
-          className="justify-content-center"
-          xs="auto"
-        >
+        <Row className="justify-content-center" xs="auto">
           <Col
             xs="auto"
             className="justify-content-center border border-warning rounded mt-5"
             style={{ backgroundColor: '#4a4b4f' }}
           >
             <div
-              
-              className="border border-warning rounded px-5 py-2 my-3"
-              style={{ overflow: 'auto', width: "50vw"}}
+              className="border border-warning rounded p-5 my-3"
+              style={{ overflow: 'auto', width: '60vw', maxWidth: '500px' }}
             >
               <h1>Register</h1>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="username">
                     Username:
-                    <span className={validName ? 'valid' : 'd-none'}>
-                      +
-                    </span>
+                    <span className={validName ? 'valid' : 'd-none'}>+</span>
                     <span
                       className={validName || !user ? 'd-none' : 'invalid'}
                       color="red"
@@ -146,59 +150,49 @@ export default function Register() {
                   />
                   <p
                     id="uidnote"
-                    className={
-                       user && !validName
-                        ? 'error'
-                        : 'offcanvas'
-                    }
+                    className={user && !validName ? 'invalid' : 'offcanvas'}
                   >
                     4 to 24 characters. <br />
                     Must begin with a letter <br />
                     Letters, numbers, underscores, hyphens are allowed.
                   </p>
                 </Form.Group>
-                <Form.Group className="mb-3" >
-                  <Form.Label htmlFor='email'>E-mail address</Form.Label>
-                  <span className={validEmail ? 'valid' : 'd-none'}>
-                      +
-                    </span>
-                    <span
-                      className={validEmail || !email ? 'd-none' : 'invalid'}
-                      color="red"
-                    >
-                      -
-                    </span>
-                  <Form.Control 
-                  id="email" 
-                  type="email" 
-                  placeholder="Enter e-mail" 
-                  onChange={(e) => setEmail(e.target.value)} 
-                  required 
-                  aria-invalid={validEmail ? false : true}
-                  aria-describedby='emailnote'/>
-                   <p
-                    id="emailnote"
-                    className={
-                       email && !validEmail
-                        ? 'error'
-                        : 'offcanvas'
-                    }
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="email">E-mail address</Form.Label>
+                  <span className={validEmail ? 'valid' : 'd-none'}>+</span>
+                  <span
+                    className={validEmail || !email ? 'd-none' : 'invalid'}
+                    color="red"
                   >
-                    Must contain @ and a . (dot) followed by a domain (ex: com)! <br />
+                    -
+                  </span>
+                  <Form.Control
+                    id="email"
+                    type="email"
+                    placeholder="Enter e-mail"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    aria-invalid={validEmail ? false : true}
+                    aria-describedby="emailnote"
+                  />
+                  <p
+                    id="emailnote"
+                    className={email && !validEmail ? 'invalid' : 'offcanvas'}
+                  >
+                    Must contain @ and a . (dot) followed by a domain (ex: com)!{' '}
+                    <br />
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="password">Password: </Form.Label>
 
-                  <span className={validPwd ? 'valid' : 'd-none'}>
-                      +
-                    </span>
-                    <span
-                      className={validPwd || !pwd ? 'd-none' : 'invalid'}
-                      color="red"
-                    >
-                      -
-                    </span>
+                  <span className={validPwd ? 'valid' : 'd-none'}>+</span>
+                  <span
+                    className={validPwd || !pwd ? 'd-none' : 'invalid'}
+                    color="red"
+                  >
+                    -
+                  </span>
                   <Form.Control
                     id="password"
                     type="password"
@@ -210,11 +204,7 @@ export default function Register() {
                   />
                   <p
                     id="pwdnote"
-                    className={
-                       pwd && !validPwd
-                        ? 'error'
-                        : 'offcanvas'
-                    }
+                    className={pwd && !validPwd ? 'invalid' : 'offcanvas'}
                   >
                     8 to 24 characters. <br />
                     Must include uppercase and lowercase letters, a number, and
@@ -242,10 +232,7 @@ export default function Register() {
                   />
                   <p
                     id="confirmnote"
-                    className={
-                     !validMatch ? 'error' : 'offcanvas'
-                    }
-                    
+                    className={!validMatch ? 'invalid' : 'offcanvas'}
                   >
                     Must match the first password input field.
                   </p>
@@ -264,9 +251,18 @@ export default function Register() {
           </Col>
         </Row>
       </Container>
-      <span style={{width: '100%', textAlign: 'center', display: 'block', fontSize: '30px', 
-        fontWeight: 'bold', color: errMsg ? 'red' : 'green'}}>
-        {errMsg !== null ? errMsg : success !== null ? success : null}</span>
+      <span
+        style={{
+          width: '100%',
+          textAlign: 'center',
+          display: 'block',
+          fontSize: '30px',
+          fontWeight: 'bold',
+          color: errMsg ? 'red' : 'green',
+        }}
+      >
+        {errMsg !== null ? errMsg : success !== null ? success : null}
+      </span>
     </>
   )
 }

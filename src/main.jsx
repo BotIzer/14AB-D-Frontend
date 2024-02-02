@@ -1,11 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import Home from './routes/Home.jsx'
-import './styles/index.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import ErrorPage from './error-page.jsx';
-import Login from './routes/Login.jsx';
-import Register from './routes/Register.jsx';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Home from "./routes/Home.jsx";
+import "./styles/index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ErrorPage from "./error-page.jsx";
+import Login from "./routes/Login.jsx";
+import Register from "./routes/Register.jsx";
+import CreatePost from "./routes/CreatePost.jsx";
+import Friends from "./routes/Friends.jsx";
+import FriendPopupActions from "./components/FriendPopupActions.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +26,25 @@ const router = createBrowserRouter([
     element: <Register></Register>,
     errorElement: <ErrorPage></ErrorPage>,
   },
+  {
+    path: "/createpost",
+    element: <CreatePost></CreatePost>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/friends",
+    element: <Friends></Friends>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/test",
+    element: <FriendPopupActions></FriendPopupActions>,
+    errorElement: <ErrorPage></ErrorPage>,
+  }
 ]);
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
