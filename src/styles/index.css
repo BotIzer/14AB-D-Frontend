@@ -109,7 +109,7 @@ button {
   border: #e8cc80 2px solid;
   margin: 20px 0px 0px 20px;
 }
-.custom-border a:hover {
+.custom-link a:hover {
   background-color: #e8cc80;
   color: #212529;
   font-weight: bold;
@@ -143,7 +143,21 @@ button {
 .custom-button:visited {
   background-color: #e8cc80 !important;
   color: #212529 !important;
-  background-image: none !important;
   font-weight: bold;
   margin: 0px !important;
+}
+
+.clear-button {
+  background-color: #212529 !important;
+  border: 0px;
+}
+.clear-button:hover,
+.clear-button:active,
+.clear-button:focus,
+.clear-button:visited {
+  background-color: #212529 !important;
+  color: #b47d7d !important;
+  margin: 0px !important;
+  border: 0px;
+  text-decoration: underline;
 }

@@ -2,7 +2,6 @@ import { Button } from "react-bootstrap";
 
 function FriendPopupActions() {
   const actions = ["Profile", "Message", "Remove Friend"];
-
   const list = actions.map((action) => (
     <Button
       className="list-group-item secondary h-100 w-100 p-2 custom-button m-0"
@@ -13,7 +12,7 @@ function FriendPopupActions() {
   ));
 
   return (
-    <div data-bs-theme="dark" className="w-25 h-100 border">
+    <div data-bs-theme="dark" className="w-25 border mt-4">
       {list}
     </div>
   );
