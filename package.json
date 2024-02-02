@@ -7,7 +7,8 @@
     "start": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "vite-config": "node -e \"const { defineConfig } = require('vite'); const react = require('@vitejs/plugin-react'); module.exports = defineConfig(({ mode }) => { return { plugins: [react()], base: mode === 'development' ? '/' : '/your-base-path/', server: { port: process.env.PORT || 3000 } } })\""
   },
   "dependencies": {
     "axios": "^1.6.2",
