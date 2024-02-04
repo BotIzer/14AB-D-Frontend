@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+console.log(import.meta.env);
 export default axios.create({
-    baseURL: 'https://blitzforfriends-backend.cyclic.app/'
+    baseURL: import.meta.env.VITE_URL
 })
