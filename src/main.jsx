@@ -9,6 +9,7 @@ import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
 import FriendPopupActions from "./components/FriendPopupActions.jsx";
+import ChatWindow from "./components/ChatWindow.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <FriendPopupActions></FriendPopupActions>,
+    element: <ChatWindow></ChatWindow>,
     errorElement: <ErrorPage></ErrorPage>,
   }
 ]);
