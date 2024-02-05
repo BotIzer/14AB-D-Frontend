@@ -61,7 +61,7 @@ function Navigation() {
               className="mx-2 my-2"
               onClick={() => navigate("/friends")}
             >
-              Friends
+              FriendsTest
             </Nav.Link>
             <Nav.Link
               style={textStyle}
