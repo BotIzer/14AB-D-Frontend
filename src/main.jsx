@@ -9,7 +9,11 @@ import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
+import UserPage from "./routes/UserPage.jsx"
 
+// const userInfo = localStorage.getItem('userInfo')
+// const userName = userInfo ? JSON.parse(userInfo).username : null
+// console.log(userName)
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,7 +44,17 @@ const router = createBrowserRouter([
     path: "/test",
     element: <ChatWindow></ChatWindow>,
     errorElement: <ErrorPage></ErrorPage>,
-  }
+  },
+  {
+    path: '/user/sajtostaller',
+    element: <UserPage></UserPage>,
+    errorElement: <ErrorPage></ErrorPage>
+  },
+  // {
+  //   path: `/user/${userName}`,
+  //   element: <UserPage></UserPage>,
+  //   errorElement: <ErrorPage></ErrorPage>
+  // }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
