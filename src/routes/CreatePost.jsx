@@ -6,15 +6,36 @@ import Tabs from "react-bootstrap/Tabs";
 import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
 import DragAndDrop from "../components/DragAndDrop";
+import axios from "../api/axios";
 
 function CreatePost() {
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
-      const editor = document.querySelector('.ql-editor');
+    const editor = document.querySelector('.ql-editor');
     editor.innerHTML = '';
-    const titles = document.querySelectorAll('.title');
-    titles.forEach(title=> title.value = '');
+    const title = document.querySelector('.title');
+    title.value = '';
     }
+  };
+  const SendPost = async () => {
+    // TODO: Check whether or not uses is logged in
+    // Error handling for empty title/forum
+    if(document.querySelector('.title').value === '' 
+    || document.querySelector('.title').value.replace('/\sg', '').length){
+      return;
+    }
+    await axios.post(
+      '/thread/create',
+      {
+        forum_name: document.querySelector('.forum').value,
+        name: document.querySelector('.title').value,
+        content: document.querySelector('.ql-editor').innerHTML
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+    )
   };
   return (
     <>
@@ -29,10 +50,13 @@ function CreatePost() {
            <FormGroup className="p-2 w-100 h-100" controlId="textPost">
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control size="lg" type="text" placeholder="Title" className="mb-3 title" />
+            {/* TODO: CHANGE THIS INTO A DROPDOWN MENU OF SUBSCRIBED FORUMS */}
+            <Form.Label className="secondary">Forum</Form.Label>
+            <Form.Control size="lg" type="text" placeholder="Forum" className="mb-3 forum" />
             <Form.Label className="secondary">Body</Form.Label>
             <TextEditor className='h-100'></TextEditor>
             <div className="d-flex justify-content-around my-3">
-              <Button variant="outline-warning" size="lg">Post</Button>
+              <Button variant="outline-warning" size="lg" onClick={()=>SendPost()}>Post</Button>
               <Button variant="outline-danger" size="lg" onClick={()=>ClearAll()}>Clear all</Button>
             </div>
           </FormGroup>
@@ -45,7 +69,7 @@ function CreatePost() {
               <DragAndDrop></DragAndDrop>
             </div>
             <div className="d-flex justify-content-around my-3">
-              <Button variant="outline-warning" size="lg">Post</Button>
+              <Button variant="outline-warning" size="lg" onClick={()=>SendPost()}>Post</Button>
               <Button variant="outline-danger" size="lg" onClick={()=>ClearAll()}>Clear all</Button>
             </div>
           </FormGroup>
