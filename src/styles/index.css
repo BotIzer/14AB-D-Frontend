@@ -137,9 +137,19 @@ button {
   }
 }
 
+/*Create post tab sizing*/
+.tab-size {
+  width: 60vw;
+  margin: auto;
+  @media (max-width: 992px) {
+    width: 90vw;
+    margin: auto;
+  }
+}
+
 /*Dropdown menu styling*/
 
-.dropdown-button button{
+.dropdown-button button {
   background-color: #212529 !important;
   border: gold solid 1px;
   color: gold;
@@ -149,19 +159,18 @@ button {
   border-color: gold;
 }
 
-
 .dropdown-button button:hover,
 .dropdown-button button:active,
-.dropdown-button button:focus{
+.dropdown-button button:focus {
   background-color: #212529 !important;
   border: #e8cc80 solid 1px;
-  color: #e8cc80  ;
-}
-
-.dropdown-item{
   color: #e8cc80;
 }
-.dropdown-item:hover{
+
+.dropdown-item {
+  color: #e8cc80;
+}
+.dropdown-item:hover {
   color: #212529;
   background-color: #e8cc80;
   font-weight: bold;
