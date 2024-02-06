@@ -137,6 +137,36 @@ button {
   }
 }
 
+/*Dropdown menu styling*/
+
+.dropdown-button button{
+  background-color: #212529 !important;
+  border: gold solid 1px;
+  color: gold;
+}
+.btn.show {
+  color: gold;
+  border-color: gold;
+}
+
+
+.dropdown-button button:hover,
+.dropdown-button button:active,
+.dropdown-button button:focus{
+  background-color: #212529 !important;
+  border: #e8cc80 solid 1px;
+  color: #e8cc80  ;
+}
+
+.dropdown-item{
+  color: #e8cc80;
+}
+.dropdown-item:hover{
+  color: #212529;
+  background-color: #e8cc80;
+  font-weight: bold;
+}
+
 .custom-button:hover,
 .custom-button:active,
 .custom-button:focus,

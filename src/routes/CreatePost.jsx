@@ -4,13 +4,17 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
-import DragAndDrop from "../components/DragAndDrop";
+import axios from "../api/axios";
+import { useState } from "react";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 function CreatePost() {
   const [imgList, setImgList] = useState([]);
-  const AddToList = () => {
-    const text = document.getElementById("fileUpload").value;
-    return (<li>{text}</li>)
+  const AddToList = (text) => {
+    if (text != null && text!= "") {
+      return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
+    }
   }
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
@@ -70,7 +74,11 @@ function CreatePost() {
               placeholder="Title"
               className="mb-3 title"
             />
-            <div className="d-flex justify-content-center m-2 secondary border">
+            <div className="d-flex justify-content-around m-2 secondary">
+              
+              <DropdownButton data-bs-theme="dark" drop="down-centered" title="Added Image Links:" className="dropdown-button" >
+                {imgList ? imgList : null}
+              </DropdownButton>
               <Form.Control
                 className="w-50"
                 placeholder="paste Imgur link here"
@@ -79,15 +87,15 @@ function CreatePost() {
               <Button
                 variant="outline-warning"
                 className="custom-button"
-                onClick={() => setImgList([...imgList, AddToList()])}
+                onClick={() => setImgList([...imgList, AddToList(document.getElementById("fileUpload").value)])}
               >
                 +
               </Button>
             </div>
 
-            <ul>
+            {/* <ul>
               {imgList ? imgList : null}
-            </ul>
+            </ul> */}
 
             <div className="d-flex justify-content-around my-3">
               <Button variant="outline-warning" size="lg">Post</Button>
