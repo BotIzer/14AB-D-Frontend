@@ -137,6 +137,8 @@ button {
   }
 }
 
+
+
 .custom-button:hover,
 .custom-button:active,
 .custom-button:focus,
@@ -159,4 +161,25 @@ button {
   color: #b47d7d !important;
   margin: 0px !important;
   border: 0px;
+}
+
+.chat-name {
+  font-size: small;
+  font-style: italic;
+  list-style-type: none;
+  margin: 0px;
+  opacity: 70%;
+  text-decoration: none;
+}
+
+.chat-name:hover {
+  color: gold;
+  opacity: 100%;
+}
+
+.chat-text {
+  font-size: medium;
+  margin-bottom: 10px;
+  color: white;
+  list-style-type: none;
 }

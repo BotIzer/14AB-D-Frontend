@@ -4,10 +4,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import FriendPopupActions from "../components/FriendPopupActions";
 import { useState } from "react";
+import ChatWindow from "../components/ChatWindow";
 
 function Friends() {
   const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
   const [showPopup, setShowPopup] = useState(false);
+  const [showChat, setShowChat] = useState(true);
   const list = friends.map((friend) => (
     <Row key={friend}>
       <Button
@@ -16,6 +18,12 @@ function Friends() {
         onContextMenu={(e) => {
           e.preventDefault();
           setShowPopup(!showPopup);
+          setShowChat(false);
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          setShowChat(!showChat);
+          setShowPopup(false);
         }}
       >
         {friend}
@@ -32,10 +40,15 @@ function Friends() {
         >
           {list}
         </Col>
-        <Col>{showPopup ? <FriendPopupActions /> : null}</Col>
+        <Col>
+          {showPopup ? <FriendPopupActions /> : null}
+          {showChat ? <ChatWindow /> : null}
+        </Col>
       </Row>
     </>
   );
 }
+
+//
 
 export default Friends;
