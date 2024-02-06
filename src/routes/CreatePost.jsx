@@ -4,8 +4,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
-import { useState } from "react";
-import { link } from "fs";
+import DragAndDrop from "../components/DragAndDrop";
 
 function CreatePost() {
   const [imgList, setImgList] = useState([]);
@@ -15,11 +14,23 @@ function CreatePost() {
   }
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
-      const editor = document.querySelector(".ql-editor");
-      editor.innerHTML = "";
-      const titles = document.querySelectorAll(".title");
-      titles.forEach((title) => (title.value = ""));
+      const editor = document.querySelector('.ql-editor');
+    editor.innerHTML = '';
+    const titles = document.querySelectorAll('.title');
+    titles.forEach(title=> title.value = '');
     }
+    await axios.post(
+      '/thread/create',
+      {
+        forum_name: document.querySelector('.forum').value,
+        name: document.querySelector('.title').value,
+        content: document.querySelector('.ql-editor').innerHTML
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+    )
   };
   return (
     <>
@@ -37,25 +48,12 @@ function CreatePost() {
         >
           <FormGroup className="p-2 w-100 h-100" controlId="textPost">
             <Form.Label className="secondary">Title</Form.Label>
-            <Form.Control
-              size="lg"
-              type="text"
-              placeholder="Title"
-              className="mb-3 title"
-            />
+            <Form.Control size="lg" type="text" placeholder="Title" className="mb-3 title" />
             <Form.Label className="secondary">Body</Form.Label>
             <TextEditor className="h-100"></TextEditor>
             <div className="d-flex justify-content-around my-3">
-              <Button variant="outline-warning" size="lg">
-                Post
-              </Button>
-              <Button
-                variant="outline-danger"
-                size="lg"
-                onClick={() => ClearAll()}
-              >
-                Clear all
-              </Button>
+              <Button variant="outline-warning" size="lg">Post</Button>
+              <Button variant="outline-danger" size="lg" onClick={()=>ClearAll()}>Clear all</Button>
             </div>
           </FormGroup>
         </Tab>
@@ -92,16 +90,8 @@ function CreatePost() {
             </ul>
 
             <div className="d-flex justify-content-around my-3">
-              <Button variant="outline-warning" size="lg">
-                Post
-              </Button>
-              <Button
-                variant="outline-danger"
-                size="lg"
-                onClick={() => ClearAll()}
-              >
-                Clear all
-              </Button>
+              <Button variant="outline-warning" size="lg">Post</Button>
+              <Button variant="outline-danger" size="lg" onClick={()=>ClearAll()}>Clear all</Button>
             </div>
           </FormGroup>
         </Tab>
