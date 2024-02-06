@@ -40,17 +40,18 @@ export default function Login() {
     e.preventDefault()
     setSuccess(true)
     try {
-      await axios.post(
+      const response = await axios.post(
         '/login',
         {
           email: email.toLowerCase(),
           password: pwd,
         },
         {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
+          headers: { 'Content-Type': 'application/json' }
         }
         )
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('userInfo',JSON.stringify(response.data.userInfo))
       setPwd('')
       setEmail('')
       navigate('/')

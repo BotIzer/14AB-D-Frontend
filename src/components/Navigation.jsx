@@ -5,15 +5,14 @@ import Form from "react-bootstrap/Form";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import axios from "../api/axios";
-import { Cookies } from "react-cookie";
+
 function Navigation() {
   const navigate = useNavigate();
-  const cookie = useMemo(() => new Cookies(), []);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    setIsLoggedIn(cookie.get("userInfo"));
-  }, [cookie]);
+    setIsLoggedIn(localStorage.getItem('token') && localStorage.getItem('userInfo'));
+  }, []);
   const [inputValue, setInputValue] = useState("");
   const textStyle = {
     color: "gold",
@@ -31,14 +30,7 @@ function Navigation() {
     window.location.href = link;
   };
   const HandleLogout = async () => {
-    await axios.post(
-      "/logout",
-      {},
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    );
+    localStorage.clear()
     setIsLoggedIn(false);
   };
 
@@ -101,10 +93,10 @@ function Navigation() {
                   style={textStyle}
                   className="mx-2 my-2"
                   onClick={() =>
-                    navigate(`/user/${cookie.get("userInfo").username}`)
+                    navigate(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`)
                   }
                 >
-                  {cookie.get("userInfo").username}
+                  {JSON.parse(localStorage.getItem('userInfo')).username}
                 </Nav.Link>
               </React.Fragment>
             ) : null}

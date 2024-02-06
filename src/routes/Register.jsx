@@ -95,7 +95,6 @@ export default function Register() {
       setErrMsg('User created!')
       setSuccess(true)
       navigate('/')
-      //TODO: FIX catch
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
