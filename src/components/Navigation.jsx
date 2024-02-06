@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
@@ -11,7 +11,9 @@ function Navigation() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem('token') && localStorage.getItem('userInfo'));
+    setIsLoggedIn(
+      localStorage.getItem("token") && localStorage.getItem("userInfo")
+    );
   }, []);
   const [inputValue, setInputValue] = useState("");
   const textStyle = {
@@ -30,7 +32,7 @@ function Navigation() {
     window.location.href = link;
   };
   const HandleLogout = async () => {
-    localStorage.clear()
+    localStorage.clear();
     setIsLoggedIn(false);
   };
 
@@ -93,10 +95,14 @@ function Navigation() {
                   style={textStyle}
                   className="mx-2 my-2"
                   onClick={() =>
-                    navigate(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`)
+                    navigate(
+                      `/user/${
+                        JSON.parse(localStorage.getItem("userInfo")).username
+                      }`
+                    )
                   }
                 >
-                  {JSON.parse(localStorage.getItem('userInfo')).username}
+                  {JSON.parse(localStorage.getItem("userInfo")).username}
                 </Nav.Link>
               </React.Fragment>
             ) : null}

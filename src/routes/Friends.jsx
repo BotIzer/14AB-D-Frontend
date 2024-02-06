@@ -9,7 +9,7 @@ import ChatWindow from "../components/ChatWindow";
 function Friends() {
   const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
   const [showPopup, setShowPopup] = useState(false);
-  const [showChat, setShowChat] = useState(true);
+  const [showChat, setShowChat] = useState(false);
   const list = friends.map((friend) => (
     <Row key={friend}>
       <Button

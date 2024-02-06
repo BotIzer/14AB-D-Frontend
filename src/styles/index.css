@@ -137,8 +137,6 @@ button {
   }
 }
 
-
-
 .custom-button:hover,
 .custom-button:active,
 .custom-button:focus,
@@ -146,7 +144,6 @@ button {
   background-color: #e8cc80 !important;
   color: #212529 !important;
   font-weight: bold;
-  margin: 0px !important;
 }
 
 .clear-button {
