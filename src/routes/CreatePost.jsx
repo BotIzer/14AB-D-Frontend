@@ -10,12 +10,26 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 function CreatePost() {
-  const [imgList, setImgList] = useState([]);
-  const AddToList = (text) => {
-    if (text != null && text!= "") {
-      return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
-    }
-  }
+  // const [imgList, setImgList] = useState([]);
+  // const AddToList = (text) => {
+  //   if (text != null && text!= "") {
+  //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
+  //   }
+  // }
+  const SendPost = async () =>{
+    await axios.post(
+      '/thread/create',
+      {
+        forum_name: "Chit-chat",
+        name: document.querySelector('.title').value,
+        content: document.querySelector('.ql-editor').innerText
+      },
+      {
+        headers: { 'Content-Type': 'application/json', 'authorization': `Bearer ${localStorage.getItem('token')}`},
+        withCredentials: true,
+      }
+    )
+  };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
       const editor = document.querySelector('.ql-editor');
@@ -23,18 +37,7 @@ function CreatePost() {
     const titles = document.querySelectorAll('.title');
     titles.forEach(title=> title.value = '');
     }
-    await axios.post(
-      '/thread/create',
-      {
-        forum_name: document.querySelector('.forum').value,
-        name: document.querySelector('.title').value,
-        content: document.querySelector('.ql-editor').innerHTML
-      },
-      {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      }
-    )
+    document.getElementById('fileUpload').value = '';
   };
   return (
     <>
@@ -50,13 +53,13 @@ function CreatePost() {
           title="Post"
           className="border w-50 mx-auto my-5 p-2"
         >
-          <FormGroup className="p-2 w-100 h-100" controlId="textPost">
+          <FormGroup className="p-2 w-100 h-100">
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control size="lg" type="text" placeholder="Title" className="mb-3 title" />
             <Form.Label className="secondary">Body</Form.Label>
             <TextEditor className="h-100"></TextEditor>
             <div className="d-flex justify-content-around my-3">
-              <Button variant="outline-warning" size="lg">Post</Button>
+              <Button variant="outline-warning" size="lg" onClick={()=>SendPost()}>Post</Button>
               <Button variant="outline-danger" size="lg" onClick={()=>ClearAll()}>Clear all</Button>
             </div>
           </FormGroup>
@@ -66,7 +69,7 @@ function CreatePost() {
           title="Media File"
           className="border w-50 mx-auto my-5 p-2"
         >
-          <FormGroup className="p-2 w-100 h-100" controlId="filePost">
+          <FormGroup className="p-2 w-100 h-100">
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control
               size="lg"
@@ -77,7 +80,7 @@ function CreatePost() {
             <div className="d-flex justify-content-around m-2 secondary">
               
               <DropdownButton data-bs-theme="dark" drop="down-centered" title="Added Image Links:" className="dropdown-button" >
-                {imgList ? imgList : null}
+                {/* {imgList ? imgList : null} */}
               </DropdownButton>
               <Form.Control
                 className="w-50"
@@ -87,7 +90,7 @@ function CreatePost() {
               <Button
                 variant="outline-warning"
                 className="custom-button"
-                onClick={() => setImgList([...imgList, AddToList(document.getElementById("fileUpload").value)])}
+                // onClick={() => setImgList([...imgList, AddToList(document.getElementById("fileUpload").value)])}
               >
                 +
               </Button>
@@ -98,7 +101,7 @@ function CreatePost() {
             </ul> */}
 
             <div className="d-flex justify-content-around my-3">
-              <Button variant="outline-warning" size="lg">Post</Button>
+              <Button variant="outline-warning" size="lg" onClick={()=> SendPost()}>Post</Button>
               <Button variant="outline-danger" size="lg" onClick={()=>ClearAll()}>Clear all</Button>
             </div>
           </FormGroup>
