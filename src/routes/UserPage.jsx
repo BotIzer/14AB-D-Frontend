@@ -1,9 +1,10 @@
-import Button from "react-bootstrap/Button";
 import Navigation from "../components/Navigation";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {useParams, useLocation} from "react-router-dom"
+import {useParams, useLocation} from "react-router-dom";
+import { Container } from "react-bootstrap";
 import axios from "../api/axios";
+import FriendList from "../components/FriendList";
 
 function UserPage() {
   const location = useLocation();
@@ -16,15 +17,13 @@ function UserPage() {
       headers: { 'Content-Type': 'application/json' }
     }
     )};
-  const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
-
 
   return (
     <>
       <Navigation></Navigation>
       <Container>
         <Row className="w-100">
-          <Col className="border"><FriendList friends={friends}></FriendList></Col>
+          <Col className="border"><FriendList></FriendList></Col>
           <Col className="border"></Col>
           <Col className="border"></Col>
         </Row>
