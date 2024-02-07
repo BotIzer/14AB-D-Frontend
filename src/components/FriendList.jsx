@@ -1,9 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
-function FriendList() {
-  const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
-  const listItems = friends.map((friend) => (
+function FriendList(props) {
+  const listItems = props.friends.map((friend) => (
     <Link
       className="list-group-item secondary"
       to={"/user/" + friend}

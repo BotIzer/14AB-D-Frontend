@@ -7,6 +7,8 @@ import axios from "../api/axios";
 import FriendList from "../components/FriendList";
 
 function UserPage() {
+  
+  const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
   const location = useLocation();
   const {user} = useParams(location.pathname.split('/')[2]);
   const GetPageDetails = async ()  => { await axios.get(
@@ -23,7 +25,7 @@ function UserPage() {
       <Navigation></Navigation>
       <Container>
         <Row className="w-100">
-          <Col className="border"><FriendList></FriendList></Col>
+          <Col className="border"><FriendList friends={friends}></FriendList></Col>
           <Col className="border"></Col>
           <Col className="border"></Col>
         </Row>
