@@ -1,34 +1,55 @@
+import Button from "react-bootstrap/Button";
 import Navigation from "../components/Navigation";
-import FriendList from "../components/FriendList";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import MyCarousel from "../components/MyCarousel";
-import axios from "../api/axios";
+import FriendPopupActions from "../components/FriendPopupActions";
+import { useState } from "react";
+import ChatWindow from "../components/ChatWindow";
+import {useParams} from "react-router-dom"
 
-export default function Home() {
-    const GetUserData = async () => {
-       const response = await axios.get(
-            `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
-            {
-              email: email.toLowerCase(),
-              password: pwd,
-              username: user,
-            },
-            {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: false,
-            }
-          )
-          console.log(response)
-        return "hello"
-    }
+function UserPage() {
+  const {user} = useParams()
+  const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
+  const [showPopup, setShowPopup] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const list = friends.map((friend) => (
+    <Row key={friend}>
+      <Button
+        className=" secondary clear-button m-0"
+        to={"/user/" + friend}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setShowPopup(!showPopup);
+          setShowChat(false);
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          setShowChat(!showChat);
+          setShowPopup(false);
+        }}
+      >
+        {friend}
+      </Button>
+    </Row>
+  ));
   return (
     <>
-      <Navigation />
-      <Container fluid style={{ height: "800px" }}>
-        <p>{GetUserData}</p>
-      </Container>
+      <Navigation></Navigation>
+      <Row className="w-100">
+        <Col
+          data-bs-theme="dark"
+          className="list-group list-group-flush p-2 h-100 overflow-auto text-center custom-border"
+        >
+          {list}
+        </Col>
+        <Col>
+          {showPopup ? <FriendPopupActions /> : null}
+          {showChat ? <ChatWindow /> : null}
+        </Col>
+      </Row>
     </>
   );
 }
+
+
+export default UserPage;

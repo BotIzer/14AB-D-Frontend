@@ -46,15 +46,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: '/user/sajtostaller',
+    path: '/user/:user',
     element: <UserPage></UserPage>,
     errorElement: <ErrorPage></ErrorPage>
-  },
-  // {
-  //   path: `/user/${userName}`,
-  //   element: <UserPage></UserPage>,
-  //   errorElement: <ErrorPage></ErrorPage>
-  // }
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
