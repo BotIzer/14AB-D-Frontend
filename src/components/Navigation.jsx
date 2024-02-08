@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import axios from "../api/axios";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -27,9 +28,18 @@ function Navigation() {
       RedirectToLink();
     }
   };
-  const RedirectToLink = () => {
-    const link = `/search/${inputValue}`;
+  const RedirectToLink = async () => {
+    const link = `/search`;
     window.location.href = link;
+    await axios.post(
+      '/search',
+      {
+        keyword: inputValue
+      },
+      {
+        headers: { 'Content-Type': 'application/json' }
+      }
+      )
   };
   const HandleLogout = async () => {
     localStorage.clear();

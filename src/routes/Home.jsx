@@ -12,7 +12,7 @@ export default function Home() {
       <Container fluid style={{ height: "800px" }}>
         <Row className="h-50">
           <Col className="border h-100" xs={4} sm={3} md={2}>
-            <FriendList friends={["Sajtostaller","sajt"]}/>
+            <FriendList friends={["Sajtostaller","sajt","egyéb","tesztelés"]}/>
           </Col>
           <Col className="d-flex justify-content-center border h-100">
             <MyCarousel />

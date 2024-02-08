@@ -11,9 +11,6 @@ import Friends from "./routes/Friends.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
 import UserPage from "./routes/UserPage.jsx"
 
-// const userInfo = localStorage.getItem('userInfo')
-// const userName = userInfo ? JSON.parse(userInfo).username : null
-// console.log(userName)
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +50,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  // THIS CAUSES RERENDERING TWICE
+  // DOESN'T AFFECT PRODUCTION
+  // SHOULD BE FINE
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
