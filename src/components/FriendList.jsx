@@ -1,7 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
-function FriendList(props) {
+export default function FriendList(props) {
+  console.log(props)
   const listItems = props.friends.map((friend) => (
     <Link
       className="list-group-item secondary"
@@ -21,5 +22,3 @@ function FriendList(props) {
     </div>
   );
 }
-
-export default FriendList;
