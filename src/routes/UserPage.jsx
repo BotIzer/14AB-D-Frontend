@@ -13,6 +13,7 @@ export default function UserPage() {
   const location = useLocation();
   const {user} = useParams(location.pathname.split('/')[2]);
   const [error, setError] = useState('');
+asd
 
   useEffect(()=> {
     const GetPageDetails = async ()  => { 
