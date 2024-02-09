@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import ErrorPage from "../error-page";
 import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
+import ChatWindow from "../components/ChatWindow";
 
 export default function UserPage() {
   const location = useLocation();
@@ -86,7 +87,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          <Col className="border w-25"></Col>
+          <Col className="border w-25 p-0"> <ChatWindow></ChatWindow></Col>
         </Row>
       </Container>
     </>

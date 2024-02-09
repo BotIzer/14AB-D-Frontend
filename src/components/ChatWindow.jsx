@@ -21,7 +21,7 @@ function ChatWindow() {
   const [messages, setMessages] = useState(DUMMY_DATA);
 
   return (
-    <div className="m-5 p-2 h-50 border overflow-auto">
+    <div className="p-2 h-50 border overflow-auto">
       <MessageList messages={messages}></MessageList>
       <FormGroup controlId="sendMsg">
         <div className="row m-0">
@@ -32,7 +32,7 @@ function ChatWindow() {
           ></Form.Control>
           <Button
             variant="outline-warning"
-            className="custom-button w-25"
+            className="custom-button w-25 p-0 overflow-hidden"
             type="submit"
           >
             Send

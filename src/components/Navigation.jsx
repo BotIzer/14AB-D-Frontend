@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "../api/axios";
+import NotifDropdown from "./NotifDropdown";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -62,17 +63,16 @@ function Navigation() {
           <Nav className="me-auto">
             <Nav.Link
               style={textStyle}
-              className="mx-2 my-2"
+              className="mx-2 my-auto"
               onClick={() => navigate("/friends")}
             >
               FriendsTest
             </Nav.Link>
             <Nav.Link
               style={textStyle}
-              className="mx-2 my-2"
-              onClick={() => navigate("/notifications")}
+              className="my-2"
             >
-              Notifications
+              <NotifDropdown></NotifDropdown>
             </Nav.Link>
           </Nav>
           <Nav

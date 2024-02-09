@@ -10,6 +10,7 @@ import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
 import UserPage from "./routes/UserPage.jsx"
+import NotifDropdown from "./components/NotifDropdown.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <ChatWindow></ChatWindow>,
+    element: <NotifDropdown></NotifDropdown>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
