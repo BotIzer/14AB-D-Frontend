@@ -1,4 +1,5 @@
 import { useRouteError } from "react-router-dom";
+import Navigation from "./components/Navigation";
 
 export default function ErrorPage({errorStatus}) {
   const error = useRouteError();
@@ -15,6 +16,8 @@ export default function ErrorPage({errorStatus}) {
     }
   }
   return (
+    <>
+    <Navigation/>
     <div id="error-page">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
@@ -22,5 +25,5 @@ export default function ErrorPage({errorStatus}) {
         <i>{errorMessage || error.statusText || error.message}</i>
       </p>
     </div>
-  );
+    </>);
 }
