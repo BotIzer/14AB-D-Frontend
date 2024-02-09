@@ -25,9 +25,7 @@ a:hover {
   width: 100%;
   height: 400px;
 }
-button {
-  margin: 5px;
-}
+
 /* Create post css*/
 .nav-tabs .nav-link {
   background-color: transparent !important;
@@ -221,8 +219,3 @@ button {
   list-style-type: none;
 }
 
-/*Image styling*/
- .pfp {
-  height: 200px;
-  width: 200px;
-} 

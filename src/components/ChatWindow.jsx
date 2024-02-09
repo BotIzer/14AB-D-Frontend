@@ -32,7 +32,7 @@ function ChatWindow() {
           ></Form.Control>
           <Button
             variant="outline-warning"
-            className="custom-button m-0 w-25"
+            className="custom-button w-25"
             type="submit"
           >
             Send
