@@ -13,12 +13,12 @@ function MessageList(props) {
         >
           {message.senderId}
         </Link>
-        <li className="chat-text">{message.text}</li>
+        <p className="chat-text">{message.text}</p>
       </div>
     );
   });
 
-  return <ul>{messages}</ul>;
+  return <>{messages}</>;
 }
 
 export default MessageList;

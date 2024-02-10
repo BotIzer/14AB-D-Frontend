@@ -38,7 +38,7 @@ function ChatWindow() {
   const [messages, setMessages] = useState(DUMMY_DATA);
 
   return (
-    <div className="p-2 h-50 border overflow-auto">
+    <div className="p-2 h-100 border overflow-auto">
       <MessageList messages={messages}></MessageList>
       <FormGroup controlId="sendMsg">
         <div className="row m-0">

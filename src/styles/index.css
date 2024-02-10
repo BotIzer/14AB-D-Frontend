@@ -145,6 +145,7 @@ a:hover {
   }
 }
 
+
 /*Dropdown menu styling*/
 
 .dropdown-button button {
@@ -183,13 +184,13 @@ a:hover {
   font-weight: bold;
 }
 
-.clear-button {
+.clear-button,
+.clear-button:focus {
   background-color: #212529 !important;
   border: 0px;
 }
 .clear-button:hover,
 .clear-button:active,
-.clear-button:focus,
 .clear-button:visited {
   background-color: #212529 !important;
   color: #b47d7d !important;
@@ -213,7 +214,7 @@ a:hover {
 }
 
 .chat-text {
-  font-size: medium;
+  font-size: small;
   margin-bottom: 10px;
   color: white;
   list-style-type: none;

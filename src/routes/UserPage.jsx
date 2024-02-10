@@ -10,6 +10,9 @@ import ErrorPage from "../error-page";
 import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
 import ChatWindow from "../components/ChatWindow";
+import { Button } from "react-bootstrap";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export default function UserPage() {
   const location = useLocation();
@@ -47,26 +50,28 @@ export default function UserPage() {
   return (
     <>
       <Navigation></Navigation>
-      <Container fluid className="border p-0">
-        <Row style={{ width: "100%" }} className="m-0">
-          <Col className="border w-25">
+      <Container fluid className="p-0">
+        <Row  
+          className="d-flex justify-content-center m-0" 
+          style={{ height: "80vh" }}
+        >
+          <Col className="border h-100" xs={2}>
             <FriendList
               friends={["Markneu22", "Lajtaib", "BotIzer", "Placeholder"]}
             ></FriendList>
           </Col>
           <Col
-            className="border w-50" /*onClick={(e) => e.preventDefault()}> Show Chat window in right column */
+            className="border overflow-auto h-100"
           >
             <Row>
               <Image
-                className=""
                 src="/src/assets/PFP_template.png"
                 fluid
                 roundedCircle
               ></Image>
             </Row>
-            <Row>
-              <h2 className="text-center">{user}</h2>
+            <Row className="d-flex justify-content-center">
+              <OverlayTrigger placement="right" overlay={<Tooltip>Message</Tooltip>}><Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}>{user}</Button></OverlayTrigger>
               <p className="text-justify secondary">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
                 tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
@@ -87,7 +92,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          <Col className="border w-25 p-0"> <ChatWindow></ChatWindow></Col>
+          <Col className="border p-0 d-flex h-100" xs={4}> <ChatWindow></ChatWindow></Col>
         </Row>
       </Container>
     </>
