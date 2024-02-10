@@ -5,8 +5,8 @@ import Tabs from "react-bootstrap/Tabs";
 import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-import { useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
+// import { useState } from "react";
+// import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
 function CreatePost() {
