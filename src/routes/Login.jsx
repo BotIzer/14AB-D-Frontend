@@ -125,7 +125,7 @@ export default function Login() {
                 <button
                   // disabled={!validEmail || !pwd || cookies.get('token') !== undefined}
                   type="submit"
-                  className="btn btn-warning"
+                  className="btn btn-warning mb-2"
                 >
                   Login
                 </button>

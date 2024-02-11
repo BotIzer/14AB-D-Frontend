@@ -2,16 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Home from "./routes/Home.jsx";
 import "./styles/index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page.jsx";
 import Login from "./routes/Login.jsx";
 import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
-import ChatWindow from "./components/ChatWindow.jsx";
 import UserPage from "./routes/UserPage.jsx"
 import NotifDropdown from "./components/NotifDropdown.jsx";
-
+const isLoggedIn = localStorage.getItem("token") !== null;
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,12 +19,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login></Login>,
+     element: isLoggedIn ? <Navigate to="/"/> : <Login></Login>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
     path: "/register",
-    element: <Register></Register>,
+    element: isLoggedIn ? <Navigate to="/"/> : <Register></Register>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
