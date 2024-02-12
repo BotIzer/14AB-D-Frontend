@@ -56,13 +56,22 @@ function Friends() {
   return (
     <>
       <Navigation></Navigation>
-      <Row className="w-100 h-50 m-0 border">
+      <Row className="w-100 h-50 m-0">
         <Col
           data-bs-theme="dark"
           className="m-0 p-0 list-group list-group-flush overflow-auto text-center custom-border"
         >
-          <Row className="m-0 p-0">{list}</Row>
-          <Row className="m-0 p-0">{groupList}</Row>
+          <Row className="m-0 pt-2">
+            <h5>Friends</h5>
+            <div className="border"></div>
+            {list}
+            </Row>
+          <div className="border"></div>
+          <Row className="m-0 pt-2">
+            <h5>Groups</h5>
+            <div className="border"></div>
+            {groupList}
+          </Row>
         </Col>
         <Col className="m-0 p-0">
           {showPopup ? <FriendPopupActions /> : null}
