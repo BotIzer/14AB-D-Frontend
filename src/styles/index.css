@@ -105,7 +105,6 @@ a:hover {
 /*Friends page css for border and list size*/
 .custom-border {
   border: #e8cc80 2px solid;
-  margin: 20px 0px 0px 20px;
 }
 .custom-link a:hover {
   background-color: #e8cc80;

@@ -12,7 +12,7 @@ function FriendPopupActions() {
   ));
 
   return (
-    <div data-bs-theme="dark" className="w-50 border mt-4">
+    <div data-bs-theme="dark" className="border">
       {list}
     </div>
   );
