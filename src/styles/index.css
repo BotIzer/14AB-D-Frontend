@@ -21,9 +21,10 @@ a:hover {
   font-weight: bold;
 }
 
-.imgSize {
-  width: 100%;
-  height: 400px;
+.bannerSize {
+  width: 728px;
+  height: 180px;
+  object-fit: contain;
 }
 
 /* Create post css*/
@@ -120,6 +121,20 @@ a:hover {
     max-width: 250px;
     width: 25vw;
     height: 70vh;
+  }
+}
+
+.lg-hidden{
+  display: none;
+  @media (max-width: 992px) {
+    display: block;
+  }
+}
+
+.sm-hidden{
+  display: block;
+  @media (max-width: 992px){
+    display: none;
   }
 }
 

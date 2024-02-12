@@ -8,10 +8,10 @@ function MyCarousel() {
   ];
 
   const imageList = images.map((image) => (
-    <Carousel.Item key={image} className="h-100">
+    <Carousel.Item key={image} className="d-flex justify-content-center" >
       <img
         src={image}
-        className="img-fluid imgSize py-3"
+        className="img-fluid bannerSize"
         alt={image.slice(0, image.length - 4)}
         style={{ float: "center" }}
       />
@@ -20,8 +20,9 @@ function MyCarousel() {
 
   return (
     <Carousel
-      className="d-block w-100 h-100 overflow-hidden"
+      className="d-block w-100 h-100 overflow-hidden p-0"
       indicators={false}
+      interval={null}
     >
       {imageList}
     </Carousel>

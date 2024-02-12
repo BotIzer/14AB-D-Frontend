@@ -14,7 +14,7 @@ export default function FriendList(props) {
   return (
     <div
       data-bs-theme="dark"
-      className="list-group list-group-flush p-2 h-100 overflow-auto"
+      className="list-group list-group-flush p-2 h-100 overflow-auto custom-border"
     >
       <p className="text-center">Online</p>
       {listItems}
