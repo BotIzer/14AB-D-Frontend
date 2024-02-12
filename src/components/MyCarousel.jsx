@@ -8,7 +8,7 @@ function MyCarousel() {
   ];
 
   const imageList = images.map((image) => (
-    <Carousel.Item key={image} className="d-flex justify-content-center" >
+    <Carousel.Item key={image} className="text-center" >
       <img
         src={image}
         className="img-fluid bannerSize"
@@ -22,7 +22,6 @@ function MyCarousel() {
     <Carousel
       className="d-block w-100 h-100 overflow-hidden p-0"
       indicators={false}
-      interval={null}
     >
       {imageList}
     </Carousel>
