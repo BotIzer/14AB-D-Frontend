@@ -24,7 +24,7 @@ function ChatWindow() {
       "/chat/create",
       {
         name: message,
-        is_Ttl: false,
+        is_ttl: false,
         is_private: true
       },
       {
@@ -35,14 +35,22 @@ function ChatWindow() {
         withCredentials: true,
       }
     );
+    console.log(response.data.roomId)
     await axios.post(
       "/comment/createComment",
       {
-        
+        room_id: response.data.roomId,
+        text: message,
+        is_reply: false,
       },
       {
-        
-      }
+        headers:{
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      },
+      
     );
   };
 
