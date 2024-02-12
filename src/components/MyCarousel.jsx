@@ -13,7 +13,7 @@ function MyCarousel() {
         src={image}
         className="img-fluid bannerSize"
         alt={image.slice(0, image.length - 4)}
-        style={{ float: "center" }}
+        style={{ float: "center"}}
       />
     </Carousel.Item>
   ));
@@ -22,6 +22,7 @@ function MyCarousel() {
     <Carousel
       className="d-block w-100 h-100 overflow-hidden p-0"
       indicators={false}
+      interval={null}
     >
       {imageList}
     </Carousel>

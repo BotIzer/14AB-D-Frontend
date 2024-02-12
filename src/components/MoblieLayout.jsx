@@ -1,14 +1,15 @@
 import { Row, Col } from "react-bootstrap";
 import MyCarousel from "./MyCarousel";
 import FriendList from "./FriendList";
+import RecentList from "./RecentList";
 
 function MobileLayout() {
     return(
         <>
         <Row><MyCarousel/></Row>
-        <Row>
-            <Col><FriendList friends={["Sajtostaller","sajt","egyéb","tesztelés"]}/></Col>
-            <Col>Third Column</Col>
+        <Row className="m-2">
+            <Col className="m-2 p-0"><FriendList friends={["Sajtostaller","sajt","egyéb","tesztelés"]}/></Col>
+            <Col className="m-2 border"><RecentList/></Col>
         </Row>
         </>
     )
