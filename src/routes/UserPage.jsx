@@ -55,12 +55,12 @@ export default function UserPage() {
           className="d-flex justify-content-center m-0" 
           style={{ height: "80vh" }}
         >
-          <Col className="border h-100" xs={2}>
+          <Col className="border h-100 p-0" xs={2}>
             <FriendList
               friends={["Markneu22", "Lajtaib", "BotIzer", "Placeholder"]}
             ></FriendList>
           </Col>
-          <Col
+          <Col  
             className="border overflow-auto h-100"
           >
             <Row>
@@ -92,7 +92,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          <Col className="border p-0 d-flex h-100" xs={4}> <ChatWindow></ChatWindow></Col>
+          <Col className="p-0 d-flex h-100" xs={4}> <ChatWindow></ChatWindow></Col>
         </Row>
       </Container>
     </>

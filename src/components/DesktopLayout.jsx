@@ -7,14 +7,14 @@ import RecentList from "./RecentList";
 function DesktopLayout() {
   return (
     <>
-        <Row className="border h-100 m-5">
+        <Row className="border h-100 m-5 p-0">
           <Col className="border p-0 h-100" sm={3} md={2}>
             <FriendList friends={["Sajtostaller","sajt","egyéb","tesztelés"]}/>
           </Col>
           <Col className="d-flex justify-content-center border p-0" style={{ height: "180px" }}>
             <MyCarousel />
           </Col>
-          <Col className="border h-100" sm={3} md={2}>
+          <Col className="border h-100 p-0" sm={3} md={2}>
             <RecentList/>
           </Col>
         </Row>
