@@ -1,57 +1,75 @@
-import Button from "react-bootstrap/Button";
-import Navigation from "../components/Navigation";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import FriendPopupActions from "../components/FriendPopupActions";
-import { useState } from "react";
-import ChatWindow from "../components/ChatWindow";
+import Button from 'react-bootstrap/Button'
+import Navigation from '../components/Navigation'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import FriendPopupActions from '../components/FriendPopupActions'
+import { useEffect, useState } from 'react'
+import ChatWindow from '../components/ChatWindow'
+import axios from '../api/axios'
 
 function Friends() {
-  const friends = ["Markneu22", "Lajtaib", "BotIzer", "Placeholder"];
-  const groups = ["Group1", "Group2", "Group3", "Group4"];
-  const [showPopup, setShowPopup] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+  const [friends, setFriends] = useState([])
+  useEffect(() => {
+    const GetFriends = async () => {
+      console.log(localStorage.getItem('token'))
+      const response = await axios.get(
+        '/chats',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+    }
+    GetFriends()
+  }, [])
+  const [groups, setGroups] = useState([])
+  // ['Group1', 'Group2', 'Group3', 'Group4']
+  const [showPopup, setShowPopup] = useState(false)
+  const [showChat, setShowChat] = useState(false)
   const list = friends.map((friend) => (
     <Row key={friend} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={"/user/" + friend}
+        to={'/user/' + friend}
         onContextMenu={(e) => {
-          e.preventDefault();
-          setShowPopup(!showPopup);
-          setShowChat(false);
+          e.preventDefault()
+          setShowPopup(!showPopup)
+          setShowChat(false)
         }}
         onClick={(e) => {
-          e.preventDefault();
-          setShowChat(!showChat);
-          setShowPopup(false);
+          e.preventDefault()
+          setShowChat(!showChat)
+          setShowPopup(false)
         }}
       >
         {friend}
       </Button>
     </Row>
-  ));
+  ))
 
   const groupList = groups.map((friend) => (
     <Row key={friend} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={"/user/" + friend}
+        to={'/user/' + friend}
         onContextMenu={(e) => {
-          e.preventDefault();
-          setShowPopup(!showPopup);
-          setShowChat(false);
+          e.preventDefault()
+          setShowPopup(!showPopup)
+          setShowChat(false)
         }}
         onClick={(e) => {
-          e.preventDefault();
-          setShowChat(!showChat);
-          setShowPopup(false);
+          e.preventDefault()
+          setShowChat(!showChat)
+          setShowPopup(false)
         }}
       >
         {friend}
       </Button>
     </Row>
-  ));
+  ))
 
   return (
     <>
@@ -65,7 +83,7 @@ function Friends() {
             <h5>Friends</h5>
             <div className="border"></div>
             {list}
-            </Row>
+          </Row>
           <div className="border"></div>
           <Row className="m-0 pt-2">
             <h5>Groups</h5>
@@ -79,9 +97,9 @@ function Friends() {
         </Col>
       </Row>
     </>
-  );
+  )
 }
 
 //
 
-export default Friends;
+export default Friends
