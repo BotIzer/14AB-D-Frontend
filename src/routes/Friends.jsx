@@ -9,19 +9,21 @@ import axios from '../api/axios'
 
 function Friends() {
   const [friends, setFriends] = useState([])
+  const [chats, setChats] = useState([])
   useEffect(() => {
     const GetFriends = async () => {
-      const response = await axios.get(
-        '/chats',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        }
-      )
-      console.log(response.data)
+      const response = await axios.get('/chats', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+
+      setChats([...Object.values(response.data)[0]])
+      setFriends([...Object.values(response.data)[0]].filter(x => x.is_private))
+      setGroups([...Object.values(response.data)[0]].filter(x => !x.is_private))
+      // console.log([...Object.values(response.data)[0]][0])
     }
     GetFriends()
   }, [])
@@ -30,10 +32,10 @@ function Friends() {
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
   const list = friends.map((friend) => (
-    <Row key={friend} className="m-0">
+    <Row key={friend._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={'/user/' + friend}
+        to={'/user/' + friend.name}
         onContextMenu={(e) => {
           e.preventDefault()
           setShowPopup(!showPopup)
@@ -45,16 +47,16 @@ function Friends() {
           setShowPopup(false)
         }}
       >
-        {friend}
+        {friend.name}
       </Button>
     </Row>
   ))
 
   const groupList = groups.map((friend) => (
-    <Row key={friend} className="m-0">
+    <Row key={friend._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={'/user/' + friend}
+        to={'/user/' + friend.name}
         onContextMenu={(e) => {
           e.preventDefault()
           setShowPopup(!showPopup)
@@ -66,7 +68,7 @@ function Friends() {
           setShowPopup(false)
         }}
       >
-        {friend}
+        {friend.name}
       </Button>
     </Row>
   ))
