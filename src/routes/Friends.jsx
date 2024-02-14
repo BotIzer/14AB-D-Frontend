@@ -11,7 +11,6 @@ function Friends() {
   const [friends, setFriends] = useState([])
   useEffect(() => {
     const GetFriends = async () => {
-      console.log(localStorage.getItem('token'))
       const response = await axios.get(
         '/chats',
         {
@@ -22,6 +21,7 @@ function Friends() {
           withCredentials: true,
         }
       )
+      console.log(response.data)
     }
     GetFriends()
   }, [])
