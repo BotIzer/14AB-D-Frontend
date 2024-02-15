@@ -45,6 +45,8 @@ function Navigation() {
   const HandleLogout = async () => {
     localStorage.clear()
     setIsLoggedIn(false)
+    // ugly hack
+    this.forceUpdate();
   }
 
   return (
