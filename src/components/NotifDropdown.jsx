@@ -1,5 +1,4 @@
 import { DropdownButton, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 function NotifDropdown() {
 
@@ -37,9 +36,6 @@ function NotifDropdown() {
       {notif.message}
     </Dropdown.Item>
   ));
-
-  
-  console.log(dummyNotifs.count);
 
   return (
     <>

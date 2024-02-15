@@ -68,7 +68,7 @@ function Navigation() {
               className="mx-2 my-auto"
               onClick={() => navigate('/chats')}
             >
-              FriendsTest
+              Friends
             </Nav.Link>
             <Nav.Link style={textStyle} className="my-2">
               <NotifDropdown></NotifDropdown>
