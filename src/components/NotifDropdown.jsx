@@ -51,8 +51,8 @@ function NotifDropdown() {
       >
         {notifs}
         <Dropdown.Divider />
-        <Dropdown.Item eventKey="4" href="/notifications">
-          See more ({dummyNotifs.count})
+        <Dropdown.Item eventKey="4" href="/notifications" onMouseEnter={() => document.getElementById("notification").src = "/src/assets/icons/envelope_16.png"} onMouseLeave={() => document.getElementById("notification").src = "/src/assets/icons/envelope_gold_16.png"}>
+          See more ({dummyNotifs.count}) <img id="notification" src="/src/assets/icons/envelope_gold_16.png" alt="notifications"  className="my-auto"/>
         </Dropdown.Item>
       </DropdownButton>
     </>
