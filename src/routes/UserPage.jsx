@@ -50,9 +50,9 @@ export default function UserPage() {
   return (
     <>
       <Navigation></Navigation>
-      <Container fluid className="p-0">
+      <Container>
         <Row  
-          className="d-flex justify-content-center m-0" 
+          className="m-0 border" 
           style={{ height: "80vh" }}
         >
           <Col className="border h-100 p-0" xs={2}>
@@ -63,11 +63,12 @@ export default function UserPage() {
           <Col  
             className="border overflow-auto h-100"
           >
-            <Row>
+            <Row className="d-flex justify-content-center">
               <Image
+                className="profileSize img-fluid"
                 src="/src/assets/PFP_template.png"
-                fluid
                 roundedCircle
+                style={{float: "center"}}
               ></Image>
             </Row>
             <Row className="d-flex justify-content-center">
@@ -92,7 +93,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          <Col className="p-0 d-flex h-100" xs={4}> <ChatWindow></ChatWindow></Col>
+          <Col className="p-0 h-100" xs={4}> <ChatWindow></ChatWindow></Col>
         </Row>
       </Container>
     </>

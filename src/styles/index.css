@@ -26,6 +26,11 @@ a:hover {
   height: 180px;
 }
 
+.profileSize {
+  width: 500px;
+  height: auto;
+}
+
 /* Create post css*/
 .nav-tabs .nav-link {
   background-color: transparent !important;
