@@ -4,10 +4,7 @@ import Navigation from "./components/Navigation";
 export default function ErrorPage({errorStatus}) {
   const error = useRouteError();
   let errorMessage = false;
-  if(error){
-    console.error(error.statusText);
-  }
-  else if (errorStatus !== undefined) {
+   if (errorStatus !== undefined) {
     if(errorStatus.response === undefined){
       errorMessage = "Internal Server error. Check back later!"
     }

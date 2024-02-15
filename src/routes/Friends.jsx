@@ -6,31 +6,43 @@ import FriendPopupActions from '../components/FriendPopupActions'
 import { useEffect, useState } from 'react'
 import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
+import ErrorPage from '../error-page'
 
 function Friends() {
   const [friends, setFriends] = useState([])
   const [chats, setChats] = useState([])
-  useEffect(() => {
-    const GetFriends = async () => {
-      const response = await axios.get('/chats', {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-
-      setChats([...Object.values(response.data)[0]])
-      setFriends([...Object.values(response.data)[0]].filter(x => x.is_private))
-      setGroups([...Object.values(response.data)[0]].filter(x => !x.is_private))
-      // console.log([...Object.values(response.data)[0]][0])
-    }
-    GetFriends()
-  }, [])
+  const [error, setError] = useState("");
   const [groups, setGroups] = useState([])
   // ['Group1', 'Group2', 'Group3', 'Group4']
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
+  useEffect(() => {
+    const GetFriends = async () => {
+      try {
+        const response = await axios.get('/chats', {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+      setChats([...Object.values(response.data)[0]])
+      setFriends([...Object.values(response.data)[0]].filter(x => x.is_private))
+      setGroups([...Object.values(response.data)[0]].filter(x => !x.is_private))
+      } catch (err) {
+        setError(err)
+      }
+      
+
+      
+      // console.log([...Object.values(response.data)[0]][0])
+    }
+    GetFriends()
+  }, [])
+  if (error != "") {
+    return <ErrorPage errorStatus={error} />;
+  }
+ 
   const list = friends.map((friend) => (
     <Row key={friend._id} className="m-0">
       <Button
@@ -72,7 +84,9 @@ function Friends() {
       </Button>
     </Row>
   ))
-
+  if(true){
+    return <ErrorPage errorStatus={"sajt"} />;
+  }
   return (
     <>
       <Navigation></Navigation>
