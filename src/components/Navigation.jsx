@@ -70,9 +70,7 @@ function Navigation() {
             >
               Friends
             </Nav.Link>
-            <Nav.Link style={textStyle} className="my-2">
               <NotifDropdown></NotifDropdown>
-            </Nav.Link>
           </Nav>
           <Nav
             style={{ width: '100%' }}
