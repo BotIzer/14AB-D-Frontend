@@ -46,7 +46,7 @@ function Navigation() {
     localStorage.clear();
     setIsLoggedIn(false);
     // ugly hack
-    this.forceUpdate();
+    navigate("/");
   };
 
   return (

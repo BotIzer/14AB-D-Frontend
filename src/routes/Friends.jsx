@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router-dom'
 
 function Friends() {
   const [friends, setFriends] = useState([])
+  const [groups, setGroups] = useState([])
   const [chats, setChats] = useState([])
   const [error, setError] = useState('')
-  const [groups, setGroups] = useState([])
-  // ['Group1', 'Group2', 'Group3', 'Group4']
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
+  const[activeKey, setActiveKey] = useState('')
   const navigate = useNavigate()
   useEffect(() => {
     const GetFriends = async () => {
@@ -35,15 +35,16 @@ function Friends() {
         setGroups(
           [...Object.values(response.data)[0]].filter((x) => !x.is_private)
         )
+        console.log(response.data.returnArray[0])
       } catch (err) {
         setError(err)
       }
 
-      // console.log([...Object.values(response.data)[0]][0])
     }
     GetFriends()
   }, [])
   if (error != '') {
+    // TODO fix this, to not even show the first return.
     return <ErrorPage errorStatus={error} />
   }
 
@@ -61,6 +62,8 @@ function Friends() {
           e.preventDefault()
           setShowChat(!showChat)
           setShowPopup(false)
+          // TODO: fix this to not dissapear every single time, only when same button is pressed
+          setActiveKey(friend._id)
           navigate(`/chats/${friend.friend_user_name}`)
         }}
       >
@@ -81,6 +84,7 @@ function Friends() {
         }}
         onClick={(e) => {
           e.preventDefault()
+          setActiveKey(friend._id)
           setShowChat(!showChat)
           setShowPopup(false)
         }}
@@ -111,7 +115,7 @@ function Friends() {
         </Col>
         <Col className="m-0 p-0">
           {showPopup ? <FriendPopupActions /> : null}
-          {showChat ? <ChatWindow /> : null}
+          {showChat ? <ChatWindow roomId ={activeKey}/> : null}
         </Col>
       </Row>
     </>

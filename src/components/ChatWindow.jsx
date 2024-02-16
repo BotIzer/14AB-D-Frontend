@@ -3,16 +3,18 @@ import MessageList from './chat-components/MessageList'
 import { Form, FormGroup, Button } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
-function ChatWindow() {
+function ChatWindow(props) {
+  const activeKey = props.roomId;
   const location = useLocation()
   const friend = useParams(location.pathname.split('/')[2]).friendName
   const SendMsg = async () => {
+    console.log(activeKey)
     const message = document.getElementById('sendMsg').value
-    const response = await axios.post(
+       await axios.post(
       '/chat/private',
       {
         friend: friend,
-        chat_id: '', //TODO: here we need the chat id if exists!!
+        chat_id: activeKey, // TODO: here we need the chat id if exists!!
       },
       {
         headers: {
@@ -22,7 +24,6 @@ function ChatWindow() {
         withCredentials: true,
       }
     )
-    console.log('=======' + response.data.roomId)
     // await axios.post(
     //   '/comment/createComment',
     //   {
