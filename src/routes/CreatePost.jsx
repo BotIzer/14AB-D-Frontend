@@ -18,7 +18,7 @@ function CreatePost() {
   // }
   const SendPost = async () => {
     await axios.post(
-      "/thread/create",
+      "/thread",
       {
         forum_name: "Chit-chat",
         name: document.querySelector(".title").value,

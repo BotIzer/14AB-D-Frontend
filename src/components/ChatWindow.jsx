@@ -11,7 +11,7 @@ function ChatWindow(props) {
     console.log(activeKey)
     const message = document.getElementById('sendMsg').value
        await axios.post(
-      '/chat/private',
+      '/createOrRetrieveChat',
       {
         friend: friend,
         chat_id: activeKey, // TODO: here we need the chat id if exists!!
@@ -25,7 +25,7 @@ function ChatWindow(props) {
       }
     )
     // await axios.post(
-    //   '/comment/createComment',
+    //   '/comment',
     //   {
     //     room_id: response.data.roomId,
     //     text: message,
