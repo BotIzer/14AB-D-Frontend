@@ -38,6 +38,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
+    path: '/chats/:friendName',
+    element: <Friends></Friends>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
     path: '/test',
     element: <NotifDropdown></NotifDropdown>,
     errorElement: <ErrorPage></ErrorPage>,

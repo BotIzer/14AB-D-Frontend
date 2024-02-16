@@ -8,12 +8,12 @@ function ChatWindow() {
   const friend = useParams(location.pathname.split('/')[2]).user
   const SendMsg = async () => {
     const message = document.getElementById('sendMsg').value
-    console.log(friend)
+    console.log('sajt')
     const response = await axios.post(
       '/chat/private',
       {
         friend: friend,
-        chat_id: ""
+        chat_id: '',
       },
       {
         headers: {
@@ -23,22 +23,22 @@ function ChatWindow() {
         withCredentials: true,
       }
     )
-    console.log(response.data.roomId)
-    // await axios.post(
-    //   '/comment/createComment',
-    //   {
-    //     room_id: response.data.roomId,
-    //     text: message,
-    //     is_reply: false,
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       authorization: `Bearer ${localStorage.getItem('token')}`,
-    //     },
-    //     withCredentials: true,
-    //   }
-    // )
+    console.log('=======' + response.data.roomId)
+    await axios.post(
+      '/comment/createComment',
+      {
+        room_id: response.data.roomId,
+        text: message,
+        is_reply: false,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      }
+    )
   }
 
   const [messages, setMessages] = useState([])

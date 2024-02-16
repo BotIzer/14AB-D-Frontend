@@ -7,15 +7,17 @@ import { useEffect, useState } from 'react'
 import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
 import ErrorPage from '../error-page'
+import { useNavigate } from 'react-router-dom'
 
 function Friends() {
   const [friends, setFriends] = useState([])
   const [chats, setChats] = useState([])
-  const [error, setError] = useState("");
+  const [error, setError] = useState('')
   const [groups, setGroups] = useState([])
   // ['Group1', 'Group2', 'Group3', 'Group4']
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
     const GetFriends = async () => {
       try {
@@ -26,23 +28,25 @@ function Friends() {
           },
           withCredentials: true,
         })
-      setChats([...Object.values(response.data)[0]])
-      setFriends([...Object.values(response.data)[0]].filter(x => x.is_private))
-      setGroups([...Object.values(response.data)[0]].filter(x => !x.is_private))
+        setChats([...Object.values(response.data)[0]])
+        setFriends(
+          [...Object.values(response.data)[0]].filter((x) => x.is_private)
+        )
+        setGroups(
+          [...Object.values(response.data)[0]].filter((x) => !x.is_private)
+        )
       } catch (err) {
         setError(err)
       }
-      
 
-      
       // console.log([...Object.values(response.data)[0]][0])
     }
     GetFriends()
   }, [])
-  if (error != "") {
-    return <ErrorPage errorStatus={error} />;
+  if (error != '') {
+    return <ErrorPage errorStatus={error} />
   }
- 
+
   const list = friends.map((friend) => (
     <Row key={friend._id} className="m-0">
       <Button
@@ -57,6 +61,7 @@ function Friends() {
           e.preventDefault()
           setShowChat(!showChat)
           setShowPopup(false)
+          navigate(`/chats/${friend.name}`)
         }}
       >
         {friend.name}
