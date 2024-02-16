@@ -13,7 +13,7 @@ function ChatWindow() {
       "/chat/private",
       {
         friend: friend,
-        chat_id: '',
+        chat_id: '',    //TODO: here we need the chat id if exists!!
       },
       {
         headers: {
