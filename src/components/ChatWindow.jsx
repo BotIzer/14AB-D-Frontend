@@ -1,19 +1,18 @@
-import { useState } from "react";
-import MessageList from "./chat-components/MessageList";
-import { Form, FormGroup, Button } from "react-bootstrap";
-import axios from "../api/axios";
-import { useLocation, useParams } from "react-router-dom";
+import { useState } from 'react'
+import MessageList from './chat-components/MessageList'
+import { Form, FormGroup, Button } from 'react-bootstrap'
+import axios from '../api/axios'
+import { useLocation, useParams } from 'react-router-dom'
 function ChatWindow() {
-  const location = useLocation();
-  const friend = useParams(location.pathname.split("/")[2]).user;
+  const location = useLocation()
+  const friend = useParams(location.pathname.split('/')[2]).friendName
   const SendMsg = async () => {
     const message = document.getElementById('sendMsg').value
-    console.log('sajt')
     const response = await axios.post(
-      "/chat/private",
+      '/chat/private',
       {
         friend: friend,
-        chat_id: '',    //TODO: here we need the chat id if exists!!
+        chat_id: '', //TODO: here we need the chat id if exists!!
       },
       {
         headers: {
@@ -24,21 +23,21 @@ function ChatWindow() {
       }
     )
     console.log('=======' + response.data.roomId)
-    await axios.post(
-      '/comment/createComment',
-      {
-        room_id: response.data.roomId,
-        text: message,
-        is_reply: false,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        withCredentials: true,
-      }
-    )
+    // await axios.post(
+    //   '/comment/createComment',
+    //   {
+    //     room_id: response.data.roomId,
+    //     text: message,
+    //     is_reply: false,
+    //   },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       authorization: `Bearer ${localStorage.getItem("token")}`,
+    //     },
+    //     withCredentials: true,
+    //   }
+    // )
   }
 
   const [messages, setMessages] = useState([])
@@ -64,7 +63,7 @@ function ChatWindow() {
         </div>
       </FormGroup>
     </div>
-  );
+  )
 }
 
-export default ChatWindow;
+export default ChatWindow

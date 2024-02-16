@@ -51,7 +51,7 @@ function Friends() {
     <Row key={friend._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={'/user/' + friend.name}
+        to={'/user/' + friend.friend_user_name}
         onContextMenu={(e) => {
           e.preventDefault()
           setShowPopup(!showPopup)
@@ -61,10 +61,10 @@ function Friends() {
           e.preventDefault()
           setShowChat(!showChat)
           setShowPopup(false)
-          navigate(`/chats/${friend.name}`)
+          navigate(`/chats/${friend.friend_user_name}`)
         }}
       >
-        {friend.name}
+        {friend.friend_user_name}
       </Button>
     </Row>
   ))
