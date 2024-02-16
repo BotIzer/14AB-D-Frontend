@@ -8,7 +8,7 @@ function MobileLayout() {
         <>
         <Row><MyCarousel/></Row>
         <Row className="m-2">
-            <Col className="m-2 p-0"><FriendList friends={["Sajtostaller","sajt","egyéb","tesztelés"]}/></Col>
+            <Col className="m-2 p-0"><FriendList friends={["Sajtostaller"]}/></Col>
             <Col className="m-2 border"><RecentList/></Col>
         </Row>
         </>

@@ -9,7 +9,7 @@ function DesktopLayout() {
     <>
         <Row className="border h-100 m-5 p-0">
           <Col className="border p-0 h-100" sm={3} md={2}>
-            <FriendList friends={["Sajtostaller","sajt","egyéb","tesztelés"]}/>
+            <FriendList friends={["Sajtostaller"]}/>
           </Col>
           <Col className="d-flex justify-content-center border p-0" style={{ height: "180px" }}>
             <MyCarousel />
