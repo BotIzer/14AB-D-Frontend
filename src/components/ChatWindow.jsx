@@ -41,7 +41,7 @@ function ChatWindow() {
     // )
   }
 
-  const [messages, setMessages] = useState(DUMMY_DATA)
+  const [messages, setMessages] = useState([])
 
   return (
     <div className="p-2 h-100 border overflow-auto">

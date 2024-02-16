@@ -84,9 +84,6 @@ function Friends() {
       </Button>
     </Row>
   ))
-  if(true){
-    return <ErrorPage errorStatus={"sajt"} />;
-  }
   return (
     <>
       <Navigation></Navigation>

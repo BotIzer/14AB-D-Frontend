@@ -6,6 +6,7 @@ export default function ErrorPage({errorStatus}) {
   let errorMessage = false;
    if (errorStatus !== undefined) {
     if(errorStatus.response === undefined){
+      console.log(errorStatus)
       errorMessage = "Internal Server error. Check back later!"
     }
     else{
