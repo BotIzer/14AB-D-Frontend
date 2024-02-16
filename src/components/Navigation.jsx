@@ -1,53 +1,53 @@
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import Form from 'react-bootstrap/Form'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import React from 'react'
-import axios from '../api/axios'
-import NotifDropdown from './NotifDropdown'
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Form from "react-bootstrap/Form";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import React from "react";
+import axios from "../api/axios";
+import NotifDropdown from "./NotifDropdown";
 
 function Navigation() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     setIsLoggedIn(
-      localStorage.getItem('token') && localStorage.getItem('userInfo')
-    )
-  }, [])
-  const [inputValue, setInputValue] = useState('')
+      localStorage.getItem("token") && localStorage.getItem("userInfo")
+    );
+  }, []);
+  const [inputValue, setInputValue] = useState("");
   const textStyle = {
-    color: 'gold',
-    fontSize: '20px',
-  }
+    color: "gold",
+    fontSize: "20px",
+  };
 
   const HandleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      RedirectToLink()
+    if (event.key === "Enter") {
+      event.preventDefault();
+      RedirectToLink();
     }
-  }
+  };
   const RedirectToLink = async () => {
-    const link = `/search`
-    window.location.href = link
+    const link = `/search`;
+    window.location.href = link;
     await axios.post(
-      '/search',
+      "/search",
       {
         keyword: inputValue,
       },
       {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       }
-    )
-  }
+    );
+  };
   const HandleLogout = async () => {
-    localStorage.clear()
-    setIsLoggedIn(false)
+    localStorage.clear();
+    setIsLoggedIn(false);
     // ugly hack
     this.forceUpdate();
-  }
+  };
 
   return (
     <Navbar
@@ -57,7 +57,7 @@ function Navigation() {
       data-bs-theme="dark"
     >
       <Container fluid>
-        <Nav.Link style={textStyle} onClick={() => navigate('/')}>
+        <Nav.Link style={textStyle} onClick={() => navigate("/")}>
           BlitzForFriends
         </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -66,7 +66,7 @@ function Navigation() {
             <Nav.Link
               style={textStyle}
               className="mx-2 my-auto"
-              onClick={() => navigate('/chats')}
+              onClick={() => navigate("/chats")}
             >
               Friends
             </Nav.Link>
@@ -75,7 +75,7 @@ function Navigation() {
             </Nav.Link>
           </Nav>
           <Nav
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             className="mx-auto justify-content-center"
           >
             <Form className="custom-mw">
@@ -86,7 +86,7 @@ function Navigation() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={HandleKeyDown}
-                style={{ fontSize: '16px' }}
+                style={{ fontSize: "16px" }}
               />
             </Form>
           </Nav>
@@ -94,9 +94,9 @@ function Navigation() {
             <Nav.Link
               style={textStyle}
               className="mx-2 my-2"
-              onClick={() => navigate('/blitz')}
+              onClick={() => navigate("/forums")}
             >
-              Blitz
+              Forums
             </Nav.Link>
             {isLoggedIn ? (
               <React.Fragment>
@@ -106,12 +106,12 @@ function Navigation() {
                   onClick={() =>
                     navigate(
                       `/user/${
-                        JSON.parse(localStorage.getItem('userInfo')).username
+                        JSON.parse(localStorage.getItem("userInfo")).username
                       }`
                     )
                   }
                 >
-                  {JSON.parse(localStorage.getItem('userInfo')).username}
+                  {JSON.parse(localStorage.getItem("userInfo")).username}
                 </Nav.Link>
               </React.Fragment>
             ) : null}
@@ -121,7 +121,7 @@ function Navigation() {
                   style={textStyle}
                   className="mx-2 my-2"
                   onClick={() =>
-                    window.confirm('Are you sure you want to log out?')
+                    window.confirm("Are you sure you want to log out?")
                       ? HandleLogout()
                       : null
                   }
@@ -134,14 +134,14 @@ function Navigation() {
                 <Nav.Link
                   style={textStyle}
                   className="mx-2 my-2"
-                  onClick={() => navigate('/login')}
+                  onClick={() => navigate("/login")}
                 >
                   Login
                 </Nav.Link>
                 <Nav.Link
                   style={textStyle}
                   className="mx-2 my-2"
-                  onClick={() => navigate('/register')}
+                  onClick={() => navigate("/register")}
                 >
                   Register
                 </Nav.Link>
@@ -151,7 +151,7 @@ function Navigation() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 }
 
-export default Navigation
+export default Navigation;

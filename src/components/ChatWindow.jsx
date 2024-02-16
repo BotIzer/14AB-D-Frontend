@@ -1,29 +1,29 @@
-import { useState } from 'react'
-import MessageList from './chat-components/MessageList'
-import { Form, FormGroup, Button } from 'react-bootstrap'
-import axios from '../api/axios'
-import { useLocation, useParams } from 'react-router-dom'
+import { useState } from "react";
+import MessageList from "./chat-components/MessageList";
+import { Form, FormGroup, Button } from "react-bootstrap";
+import axios from "../api/axios";
+import { useLocation, useParams } from "react-router-dom";
 function ChatWindow() {
-  const location = useLocation()
-  const friend = useParams(location.pathname.split('/')[2]).user
+  const location = useLocation();
+  const friend = useParams(location.pathname.split("/")[2]).user;
   const SendMsg = async () => {
-    const message = document.getElementById('sendMsg').value
-    console.log(friend)
+    const message = document.getElementById("sendMsg").value;
+    console.log(friend);
     const response = await axios.post(
-      '/chat/private',
+      "/chat/private",
       {
         friend: friend,
-        chat_id: ""
+        chat_id: "",
       },
       {
         headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         withCredentials: true,
       }
-    )
-    console.log(response.data.roomId)
+    );
+    console.log(response.data.roomId);
     // await axios.post(
     //   '/comment/createComment',
     //   {
@@ -39,9 +39,9 @@ function ChatWindow() {
     //     withCredentials: true,
     //   }
     // )
-  }
+  };
 
-  const [messages, setMessages] = useState(DUMMY_DATA)
+  const [messages, setMessages] = useState([]);
 
   return (
     <div className="p-2 h-100 border overflow-auto">
@@ -64,7 +64,7 @@ function ChatWindow() {
         </div>
       </FormGroup>
     </div>
-  )
+  );
 }
 
-export default ChatWindow
+export default ChatWindow;
