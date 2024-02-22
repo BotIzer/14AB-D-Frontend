@@ -24,6 +24,9 @@ function ChatWindow(props) {
         withCredentials: true,
       }
     )
+    //TODO: whether the chat does not exitst, the backend sends returns an UNPROCESSABLE_ENTITY (411) error
+    //if the error is 411, we need to create a new chat, if 200, we can just create the message
+
     // await axios.post(
     //   '/comment',
     //   {
