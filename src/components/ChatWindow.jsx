@@ -45,7 +45,7 @@ function ChatWindow(props) {
     await axios.post(
       '/comment',
       {
-        room_id: createOrRetrieveChatRes.data._id,
+        room_id: response.data._id,
         text: message,
         is_reply: false,
       },
