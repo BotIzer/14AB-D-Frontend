@@ -21,7 +21,7 @@ function ChatWindow(props) {
         {
           headers: {
             'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('tokeníí')}`,
+            authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           withCredentials: true,
         }
