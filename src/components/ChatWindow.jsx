@@ -8,11 +8,11 @@ function ChatWindow(props) {
   const location = useLocation()
   const friend = useParams(location.pathname.split('/')[2]).user
   const SendMsg = async () => {
-    console.log(activeKey)
+    // console.log(activeKey)
     const message = document.getElementById('sendMsg').value
-    let createOrRetrieveChatRes = 'init'
-    try {
-      createOrRetrieveChatRes = await axios.post(
+
+    await axios
+      .post(
         '/createOrRetrieveChat',
         {
           friend: friend,
@@ -26,45 +26,49 @@ function ChatWindow(props) {
           withCredentials: true,
         }
       )
-    } catch (error) {
-      console.log(createOrRetrieveChatRes)
-      if (createOrRetrieveChatRes.status == 422) {
-        await axios.post(
-          '/chat',
-          {
-            name: 'a',
-            is_ttl: false,
-            is_private: true,
-            other_user_name: friend,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: `Bearer ${localStorage.getItem('token')}`,
+      .then((res) => {
+        console.log('success')
+        console.log(res)
+        // await axios.post(
+          //   '/comment',
+          //   {
+          //     room_id: createOrRetrieveChatRes.data._id,
+          //     text: message,
+          //     is_reply: false,
+          //   },
+          //   {
+          //     headers: {
+          //       'Content-Type': 'application/json',
+          //       authorization: `Bearer ${localStorage.getItem('token')}`,
+          //     },
+          //     withCredentials: true,
+          //   }
+          // )
+      })
+      .catch(async (ex) => {
+        if (ex.response.status == 422) {
+          await axios.post(
+            '/chat',
+            {
+              name: friend,
+              is_ttl: false,
+              is_private: true,
+              other_user_name: friend,
             },
-            withCredentials: true,
-          }
-        )
-      }
-    }
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            }
+          )
+        }
+      })
 
     //TODO: whether the chat does not exitst, the backend sends returns an UNPROCESSABLE_ENTITY (411) error
     //if the error is 411, we need to create a new chat, if 200, we can just create the message
-    await axios.post(
-      '/comment',
-      {
-        room_id: createOrRetrieveChatRes.data._id,
-        text: message,
-        is_reply: false,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
+    // 
   }
 
   const [messages, setMessages] = useState([])
