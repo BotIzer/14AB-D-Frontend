@@ -4,7 +4,6 @@ import { Form, FormGroup, Button } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
 function ChatWindow(props) {
-  const activeKey = props.roomId
   const location = useLocation()
   const friend = useParams(location.pathname.split('/')[2]).user
   const SendMsg = async () => {
@@ -15,7 +14,6 @@ function ChatWindow(props) {
       '/createOrRetrieveChat',
       {
         friend: friend,
-        chat_id: activeKey, // TODO: here we need the chat id if exists!!
       },
       {
         headers: {
