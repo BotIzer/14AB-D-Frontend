@@ -3,12 +3,11 @@ import MessageList from './chat-components/MessageList'
 import { Form, FormGroup, Button } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
-function ChatWindow(props) {
+function ChatWindow() {
   const location = useLocation()
   const friend = useParams(location.pathname.split('/')[1]).friendName
   const SendMsg = async () => {
     // console.log(activeKey)
-    console.log(friend)
     const message = document.getElementById('sendMsg').value
 
     const response = await axios.post(

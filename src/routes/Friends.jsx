@@ -16,7 +16,6 @@ function Friends() {
   const [error, setError] = useState('')
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
-  const[activeKey, setActiveKey] = useState('')
   const navigate = useNavigate()
   useEffect(() => {
     const GetFriends = async () => {
@@ -63,7 +62,6 @@ function Friends() {
           setShowChat(!showChat)
           setShowPopup(false)
           // TODO: fix this to not dissapear every single time, only when same button is pressed
-          setActiveKey(friend._id)
           navigate(`/chats/${friend.friend_user_name}`)
         }}
       >
@@ -84,7 +82,6 @@ function Friends() {
         }}
         onClick={(e) => {
           e.preventDefault()
-          setActiveKey(friend._id)
           setShowChat(!showChat)
           setShowPopup(false)
         }}
@@ -115,7 +112,7 @@ function Friends() {
         </Col>
         <Col className="m-0 p-0">
           {showPopup ? <FriendPopupActions /> : null}
-          {showChat ? <ChatWindow roomId ={activeKey}/> : null}
+          {showChat ? <ChatWindow/> : null}
         </Col>
       </Row>
     </>
