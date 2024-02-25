@@ -92,7 +92,7 @@ function Friends() {
         onClick={async (e) => {
           e.preventDefault()
           const chatData = await axios.get(
-            `/chat/${group.name}/comments`,
+            `/chat/${group._id}/comments`,
             {
               headers: {
                 'Content-Type': 'application/json',
