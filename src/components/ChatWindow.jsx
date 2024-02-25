@@ -1,13 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MessageList from './chat-components/MessageList'
 import { Form, FormGroup, Button } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
-function ChatWindow() {
+function ChatWindow(currentChatData) {
   const location = useLocation()
   const friend = useParams(location.pathname.split('/')[1]).friendName
+  const [messages, setMessages] = useState([])
+  useEffect(()=>{
+    if (currentChatData.chatData.length > 0) {
+      setMessages(currentChatData.chatData)
+    }
+    console.log(currentChatData);
+  },[currentChatData]);
+  // useEffect(() => {
+  //   setMessages(currentChatData)
+  // }, [currentChatData]);
   const SendMsg = async () => {
-    // console.log(activeKey)
+    console.log(messages)
     const message = document.getElementById('sendMsg').value
 
     const response = await axios.post(
@@ -59,7 +69,6 @@ function ChatWindow() {
     )
   }
 
-  const [messages, setMessages] = useState([])
 
   return (
     <div className="p-2 h-100 border overflow-auto">

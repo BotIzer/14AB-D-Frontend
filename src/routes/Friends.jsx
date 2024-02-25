@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 function Friends() {
   const [friends, setFriends] = useState([])
   const [groups, setGroups] = useState([])
-  const [chats, setChats] = useState([])
+  const [comments, setComments] = useState([])
   const [error, setError] = useState('')
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
@@ -27,14 +27,12 @@ function Friends() {
           },
           withCredentials: true,
         })
-        setChats([...Object.values(response.data)[0]])
         setFriends(
           [...Object.values(response.data)[0]].filter((x) => x.is_private)
         )
         setGroups(
           [...Object.values(response.data)[0]].filter((x) => !x.is_private)
         )
-        console.log(response.data.returnArray[0])
       } catch (err) {
         setError(err)
       }
@@ -57,12 +55,23 @@ function Friends() {
           setShowPopup(!showPopup)
           setShowChat(false)
         }}
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault()
+          // TODO: fix this to not dissapear every single time, only when same button is pressed
+         const chatData = await axios.get(
+            `/chat/${friend._id}/comments`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            }
+          )
+          setComments(chatData.data.comments)
           setShowChat(!showChat)
           setShowPopup(false)
-          // TODO: fix this to not dissapear every single time, only when same button is pressed
-          navigate(`/chats/${friend.friend_user_name}`)
+          // navigate(`/chats/${friend.friend_user_name}`)
         }}
       >
         {friend.friend_user_name}
@@ -70,23 +79,34 @@ function Friends() {
     </Row>
   ))
 
-  const groupList = groups.map((friend) => (
-    <Row key={friend._id} className="m-0">
+  const groupList = groups.map((group) => (
+    <Row key={group._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={'/user/' + friend.name}
+        to={'/user/' + group.name}
         onContextMenu={(e) => {
           e.preventDefault()
           setShowPopup(!showPopup)
           setShowChat(false)
         }}
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault()
+          const chatData = await axios.get(
+            `/chat/${group.name}/comments`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            }
+          )
           setShowChat(!showChat)
           setShowPopup(false)
+          navigate(`/chats/${group.name}`)
         }}
       >
-        {friend.name}
+        {group.name}
       </Button>
     </Row>
   ))
@@ -112,7 +132,7 @@ function Friends() {
         </Col>
         <Col className="m-0 p-0">
           {showPopup ? <FriendPopupActions /> : null}
-          {showChat ? <ChatWindow/> : null}
+          {showChat ? <ChatWindow chatData={comments}/> : null}
         </Col>
       </Row>
     </>
