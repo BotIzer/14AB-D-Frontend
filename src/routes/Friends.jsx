@@ -28,6 +28,9 @@ function Friends() {
           },
           withCredentials: true,
         })
+        if(!response.data[0]){
+          return;
+        }
         setFriends(
           [...Object.values(response.data)[0]].filter((x) => x.is_private)
         )
@@ -133,12 +136,14 @@ function Friends() {
           <Row className="m-0 pt-2">
             <h5>Friends</h5>
             <div className="border"></div>
+            {friends.length == 0 ? <i>No friends?</i> : null}
             {list}
           </Row>
           <div className="border"></div>
           <Row className="m-0 pt-2">
             <h5>Groups</h5>
             <div className="border"></div>
+            {friends.length == 0 ? <i>No groups?</i> : null}
             {groupList}
           </Row>
         </Col>
