@@ -14,6 +14,7 @@ function Friends() {
   const [groups, setGroups] = useState([])
   const [comments, setComments] = useState([])
   const [error, setError] = useState('')
+  const [selectedChat, setSelectedChat] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
   const navigate = useNavigate()
@@ -45,11 +46,10 @@ function Friends() {
     return <ErrorPage errorStatus={error} />
   }
 
-  const list = friends.map((friend) => (
-    <Row key={friend._id} className="m-0">
+  const list = friends.map((chat) => (
+    <Row key={chat._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={'/user/' + friend.friend_user_name}
         onContextMenu={(e) => {
           e.preventDefault()
           setShowPopup(!showPopup)
@@ -58,8 +58,14 @@ function Friends() {
         onClick={async (e) => {
           e.preventDefault()
           // TODO: fix this to not dissapear every single time, only when same button is pressed
+          setSelectedChat(chat._id);
+          if(selectedChat == chat._id){
+            setShowChat(false);
+            setSelectedChat(null);
+            return;
+          }
          const chatData = await axios.get(
-            `/chat/${friend._id}/comments`,
+            `/chat/${chat._id}/comments`,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -69,21 +75,20 @@ function Friends() {
             }
           )
           setComments(chatData.data.comments)
-          setShowChat(!showChat)
+          setShowChat(true)
           setShowPopup(false)
-          navigate(`/chats/${friend.friend_user_name}`)
+          navigate(`/chats/${chat.friend_user_name}`)
         }}
       >
-        {friend.friend_user_name}
+        {chat.friend_user_name}
       </Button>
     </Row>
   ))
 
-  const groupList = groups.map((group) => (
-    <Row key={group._id} className="m-0">
+  const groupList = groups.map((chat) => (
+    <Row key={chat._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
-        to={'/user/' + group.name}
         onContextMenu={(e) => {
           e.preventDefault()
           setShowPopup(!showPopup)
@@ -91,8 +96,14 @@ function Friends() {
         }}
         onClick={async (e) => {
           e.preventDefault()
+          setSelectedChat(chat._id);
+          if(selectedChat == chat._id){
+            setShowChat(false);
+            setSelectedChat(null);
+            return;
+          }
           const chatData = await axios.get(
-            `/chat/${group._id}/comments`,
+            `/chat/${chat._id}/comments`,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -101,12 +112,13 @@ function Friends() {
               withCredentials: true,
             }
           )
-          setShowChat(!showChat)
+          setComments(chatData.data.comments)
+          setShowChat(true)
           setShowPopup(false)
-          navigate(`/chats/${group.name}`)
+          navigate(`/chats/${chat.name}`)
         }}
       >
-        {group.name}
+        {chat.name}
       </Button>
     </Row>
   ))

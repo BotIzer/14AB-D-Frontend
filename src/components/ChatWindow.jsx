@@ -66,6 +66,7 @@ function ChatWindow(currentChatData) {
 
 
   return (
+    // TODO: make scrollable look good
     <div className="p-2 h-100 border overflow-auto">
       <MessageList messages={messages}></MessageList>
       <FormGroup controlId="sendMsg">
