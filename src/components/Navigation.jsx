@@ -52,9 +52,10 @@ function Navigation() {
   return (
     <Navbar
       expand="lg"
-      className="bg-body-tertiary "
+      className="bg-body-tertiary sticky"
       bg="dark"
       data-bs-theme="dark"
+      sticky="top"
     >
       <Container fluid>
         <Nav.Link style={textStyle} onClick={() => navigate("/")}>

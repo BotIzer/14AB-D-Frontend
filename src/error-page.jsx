@@ -16,7 +16,7 @@ export default function ErrorPage({errorStatus}) {
   return (
     <>
     <Navigation/>
-    <div id="error-page">
+    <div id="error-page m-5">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
