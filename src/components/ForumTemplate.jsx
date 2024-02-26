@@ -3,30 +3,20 @@ import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 
-function ForumTemplate(/*Uncomment once data is used from backend*/ /*props*/) {
+function ForumTemplate(forum) {
     const navigate = useNavigate();
-    const dummyForum = {
-        "title": "DummyTitle",
-        "description": "DummyDescription",
-        "categories": ["gaming", "sports", "music"],
-        "banner": "/src/assets/banner_test.jpg",
-        "topPost": {
-          "title" : "Post Title",
-          "content": "Post Content",
-        },
-        "lastUpdated": "2021-06-28T14:30:00.000Z",
-    }
-    const sinceUpdate = daysDifference(dummyForum.lastUpdated, new Date()); /*props.forum.lastUpdated*/
+    
+    const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
     return (
       <>
       <Card className="text-center" data-bs-theme="dark">
-      <Card.Header className="primary">{dummyForum.title}</Card.Header> {/*props.forum.title*/}
-      <Card.Body className="secondary" style={{backgroundImage: `url(${dummyForum.banner})`, backgroundSize: "cover"}}> {/*props.forum.banner*/}
-        <Card.Title>{dummyForum.topPost.title}</Card.Title> {/*props.forum.topPost.title*/}
+      <Card.Header className="primary">{forum.forum.title}</Card.Header>
+      <Card.Body className="secondary" style={{backgroundImage: `url(${forum.forum.banner})`, backgroundSize: "cover"}}>
+        <Card.Title>{forum.forum.topPost.title}</Card.Title>
         <Card.Text>
-          <i>{dummyForum.topPost.content}</i> {/*props.forum.topPost.content*/}
+          <i>{forum.forum.topPost.content}</i>
         </Card.Text>
-        <Button  onClick={() => navigate("/forums/" + dummyForum.title)} className="custom-button" variant="outline-warning">Visit forum</Button> {/*props.forum.title*/}
+        <Button  onClick={() => navigate("/forums/" + forum.forum.title)} className="custom-button" variant="outline-warning">Visit forum</Button>
       </Card.Body>
       <Card.Footer className="text-muted">Last updated: <i>{sinceUpdate}</i> days ago</Card.Footer> 
     </Card>
