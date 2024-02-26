@@ -8,14 +8,9 @@ function ChatWindow(currentChatData) {
   const friend = useParams(location.pathname.split('/')[1]).friendName
   const [messages, setMessages] = useState([])
   useEffect(()=>{
-    if (currentChatData.chatData.length > 0) {
-      setMessages(currentChatData.chatData)
-    }
+    setMessages(currentChatData.chatData)
     console.log(currentChatData);
   },[currentChatData]);
-  // useEffect(() => {
-  //   setMessages(currentChatData)
-  // }, [currentChatData]);
   const SendMsg = async () => {
     console.log(messages)
     const message = document.getElementById('sendMsg').value

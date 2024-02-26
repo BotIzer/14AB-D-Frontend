@@ -71,7 +71,7 @@ function Friends() {
           setComments(chatData.data.comments)
           setShowChat(!showChat)
           setShowPopup(false)
-          // navigate(`/chats/${friend.friend_user_name}`)
+          navigate(`/chats/${friend.friend_user_name}`)
         }}
       >
         {friend.friend_user_name}
