@@ -44,7 +44,7 @@ function NotifDropdown() {
         style={{ maxWidth: "35vw" }}
         data-bs-theme="dark"
         title="Notifications"
-        className="dropdown-button my-2" /*onSelect={(eventKey) => console.log(eventKey)} use eventkey to set function*/
+        className="dropdown-button my-2 mx-2" /*onSelect={(eventKey) => console.log(eventKey)} use eventkey to set function*/
       >
         {notifs}
         <Dropdown.Divider />

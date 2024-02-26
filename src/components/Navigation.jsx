@@ -77,7 +77,7 @@ function Navigation() {
             style={{ width: "100%" }}
             className="mx-auto justify-content-center"
           >
-            <Form className="custom-mw">
+            <Form className="custom-mw mx-2">
               <Form.Control
                 type="text"
                 placeholder="Search"
