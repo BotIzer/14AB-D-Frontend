@@ -38,7 +38,7 @@ function ForumTemplate(forum) {
         <Card.Header className="p-0">
           <Table responsive className="m-0">
             <tbody>
-              <tr style={{ width: "auto" }}>{categoryList}</tr>
+              <tr>{categoryList}</tr>
             </tbody>
           </Table>
         </Card.Header>
