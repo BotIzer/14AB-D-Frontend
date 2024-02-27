@@ -8,7 +8,7 @@ function ForumTemplate(forum) {
   const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
   return (
     <>
-      <Card className="text-center" data-bs-theme="dark">
+      <Card className="text-center p-0" data-bs-theme="dark">
         <Card.Header className="primary">{forum.forum.title}</Card.Header>
         <Card.Body
           className="secondary"
