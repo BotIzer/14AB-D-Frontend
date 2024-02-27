@@ -1,11 +1,15 @@
-import { Button } from "react-bootstrap";
-import { Card } from "react-bootstrap";
+import { Button, Card, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function ForumTemplate(forum) {
   const navigate = useNavigate();
 
   const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
+  const categoryList = forum.forum.categories.map((category) => (
+    <th style={{ fontSize: "small" }} key={category}>
+      <i className="tertiary">{category}</i>
+    </th>
+  ));
   return (
     <>
       <Card className="text-center p-0" data-bs-theme="dark">
@@ -31,6 +35,13 @@ function ForumTemplate(forum) {
             Visit forum
           </Button>
         </Card.Body>
+        <Card.Header className="p-0">
+          <Table responsive className="m-0">
+            <tbody>
+              <tr style={{ width: "auto" }}>{categoryList}</tr>
+            </tbody>
+          </Table>
+        </Card.Header>
         <Card.Footer className="text-muted">
           Last updated: <i>{sinceUpdate}</i> days ago
         </Card.Footer>

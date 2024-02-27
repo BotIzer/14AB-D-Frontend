@@ -8,6 +8,9 @@ body {
 .secondary {
   color: #e8cc80;
 }
+.tertiary {
+  color: #b47d7d;
+}
 
 a:hover {
   color: #b47d7d;
