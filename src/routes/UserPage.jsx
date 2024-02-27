@@ -93,7 +93,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          <Col className="p-0 h-100" xs={4}> <ChatWindow></ChatWindow></Col>
+          {user === JSON.parse(localStorage.getItem('userInfo')).username? null :<Col className="p-0 h-100" xs={4}> <ChatWindow></ChatWindow></Col>}
         </Row>
       </Container>
     </>
