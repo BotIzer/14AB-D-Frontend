@@ -52,7 +52,7 @@ function Navigation() {
   return (
     <Navbar
       expand="lg"
-      className="bg-body-tertiary sticky"
+      className="bg-body-tertiary sticky overflow-responsive"
       bg="dark"
       data-bs-theme="dark"
       sticky="top"
