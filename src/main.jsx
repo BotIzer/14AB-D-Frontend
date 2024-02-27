@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Home from "./routes/Home.jsx";
 import "./styles/index.css";
@@ -15,7 +15,16 @@ import Friends from "./routes/Friends.jsx";
 import UserPage from "./routes/UserPage.jsx";
 import ForumTemplate from "./components/ForumTemplate.jsx";
 import Forums from "./routes/Forums.jsx";
-const isLoggedIn = localStorage.getItem("token") !== null;
+
+export default function App(){
+const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
+useEffect(()=>{
+setIsLoggedIn(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null)
+if (!isLoggedIn) {
+  localStorage.clear();
+  console.log(isLoggedIn);
+}
+},[])
 const router = createBrowserRouter([
   {
     path: "/",
@@ -63,12 +72,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
-
-ReactDOM.createRoot(document.getElementById("root")).render(
+return(
   // THIS CAUSES RERENDERING TWICE
   // DOESN'T AFFECT PRODUCTION
   // SHOULD BE FINE
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
+);
+}
+ReactDOM.createRoot(document.getElementById("root")).render(
+<App/>
 );
