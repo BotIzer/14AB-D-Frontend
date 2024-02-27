@@ -48,9 +48,6 @@ a:hover {
 
 /* Text Editor css */
 
-.text-editor .ql-toolbar button:hover {
-  color: gold;
-}
 .text-editor .ql-editor {
   min-height: 10em;
 }
@@ -60,51 +57,28 @@ a:hover {
   stroke: #e8cc80;
 }
 
-.text-editor .ql-toolbar .ql-fill {
-  fill: #e8cc80;
-  stroke: none;
-}
-
 .text-editor .ql-toolbar .ql-picker {
   color: #e8cc80;
 }
 
-.text-editor button:hover .ql-stroke,
-.text-editor .ql-picker-label:hover .ql-stroke {
-  fill: none;
-  stroke: gold !important;
-}
+.text-editor .ql-snow.ql-toolbar button:hover .ql-stroke,
 .text-editor .ql-active .ql-stroke {
-  fill: none;
   stroke: gold !important;
-}
-
-.text-editor button:hover .ql-fill,
-.text-editor .ql-picker-label:hover .ql-fill {
-  fill: gold !important;
-  stroke: none;
-}
-
-.text-editor .ql-active .ql-fill {
-  fill: gold !important;
-  stroke: none;
 }
 
 .text-editor .ql-snow .ql-picker-options {
   background-color: #212529 !important;
 }
-
-.text-editor .ql-snow.ql-toolbar .ql-picker-label:hover,
-.text-editor .ql-snow .ql-toolbar .ql-picker-label:hover,
-.text-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,
-.text-editor .ql-snow .ql-toolbar .ql-picker-label.ql-active,
-.text-editor .ql-snow.ql-toolbar .ql-picker-item:hover,
-.text-editor .ql-snow .ql-toolbar .ql-picker-item:hover {
-  color: gold;
-}
+/* Check from here */
 .text-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
-.text-editor .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-  color: #e8cc80;
+.text-editor .ql-snow .ql-toolbar .ql-picker-item.ql-selected,
+.ql-active::before,
+.ql-picker-label::before {
+  color: #e8cc80 !important;
+}
+
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+  display: none;
 }
 
 /*Friends page css for border and list size*/
@@ -128,16 +102,16 @@ a:hover {
   }
 }
 
-.lg-hidden{
+.lg-hidden {
   display: none;
   @media (max-width: 992px) {
     display: block;
   }
 }
 
-.sm-hidden{
+.sm-hidden {
   display: block;
-  @media (max-width: 992px){
+  @media (max-width: 992px) {
     display: none;
   }
 }
@@ -162,7 +136,6 @@ a:hover {
     margin: auto;
   }
 }
-
 
 /*Dropdown menu styling*/
 
@@ -237,4 +210,3 @@ a:hover {
   color: white;
   list-style-type: none;
 }
-
