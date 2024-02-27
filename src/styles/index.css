@@ -49,14 +49,14 @@ a:hover {
 /* Text Editor css */
 .text-editor .ql-snow.ql-toolbar .ql-picker-item:hover,
 .ql-snow.ql-toolbar .ql-picker-label:hover,
-.ql-snow .ql-picker.ql-expanded .ql-picker-label{
+.ql-snow .ql-picker.ql-expanded .ql-picker-label {
   color: gold !important;
 }
-.text-editor .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label{
+.text-editor .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
   border: 1px solid transparent;
 }
 
-.text-editor .ql-snow .ql-fill{
+.text-editor .ql-snow .ql-fill {
   fill: #e8cc80 !important;
 }
 
@@ -84,17 +84,13 @@ a:hover {
   background-color: #212529 !important;
 }
 
-
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
   display: none;
 }
 .text-editor .ql-snow.ql-toolbar button:hover .ql-fill,
-.text-editor .ql-snow.ql-toolbar button.ql-active .ql-fill
-{
+.text-editor .ql-snow.ql-toolbar button.ql-active .ql-fill {
   fill: gold !important;
-  
 }
-
 
 /*Friends page css for border and list size*/
 .custom-border {
@@ -142,10 +138,10 @@ a:hover {
   }
 }
 
-.overflow-responsive{
+.overflow-responsive {
   max-height: 40vw;
   overflow: visible;
-  @media(max-width: 992px){
+  @media (max-width: 992px) {
     overflow: auto;
   }
 }
@@ -196,6 +192,7 @@ a:hover {
   background-color: #e8cc80 !important;
   color: #212529 !important;
   font-weight: bold;
+  text-shadow: none;
 }
 
 .clear-button,
@@ -232,4 +229,10 @@ a:hover {
   margin-bottom: 10px;
   color: white;
   list-style-type: none;
+}
+
+.text-outline {
+  color: #e8cc80;
+  text-shadow: -1px 1px 2px #000, 1px 1px 2px #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
 }
