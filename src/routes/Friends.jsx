@@ -60,7 +60,6 @@ function Friends() {
         }}
         onClick={async (e) => {
           e.preventDefault()
-          // TODO: fix this to not dissapear every single time, only when same button is pressed
           setSelectedChat(chat._id);
           if(selectedChat == chat._id){
             setShowChat(false);

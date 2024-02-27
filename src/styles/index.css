@@ -142,6 +142,14 @@ a:hover {
   }
 }
 
+.overflow-responsive{
+  max-height: 40vw;
+  overflow: visible;
+  @media(max-width: 992px){
+    overflow: auto;
+  }
+}
+
 /*Create post tab sizing*/
 .tab-size {
   width: 60vw;
