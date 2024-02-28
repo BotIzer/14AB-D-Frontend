@@ -43,12 +43,17 @@ function Navigation() {
     );
   };
   const HandleLogout = async () => {
-    localStorage.clear();
     setIsLoggedIn(false);
-    // ugly hack
+    localStorage.clear();
+    dispatchEvent(new Event('storage'))
     navigate("/");
   };
-
+  addEventListener("storage", () => {
+    setIsLoggedIn(
+      localStorage.getItem("token") && localStorage.getItem("userInfo")
+    );
+    navigate('/')
+  });
   return (
     <Navbar
       expand="lg"
@@ -123,6 +128,7 @@ function Navigation() {
                     window.confirm("Are you sure you want to log out?")
                       ? HandleLogout()
                       : null
+                      
                   }
                 >
                   Logout

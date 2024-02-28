@@ -16,19 +16,19 @@ import UserPage from "./routes/UserPage.jsx";
 import ForumCard from "./components/ForumCard.jsx";
 import Forums from "./routes/Forums.jsx";
 import { io } from "socket.io-client";
-
 const socket = io('http://localhost:3000', {
   withCredentials: true
 });
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
-
+addEventListener('storage',()=>{
+  setIsLoggedIn((localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null))
+})
 useEffect(()=>{
-setIsLoggedIn(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null)
-if (!isLoggedIn) {
-  localStorage.clear();
-}
-},[])
+  if (!isLoggedIn) {
+    localStorage.clear();
+  }
+},[isLoggedIn])
 useEffect(()=> {
   socket.on('connect',()=>{
     console.log('Connected to server');
