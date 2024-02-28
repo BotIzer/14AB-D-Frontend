@@ -15,6 +15,7 @@ import Friends from "./routes/Friends.jsx";
 import UserPage from "./routes/UserPage.jsx";
 import ForumCard from "./components/ForumCard.jsx";
 import Forums from "./routes/Forums.jsx";
+import Forum from "./routes/Forum.jsx";
 import { io } from "socket.io-client";
 
 const socket = io('http://localhost:3000', {
@@ -85,6 +86,11 @@ const router = createBrowserRouter([
   {
     path: "/forums",
     element: <Forums></Forums>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/forums/:forum",
+    element: <Forum></Forum>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
