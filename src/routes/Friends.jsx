@@ -28,19 +28,21 @@ function Friends() {
           },
           withCredentials: true,
         })
-        if(!response.data[0]){
-          return;
+        if (response.data.returnArray) {
+          if (response.data.returnArray[0]) {
+            setFriends(
+              [...Object.values(response.data)[0]].filter((x) => x.is_private)
+            )
+          }
+          if (response.data.returnArray[1]) {
+            setGroups(
+              [...Object.values(response.data)[0]].filter((x) => !x.is_private)
+            )
+          }
         }
-        setFriends(
-          [...Object.values(response.data)[0]].filter((x) => x.is_private)
-        )
-        setGroups(
-          [...Object.values(response.data)[0]].filter((x) => !x.is_private)
-        )
       } catch (err) {
         setError(err)
       }
-
     }
     GetFriends()
   }, [])
@@ -60,22 +62,19 @@ function Friends() {
         }}
         onClick={async (e) => {
           e.preventDefault()
-          setSelectedChat(chat._id);
-          if(selectedChat == chat._id){
-            setShowChat(false);
-            setSelectedChat(null);
-            return;
+          setSelectedChat(chat._id)
+          if (selectedChat == chat._id) {
+            setShowChat(false)
+            setSelectedChat(null)
+            return
           }
-         const chatData = await axios.get(
-            `/chat/${chat._id}/comments`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                authorization: `Bearer ${localStorage.getItem('token')}`,
-              },
-              withCredentials: true,
-            }
-          )
+          const chatData = await axios.get(`/chat/${chat._id}/comments`, {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          })
           setComments(chatData.data.comments)
           setShowChat(true)
           setShowPopup(false)
@@ -98,22 +97,19 @@ function Friends() {
         }}
         onClick={async (e) => {
           e.preventDefault()
-          setSelectedChat(chat._id);
-          if(selectedChat == chat._id){
-            setShowChat(false);
-            setSelectedChat(null);
-            return;
+          setSelectedChat(chat._id)
+          if (selectedChat == chat._id) {
+            setShowChat(false)
+            setSelectedChat(null)
+            return
           }
-          const chatData = await axios.get(
-            `/chat/${chat._id}/comments`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                authorization: `Bearer ${localStorage.getItem('token')}`,
-              },
-              withCredentials: true,
-            }
-          )
+          const chatData = await axios.get(`/chat/${chat._id}/comments`, {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          })
           setComments(chatData.data.comments)
           setShowChat(true)
           setShowPopup(false)
@@ -148,7 +144,7 @@ function Friends() {
         </Col>
         <Col className="m-0 p-0">
           {showPopup ? <FriendPopupActions /> : null}
-          {showChat ? <ChatWindow chatData={comments}/> : null}
+          {showChat ? <ChatWindow chatData={comments} /> : null}
         </Col>
       </Row>
     </>
