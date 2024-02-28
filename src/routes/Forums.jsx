@@ -1,6 +1,6 @@
 import { Col, Row, Container } from "react-bootstrap";
 import Navigation from "../components/Navigation";
-import ForumTemplate from "../components/ForumTemplate";
+import ForumCard from "../components/ForumCard";
 
 function Forums() {
   const loadedForums = [
@@ -65,7 +65,7 @@ function Forums() {
   ];
   const listForums = loadedForums.map((forum) => (
     <Row className="m-3 p-0" key={forum.title}>
-      <ForumTemplate forum={forum}></ForumTemplate>
+      <ForumCard forum={forum}></ForumCard>
     </Row>
   ));
   return (
