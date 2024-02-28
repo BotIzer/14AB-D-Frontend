@@ -52,6 +52,7 @@ export default function Login() {
         )
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('userInfo',JSON.stringify(response.data.userInfo))
+      dispatchEvent(new Event('storage'))
       setPwd('')
       setEmail('')
       navigate('/')
