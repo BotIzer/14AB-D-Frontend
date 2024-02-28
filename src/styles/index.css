@@ -235,7 +235,12 @@ a:hover {
 }
 
 .text-outline {
-  color: #e8cc80;
+  color: inherit;
   text-shadow: -1px 1px 2px #000, 1px 1px 2px #000, 1px -1px 0 #000,
     -1px -1px 0 #000;
+}
+
+/*Forum page category list*/
+.no-padding-table .table-responsive{
+  padding: 0px;
 }
