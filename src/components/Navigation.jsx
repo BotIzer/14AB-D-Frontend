@@ -16,6 +16,12 @@ function Navigation() {
     setIsLoggedIn(
       localStorage.getItem("token") && localStorage.getItem("userInfo")
     );
+    addEventListener("storage", () => {
+      setIsLoggedIn(
+        localStorage.getItem("token") && localStorage.getItem("userInfo")
+      );
+      navigate('/')
+    });
   }, []);
   const [inputValue, setInputValue] = useState("");
   const textStyle = {
@@ -46,14 +52,8 @@ function Navigation() {
     setIsLoggedIn(false);
     localStorage.clear();
     dispatchEvent(new Event('storage'))
-    navigate("/");
   };
-  addEventListener("storage", () => {
-    setIsLoggedIn(
-      localStorage.getItem("token") && localStorage.getItem("userInfo")
-    );
-    navigate('/')
-  });
+
   return (
     <Navbar
       expand="lg"
