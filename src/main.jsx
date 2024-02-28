@@ -13,7 +13,7 @@ import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
 import UserPage from "./routes/UserPage.jsx";
-import ForumTemplate from "./components/ForumTemplate.jsx";
+import ForumCard from "./components/ForumCard.jsx";
 import Forums from "./routes/Forums.jsx";
 import { io } from "socket.io-client";
 
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <ForumTemplate></ForumTemplate>,
+    element: <ForumCard></ForumCard>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {

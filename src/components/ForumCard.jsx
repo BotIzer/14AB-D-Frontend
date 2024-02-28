@@ -1,7 +1,7 @@
 import { Button, Card, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function ForumTemplate(forum) {
+function ForumCard(forum) {
   const navigate = useNavigate();
 
   const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
@@ -55,4 +55,4 @@ function daysDifference(first, second) {
   return Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
 }
 
-export default ForumTemplate;
+export default ForumCard;

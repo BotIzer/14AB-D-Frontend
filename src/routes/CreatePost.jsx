@@ -52,7 +52,7 @@ function CreatePost() {
         justify
       >
         <Tab eventKey="post" title="Post" className="border tab-size p-2">
-          <FormGroup className="p-2 w-100 h-100">
+          <FormGroup className="p-2 w-100 h-100" data-bs-theme="dark">
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control
               size="lg"
@@ -84,6 +84,7 @@ function CreatePost() {
           eventKey="media"
           title="Media File"
           className="border p-2 tab-size"
+          data-bs-theme="dark"
         >
           <FormGroup className="p-2 w-100 h-100">
             <Form.Label className="secondary">Title</Form.Label>
