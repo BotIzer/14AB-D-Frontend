@@ -70,7 +70,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: '/chats/:friendName',
+    path: '/chats/:user',
     element: <Friends></Friends>,
     errorElement: <ErrorPage></ErrorPage>,
   },

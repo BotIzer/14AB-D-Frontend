@@ -18,7 +18,7 @@ export default function UserPage() {
   const location = useLocation();
   const { user } = useParams(location.pathname.split("/")[2]);
   const [error, setError] = useState("");
-
+  const [messages, setMessages] = useState([])
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
@@ -29,6 +29,23 @@ export default function UserPage() {
             headers: { "Content-Type": "application/json" },
           }
         );
+        const response = await axios.get('/chats', {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        if (response.data.returnArray[0].name === user) {
+          const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          })
+          setMessages(chatData.data.comments)
+        }
       } catch (err) {
         setError(err);
       }
@@ -93,7 +110,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          {user === JSON.parse(localStorage.getItem('userInfo')).username? null :<Col className="p-0 h-100" xs={4}> <ChatWindow></ChatWindow></Col>}
+          {user === JSON.parse(localStorage.getItem('userInfo')).username? null :<Col className="p-0 h-100" xs={4}> <ChatWindow chatData={messages}></ChatWindow></Col>}
         </Row>
       </Container>
     </>
