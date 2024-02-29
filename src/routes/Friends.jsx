@@ -124,7 +124,7 @@ function Friends() {
     <>
       <Navigation></Navigation>
       <Row className="w-100 h-50 m-0">
-        <Col
+        <Col 
           data-bs-theme="dark"
           className="m-0 p-0 list-group list-group-flush overflow-auto text-center custom-border"
         >
@@ -142,7 +142,7 @@ function Friends() {
             {groupList}
           </Row>
         </Col>
-        <Col className="m-0 p-0">
+        <Col className="m-0 p-0" style={{height: "50vh"}}>
           {showPopup ? <FriendPopupActions /> : null}
           {showChat ? <ChatWindow chatData={comments} /> : null}
         </Col>

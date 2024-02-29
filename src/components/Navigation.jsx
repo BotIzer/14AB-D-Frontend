@@ -36,8 +36,6 @@ function Navigation() {
     }
   };
   const RedirectToLink = async () => {
-    const link = `/search`;
-    window.location.href = link;
     await axios.post(
       "/search",
       {

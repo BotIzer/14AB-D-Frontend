@@ -3,16 +3,31 @@ import MessageList from './chat-components/MessageList'
 import { Form, FormGroup, Button } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
+import { io } from 'socket.io-client'
+
 function ChatWindow(currentChatData) {
   const location = useLocation()
-  const friend = useParams(location.pathname.split('/')[1]).friendName
+  const friend = useParams(location.pathname.split('/')[1]).user
   const [messages, setMessages] = useState([])
   useEffect(()=>{
+    console.log(friend);
     setMessages(currentChatData.chatData)
-    console.log(currentChatData);
   },[currentChatData]);
+  useEffect(() => {
+    const socket = io('http://localhost:3000', {
+      withCredentials: true
+    });
+
+    socket.on("message", (data) => {
+      console.log(data);
+      setMessages(prevMessages => [...prevMessages, data]) 
+    });
+    return () => {
+      socket.off("message");
+      socket.disconnect();
+    };
+  }, []);
   const SendMsg = async () => {
-    console.log(messages)
     const message = document.getElementById('sendMsg').value
 
     const response = await axios.post(
@@ -28,7 +43,6 @@ function ChatWindow(currentChatData) {
         withCredentials: true,
       }
     )
-
     if (response.data.length === 0) {
       await axios.post(
         '/chat',
@@ -62,8 +76,8 @@ function ChatWindow(currentChatData) {
         withCredentials: true,
       }
     )
+    document.getElementById('sendMsg').value = "";
   }
-
 
   return (
     // TODO: make scrollable look good
