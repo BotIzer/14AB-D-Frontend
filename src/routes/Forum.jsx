@@ -1,22 +1,26 @@
 import Navigation from "../components/Navigation";
 import { Col, Row, Container, Table } from "react-bootstrap";
+import PostCard from "../components/PostCard";
 
 function Forum() {
   const dummyForum = {
+    id: 1,
     title: "Dummy Forum",
     description: "This is a dummy forum for testing, Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet ullam doloribus temporibus vitae saepe, nobis doloremque, commodi autem et adipisci, id rerum blanditiis at eaque. Itaque dolorem obcaecati aspernatur esse", 
     banner: "/src/assets/banner_test.jpg",
     categories: ["gaming", "sports"],
     posts: [
       {
+        id: 1,
         title: "Post 1",
         content: "Content of post 1",
-        date: "1/1/2022",
+        postDate: "2021-06-28T14:30:00.000Z",
       },
       {
+        id: 2,
         title: "Post 2",
         content: "Content of post 2",
-        date: "2/1/2022",
+        postDate: "2021-06-28T14:30:00.000Z",
       },
     ],
   };
@@ -24,6 +28,12 @@ function Forum() {
     <th style={{ fontSize: "small", borderWidth: "2px"}} key={category} className="text-center">
       <i className="tertiary">{category}</i>
     </th>
+  ));
+
+  const postList = dummyForum.posts.map((post) => (
+    <Row>
+        <PostCard key={post.id} post={post}></PostCard>
+    </Row>
   ));
 
   return (
@@ -43,6 +53,7 @@ function Forum() {
           <Row className="secondary">
             <div className="text-center p-5 custom-border"><i>{dummyForum.description}</i></div>
           </Row>
+          <Col xs={{span: 6, offset: 3}}>{postList}</Col>
       </Container>
     </>
   );

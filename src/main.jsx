@@ -17,6 +17,7 @@ import ForumCard from "./components/ForumCard.jsx";
 import Forums from "./routes/Forums.jsx";
 import Forum from "./routes/Forum.jsx";
 import { io } from "socket.io-client";
+import PostCard from "./components/PostCard.jsx";
 const socket = io('http://localhost:3000', {
   withCredentials: true
 });
@@ -75,7 +76,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <ForumCard></ForumCard>,
+    element: <PostCard></PostCard>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {

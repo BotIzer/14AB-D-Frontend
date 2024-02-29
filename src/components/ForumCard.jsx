@@ -19,6 +19,8 @@ function ForumCard(forum) {
           style={{
             backgroundImage: `url(${forum.forum.banner})`,
             backgroundSize: "cover",
+            backgroundRepeat: "no-repeat"
+            //TODO make the image scale down with screen size instead of cut off
           }}
         >
           <Card.Title className="text-outline">
@@ -49,7 +51,7 @@ function ForumCard(forum) {
     </>
   );
 }
-function daysDifference(first, second) {
+export function daysDifference(first, second) {
   const date1 = new Date(first).getTime();
   const date2 = new Date(second).getTime();
   return Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));

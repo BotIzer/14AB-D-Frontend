@@ -244,3 +244,15 @@ a:hover {
 .no-padding-table .table-responsive{
   padding: 0px;
 }
+
+.filter-grey {
+  filter: invert(99%) sepia(1%) saturate(2858%) hue-rotate(176deg) brightness(94%) contrast(92%);
+}
+.filter-gold {
+  filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg) brightness(102%) contrast(104%);
+}
+
+.image-checkbox{
+  background-color: transparent !important;
+  border: none !important;
+}
