@@ -144,7 +144,8 @@ function Friends() {
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{height: "50vh"}}>
-          {showPopup ? <FriendPopupActions /> : null}
+          {console.log(selectedChat )}
+          {showPopup && selectedChat === "alma"? <FriendPopupActions /> : null}
           {showChat ? <ChatWindow chatData={comments} /> : null}
         </Col>
       </Row>
