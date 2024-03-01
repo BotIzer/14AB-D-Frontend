@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "../api/axios";
 import NotifDropdown from "./NotifDropdown";
+import { Dropdown, DropdownDivider, DropdownItem, DropdownMenu, Row } from "react-bootstrap";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -51,7 +52,13 @@ function Navigation() {
     localStorage.clear();
     dispatchEvent(new Event('storage'))
   };
-
+  const dummyItems = [
+    { id: 1, name: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' },
+    { id: 4, name: 'Item 4' },
+    { id: 5, name: 'Item 5' },
+  ];
   return (
     <Navbar
       expand="lg"
@@ -90,6 +97,13 @@ function Navigation() {
                 onKeyDown={HandleKeyDown}
                 style={{ fontSize: "16px" }}
               />
+            <Dropdown show>
+            <Dropdown.Menu className="custom-mw">
+      {dummyItems.map((item) => (
+        <Dropdown.Item className="d-flex justify-content-center"  key={item.id}>{item.name}</Dropdown.Item>
+      ))}
+           </Dropdown.Menu>
+            </Dropdown>
             </Form>
           </Nav>
           <Nav>

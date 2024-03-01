@@ -17,6 +17,7 @@ function Friends() {
   const [selectedChat, setSelectedChat] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
+  
   const navigate = useNavigate()
   useEffect(() => {
     const GetFriends = async () => {

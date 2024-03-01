@@ -19,6 +19,7 @@ export default function UserPage() {
   const { user } = useParams(location.pathname.split("/")[2]);
   const [error, setError] = useState("");
   const [messages, setMessages] = useState([])
+  const [showChat, setShowChat] = useState(false)
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
@@ -36,7 +37,7 @@ export default function UserPage() {
           },
           withCredentials: true,
         })
-        if (response.data.returnArray[0].name === user) {
+        if (response.data.returnArray[0].name !== user) {
           const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
             headers: {
               'Content-Type': 'application/json',
@@ -89,7 +90,9 @@ export default function UserPage() {
               ></Image>
             </Row>
             <Row className="d-flex justify-content-center">
-              <OverlayTrigger placement="right" overlay={<Tooltip>Message</Tooltip>}><Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}>{user}</Button></OverlayTrigger>
+              <OverlayTrigger placement="right" overlay={<Tooltip>Message</Tooltip>}>
+                <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
+                onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
               <p className="text-justify secondary">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
                 tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
@@ -110,7 +113,7 @@ export default function UserPage() {
               </div>
             </Row>
           </Col>
-          {user === JSON.parse(localStorage.getItem('userInfo')).username? null :<Col className="p-0 h-100" xs={4}> <ChatWindow chatData={messages}></ChatWindow></Col>}
+          {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat?<Col className="p-0 h-100" xs={4}> <ChatWindow chatData={messages}></ChatWindow></Col>: null}
         </Row>
       </Container>
     </>
