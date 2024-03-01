@@ -76,7 +76,9 @@ function Forums() {
           <h1 className="text-center">Popular forums</h1>
         </Row>
         <Row className="border justify-content-center">
-          <Col xs={6}>{listForums}</Col>
+          <Col xs={12} md={6}>
+            {listForums}
+          </Col>
         </Row>
       </Container>
     </>

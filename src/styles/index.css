@@ -241,18 +241,30 @@ a:hover {
 }
 
 /*Forum page category list*/
-.no-padding-table .table-responsive{
+.no-padding-table .table-responsive {
   padding: 0px;
 }
 
 .filter-grey {
-  filter: invert(99%) sepia(1%) saturate(2858%) hue-rotate(176deg) brightness(94%) contrast(92%);
+  filter: invert(99%) sepia(1%) saturate(2858%) hue-rotate(176deg)
+    brightness(94%) contrast(92%);
 }
 .filter-gold {
-  filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg) brightness(102%) contrast(104%);
+  filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
+    brightness(102%) contrast(104%);
+}
+.filter-red {
+  filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
+    brightness(96%) contrast(89%);
 }
 
-.image-checkbox{
+.image-checkbox {
   background-color: transparent !important;
   border: none !important;
+}
+.dropdown-button-size button {
+  width: 15vw;
+  @media (max-width: 992px) {
+    width: 35vw;
+  }
 }
