@@ -1,10 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
-function FriendList() {
-  const friends = ["Marnkneu22", "BotIzer", "Lajtaib0801", "Placeholder1"];
-
-  const listItems = friends.map((friend) => (
+export default function FriendList(props) {
+  const listItems = props.friends.map((friend) => (
     <Link
       className="list-group-item secondary"
       to={"/user/" + friend}
@@ -16,12 +14,10 @@ function FriendList() {
   return (
     <div
       data-bs-theme="dark"
-      className="list-group list-group-flush p-2 h-100 overflow-auto"
+      className="list-group list-group-flush p-2 h-100 overflow-auto custom-border"
     >
       <p className="text-center">Online</p>
       {listItems}
     </div>
   );
 }
-
-export default FriendList;

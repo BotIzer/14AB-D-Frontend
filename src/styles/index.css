@@ -8,6 +8,9 @@ body {
 .secondary {
   color: #e8cc80;
 }
+.tertiary {
+  color: #b47d7d;
+}
 
 a:hover {
   color: #b47d7d;
@@ -21,13 +24,16 @@ a:hover {
   font-weight: bold;
 }
 
-.imgSize {
+.bannerSize {
   width: 100%;
-  height: 400px;
+  height: 180px;
 }
-button {
-  margin: 5px;
+
+.profileSize {
+  width: 500px;
+  height: auto;
 }
+
 /* Create post css*/
 .nav-tabs .nav-link {
   background-color: transparent !important;
@@ -44,10 +50,19 @@ button {
 }
 
 /* Text Editor css */
-
-.text-editor .ql-toolbar button:hover {
-  color: gold;
+.text-editor .ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  color: gold !important;
 }
+.text-editor .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  border: 1px solid transparent;
+}
+
+.text-editor .ql-snow .ql-fill {
+  fill: #e8cc80 !important;
+}
+
 .text-editor .ql-editor {
   min-height: 10em;
 }
@@ -57,57 +72,32 @@ button {
   stroke: #e8cc80;
 }
 
-.text-editor .ql-toolbar .ql-fill {
-  fill: #e8cc80;
-  stroke: none;
+.text-editor .ql-toolbar .ql-picker,
+.text-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-active::before {
+  color: #e8cc80 !important;
 }
 
-.text-editor .ql-toolbar .ql-picker {
-  color: #e8cc80;
-}
-
-.text-editor button:hover .ql-stroke,
-.text-editor .ql-picker-label:hover .ql-stroke {
-  fill: none;
-  stroke: gold !important;
-}
+.text-editor .ql-snow.ql-toolbar button:hover .ql-stroke,
 .text-editor .ql-active .ql-stroke {
-  fill: none;
   stroke: gold !important;
-}
-
-.text-editor button:hover .ql-fill,
-.text-editor .ql-picker-label:hover .ql-fill {
-  fill: gold !important;
-  stroke: none;
-}
-
-.text-editor .ql-active .ql-fill {
-  fill: gold !important;
-  stroke: none;
 }
 
 .text-editor .ql-snow .ql-picker-options {
   background-color: #212529 !important;
 }
 
-.text-editor .ql-snow.ql-toolbar .ql-picker-label:hover,
-.text-editor .ql-snow .ql-toolbar .ql-picker-label:hover,
-.text-editor .ql-snow.ql-toolbar .ql-picker-label.ql-active,
-.text-editor .ql-snow .ql-toolbar .ql-picker-label.ql-active,
-.text-editor .ql-snow.ql-toolbar .ql-picker-item:hover,
-.text-editor .ql-snow .ql-toolbar .ql-picker-item:hover {
-  color: gold;
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+  display: none;
 }
-.text-editor .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
-.text-editor .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-  color: #e8cc80;
+.text-editor .ql-snow.ql-toolbar button:hover .ql-fill,
+.text-editor .ql-snow.ql-toolbar button.ql-active .ql-fill {
+  fill: gold !important;
 }
 
 /*Friends page css for border and list size*/
 .custom-border {
   border: #e8cc80 2px solid;
-  margin: 20px 0px 0px 20px;
 }
 .custom-link a:hover {
   background-color: #e8cc80;
@@ -126,6 +116,20 @@ button {
   }
 }
 
+.lg-hidden {
+  display: none;
+  @media (max-width: 992px) {
+    display: block;
+  }
+}
+
+.sm-hidden {
+  display: block;
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
 /* Setting max size on different screen sizes
    used for Form in Navigation */
 
@@ -137,6 +141,53 @@ button {
   }
 }
 
+.overflow-responsive {
+  max-height: 40vw;
+  overflow: visible;
+  @media (max-width: 992px) {
+    overflow: auto;
+  }
+}
+
+/*Create post tab sizing*/
+.tab-size {
+  width: 60vw;
+  margin: auto;
+  @media (max-width: 992px) {
+    width: 90vw;
+    margin: auto;
+  }
+}
+
+/*Dropdown menu styling*/
+
+.dropdown-button button {
+  background-color: #212529 !important;
+  border: gold solid 1px;
+  color: gold;
+}
+.btn.show {
+  color: gold;
+  border-color: gold;
+}
+
+.dropdown-button button:hover,
+.dropdown-button button:active,
+.dropdown-button button:focus {
+  background-color: #212529 !important;
+  border: #e8cc80 solid 1px;
+  color: #e8cc80;
+}
+
+.dropdown-item {
+  color: #e8cc80;
+}
+.dropdown-item:hover {
+  color: #212529;
+  background-color: #e8cc80;
+  font-weight: bold;
+}
+
 .custom-button:hover,
 .custom-button:active,
 .custom-button:focus,
@@ -144,19 +195,76 @@ button {
   background-color: #e8cc80 !important;
   color: #212529 !important;
   font-weight: bold;
-  margin: 0px !important;
+  text-shadow: none;
 }
 
-.clear-button {
+.clear-button,
+.clear-button:focus {
   background-color: #212529 !important;
   border: 0px;
 }
 .clear-button:hover,
 .clear-button:active,
-.clear-button:focus,
 .clear-button:visited {
   background-color: #212529 !important;
   color: #b47d7d !important;
   margin: 0px !important;
   border: 0px;
+}
+
+/*Chat window styling*/
+.chat-name {
+  font-size: small;
+  font-style: italic;
+  list-style-type: none;
+  margin: 0px;
+  opacity: 70%;
+  text-decoration: none;
+}
+
+.chat-name:hover {
+  color: gold;
+  opacity: 100%;
+}
+
+.chat-text {
+  font-size: small;
+  margin-bottom: 10px;
+  color: white;
+  list-style-type: none;
+}
+
+.text-outline {
+  color: inherit;
+  text-shadow: -1px 1px 2px #000, 1px 1px 2px #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
+}
+
+/*Forum page category list*/
+.no-padding-table .table-responsive {
+  padding: 0px;
+}
+
+.filter-grey {
+  filter: invert(99%) sepia(1%) saturate(2858%) hue-rotate(176deg)
+    brightness(94%) contrast(92%);
+}
+.filter-gold {
+  filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
+    brightness(102%) contrast(104%);
+}
+.filter-red {
+  filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
+    brightness(96%) contrast(89%);
+}
+
+.image-checkbox {
+  background-color: transparent !important;
+  border: none !important;
+}
+.dropdown-button-size button {
+  width: 15vw;
+  @media (max-width: 992px) {
+    width: 35vw;
+  }
 }

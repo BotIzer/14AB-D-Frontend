@@ -4,7 +4,7 @@ function FriendPopupActions() {
   const actions = ["Profile", "Message", "Remove Friend"];
   const list = actions.map((action) => (
     <Button
-      className="list-group-item secondary h-100 w-100 p-2 custom-button m-0"
+      className="list-group-item secondary h-100 w-100 p-2 custom-button"
       key={action}
     >
       <div>{action}</div>
@@ -12,7 +12,7 @@ function FriendPopupActions() {
   ));
 
   return (
-    <div data-bs-theme="dark" className="w-50 border mt-4">
+    <div data-bs-theme="dark" className="border list-group list-group-flush h-100">
       {list}
     </div>
   );

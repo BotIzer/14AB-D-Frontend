@@ -52,6 +52,7 @@ export default function Login() {
         )
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('userInfo',JSON.stringify(response.data.userInfo))
+      dispatchEvent(new Event('storage'))
       setPwd('')
       setEmail('')
       navigate('/')
@@ -93,15 +94,13 @@ export default function Login() {
                   <Form.Label htmlFor="email">Email address</Form.Label>
                   <Form.Control
                     type="email"
-                    // TODO
-                    // placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter email"}
+                     placeholder= {"Enter e-mail"}
                     id="email"
                     ref={emailRef}
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     aria-describedby="uidnote"
-                    // disabled= {cookies.get('token') !== undefined}
                   />
                   <p
                     id="uidnote"
@@ -114,18 +113,16 @@ export default function Login() {
                   <Form.Label htmlFor="password">Password</Form.Label>
                   <Form.Control
                     type="password"
-                    // placeholder= {cookies.get('token') !== undefined ? "Already logged in" : "Enter password"}
+                     placeholder= {"Enter password"}
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
                     aria-describedby="pwdnote"
-                    // disabled= {cookies.get('token') !== undefined}
                   />
                 </Form.Group>
                 <button
-                  // disabled={!validEmail || !pwd || cookies.get('token') !== undefined}
                   type="submit"
-                  className="btn btn-warning"
+                  className="btn btn-warning mb-2"
                 >
                   Login
                 </button>
