@@ -1,4 +1,4 @@
-import { Button, FormGroup } from "react-bootstrap";
+import { Button, DropdownItem, FormGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -8,14 +8,18 @@ import axios from "../api/axios";
 // import { useState } from "react";
 // import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useEffect, useState } from "react";
 
 function CreatePost() {
-  // const [imgList, setImgList] = useState([]);
+  const [imgList, setImgList] = useState([]);
   // const AddToList = (text) => {
   //   if (text != null && text!= "") {
   //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
   //   }
   // }
+  useEffect(()=>{
+    
+  },[imgList])
   const SendPost = async () => {
     await axios.post(
       "/thread",
@@ -39,9 +43,13 @@ function CreatePost() {
       editor.innerHTML = "";
       const titles = document.querySelectorAll(".title");
       titles.forEach((title) => (title.value = ""));
+      document.getElementById("fileUpload").value = "";
     }
-    document.getElementById("fileUpload").value = "";
   };
+  const AddImage = () => {
+    setImgList(prevItems=>[...prevItems,{url: "alma"}]);
+    console.log("alma");
+  }
   return (
     <>
       <Navigation></Navigation>
@@ -87,13 +95,6 @@ function CreatePost() {
           data-bs-theme="dark"
         >
           <FormGroup className="p-2 w-100 h-100">
-            <Form.Label className="secondary">Title</Form.Label>
-            <Form.Control
-              size="lg"
-              type="text"
-              placeholder="Title"
-              className="mb-3 title"
-            />
             <div className="d-flex justify-content-around m-2 secondary">
               <DropdownButton
                 data-bs-theme="dark"
@@ -101,7 +102,11 @@ function CreatePost() {
                 title="Added Links:"
                 className="dropdown-button"
               >
-                {/* {imgList ? imgList : null} */}
+                {imgList.map((item,index) => (
+                  <DropdownItem key={index}>
+                    {item.url}
+                  </DropdownItem>
+                ))}
               </DropdownButton>
               <Form.Control
                 className="w-100"
@@ -111,7 +116,7 @@ function CreatePost() {
               <Button
                 variant="outline-warning"
                 className="custom-button"
-                // onClick={() => setImgList([...imgList, AddToList(document.getElementById("fileUpload").value)])}
+                onClick={() => AddImage()}
               >
                 Add
               </Button>

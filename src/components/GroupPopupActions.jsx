@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 
 function FriendPopupActions() {
-  const actions = ["Profile", "Remove Friend"];
+  const actions = ["Leave Group"];
   const list = actions.map((action) => (
     <Button
       className="list-group-item secondary h-100 w-100 p-2 custom-button"

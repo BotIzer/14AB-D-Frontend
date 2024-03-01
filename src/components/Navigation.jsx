@@ -97,7 +97,8 @@ function Navigation() {
                 onKeyDown={HandleKeyDown}
                 style={{ fontSize: "16px" }}
               />
-            <Dropdown show>
+              {/* TODO: FIX BIG TEXT PROBLEM */}
+            <Dropdown>
             <Dropdown.Menu className="custom-mw">
       {dummyItems.map((item) => (
         <Dropdown.Item className="d-flex justify-content-center"  key={item.id}>{item.name}</Dropdown.Item>

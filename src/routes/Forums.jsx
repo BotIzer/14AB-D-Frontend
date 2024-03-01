@@ -1,6 +1,7 @@
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Button, Form, FormGroup } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import ForumCard from "../components/ForumCard";
+import axios from "../api/axios";
 
 function Forums() {
   const loadedForums = [
@@ -67,12 +68,54 @@ function Forums() {
     <Row className="m-3 p-0" key={forum.title}>
       <ForumCard forum={forum}></ForumCard>
     </Row>
-  ));
+    )
+    );
+  // placeholder function
+  const createForum = async () =>{
+    await axios.post(
+      "/forum",
+      {
+        forum_name: document.getElementById('forumName').value,
+        banner: document.getElementById('bannerLink').value
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    console.log("HAHAA");
+  }
   return (
     <>
       <Navigation></Navigation>
       <Container fluid>
         <Row className="m-5">
+          {/* All of this is placeholder for the real form control and stuff
+          that Boti will insert here */}
+          <FormGroup>
+        <div className="row m-0">
+          <Form.Control
+            id="forumName"
+            placeholder="Forum Name"
+            className="w-75"
+            autoFocus
+          ></Form.Control>
+          <Form.Control
+            id="bannerLink"
+            placeholder="Forum Banner"
+            className="w-75"
+            autoFocus
+          ></Form.Control>
+          <Button
+            variant="outline-warning"
+            className="custom-button w-25 p-0 overflow-hidden"
+            type="submit"
+            onClick={() => createForum()}
+          >
+            Create Forum
+          </Button>
+          {/* https://i.imgur.com/BUEk7j4.mp4 */}
+        </div>
+      </FormGroup>
           <h1 className="text-center">Popular forums</h1>
         </Row>
         <Row className="border justify-content-center">

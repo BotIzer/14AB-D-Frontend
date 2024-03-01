@@ -5,8 +5,9 @@ function ForumCard(forum) {
   const navigate = useNavigate();
 
   const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
-  const categoryList = forum.forum.categories.map((category) => (
-    <th style={{ fontSize: "small" }} key={category}>
+  // TODO: Fix this
+  const categoryList = forum.forum.categories.map((category,index) => (
+    <th style={{ fontSize: "small" }} key={index}>
       <i className="tertiary">{category}</i>
     </th>
   ));

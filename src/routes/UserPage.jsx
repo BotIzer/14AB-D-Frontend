@@ -90,7 +90,8 @@ export default function UserPage() {
               ></Image>
             </Row>
             <Row className="d-flex justify-content-center">
-              <OverlayTrigger placement="right" overlay={<Tooltip>Message</Tooltip>}>
+              <OverlayTrigger placement="right" overlay={<Tooltip>
+                {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
               <p className="text-justify secondary">
