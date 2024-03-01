@@ -268,3 +268,6 @@ a:hover {
     width: 35vw;
   }
 }
+.dropdown-button-size .dropdown-menu{
+  width: 100%;
+}
