@@ -36,7 +36,7 @@ export default function UserPage() {
           },
           withCredentials: true,
         })
-        if (response.data.returnArray[0].name === user) {
+        if (response.data.returnArray[0].name !== user) {
           const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
             headers: {
               'Content-Type': 'application/json',

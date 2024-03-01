@@ -10,7 +10,6 @@ function ChatWindow(currentChatData) {
   const friend = useParams(location.pathname.split('/')[1]).user
   const [messages, setMessages] = useState([])
   useEffect(()=>{
-    console.log(friend);
     setMessages(currentChatData.chatData)
   },[currentChatData]);
   useEffect(() => {
@@ -78,7 +77,12 @@ function ChatWindow(currentChatData) {
     )
     document.getElementById('sendMsg').value = "";
   }
-
+  const HandleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      SendMsg()
+    }
+  };
   return (
     // TODO: make scrollable look good
     <div className="p-2 h-100 border overflow-auto">
@@ -89,6 +93,7 @@ function ChatWindow(currentChatData) {
             placeholder="Send message"
             className="w-75"
             autoFocus
+            onKeyDown={HandleKeyDown}
           ></Form.Control>
           <Button
             variant="outline-warning"
