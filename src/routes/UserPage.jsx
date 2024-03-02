@@ -53,6 +53,26 @@ export default function UserPage() {
     };
     GetPageDetails();
   }, [user]);
+  const SendFriendRequest = async () =>{
+    try {
+      await axios.post(
+        `/friend/${user}`,
+        {
+          friendName: user,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+    } catch (err) {
+      setError(err);
+    }
+  }
+
 
   if (error !== "") {
     return <ErrorPage errorStatus={error} />;
@@ -94,6 +114,8 @@ export default function UserPage() {
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
+                {user !== JSON.parse(localStorage.getItem('userInfo')).username ?
+                  <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}} onClick={()=>SendFriendRequest()}>Add Friend</Button> : null}
               <p className="text-justify secondary">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
                 tincidunt pellentesque pretium. Integer quis dolor mi. Aenean

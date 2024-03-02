@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
 import ErrorPage from '../error-page'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 
 function Friends() {
   const [friends, setFriends] = useState([])
@@ -15,10 +15,12 @@ function Friends() {
   const [comments, setComments] = useState([])
   const [error, setError] = useState('')
   const [selectedChat, setSelectedChat] = useState(null)
+  const [selectedFriend,setSelectedFriend] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
-  
+
   const navigate = useNavigate()
+
   useEffect(() => {
     const GetFriends = async () => {
       try {
@@ -60,6 +62,7 @@ function Friends() {
           e.preventDefault()
           setShowPopup(!showPopup)
           setShowChat(false)
+          setSelectedFriend(chat.friend_user_name)
         }}
         onClick={async (e) => {
           e.preventDefault()
@@ -144,8 +147,8 @@ function Friends() {
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{height: "50vh"}}>
-          {console.log(selectedChat )}
-          {showPopup && selectedChat === "alma"? <FriendPopupActions /> : null}
+          {/* TODO: change this */}
+          {showPopup? <FriendPopupActions  friend={selectedFriend}/> : null}
           {showChat ? <ChatWindow chatData={comments} /> : null}
         </Col>
       </Row>

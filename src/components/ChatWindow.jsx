@@ -4,11 +4,13 @@ import { Form, FormGroup, Button } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
+import FriendMenu from './FriendMenu'
 
 function ChatWindow(currentChatData) {
   const location = useLocation()
   const friend = useParams(location.pathname.split('/')[1]).user
   const [messages, setMessages] = useState([])
+  const [showFriends, setShowFriends] = useState(false)
   useEffect(()=>{
     setMessages(currentChatData.chatData)
   },[currentChatData]);
@@ -83,10 +85,30 @@ function ChatWindow(currentChatData) {
       SendMsg()
     }
   };
+  const AddToChat = async () =>{
+    setShowFriends(true);
+    // await axios.post(
+    //   '/chat/addFriend',
+    //   {
+    //     friendName: ,
+    //     chat_id: 
+    //   },
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       authorization: `Bearer ${localStorage.getItem('token')}`,
+    //     },
+    //     withCredentials: true,
+    //   })
+  }
   return (
     // TODO: make scrollable look good
     <div className="p-2 h-100 border overflow-auto">
+      {/* TODO: Make it scroll with Chat live navbar */}
+      <Button onClick={()=>AddToChat()}>Add friend</Button>
       <MessageList messages={messages}></MessageList>
+      {/* TODO make this look normal*/}
+      {showFriends ? <FriendMenu></FriendMenu> : null}
       <FormGroup controlId="sendMsg">
         <div className="row m-0">
           <Form.Control
