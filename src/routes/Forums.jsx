@@ -1,9 +1,11 @@
 import { Col, Row, Container, Button, Form, FormGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import ForumCard from "../components/ForumCard";
 import axios from "../api/axios";
 
 function Forums() {
+  const navigate = useNavigate();
   const loadedForums = [
     {
       title: "DummyTitle",
@@ -88,35 +90,11 @@ function Forums() {
     <>
       <Navigation></Navigation>
       <Container fluid>
+      <Button className="m-5 clear-button position-fixed bottom-0 end-0" style={{backgroundColor: '#343a40'}} onClick={() => navigate("/createforum/")}><img className="hover-filter-gold" src="/src/assets/icons/add_forum.png"alt="add forum" /></Button> 
         <Row className="m-5">
-          {/* All of this is placeholder for the real form control and stuff
-          that Boti will insert here */}
-          <FormGroup>
-        <div className="row m-0">
-          <Form.Control
-            id="forumName"
-            placeholder="Forum Name"
-            className="w-75"
-            autoFocus
-          ></Form.Control>
-          <Form.Control
-            id="bannerLink"
-            placeholder="Forum Banner"
-            className="w-75"
-            autoFocus
-          ></Form.Control>
-          <Button
-            variant="outline-warning"
-            className="custom-button w-25 p-0 overflow-hidden"
-            type="submit"
-            onClick={() => createForum()}
-          >
-            Create Forum
-          </Button>
-          {/* https://i.imgur.com/BUEk7j4.mp4 */}
-        </div>
-      </FormGroup>
-          <h1 className="text-center">Popular forums</h1>
+          <h1 className="text-center">
+            Popular forums
+          </h1>
         </Row>
         <Row className="border justify-content-center">
           <Col xs={12} md={6}>
