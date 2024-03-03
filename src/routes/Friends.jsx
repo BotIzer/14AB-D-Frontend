@@ -149,7 +149,7 @@ function Friends() {
         <Col className="m-0 p-0" style={{height: "50vh"}}>
           {/* TODO: change this */}
           {showPopup? <FriendPopupActions  friend={selectedFriend}/> : null}
-          {showChat ? <ChatWindow chatData={comments} /> : null}
+          {showChat ? <ChatWindow chatData={comments} selectedChat={selectedChat}/> : null}
         </Col>
       </Row>
     </>

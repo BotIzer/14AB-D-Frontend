@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "../api/axios";
 
-export default function FriendMenu() {
+export default function FriendMenu(props) {
     const [friends, setFriends] = useState([]);
+    const [chat, setChat] = useState(null);
     useEffect(() => {
+      setChat(props.chat);
         async function GetFriends() {
             try {
                 const response = await axios.get('/friends', {
@@ -25,12 +27,12 @@ export default function FriendMenu() {
         
         GetFriends();
     }, []);
-    const AddToChat = async () =>{
+    const AddToChat = async (friend) =>{
         await axios.post(
           '/chat/addFriend',
           {
             friendName: friend,
-            chat_id: 
+            chat_id: props.chat,
           },
           {
             headers: {
@@ -40,13 +42,13 @@ export default function FriendMenu() {
             withCredentials: true,
           })
       }
-  const listItems = friends.map((friend) => (
-    <Button
-    key={friend}
-    onClick={AddToChat}>
-        {friend}
+      const listItems = friends.map((friend) => (
+        <Button
+            key={friend}
+            onClick={() => AddToChat(friend)}>
+            {friend}
         </Button>
-  ));
+    ));
   return (
     <div
       data-bs-theme="dark"
