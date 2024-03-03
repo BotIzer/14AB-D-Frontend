@@ -2,7 +2,6 @@ import { Button, DropdownItem, FormGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 // import { useState } from "react";
@@ -20,37 +19,36 @@ function CreateForum() {
   useEffect(()=>{
     
   },[imgList])
-  // const SendPost = async () => {
-  //   await axios.post(
-  //     "/thread",
-  //     {
-  //       forum_name: "Chit-chat",
-  //       name: document.querySelector(".title").value,
-  //       content: document.querySelector(".ql-editor").innerText,
-  //     },
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //       withCredentials: true,
-  //     }
-  //   );
-  // }; //TODO make this post a forum
+  const SendPost = async () => {
+    const title = document.getElementById('title').value.trim();
+    const banner = document.getElementById('fileUpload').value.trim();
+    if (title !== "" && banner !== "") {
+      await axios.post(
+        "/forum",
+        {
+          forum_name: title,
+          banner: banner,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+    }
+    else{
+      return;
+    }
+    
+  };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
-      const editor = document.querySelector(".ql-editor");
-      editor.innerHTML = "";
-      const titles = document.querySelectorAll(".title");
-      titles.forEach((title) => (title.value = ""));
+      document.getElementById("title").value = "";
       document.getElementById("fileUpload").value = "";
     }
   };
-  const AddImage = () => {
-    setImgList(prevItems=>[...prevItems,{url: "alma"}]);
-    console.log("alma");
-    //TODO make this not add static item, limit items to only one (forum can only have one banner at a time)
-  }
   return (
     <>
       <Navigation></Navigation>
@@ -68,38 +66,18 @@ function CreateForum() {
               type="text"
               placeholder="Title"
               className="mb-3 title"
+              id="title"
             />
-            <Form.Label className="secondary">Description</Form.Label>
-            <TextEditor className="h-100"></TextEditor>
           </FormGroup>
         
           <FormGroup className="p-2 w-100 h-100">
             <div className="d-flex justify-content-around m-2 secondary">
-              <DropdownButton
-                data-bs-theme="dark"
-                drop="down-centered"
-                title="Banner link:"
-                className="dropdown-button"
-              >
-                {imgList.map((item,index) => (
-                  <DropdownItem key={index}>
-                    {item.url}
-                  </DropdownItem>
-                ))}
-              </DropdownButton>
               <Form.Control
                 data-bs-theme="dark"
                 className="w-100 mx-5"
                 placeholder="paste banner link here"
                 id="fileUpload"
               ></Form.Control>
-              <Button
-                variant="outline-warning"
-                className="custom-button"
-                onClick={() => AddImage()}
-              >
-                Add
-              </Button>
             </div>
             <div
               className="d-flex justify-content-around my-3"
