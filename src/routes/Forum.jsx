@@ -1,8 +1,10 @@
 import Navigation from "../components/Navigation";
-import { Col, Row, Container, Table } from "react-bootstrap";
+import { Col, Row, Container, Table, Button } from "react-bootstrap";
 import PostCard from "../components/PostCard";
+import { useNavigate } from "react-router-dom";
 
 function Forum() {
+  const navigate = useNavigate();
   const dummyForum = {
     id: 1,
     title: "Dummy Forum",
@@ -45,6 +47,7 @@ function Forum() {
     <>
       <Navigation></Navigation>
       <Container fluid>
+      <Button className="m-5 clear-button position-fixed bottom-0 end-0" style={{backgroundColor: '#343a40'}} onClick={() => navigate("/createpost/")}><img className="hover-filter-gold" src="/src/assets/icons/add_forum.png"alt="add forum" /></Button> 
         <Row
           className="p-2"
           style={{
