@@ -18,24 +18,28 @@ function CreatePost() {
   //   }
   // }
   useEffect(()=>{
-    
+    console.log(imgList);
   },[imgList])
   const SendPost = async () => {
-    await axios.post(
-      "/thread",
-      {
-        forum_name: "Chit-chat",
-        name: document.querySelector(".title").value,
-        content: document.querySelector(".ql-editor").innerText,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
+    if (document.querySelector(".title").value.trim() !== "") {
+      await axios.post(
+        "/thread",
+        {
+          forum_name: "Chit-chat",
+          name: document.querySelector(".title").value,
+          content: document.querySelector(".ql-editor").innerText,
+          images: imgList
         },
-        withCredentials: true,
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+    }
+
   };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
@@ -47,8 +51,7 @@ function CreatePost() {
     }
   };
   const AddImage = () => {
-    setImgList(prevItems=>[...prevItems,{url: "alma"}]);
-    console.log("alma");
+    setImgList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
   }
   return (
     <>
@@ -104,7 +107,7 @@ function CreatePost() {
               >
                 {imgList.map((item,index) => (
                   <DropdownItem key={index}>
-                    {item.url}
+                    {item}
                   </DropdownItem>
                 ))}
               </DropdownButton>
