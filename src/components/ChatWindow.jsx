@@ -11,6 +11,7 @@ function ChatWindow(currentChatData) {
   const friend = useParams(location.pathname.split('/')[1]).user
   const [messages, setMessages] = useState([])
   const [showFriends, setShowFriends] = useState(false)
+  const [currentChat,setCurrentChat] = useState(null)
   useEffect(()=>{
     setMessages(currentChatData.chatData)
   },[currentChatData]);
@@ -23,6 +24,7 @@ function ChatWindow(currentChatData) {
       console.log(data);
       setMessages(prevMessages => [...prevMessages, data]) 
     });
+    setCurrentChat(currentChatData.selectedChat)
     return () => {
       socket.off("message");
       socket.disconnect();
@@ -108,7 +110,7 @@ function ChatWindow(currentChatData) {
       <Button onClick={()=>AddToChat()}>Add friend</Button>
       <MessageList messages={messages}></MessageList>
       {/* TODO make this look normal*/}
-      {showFriends ? <FriendMenu></FriendMenu> : null}
+      {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
       <FormGroup controlId="sendMsg">
         <div className="row m-0">
           <Form.Control
