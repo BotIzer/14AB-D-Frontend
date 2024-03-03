@@ -10,8 +10,8 @@ import axios from "../api/axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
 
-function CreatePost() {
-  const [imgList, setImgList] = useState([]);
+function CreateForum() {
+  const [imgList, setImgList] = useState([]); 
   // const AddToList = (text) => {
   //   if (text != null && text!= "") {
   //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
@@ -20,23 +20,23 @@ function CreatePost() {
   useEffect(()=>{
     
   },[imgList])
-  const SendPost = async () => {
-    await axios.post(
-      "/thread",
-      {
-        forum_name: "Chit-chat",
-        name: document.querySelector(".title").value,
-        content: document.querySelector(".ql-editor").innerText,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        withCredentials: true,
-      }
-    );
-  };
+  // const SendPost = async () => {
+  //   await axios.post(
+  //     "/thread",
+  //     {
+  //       forum_name: "Chit-chat",
+  //       name: document.querySelector(".title").value,
+  //       content: document.querySelector(".ql-editor").innerText,
+  //     },
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //       withCredentials: true,
+  //     }
+  //   );
+  // }; //TODO make this post a forum
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
       const editor = document.querySelector(".ql-editor");
@@ -49,17 +49,18 @@ function CreatePost() {
   const AddImage = () => {
     setImgList(prevItems=>[...prevItems,{url: "alma"}]);
     console.log("alma");
+    //TODO make this not add static item, limit items to only one (forum can only have one banner at a time)
   }
   return (
     <>
       <Navigation></Navigation>
       <Tabs
-        defaultActiveKey="post"
+        defaultActiveKey="forum"
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
       >
-        <Tab eventKey="post" title="Post" className="border tab-size p-2">
+        <Tab eventKey="forum" title="Create forum" className="border tab-size p-2">
           <FormGroup className="p-2 w-100 h-100" data-bs-theme="dark">
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control
@@ -68,38 +69,16 @@ function CreatePost() {
               placeholder="Title"
               className="mb-3 title"
             />
-            <Form.Label className="secondary">Body</Form.Label>
+            <Form.Label className="secondary">Description</Form.Label>
             <TextEditor className="h-100"></TextEditor>
-            <div className="d-flex justify-content-around my-3">
-              <Button
-                variant="outline-warning"
-                size="lg"
-                onClick={() => SendPost()}
-              >
-                Post
-              </Button>
-              <Button
-                variant="outline-danger"
-                size="lg"
-                onClick={() => ClearAll()}
-              >
-                Clear all
-              </Button>
-            </div>
           </FormGroup>
-        </Tab>
-        <Tab
-          eventKey="media"
-          title="Media File"
-          className="border p-2 tab-size"
-          data-bs-theme="dark"
-        >
+        
           <FormGroup className="p-2 w-100 h-100">
             <div className="d-flex justify-content-around m-2 secondary">
               <DropdownButton
                 data-bs-theme="dark"
                 drop="down-centered"
-                title="Added Links:"
+                title="Banner link:"
                 className="dropdown-button"
               >
                 {imgList.map((item,index) => (
@@ -109,8 +88,9 @@ function CreatePost() {
                 ))}
               </DropdownButton>
               <Form.Control
+                data-bs-theme="dark"
                 className="w-100 mx-5"
-                placeholder="paste Imgur link here"
+                placeholder="paste banner link here"
                 id="fileUpload"
               ></Form.Control>
               <Button
@@ -128,10 +108,10 @@ function CreatePost() {
               <Button
                 variant="outline-warning"
                 size="lg"
-                onClick={() => SendPost()}
+                onClick={() => SendPost()} /*TODO Rename this function */
                 className="mt-3"
               >
-                Post
+                Create
               </Button>
               <Button
                 variant="outline-danger"
@@ -143,10 +123,10 @@ function CreatePost() {
               </Button>
             </div>
           </FormGroup>
-        </Tab>
+          </Tab>
       </Tabs>
     </>
   );
 }
 
-export default CreatePost;
+export default CreateForum;

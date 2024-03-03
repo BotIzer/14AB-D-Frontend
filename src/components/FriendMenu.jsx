@@ -30,7 +30,7 @@ export default function FriendMenu() {
           '/chat/addFriend',
           {
             friendName: friend,
-            chat_id: 
+            chat_id: 0, //I dont know if this change is needed, this field was left without value and project couldnt start because of it
           },
           {
             headers: {
