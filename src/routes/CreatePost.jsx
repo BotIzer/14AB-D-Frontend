@@ -9,6 +9,7 @@ import axios from "../api/axios";
 // import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function CreatePost() {
   const [imgList, setImgList] = useState([]);
@@ -17,6 +18,9 @@ function CreatePost() {
   //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
   //   }
   // }
+  const location = useLocation();
+  const forumName = location.pathname.split("/")[2];
+  console.log(forumName);
   useEffect(()=>{
     console.log(imgList);
   },[imgList])
@@ -26,7 +30,7 @@ function CreatePost() {
       await axios.post(
         "/thread",
         {
-          forum_name: "Chit-chat",
+          forum_name: forumName,
           name: document.querySelector(".title").value,
           content: document.querySelector(".ql-editor").innerText,
           images: imgList

@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/createpost",
+    path: "/forums/:forumName/createpost",
     element: <CreatePost></CreatePost>,
     errorElement: <ErrorPage></ErrorPage>,
   },

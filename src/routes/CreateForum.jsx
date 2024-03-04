@@ -10,7 +10,7 @@ function CreateForum() {
     const title = document.getElementById('title').value.trim();
     const banner = document.getElementById('fileUpload').value.trim();
     if (title !== "" && banner !== "") {
-      // TODO: Displayer error if title/banner is empty!
+      // TODO: Display error if title/banner is empty!
       await axios.post(
         "/forum",
         {

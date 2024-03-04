@@ -6,7 +6,7 @@ function ForumCard(forum) {
 
   const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
   // TODO: Fix this
-  const categoryList = forum.forum.categories.map((category,index) => (
+  const categoryList = forum.forum.tags.map((category,index) => (
     <th style={{ fontSize: "small" }} key={index}>
       <i className="tertiary">{category}</i>
     </th>
@@ -14,7 +14,7 @@ function ForumCard(forum) {
   return (
     <>
       <Card className="text-center p-0" data-bs-theme="dark">
-        <Card.Header className="primary">{forum.forum.title}</Card.Header>
+        <Card.Header className="primary">{forum.forum.forum_name}</Card.Header>
         <Card.Body
           className="secondary"
           style={{
@@ -25,13 +25,15 @@ function ForumCard(forum) {
           }}
         >
           <Card.Title className="text-outline">
-            {forum.forum.topPost.title}
+            {/* {forum.forum.topPost.title} */}
+            We need to fix this ASAP
           </Card.Title>
           <Card.Text className="text-outline">
-            <i>{forum.forum.topPost.content}</i>
+            {/* <i>{forum.forum.topPost.content}</i> */}
+            <i>Fix this too</i>
           </Card.Text>
           <Button
-            onClick={() => navigate("/forums/" + forum.forum.title)}
+            onClick={() => navigate("/forums/" + forum.forum.forum_name)}
             className="custom-button text-outline"
             variant="outline-warning"
           >

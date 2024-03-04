@@ -3,9 +3,29 @@ import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import ForumCard from "../components/ForumCard";
 import axios from "../api/axios";
+import { useEffect, useState } from "react";
 
 function Forums() {
   const navigate = useNavigate();
+  const [forums, setForums] = useState([]);
+  useEffect(() => {
+    const GetForums = async () => {
+      const response =  await axios.get(
+         '/forum',
+         {
+           headers: {
+             'Content-Type': 'application/json',
+             authorization: `Bearer ${localStorage.getItem('token')}`,
+           },
+           withCredentials: true,
+         }
+       )
+       setForums(response.data)
+       console.log(response.data[0]);
+     }
+     GetForums()
+  },[])
+  
   const loadedForums = [
     {
       title: "DummyTitle",
@@ -66,8 +86,8 @@ function Forums() {
       lastUpdated: "2021-06-28T14:30:00.000Z",
     },
   ];
-  const listForums = loadedForums.map((forum) => (
-    <Row className="m-3 p-0" key={forum.title}>
+  const listForums = forums.map((forum) => (
+    <Row className="m-3 p-0" key={forum.forum_name}>
       <ForumCard forum={forum}></ForumCard>
     </Row>
     )

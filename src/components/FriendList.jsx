@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "../api/axios";
 import { useEffect, useState } from "react";
 
-export default function FriendList(props) {
+export default function FriendList() {
 
   const [friends, setFriends] = useState([])
   useEffect(() => {
