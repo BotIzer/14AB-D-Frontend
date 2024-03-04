@@ -230,6 +230,7 @@ a:hover {
   margin-bottom: 10px;
   color: white;
   list-style-type: none;
+  word-wrap: break-word;
 }
 
 .text-outline {

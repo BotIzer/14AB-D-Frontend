@@ -6,7 +6,7 @@ function MessageList(props) {
   }
   const messages = props.messages.map((message) => {
     return (
-      <div key={message._id.message_id} style={borderStyle}>
+      <div className='w-100' key={message._id.message_id} style={borderStyle}>
         <Link to={'/user/' + message.creator_name} className="chat-name secondary">
           {message.creator_name}
         </Link>
