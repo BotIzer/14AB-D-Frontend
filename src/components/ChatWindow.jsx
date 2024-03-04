@@ -105,7 +105,7 @@ function ChatWindow(currentChatData) {
   }
   return (
     // TODO: make scrollable look good
-    <div className="p-2 h-100 border overflow-auto">
+    <div className="p-2 h-100 w-100 border overflow-auto">
       {/* TODO: Make it scroll with Chat live navbar */}
       <Button onClick={()=>AddToChat()}>Add friend</Button>
       <MessageList messages={messages}></MessageList>

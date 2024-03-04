@@ -146,7 +146,7 @@ function Friends() {
             {groupList}
           </Row>
         </Col>
-        <Col className="m-0 p-0" style={{height: "50vh"}}>
+        <Col className="m-0 p-0" style={{height: "50vh", width: "50vw"}}>
           {/* TODO: change this */}
           {showPopup? <FriendPopupActions  friend={selectedFriend}/> : null}
           {showChat ? <ChatWindow chatData={comments} selectedChat={selectedChat}/> : null}

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Col, ToggleButton } from "react-bootstrap";
+import { Card, Button, Col, Row, ToggleButton } from "react-bootstrap";
 import { daysDifference } from "./ForumCard"; //<-- idk where to put this
 import { useState } from "react";
 
@@ -9,52 +9,54 @@ export default function PostCard({ post }) {
 
   const [isDisLiked, setIsDisLiked] = useState(false);
   return (
-    <Card className="text-center p-0" data-bs-theme="dark" xs={12} md={6}>
+    <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
       <Card.Header className="primary">{post.title}</Card.Header>
-      <Card.Body className="secondary">
-        <Card.Title>{post.title}</Card.Title>
-        <Card.Text>{post.content}</Card.Text>
-        <Button
-          onClick={() => navigate(`/posts/${post.id}`)}
-          className="custom-button text-outline"
-          variant="outline-warning"
-        >
-          View post
-        </Button>
+      <Card.Body className="secondary" style={{height: '200px'}}>
+        <Card.Text>{post.content}</Card.Text> {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
       </Card.Body>
       <Card.Footer>
-        <Col className="text-start">
-          <ToggleButton
-            id="1"
-            className="image-checkbox"
-            type="checkbox"
-            variant="secondary"
-            checked={isLiked}
-            value="1"
-            onChange={(e) => setIsLiked(e.currentTarget.checked)}
-          >
-            <img
-              src="/src/assets/icons/fist_bump_64.png"
-              alt="fist-bump"
-              className={isLiked ? "filter-gold" : "filter-grey"}
-            />
-          </ToggleButton>
-          <ToggleButton
-            id="2"
-            className="image-checkbox"
-            type="checkbox"
-            variant="secondary"
-            checked={isDisLiked}
-            value="1"
-            onChange={(e) => setIsDisLiked(e.currentTarget.checked)}
-          >
-            <img
-              src="/src/assets/icons/skull.png"
-              alt="skull"
-              className={isDisLiked ? "filter-red" : "filter-grey"}
-            />
-          </ToggleButton>
-        </Col>
+        <Row>
+          <Col className="text-start">
+            {/*TODO make toggle button id-s somehow dynamic, currently all post buttons set the color of the first one*/}
+            <ToggleButton
+              id="1"
+              className="image-checkbox position-relative"
+              type="checkbox"
+              variant="secondary"
+              checked={isLiked}
+              value="1"
+              onChange={(e) => setIsLiked(e.currentTarget.checked)}
+            >
+              <img
+                src="/src/assets/icons/fist_bump_64.png"
+                alt="fist-bump"
+                className={isLiked ? "filter-gold" : "filter-grey"}
+              />
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.likes}</span> {/*TODO good luck with making this dynamic :3*/}
+            </ToggleButton>
+            <ToggleButton
+              id="2"
+              className="image-checkbox position-relative"
+              type="checkbox"
+              variant="secondary"
+              checked={isDisLiked}
+              value="1"
+              onChange={(e) => setIsDisLiked(e.currentTarget.checked)}
+            >
+              <img
+                src="/src/assets/icons/skull.png"
+                alt="skull"
+                className={isDisLiked ? "filter-red" : "filter-grey"}
+              />
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.dislikes}</span>
+            </ToggleButton>
+          </Col>
+          <Col className="text-end my-auto">
+            <Button className="comments-button tertiary position-relative" /*onClick={() => navigate("/post/comments")} TODO make this navigate to comment section*/ >
+              Comments <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.comment_count}</span>
+            </Button>
+          </Col>
+        </Row>
       </Card.Footer>
       <Card.Footer className="text-muted">
         Posted {daysDifference(post.postDate, new Date())} days ago
