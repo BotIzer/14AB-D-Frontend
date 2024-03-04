@@ -200,15 +200,14 @@ a:hover {
 
 .clear-button,
 .clear-button:focus {
-  background-color: transparent;
-  border: 0px;
+  background-color: transparent !important;
+  border: 0px !important;
 }
 .clear-button:hover,
 .clear-button:active,
 .clear-button:visited {
-  background-color: transparent;
+  background-color: transparent !important;
   color: #b47d7d !important;
-  border: 0px;
 }
 
 /*Chat window styling*/
@@ -276,4 +275,25 @@ a:hover {
   width: 100%;
 }
 
+.comments-button,
+.comments-button:focus {
+  background-color: transparent;
+  border: 0px;
+}
+.comments-button:hover{
+  background-color: transparent;
+  color: gold ;  
+}
+
+.comments-button:active{
+
+  background-color: #e8cc80 !important;
+  color: #212529 !important;
+}
+
+.comments-button:visited {
+  background-color: transparent;
+  color: #b47d7d;
+
+}
 
