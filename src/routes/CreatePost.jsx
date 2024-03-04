@@ -21,6 +21,7 @@ function CreatePost() {
     console.log(imgList);
   },[imgList])
   const SendPost = async () => {
+    //TODO - Add error when empty
     if (document.querySelector(".title").value.trim() !== "") {
       await axios.post(
         "/thread",

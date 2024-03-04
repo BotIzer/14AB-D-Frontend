@@ -1,28 +1,16 @@
-import { Button, DropdownItem, FormGroup } from "react-bootstrap";
+import { Button, FormGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-// import { useState } from "react";
-// import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import { useEffect, useState } from "react";
 
 function CreateForum() {
-  const [imgList, setImgList] = useState([]); 
-  // const AddToList = (text) => {
-  //   if (text != null && text!= "") {
-  //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
-  //   }
-  // }
-  useEffect(()=>{
-    
-  },[imgList])
-  const SendPost = async () => {
+  const CreateForum = async () => {
     const title = document.getElementById('title').value.trim();
     const banner = document.getElementById('fileUpload').value.trim();
     if (title !== "" && banner !== "") {
+      // TODO: Displayer error if title/banner is empty!
       await axios.post(
         "/forum",
         {
@@ -86,7 +74,7 @@ function CreateForum() {
               <Button
                 variant="outline-warning"
                 size="lg"
-                onClick={() => SendPost()} /*TODO Rename this function */
+                onClick={() => CreateForum()} /*TODO Rename this function */
                 className="mt-3"
               >
                 Create

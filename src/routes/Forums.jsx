@@ -72,25 +72,13 @@ function Forums() {
     </Row>
     )
     );
-  // placeholder function
-  const createForum = async () =>{
-    await axios.post(
-      "/forum",
-      {
-        forum_name: document.getElementById('forumName').value,
-        banner: document.getElementById('bannerLink').value
-      },
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    console.log("HAHAA");
-  }
+
   return (
     <>
       <Navigation></Navigation>
       <Container fluid>
-      <Button className="m-5 clear-button position-fixed bottom-0 end-0" style={{backgroundColor: '#343a40'}} onClick={() => navigate("/createforum/")}><img className="hover-filter-gold" src="/src/assets/icons/add_forum.png"alt="add forum" /></Button> 
+      <Button className="m-5 clear-button position-fixed bottom-0 end-0" style={{backgroundColor: '#343a40'}} 
+      onClick={() => navigate("/createforum/")}><img className="hover-filter-gold" src="/src/assets/icons/add_forum.png"alt="add forum" /></Button> 
         <Row className="m-5">
           <h1 className="text-center">
             Popular forums

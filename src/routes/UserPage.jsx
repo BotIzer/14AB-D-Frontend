@@ -30,23 +30,26 @@ export default function UserPage() {
             headers: { "Content-Type": "application/json" },
           }
         );
-        const response = await axios.get('/chats', {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        })
-        if (response.data.returnArray[0].name !== user) {
-          const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
+        if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
+          const response = await axios.get('/chats', {
             headers: {
               'Content-Type': 'application/json',
               authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             withCredentials: true,
           })
-          setMessages(chatData.data.comments)
+          if (response.data.returnArray[0].friend_user_name === user) {
+            const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            })
+            setMessages(chatData.data.comments)
+          }
         }
+        
       } catch (err) {
         setError(err);
       }
@@ -72,8 +75,6 @@ export default function UserPage() {
       setError(err);
     }
   }
-
-
   if (error !== "") {
     return <ErrorPage errorStatus={error} />;
   }

@@ -1,9 +1,11 @@
 import { Button } from "react-bootstrap";
 import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 function FriendPopupActions(props) {
+  const navigate = useNavigate();
   const RemoveFriend = async () =>{
-    const response = await axios.delete(
+    await axios.delete(
       `/friend/${props.friend}`,
       {
         friendName: props.friend,
@@ -17,11 +19,15 @@ function FriendPopupActions(props) {
       }
     )
   }
+  const GoToProfile = async () => {
+    navigate(`/user/${props.friend}`)
+  }
   return (
     <div data-bs-theme="dark" className="border list-group list-group-flush h-100">
       <Button
       className="list-group-item secondary h-100 w-100 p-2 custom-button"
       key={"Profile"}
+      onClick={()=> GoToProfile()}
     >
       Profile
     </Button>
