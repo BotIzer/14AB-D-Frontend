@@ -19,6 +19,7 @@ import Forum from "./routes/Forum.jsx";
 import { io } from "socket.io-client";
 import PostCard from "./components/PostCard.jsx";
 import CreateForum from "./routes/CreateForum.jsx";
+import Notifications from "./routes/Notifications.jsx"
 const socket = io('http://localhost:3000', {
   withCredentials: true
 });
@@ -98,6 +99,11 @@ const router = createBrowserRouter([
   {
     path: "/forums/:forum",
     element: <Forum></Forum>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/notifications",
+    element: <Notifications></Notifications>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);

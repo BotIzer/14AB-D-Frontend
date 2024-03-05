@@ -2,9 +2,13 @@ import Navigation from "../components/Navigation";
 import { Col, Row, Container, Table, Button } from "react-bootstrap";
 import PostCard from "../components/PostCard";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 
 function Forum() {
   const navigate = useNavigate();
+  const GetAllThreads = async () => {
+    // await axios.get(`/forum/getAllThreads/${}`)
+  }
   const dummyForum = {
     id: 1,
     title: "Dummy Forum",

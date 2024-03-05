@@ -33,7 +33,7 @@ function ForumCard(forum) {
             <i>Fix this too</i>
           </Card.Text>
           <Button
-            onClick={() => navigate("/forums/" + forum.forum.forum_name)}
+            onClick={() => navigate(`/forums/${forum.forum.forum_name}`)}
             className="custom-button text-outline"
             variant="outline-warning"
           >
