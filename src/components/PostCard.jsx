@@ -48,7 +48,7 @@ export default function PostCard({ post }) {
               onChange={(e) => setIsDisLiked(e.currentTarget.checked)}
             >
               <img
-                src="/src/assets/icons/skull.png"
+                src="/src/assets/icons/lightning_64.png"
                 alt="skull"
                 className={isDisLiked ? "filter-red" : "filter-grey"}
               />
@@ -57,11 +57,11 @@ export default function PostCard({ post }) {
               </span>
             </ToggleButton>
           </Col>
-          <Col className="text-end my-auto">
+          <Col className="text-end m-auto">
             <Button
               className="comments-button tertiary position-relative" /*onClick={() => navigate("/post/comments")} TODO make this navigate to comment section*/
             >
-              Comments{" "}
+              Comments
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
                 {post.comment_count}
               </span>
