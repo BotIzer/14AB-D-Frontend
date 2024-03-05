@@ -53,8 +53,17 @@ function Forum() {
     <>
       <Navigation></Navigation>
       <Container fluid>
-      <Button className="m-5 clear-button position-fixed bottom-0 end-0" style={{backgroundColor: '#343a40'}} onClick={() => 
-        navigate(`/forums/${dummyForum.title}/createpost/`)}><img className="hover-filter-gold" src="/src/assets/icons/add_forum.png"alt="add forum" /></Button> 
+        <Button
+          className="m-5 clear-button fixed-bottom-right"
+          style={{ backgroundColor: "#343a40" }}
+          onClick={() => navigate(`/forums/${dummyForum.title}/createpost/`)}
+        >
+          <img
+            className="hover-filter-gold"
+            src="/src/assets/icons/add_forum.png"
+            alt="add forum"
+          />
+        </Button>
         <Row
           className="p-2"
           style={{

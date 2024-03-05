@@ -11,8 +11,9 @@ export default function PostCard({ post }) {
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
       <Card.Header className="primary">{post.title}</Card.Header>
-      <Card.Body className="secondary" style={{height: '200px'}}>
-        <Card.Text>{post.content}</Card.Text> {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
+      <Card.Body className="secondary" style={{ height: "200px" }}>
+        <Card.Text>{post.content}</Card.Text>{" "}
+        {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
       </Card.Body>
       <Card.Footer>
         <Row>
@@ -32,7 +33,10 @@ export default function PostCard({ post }) {
                 alt="fist-bump"
                 className={isLiked ? "filter-gold" : "filter-grey"}
               />
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.likes}</span> {/*TODO good luck with making this dynamic :3*/}
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                {post.likes}
+              </span>{" "}
+              {/*TODO good luck with making this dynamic :3*/}
             </ToggleButton>
             <ToggleButton
               id="2"
@@ -48,12 +52,19 @@ export default function PostCard({ post }) {
                 alt="skull"
                 className={isDisLiked ? "filter-red" : "filter-grey"}
               />
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.dislikes}</span>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                {post.dislikes}
+              </span>
             </ToggleButton>
           </Col>
           <Col className="text-end my-auto">
-            <Button className="comments-button tertiary position-relative" /*onClick={() => navigate("/post/comments")} TODO make this navigate to comment section*/ >
-              Comments <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.comment_count}</span>
+            <Button
+              className="comments-button tertiary position-relative" /*onClick={() => navigate("/post/comments")} TODO make this navigate to comment section*/
+            >
+              Comments{" "}
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                {post.comment_count}
+              </span>
             </Button>
           </Col>
         </Row>

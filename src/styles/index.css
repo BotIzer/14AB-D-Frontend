@@ -259,7 +259,7 @@ a:hover {
 
 .hover-filter-gold:hover {
   filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
-  brightness(102%) contrast(104%);
+    brightness(102%) contrast(104%);
 }
 
 .image-checkbox {
@@ -272,7 +272,7 @@ a:hover {
     width: 35vw;
   }
 }
-.dropdown-button-size .dropdown-menu{
+.dropdown-button-size .dropdown-menu {
   width: 100%;
 }
 
@@ -281,13 +281,12 @@ a:hover {
   background-color: transparent;
   border: 0px;
 }
-.comments-button:hover{
+.comments-button:hover {
   background-color: transparent;
-  color: gold ;  
+  color: gold;
 }
 
-.comments-button:active{
-
+.comments-button:active {
   background-color: #e8cc80 !important;
   color: #212529 !important;
 }
@@ -295,6 +294,11 @@ a:hover {
 .comments-button:visited {
   background-color: transparent;
   color: #b47d7d;
-
 }
 
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1030;
+}
