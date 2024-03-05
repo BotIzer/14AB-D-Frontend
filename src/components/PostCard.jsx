@@ -20,7 +20,7 @@ export default function PostCard({ post }) {
           <Col className="text-start">
             {/*TODO make toggle button id-s somehow dynamic, currently all post buttons set the color of the first one*/}
             <ToggleButton
-              id="1"
+              id={post.id + "like"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
@@ -36,10 +36,9 @@ export default function PostCard({ post }) {
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
                 {post.likes}
               </span>{" "}
-              {/*TODO good luck with making this dynamic :3*/}
             </ToggleButton>
             <ToggleButton
-              id="2"
+              id={post.id + "dislike"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
@@ -47,6 +46,7 @@ export default function PostCard({ post }) {
               value="1"
               onChange={(e) => setIsDisLiked(e.currentTarget.checked)}
             >
+              <span style={{ borderRight: "2px solid #ffffff" }}></span>
               <img
                 src="/src/assets/icons/lightning_64.png"
                 alt="skull"
