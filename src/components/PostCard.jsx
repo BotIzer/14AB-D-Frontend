@@ -11,15 +11,15 @@ export default function PostCard({ post }) {
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
       <Card.Header className="primary">{post.title}</Card.Header>
-      <Card.Body className="secondary" style={{height: '200px'}}>
-        <Card.Text>{post.content}</Card.Text> {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
+      <Card.Body className="secondary" style={{ height: "200px" }}>
+        <Card.Text>{post.content}</Card.Text>{" "}
+        {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
       </Card.Body>
       <Card.Footer>
         <Row>
           <Col className="text-start">
-            {/*TODO make toggle button id-s somehow dynamic, currently all post buttons set the color of the first one*/}
             <ToggleButton
-              id="1"
+              id={post.id + "like"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
@@ -32,10 +32,12 @@ export default function PostCard({ post }) {
                 alt="fist-bump"
                 className={isLiked ? "filter-gold" : "filter-grey"}
               />
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.likes}</span> {/*TODO good luck with making this dynamic :3*/}
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                {post.likes}
+              </span>{" "}
             </ToggleButton>
             <ToggleButton
-              id="2"
+              id={post.id + "dislike"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
@@ -43,17 +45,25 @@ export default function PostCard({ post }) {
               value="1"
               onChange={(e) => setIsDisLiked(e.currentTarget.checked)}
             >
+              <span style={{ borderRight: "2px solid #ffffff" }}></span>
               <img
-                src="/src/assets/icons/skull.png"
+                src="/src/assets/icons/lightning_64.png"
                 alt="skull"
                 className={isDisLiked ? "filter-red" : "filter-grey"}
               />
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.dislikes}</span>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                {post.dislikes}
+              </span>
             </ToggleButton>
           </Col>
-          <Col className="text-end my-auto">
-            <Button className="comments-button tertiary position-relative" /*onClick={() => navigate("/post/comments")} TODO make this navigate to comment section*/ >
-              Comments <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{post.comment_count}</span>
+          <Col className="text-end m-auto">
+            <Button
+              className="comments-button tertiary position-relative" /*onClick={() => navigate("/post/comments")} TODO make this navigate to comment section*/
+            >
+              Comments
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                {post.comment_count}
+              </span>
             </Button>
           </Col>
         </Row>
