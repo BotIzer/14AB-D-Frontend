@@ -18,7 +18,6 @@ export default function PostCard({ post }) {
       <Card.Footer>
         <Row>
           <Col className="text-start">
-            {/*TODO make toggle button id-s somehow dynamic, currently all post buttons set the color of the first one*/}
             <ToggleButton
               id={post.id + "like"}
               className="image-checkbox position-relative"
