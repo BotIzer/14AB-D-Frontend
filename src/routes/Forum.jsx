@@ -44,7 +44,7 @@ function Forum() {
   ));
 
   const postList = dummyForum.posts.map((post) => (
-    <Row key={post.id}>
+    <Row key={post.id} className="w-100">
       <PostCard post={post}></PostCard>
     </Row>
   ));
