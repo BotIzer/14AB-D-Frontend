@@ -188,14 +188,19 @@ a:hover {
   font-weight: bold;
 }
 
+.custom-button{
+  background-color: transparent;
+  border: none;
+}
+
 .custom-button:hover,
 .custom-button:active,
-.custom-button:focus,
 .custom-button:visited {
-  background-color: #e8cc80 !important;
-  color: #212529 !important;
+  background-color: #e8cc80;
+  color: #212529;
   font-weight: bold;
   text-shadow: none;
+  border: none;
 }
 
 .clear-button,

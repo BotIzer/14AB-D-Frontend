@@ -102,15 +102,18 @@ export default function UserPage() {
           <Col  
             className="border overflow-auto h-100"
           >
-            <Row className="d-flex justify-content-center">
+            <Row className="justify-content-center position-relative">
               <Image
-                className="profileSize img-fluid"
+                className="profileSize img-fluid"s
                 src="/src/assets/PFP_template.png"
                 roundedCircle
                 style={{float: "center"}}
               ></Image>
+                <Button className="position-absolute end-0 rounded-pill custom-button" style={{width: '128px', height: '128px'}} /*TODO make this send a friend request*/>
+                  <Image src="/src/assets/icons/add_user_64.png" />
+                </Button>
             </Row>
-            <Row className="d-flex justify-content-center">
+            <Row className="justify-content-center">
               <OverlayTrigger placement="right" overlay={<Tooltip>
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
