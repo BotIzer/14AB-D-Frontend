@@ -80,7 +80,7 @@ export default function Register() {
           withCredentials: false,
         }
       )
-      await axios.post(
+      const login = await axios.post(
         '/login',
         {
           email: email.toLowerCase(),
@@ -91,6 +91,7 @@ export default function Register() {
           withCredentials: true,
         }
       )
+      console.log(login);
       setUser(''), setPwd(''), setMatchPwd(''), setEmail('')
       setErrMsg('User created!')
       setSuccess(true)

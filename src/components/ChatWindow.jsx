@@ -29,6 +29,7 @@ function ChatWindow(currentChatData) {
       socket.off("message");
       socket.disconnect();
     };
+    //TODO FIX THIS ESLINT ERROR
   }, []);
   const SendMsg = async () => {
     const message = document.getElementById('sendMsg').value
