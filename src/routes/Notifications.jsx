@@ -21,7 +21,8 @@ export default function Notifications() {
           withCredentials: true,
         }
       )
-       response.data.length !== 0 ? setFriendRequests(response.data) : setFriendRequests(["No friends requests."])
+      response.data.requests.length !== 0 ? setFriendRequests(response.data) : setFriendRequests(["No friends requests."])
+      setFriendRequests(response.data.requests)
     }
     GetFriendRequests()
   },[])
