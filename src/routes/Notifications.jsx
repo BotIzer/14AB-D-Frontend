@@ -21,21 +21,55 @@ export default function Notifications() {
           withCredentials: true,
         }
       )
-      response.data.requests.length !== 0 ? setFriendRequests(response.data) : setFriendRequests(["No friends requests."])
-      setFriendRequests(response.data.requests)
+      response.data.requests.length !== 0 ? setFriendRequests(response.data.requests) : null
     }
     GetFriendRequests()
   },[])
-  const listItems = friendRequests.map((friend) => (
+  const AcceptFriendRequest = async (requestCreator) => {
+        await axios.post(
+        `/acceptFriendRequest/${requestCreator}`,
+        {
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+
+  }
+  const DeclineFriendRequest = async (requestCreator) => {
+        await axios.post(
+        `/acceptFriendRequest/${requestCreator}`,
+        {
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+  }
+  const listItems = false ? friendRequests.map((friend) => (
     <div key={friend}>
     <p>{friend}</p>
     <Button
+    onClick={()=> AcceptFriendRequest(friend)}
     >
-      {friend}
+      Accept
+    </Button>
+    <Button
+    onClick={()=> DeclineFriendRequest(friend)}
+    >
+      Decline
     </Button>
     </div>
 
-  ));
+  )): null;
   return (
     <>
       <Navigation />

@@ -30,10 +30,10 @@ export default function FriendList() {
   const listItems = friends.map((friend) => (
     <Link
       className="list-group-item secondary"
-      to={"/user/" + friend}
+      to={`/user/${friend.username}`}
       key={friend}
     >
-      {friend}
+      {friend.username}
     </Link>
   ));
   return (

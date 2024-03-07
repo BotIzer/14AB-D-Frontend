@@ -96,7 +96,6 @@ export default function UserPage() {
         >
           <Col className="border h-100 p-0" xs={2}>
             <FriendList
-              friends={["Markneu22", "Lajtaib", "BotIzer", "Placeholder"]}
             ></FriendList>
           </Col>
           <Col  
@@ -104,12 +103,13 @@ export default function UserPage() {
           >
             <Row className="justify-content-center position-relative">
               <Image
-                className="profileSize img-fluid"s
+                className="profileSize img-fluid"
                 src="/src/assets/PFP_template.png"
                 roundedCircle
                 style={{float: "center"}}
               ></Image>
-                <Button className="position-absolute end-0 rounded-pill custom-button" style={{width: '128px', height: '128px'}} /*TODO make this send a friend request*/>
+                <Button className="position-absolute end-0 rounded-pill custom-button" 
+                style={{width: '128px', height: '128px'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" />
                 </Button>
             </Row>
