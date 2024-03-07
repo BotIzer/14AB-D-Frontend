@@ -8,6 +8,10 @@ export default function FriendList() {
   const [friends, setFriends] = useState([])
   useEffect(() => {
     const GetFriends = async () => {
+      // temporary fix to homepage
+      if (localStorage.getItem('token') === null) {
+        return
+      }
       const response = await axios.get(
         '/friends',
         {

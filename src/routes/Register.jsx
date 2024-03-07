@@ -92,7 +92,9 @@ export default function Register() {
         }
       )
       console.log(login);
-      setUser(''), setPwd(''), setMatchPwd(''), setEmail('')
+      localStorage.setItem('token', login.data.token)
+      localStorage.setItem('userInfo',JSON.stringify(login.data.userInfo))
+      dispatchEvent(new Event('storage'))
       setErrMsg('User created!')
       setSuccess(true)
       navigate('/')
