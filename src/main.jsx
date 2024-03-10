@@ -68,12 +68,12 @@ const router = createBrowserRouter([
   },
   {
     path: '/chats',
-    element: <Friends></Friends>,
+    element: isLoggedIn ? <Friends></Friends> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
     path: '/chats/:user',
-    element: <Friends></Friends>,
+    element: isLoggedIn ? <Friends></Friends> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/notifications",
-    element: <Notifications></Notifications>,
+    element: isLoggedIn ? <Notifications></Notifications> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);

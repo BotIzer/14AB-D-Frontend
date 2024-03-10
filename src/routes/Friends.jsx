@@ -23,6 +23,10 @@ function Friends() {
 
   useEffect(() => {
     const GetFriends = async () => {
+      if(!localStorage.getItem('token')){
+        setError({response: {data: {message: 'You need to login to access this page!'}}})
+        return
+      }
       try {
         const response = await axios.get('/chats', {
           headers: {

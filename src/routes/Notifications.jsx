@@ -42,7 +42,7 @@ export default function Notifications() {
   }
   const DeclineFriendRequest = async (requestCreator) => {
         await axios.post(
-        `/acceptFriendRequest/${requestCreator}`,
+        `/declineFriendRequest/${requestCreator}`,
         {
         },
         {
@@ -54,22 +54,29 @@ export default function Notifications() {
         }
       )
   }
-  const listItems = false ? friendRequests.map((friend) => (
-    <div key={friend}>
-    <p>{friend}</p>
-    <Button
-    onClick={()=> AcceptFriendRequest(friend)}
-    >
-      Accept
-    </Button>
-    <Button
-    onClick={()=> DeclineFriendRequest(friend)}
-    >
-      Decline
-    </Button>
-    </div>
-
-  )): null;
+  let listItems;
+  if (friendRequests.length !== 0) {
+    listItems = friendRequests.map((friend) => (
+      <div key={friend}>
+      <p>{friend}</p>
+      <Button
+      onClick={()=> AcceptFriendRequest(friend)}
+      >
+        Accept
+      </Button>
+      <Button
+      onClick={()=> DeclineFriendRequest(friend)}
+      >
+        Decline
+      </Button>
+      </div>
+  
+    ));
+  }
+  else{
+    listItems = <p>No friend requests</p>
+  }
+  
   return (
     <>
       <Navigation />

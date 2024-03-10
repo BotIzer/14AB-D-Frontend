@@ -20,6 +20,8 @@ export default function UserPage() {
   const [error, setError] = useState("");
   const [messages, setMessages] = useState([])
   const [showChat, setShowChat] = useState(false)
+  const [isFriend, setIsFriend] = useState(false)
+  const [hasFriendRequest, setHasFriendRequest] = useState(false)
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
@@ -48,8 +50,41 @@ export default function UserPage() {
             })
             setMessages(chatData.data.comments)
           }
+          if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
+           const friendRequests = await axios.get(
+              '/user/friendRequests',
+              {},
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+              }
+            );
+            if (friendRequests.data.requests.includes(user)) {
+              setHasFriendRequest(true)
+              console.log("reqeuest");
+              return;
+            }
+            const friends = await axios.get(
+              '/friends',
+              {},
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+              }
+            );
+            if (friends.data.some(friend => friend.username === user)) {
+              setIsFriend(true)
+              console.log("barát");
+              return;
+            }
+          }
         }
-        
       } catch (err) {
         setError(err);
       }
@@ -108,18 +143,17 @@ export default function UserPage() {
                 roundedCircle
                 style={{float: "center"}}
               ></Image>
+                {user !== JSON.parse(localStorage.getItem('userInfo')).username && !isFriend && !hasFriendRequest ? 
                 <Button className="position-absolute end-0 rounded-pill custom-button" 
                 style={{width: '128px', height: '128px'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" />
-                </Button>
+                </Button>: null}
             </Row>
             <Row className="justify-content-center">
               <OverlayTrigger placement="right" overlay={<Tooltip>
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
-                {user !== JSON.parse(localStorage.getItem('userInfo')).username ?
-                  <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}} onClick={()=>SendFriendRequest()}>Add Friend</Button> : null}
               <p className="text-justify secondary">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
                 tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
