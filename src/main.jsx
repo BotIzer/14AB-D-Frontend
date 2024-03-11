@@ -97,7 +97,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/forums/:forum",
+    path: "/forums/:forum/:forumId",
     element: <Forum></Forum>,
     errorElement: <ErrorPage></ErrorPage>,
   },
