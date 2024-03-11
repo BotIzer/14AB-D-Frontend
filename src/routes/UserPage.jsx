@@ -129,7 +129,7 @@ export default function UserPage() {
           className="m-0 border" 
           style={{ height: "80vh" }}
         >
-        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat?<ChatWindow chatData={messages}></ChatWindow> : null}
+        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat?<ChatWindow chatData={messages}></ChatWindow> : null} 
           <Col className="border h-100 p-0" xs={2}>
             <FriendList
             ></FriendList>

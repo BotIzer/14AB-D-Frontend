@@ -109,14 +109,14 @@ function ChatWindow(currentChatData) {
   }
   return (
     // TODO: make scrollable look good
-    <div className="p-2 h-100 w-100 border overflow-auto">
+    <div className="p-0 h-100 w-100 border overflow-auto">
       {/* TODO: Make it scroll with Chat live navbar */}
       <Button onClick={()=>AddToChat()}>Add friend</Button>
       <MessageList messages={messages}></MessageList>
       {/* TODO make this look normal*/}
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
-      <Navbar data-bs-theme="dark" sticky="bottom">
-      <Container>
+      <Navbar data-bs-theme="dark" sticky="bottom" style={{backgroundColor: '#343a40'}}>
+      <Container fluid className='justify-content-center w-100'>
         <Navbar.Toggle aria-controls="navbarScroll" />
           <Nav
             style={{ maxHeight: '100px' }}
@@ -133,7 +133,7 @@ function ChatWindow(currentChatData) {
               </NavDropdown.Item>
             </NavDropdown> */}
           </Nav>
-          <Form className="d-flex">
+          <Form className='w-100'>
           <FormGroup controlId="sendMsg">
         <div className="row m-0">
           <Form.Control
