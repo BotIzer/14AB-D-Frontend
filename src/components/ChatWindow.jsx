@@ -129,13 +129,15 @@ function ChatWindow(currentChatData) {
 ));
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
-      <Navbar className="justify-content-end" sticky="top">
+      <Navbar className="justify-content-end pt-0" sticky="top">
+        <Button className="close-button me-auto">
+          <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
+        </Button>
         <DropdownButton title="Add friend" className="dropdown-button dropdown-button-size my-2 mx-2">
         <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
         </DropdownButton>
       </Navbar>
       <MessageList messages={messages}></MessageList>
-      {/* TODO make this look normal*/}
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
       <Navbar sticky="bottom" style={{backgroundColor: '#343a40'}}>
       <Container fluid className='justify-content-center w-100'>
