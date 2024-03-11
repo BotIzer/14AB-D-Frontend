@@ -67,23 +67,16 @@ function Forum() {
       },
     ],
   };
-  {console.log(data.forumData)}
   // fix this worthless piece of garbage
-  let categoryList;
-  if (data.forumData) {
-    categoryList = data.forumData.tags.map((tag) => (
-      <th
-        style={{ fontSize: "small", borderWidth: "2px" }}
-        key={tag}
-        className="text-center"
-      >
-        <i className="tertiary">{tag}</i>
-      </th>
-    ));
-  }
- else{
-  console.log(data.forumData.tags);
- }
+  const categoryList = data.forumData[0] && data.forumData[0].tags.map((category)=>(
+    <th
+          style={{ fontSize: "small", borderWidth: "2px" }}
+          key={category}
+          className="text-center"
+        >
+          <i className="tertiary">{category}</i>
+        </th>
+  ))
   const postList = data.threads.map((thread) => (
     <Row key={thread._id} className="w-100">
       <PostCard post={thread}></PostCard>
@@ -96,7 +89,7 @@ function Forum() {
         <Button
           className="m-5 clear-button fixed-bottom-right"
           style={{ backgroundColor: "#343a40" }}
-          onClick={() => navigate(`/forums/${dummyForum.title}/createpost/`)}
+          onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/createpost/`)}
         >
           <img
             className="hover-filter-gold"
@@ -113,7 +106,7 @@ function Forum() {
           }}
         >
           <h1 className="text-outline text-center m-auto">
-            {dummyForum.title}
+            {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
         </Row>
         <Row className="no-padding-table">

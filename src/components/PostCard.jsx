@@ -19,7 +19,7 @@ export default function PostCard({ post }) {
         <Row>
           <Col className="text-start">
             <ToggleButton
-              id={post.id + "like"}
+              id={post._id.thread_id + "like"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
@@ -37,7 +37,7 @@ export default function PostCard({ post }) {
               </span>{" "}
             </ToggleButton>
             <ToggleButton
-              id={post.id + "dislike"}
+              id={post._id.thread_id + "dislike"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
