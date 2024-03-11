@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
-import MessageList from './chat-components/MessageList'
-import { Form, FormGroup, Button } from 'react-bootstrap'
-import axios from '../api/axios'
-import { useLocation, useParams } from 'react-router-dom'
-import { io } from 'socket.io-client'
-import FriendMenu from './FriendMenu'
+import { useEffect, useState } from 'react';
+import MessageList from './chat-components/MessageList';
+import { Form, FormGroup, Button, Container } from 'react-bootstrap';
+import axios from '../api/axios';
+import { useLocation, useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
+import FriendMenu from './FriendMenu';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function ChatWindow(currentChatData) {
   const location = useLocation()
@@ -112,7 +115,26 @@ function ChatWindow(currentChatData) {
       <MessageList messages={messages}></MessageList>
       {/* TODO make this look normal*/}
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
-      <FormGroup controlId="sendMsg">
+      <Navbar data-bs-theme="dark" sticky="bottom">
+      <Container>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+          <Nav
+            style={{ maxHeight: '100px' }}
+            
+          >
+            {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action4">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action5">
+                Something else here
+              </NavDropdown.Item>
+            </NavDropdown> */}
+          </Nav>
+          <Form className="d-flex">
+          <FormGroup controlId="sendMsg">
         <div className="row m-0">
           <Form.Control
             placeholder="Send message"
@@ -130,6 +152,10 @@ function ChatWindow(currentChatData) {
           </Button>
         </div>
       </FormGroup>
+          </Form>
+      </Container>
+    </Navbar>
+      {/*  */}
     </div>
   )
 }
