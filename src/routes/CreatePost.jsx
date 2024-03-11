@@ -5,19 +5,12 @@ import Tabs from "react-bootstrap/Tabs";
 import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-// import { useState } from "react";
-// import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 function CreatePost() {
   const [imgList, setImgList] = useState([]);
-  // const AddToList = (text) => {
-  //   if (text != null && text!= "") {
-  //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
-  //   }
-  // }
   const location = useLocation();
   const forumName = location.pathname.split("/")[2];
   console.log(forumName);
@@ -44,7 +37,12 @@ function CreatePost() {
         }
       );
     }
-
+    const editor = document.querySelector(".ql-editor");
+    editor.innerHTML = "";
+    const titles = document.querySelectorAll(".title");
+    titles.forEach((title) => (title.value = ""));
+    document.getElementById("fileUpload").value = "";
+    setImgList([])
   };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
@@ -53,10 +51,12 @@ function CreatePost() {
       const titles = document.querySelectorAll(".title");
       titles.forEach((title) => (title.value = ""));
       document.getElementById("fileUpload").value = "";
+      setImgList([])
     }
   };
-  const AddImage = () => {
-    setImgList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
+  const AddImage = async () => {
+    await setImgList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
+    document.getElementById('fileUpload').value = ""
   }
   return (
     <>
