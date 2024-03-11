@@ -1,14 +1,30 @@
 import Navigation from "../components/Navigation";
 import { Col, Row, Container, Table, Button } from "react-bootstrap";
 import PostCard from "../components/PostCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
+import { useEffect, useState } from "react";
 
 function Forum() {
   const navigate = useNavigate();
-  const GetAllThreads = async () => {
-    // await axios.get(`/forum/getAllThreads/${}`)
+  const location = useLocation();
+  const forum_id = useParams(location.pathname.split('/')[2]).forumId
+  const [threads, setThreads] = useState([]);
+  useEffect(()=>{
+    const GetAllThreads = async () => {
+      const response = await axios.get(`/forum/getAllThreads/${forum_id}`,
+      {headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+    })
+  setThreads(response.data)
   }
+    GetAllThreads()
+  },[])
+
+
   const dummyForum = {
     id: 1,
     title: "Dummy Forum",
@@ -47,12 +63,12 @@ function Forum() {
     </th>
   ));
 
-  const postList = dummyForum.posts.map((post) => (
-    <Row key={post.id} className="w-100">
-      <PostCard post={post}></PostCard>
+  const postList = threads.map((thread) => (
+    <Row key={thread._id} className="w-100">
+      <PostCard post={thread}></PostCard>
     </Row>
   ));
-
+{console.log(threads)}
   return (
     <>
       <Navigation></Navigation>
