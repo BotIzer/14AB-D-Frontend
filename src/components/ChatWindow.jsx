@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import MessageList from './chat-components/MessageList';
-import { Form, FormGroup, Button, Container } from 'react-bootstrap';
+import { Form, FormGroup, Button, Container, DropdownButton, Dropdown } from 'react-bootstrap';
 import axios from '../api/axios';
 import { useLocation, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import FriendMenu from './FriendMenu';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function ChatWindow(currentChatData) {
   const location = useLocation()
@@ -106,33 +104,42 @@ function ChatWindow(currentChatData) {
     //     },
     //     withCredentials: true,
     //   })
+    // onClick={()=>AddToChat()}
+
   }
+  const dummyFriends = [
+    "Markneu22",
+    "Lajtaib",
+    "BotIzer",
+    "Floch <3",
+    "Floch <3",
+    "Floch <3",
+    "Floch <3",
+    "Floch <3",
+    "Floch <3","Floch <3",
+    "Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3",
+  ]
+  const friendList = dummyFriends.map((friend) => (
+    <Dropdown.Item
+        className="list-group-item secondary text-center"
+        key={friend}
+        onClick={() => AddToChat(friend)}>
+        {friend}
+    </Dropdown.Item>
+));
   return (
-    // TODO: make scrollable look good
-    <div className="p-0 h-100 w-100 border overflow-auto">
-      {/* TODO: Make it scroll with Chat live navbar */}
-      <Button onClick={()=>AddToChat()}>Add friend</Button>
+    <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
+      <Navbar className="justify-content-end" sticky="top">
+        <DropdownButton title="Add friend" className="dropdown-button dropdown-button-size my-2 mx-2">
+        <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
+        </DropdownButton>
+      </Navbar>
       <MessageList messages={messages}></MessageList>
       {/* TODO make this look normal*/}
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
-      <Navbar data-bs-theme="dark" sticky="bottom" style={{backgroundColor: '#343a40'}}>
+      <Navbar sticky="bottom" style={{backgroundColor: '#343a40'}}>
       <Container fluid className='justify-content-center w-100'>
         <Navbar.Toggle aria-controls="navbarScroll" />
-          <Nav
-            style={{ maxHeight: '100px' }}
-            
-          >
-            {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
-              </NavDropdown.Item>
-            </NavDropdown> */}
-          </Nav>
           <Form className='w-100'>
           <FormGroup controlId="sendMsg">
         <div className="row m-0">

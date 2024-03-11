@@ -163,20 +163,25 @@ a:hover {
 
 .dropdown-button button {
   background-color: #212529 !important;
-  border: gold solid 1px;
-  color: gold;
+  border: gold solid 1px !important;
+  color: gold !important;
 }
 .btn.show {
   color: gold;
   border-color: gold;
 }
 
-.dropdown-button button:hover,
-.dropdown-button button:active,
-.dropdown-button button:focus {
+.dropdown-button button:hover {
   background-color: #212529 !important;
-  border: #e8cc80 solid 1px;
-  color: #e8cc80;
+  border: #e8cc80 solid 1px !important;
+  color: #e8cc80 !important;
+}
+
+.dropdown-button button:active,
+.dropdown-button button:focus{
+  background-color: #212529 !important;
+  border: gold solid 1px !important;
+  color: gold !important;
 }
 
 .dropdown-item {
