@@ -9,19 +9,33 @@ function Forum() {
   const navigate = useNavigate();
   const location = useLocation();
   const forum_id = useParams(location.pathname.split('/')[2]).forumId
-  const [threads, setThreads] = useState([]);
+  const [data,setData] = useState({
+    forumData: [],
+    threads: []
+  })
   useEffect(()=>{
-    const GetAllThreads = async () => {
-      const response = await axios.get(`/forum/getAllThreads/${forum_id}`,
-      {headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      withCredentials: true,
-    })
-  setThreads(response.data)
+    const GetForumData = async () => {
+      const [forumData, threads] =  await Promise.all([
+        axios.get(`/forum/${forum_id}`,
+        {headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      }),
+      axios.get(`/forum/getAllThreads/${forum_id}`,
+        {headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })])
+      setData({
+        forumData: forumData.data,
+        threads: threads.data
+      });
   }
-    GetAllThreads()
+     GetForumData()
   },[])
 
 
@@ -53,22 +67,28 @@ function Forum() {
       },
     ],
   };
-  const categoryList = dummyForum.categories.map((category) => (
-    <th
-      style={{ fontSize: "small", borderWidth: "2px" }}
-      key={category}
-      className="text-center"
-    >
-      <i className="tertiary">{category}</i>
-    </th>
-  ));
-
-  const postList = threads.map((thread) => (
+  {console.log(data.forumData)}
+  // fix this worthless piece of garbage
+  let categoryList;
+  if (data.forumData) {
+    categoryList = data.forumData.tags.map((tag) => (
+      <th
+        style={{ fontSize: "small", borderWidth: "2px" }}
+        key={tag}
+        className="text-center"
+      >
+        <i className="tertiary">{tag}</i>
+      </th>
+    ));
+  }
+ else{
+  console.log(data.forumData.tags);
+ }
+  const postList = data.threads.map((thread) => (
     <Row key={thread._id} className="w-100">
       <PostCard post={thread}></PostCard>
     </Row>
   ));
-{console.log(threads)}
   return (
     <>
       <Navigation></Navigation>
