@@ -18,6 +18,8 @@ function Friends() {
   const [selectedFriend,setSelectedFriend] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
+  const [selectedChatType,setSelectedChatType] = useState('')
+  const [displayName,setDisplayName] = useState('')
 
   const navigate = useNavigate()
 
@@ -64,7 +66,20 @@ function Friends() {
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          setShowPopup(!showPopup)
+          if(selectedChat == chat._id)
+          {
+            setShowPopup(false)
+            setSelectedChat(null)
+            setSelectedChatType('')
+            setDisplayName('')
+          }
+          else
+          {
+            setShowPopup(true)
+            setSelectedChat(chat._id)
+            setSelectedChatType('friend')
+            setDisplayName(chat.friend_user_name)
+          }
           setShowChat(false)
           setSelectedFriend(chat.friend_user_name)
         }}
@@ -100,8 +115,22 @@ function Friends() {
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          setShowPopup(!showPopup)
+          if(selectedChat == chat._id)
+          {
+            setShowPopup(false)
+            setSelectedChat(null)
+            setSelectedChatType('')
+            setDisplayName('')
+          }
+          else
+          {
+            setShowPopup(true)
+            setSelectedChat(chat._id)
+            setSelectedChatType('group')
+            setDisplayName(chat.name)
+          }
           setShowChat(false)
+          setSelectedFriend(null)
         }}
         onClick={async (e) => {
           e.preventDefault()
@@ -152,7 +181,7 @@ function Friends() {
         </Col>
         <Col className="m-0 p-0" style={{height: "50vh", width: "50vw"}}>
           {/* TODO: change this */}
-          {showPopup? <FriendPopupActions  friend={selectedFriend}/> : null}
+          {showPopup? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend}/> : null}
           {showChat ? <ChatWindow chatData={comments} selectedChat={selectedChat}/> : null}
         </Col>
       </Row>

@@ -12,7 +12,9 @@ function DesktopLayout() {
             <FriendList friends={["Sajtostaller"]}/>
           </Col>
           <Col className="d-flex justify-content-center border p-0" style={{ height: "180px" }}>
-            <MyCarousel />
+            <MyCarousel images={["/src/assets/react.svg",
+     "/src/assets/banner_test.jpg",
+     "/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png"]}/>
           </Col>
           <Col className="border h-100 p-0" sm={3} md={2}>
             <RecentList/>
