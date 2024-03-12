@@ -200,11 +200,13 @@ a:hover {
 
 .custom-button:hover,
 .custom-button:active,
-.custom-button:visited {
+.custom-button:visited,
+.custom-button:focus-visible {
   background-color: #e8cc80;
   color: #212529;
   font-weight: bold;
   text-shadow: none;
+  box-shadow: none;
   border: none;
 }
 
