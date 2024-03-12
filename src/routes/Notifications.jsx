@@ -57,7 +57,7 @@ export default function Notifications() {
   // ));
 
   const requestsList = friendRequests.map((friend) => (
-    <Row className="m-2 p-2 border-top border-secondary" key={friend}>
+    <Row className="m-2 p-2 border-bottom border-secondary" key={friend}>
       <Col xs={6} md={10} className="align-self-center tertiary">
         <Link
           className="primary"
