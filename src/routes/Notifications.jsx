@@ -9,7 +9,7 @@ export default function Notifications() {
   const [toggleTab, setToggleTab] = useState("requests");
   useEffect(() => {
     const GetFriendRequests = async () => {
-      const response = await axios.get("/user/friendRequests", {
+      const response = await axios.get("/user/friends/requests", {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("token")}`,

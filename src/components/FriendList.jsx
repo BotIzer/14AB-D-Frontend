@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 export default function FriendList() {
 
   const [friends, setFriends] = useState([])
+  addEventListener("storage", () => {
+    setFriends([])
+  })
   useEffect(() => {
     const GetFriends = async () => {
       // temporary fix to homepage

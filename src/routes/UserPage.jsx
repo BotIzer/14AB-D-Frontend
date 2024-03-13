@@ -53,7 +53,7 @@ export default function UserPage() {
           }
           if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
            const friendRequests = await axios.get(
-              '/user/friendRequests',
+              '/user/friends/requests',
               {},
               {
                 headers: {
@@ -63,9 +63,10 @@ export default function UserPage() {
               withCredentials: true,
               }
             );
+            console.log(friendRequests);
             if (friendRequests.data.requests.includes(user)) {
               setHasFriendRequest(true)
-              console.log("reqeuest");
+              console.log("request");
               return;
             }
             const friends = await axios.get(
@@ -148,10 +149,14 @@ export default function UserPage() {
                 <Button className="position-absolute end-0 rounded-pill custom-button" 
                 style={{width: '128px', height: '128px'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" />
-                </Button>: <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '128px', height: '128px'}} onClick={()=>navigate(`/edituser/${user}`)} /*TODO reroute to edit page onClick={()=>SendFriendRequest()}*/>
+                </Button>
+                : 
+                null}
+                {user === JSON.parse(localStorage.getItem('userInfo')).username ? 
+                <Button className="position-absolute end-0 rounded-pill custom-button" 
+                style={{width: '128px', height: '128px'}} onClick={()=>navigate(`/edituser/${user}`)}>
                   <Image src="/src/assets/icons/edit.png" />
-                </Button>}
+                </Button> : null}
             </Row>
             <Row className="justify-content-center">
               <OverlayTrigger placement="right" overlay={<Tooltip>

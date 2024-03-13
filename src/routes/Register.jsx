@@ -87,7 +87,7 @@ export default function Register() {
           password: pwd,
         },
         {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${localStorage.getItem('token')}`},
           withCredentials: true,
         }
       )
