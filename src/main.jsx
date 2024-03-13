@@ -20,6 +20,7 @@ import { io } from "socket.io-client";
 import PostCard from "./components/PostCard.jsx";
 import CreateForum from "./routes/CreateForum.jsx";
 import Notifications from "./routes/Notifications.jsx"
+import EditUser from "./routes/EditUser.jsx";
 const socket = io('http://localhost:3000', {
   withCredentials: true
 });
@@ -104,6 +105,11 @@ const router = createBrowserRouter([
   {
     path: "/notifications",
     element: isLoggedIn ? <Notifications></Notifications> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/edituser/:user",
+    element: isLoggedIn ? <EditUser></EditUser> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);

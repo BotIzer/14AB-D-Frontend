@@ -158,7 +158,7 @@ export default function UserPage() {
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
-              <p className="text-justify secondary">
+              <p className="text-justify secondary text-center">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
                 tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
                 aliquet volutpat ante in luctus. Nullam sit amet risus varius,
