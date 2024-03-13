@@ -84,7 +84,7 @@ function Friends() {
     setSelectedChat(null)
     setSelectedChatType('')
   })
-  const list = friends.map((chat) => (
+  const friendList = friends.map((chat) => (
     <Row key={chat._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
@@ -197,7 +197,7 @@ function Friends() {
             <h5>Friends</h5>
             <div className="border"></div>
             {friends.length == 0 ? <i>No friends?</i> : null}
-            {list}
+            {friendList}
           </Row>
           <div className="border"></div>
           <Row className="m-0 pt-2">
