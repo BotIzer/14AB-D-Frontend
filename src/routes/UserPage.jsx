@@ -148,7 +148,10 @@ export default function UserPage() {
                 <Button className="position-absolute end-0 rounded-pill custom-button" 
                 style={{width: '128px', height: '128px'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" />
-                </Button>: null}
+                </Button>: <Button className="position-absolute end-0 rounded-pill custom-button" 
+                style={{width: '128px', height: '128px'}} /*TODO reroute to edit page onClick={()=>SendFriendRequest()}*/>
+                  <Image src="/src/assets/icons/edit.png" />
+                </Button>}
             </Row>
             <Row className="justify-content-center">
               <OverlayTrigger placement="right" overlay={<Tooltip>
