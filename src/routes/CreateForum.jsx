@@ -26,10 +26,8 @@ function CreateForum() {
         }
       );
     }
-    else{
-      return;
-    }
-    
+    document.getElementById("title").value = "";
+    document.getElementById("fileUpload").value = "";
   };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {

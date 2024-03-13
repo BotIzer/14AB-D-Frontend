@@ -67,7 +67,6 @@ function Forum() {
       },
     ],
   };
-  // fix this worthless piece of garbage
   const categoryList = data.forumData[0] && data.forumData[0].tags.map((category)=>(
     <th
           style={{ fontSize: "small", borderWidth: "2px" }}
@@ -100,7 +99,7 @@ function Forum() {
         <Row
           className="p-2"
           style={{
-            backgroundImage: `url(${dummyForum.banner})`,
+            backgroundImage: data.forumData[0] && `url(${data.forumData[0].banner})`,
             backgroundSize: "cover",
             height: "15vh",
           }}
