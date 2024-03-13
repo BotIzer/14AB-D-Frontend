@@ -45,7 +45,7 @@ function EditUser() {
   const DeleteProfile = async() => {
     if (confirm("Are you sure you want to delete your account?")) {
       const password = prompt("Please enter your password to confirm deletion")
-      if (password === null) {
+      if (password === null || !password.trim()) {
         return;
       }
       await axios.delete(
