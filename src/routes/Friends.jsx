@@ -63,7 +63,11 @@ function Friends() {
     axios.post(
       '/chat',
       {
-        
+        name: 'Test Chat',
+        is_ttl: true,
+        days_to_die: 3,
+        is_private: false,
+        usernames: ['random','sorry']
       },
       {
         headers: {
@@ -74,13 +78,19 @@ function Friends() {
       }
     )
   }
+  addEventListener('clicked',()=>{
+    setShowChat(false)
+    setSelectedFriend(null)
+    setSelectedChat(null)
+    setSelectedChatType('')
+  })
   const list = friends.map((chat) => (
     <Row key={chat._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          if(selectedChat == chat._id)
+          if(selectedChat == chat._id && selectedChatType == 'friend')
           {
             setShowPopup(false)
             setSelectedChat(null)
@@ -129,7 +139,7 @@ function Friends() {
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          if(selectedChat == chat._id)
+          if(selectedChat == chat._id && selectedChatType == 'group')
           {
             setShowPopup(false)
             setSelectedChat(null)
