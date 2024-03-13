@@ -31,6 +31,9 @@ function ChatWindow(currentChatData) {
     //TODO FIX THIS ESLINT ERROR
   }, []);
   const SendMsg = async () => {
+    event.preventDefault();
+    // TODO: check if it's friend/group and do as such
+    console.log(currentChatData.type);
     const message = document.getElementById('sendMsg').value
 
     const response = await axios.post(
@@ -46,6 +49,7 @@ function ChatWindow(currentChatData) {
         withCredentials: true,
       }
     )
+    console.log(response.data);
     if (response.data.length === 0) {
       await axios.post(
         '/chat',

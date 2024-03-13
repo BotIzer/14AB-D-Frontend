@@ -113,6 +113,7 @@ function Friends() {
           if (selectedChat == chat._id) {
             setShowChat(false)
             setSelectedChat(null)
+            setSelectedChatType('')
             return
           }
           const chatData = await axios.get(`/chat/${chat._id}/comments`, {
@@ -122,6 +123,7 @@ function Friends() {
             },
             withCredentials: true,
           })
+          setSelectedChatType('friend')
           setComments(chatData.data.comments)
           setShowChat(true)
           setShowPopup(false)
@@ -162,6 +164,7 @@ function Friends() {
           if (selectedChat == chat._id) {
             setShowChat(false)
             setSelectedChat(null)
+            setSelectedChatType('')
             return
           }
           const chatData = await axios.get(`/chat/${chat._id}/comments`, {
@@ -171,6 +174,7 @@ function Friends() {
             },
             withCredentials: true,
           })
+          setSelectedChatType('group')
           setComments(chatData.data.comments)
           setShowChat(true)
           setShowPopup(false)
@@ -209,7 +213,7 @@ function Friends() {
         <Col className="m-0 p-0" style={{height: "50vh", width: "50vw"}}>
           {/* TODO: change this */}
           {showPopup? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend}/> : null}
-          {showChat ? <ChatWindow chatData={comments} selectedChat={selectedChat}/> : null}
+          {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat}/> : null}
         </Col>
       </Row>
     </>
