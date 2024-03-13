@@ -33,31 +33,45 @@ function ChatWindow(currentChatData) {
   const SendMsg = async () => {
     event.preventDefault();
     // TODO: check if it's friend/group and do as such
-    console.log(currentChatData.type);
     const message = document.getElementById('sendMsg').value
-
-    const response = await axios.post(
-      '/createOrRetrieveChat',
-      {
-        friend: friend,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
-    console.log(response.data);
-    if (response.data.length === 0) {
-      await axios.post(
-        '/chat',
+    if (currentChatData.type === 'friend') {
+      const response = await axios.post(
+        '/createOrRetrieveChat',
         {
-          name: friend,
-          is_ttl: false,
-          is_private: true,
-          other_user_name: friend,
+          friend: friend,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+      if (response.data.length === 0) {
+        await axios.post(
+          '/chat',
+          {
+            name: friend,
+            is_ttl: false,
+            is_private: true,
+            other_user_name: friend,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+      }
+      await axios.post(
+        '/comment',
+        {
+          room_id: response.data._id,
+          text: message,
+          is_reply: false,
         },
         {
           headers: {
@@ -68,21 +82,23 @@ function ChatWindow(currentChatData) {
         }
       )
     }
-    await axios.post(
-      '/comment',
-      {
-        room_id: response.data._id,
-        text: message,
-        is_reply: false,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
+    else{
+      await axios.post(
+        '/comment',
+        {
+          room_id: currentChatData.selectedChat,
+          text: message,
+          is_reply: false,
         },
-        withCredentials: true,
-      }
-    )
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+    }
     document.getElementById('sendMsg').value = "";
   }
   const HandleKeyDown = (event) => {
