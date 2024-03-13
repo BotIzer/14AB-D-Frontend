@@ -20,9 +20,7 @@ function ChatWindow(currentChatData) {
     const socket = io('http://localhost:3000', {
       withCredentials: true
     });
-
     socket.on("message", (data) => {
-      console.log(data);
       setMessages(prevMessages => [...prevMessages, data]) 
     });
     setCurrentChat(currentChatData.selectedChat)
@@ -107,6 +105,9 @@ function ChatWindow(currentChatData) {
     // onClick={()=>AddToChat()}
 
   }
+  const CloseChatWindow = () => {
+    dispatchEvent(new Event('clicked'))
+  }
   const dummyFriends = [
     "Markneu22",
     "Lajtaib",
@@ -130,7 +131,7 @@ function ChatWindow(currentChatData) {
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
       <Navbar className="justify-content-end pt-0" sticky="top">
-        <Button className="close-button me-auto">
+        <Button className="close-button me-auto" onClick={()=>CloseChatWindow()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
         <DropdownButton title="Add friend" className="dropdown-button dropdown-button-size my-2 mx-2">
