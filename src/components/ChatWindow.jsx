@@ -13,10 +13,23 @@ function ChatWindow(currentChatData) {
   const [messages, setMessages] = useState([])
   const [showFriends, setShowFriends] = useState(false)
   const [currentChat,setCurrentChat] = useState(null)
+  const [friends, setFriends] = useState([])
   useEffect(()=>{
     setMessages(currentChatData.chatData)
   },[currentChatData]);
   useEffect(() => {
+    const GetFriends = async () => {
+      const response = await axios.get('/friends', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      console.log(response.data);
+      setFriends(response.data)
+    }
+    GetFriends()
     const socket = io('http://localhost:3000', {
       withCredentials: true
     });
@@ -107,45 +120,30 @@ function ChatWindow(currentChatData) {
       SendMsg()
     }
   };
-  const AddToChat = async () =>{
-    setShowFriends(true);
-    // await axios.post(
-    //   '/chat/addFriend',
-    //   {
-    //     friendName: ,
-    //     chat_id: 
-    //   },
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       authorization: `Bearer ${localStorage.getItem('token')}`,
-    //     },
-    //     withCredentials: true,
-    //   })
-    // onClick={()=>AddToChat()}
-
+  const AddToChat = async (friendname) =>{
+    await axios.post(
+      '/chat/addFriend',
+      {
+        friend_name: friendname,
+        chat_id: currentChatData.selectedChat
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
   }
   const CloseChatWindow = () => {
     dispatchEvent(new Event('clicked'))
   }
-  const dummyFriends = [
-    "Markneu22",
-    "Lajtaib",
-    "BotIzer",
-    "Floch <3",
-    "Floch <3",
-    "Floch <3",
-    "Floch <3",
-    "Floch <3",
-    "Floch <3","Floch <3",
-    "Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3","Floch <3",
-  ]
-  const friendList = dummyFriends.map((friend) => (
+  const friendList = friends.map((friend) => (
     <Dropdown.Item
         className="list-group-item secondary text-center"
         key={friend}
-        onClick={() => AddToChat(friend)}>
-        {friend}
+        onClick={() => AddToChat(friend.username)}>
+        {friend.username}
     </Dropdown.Item>
 ));
   return (
