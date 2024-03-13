@@ -4,17 +4,19 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 function EditUser() {
+  const navigate = useNavigate();
   const preview = {
     username: "test",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex cupiditate neque at itaque accusamus veritatis eligendi autem aperiam. Dolores provident voluptas est perferendis doloremque qui nulla ab, quaerat excepturi saepe.",
     pfp: "/src/assets/react.svg",
   }; //Make this dynamic
-  const CreateForum = async () => {
-    const title = document.getElementById("title").value.trim();
-    const banner = document.getElementById("fileUpload").value.trim();
-    if (title !== "" && banner !== "") {
+  const SaveChanges = async () => {
+    const username = document.getElementById("username").value.trim();
+    const profilePicture = document.getElementById("fileUpload").value.trim();
+    if (username !== "" && profilePicture !== "") {
       // TODO: Display error if title/banner is empty!
       await axios.post(
         "/forum",
@@ -40,6 +42,25 @@ function EditUser() {
       document.getElementById("fileUpload").value = "";
     }
   };
+  const DeleteProfile = async() => {
+    if (confirm("Are you sure you want to delete your account?")) {
+      const password = prompt("Please enter your password to confirm deletion")
+      await axios.delete(
+        "/user",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+            password: password
+          },
+          withCredentials: true,
+        }
+      );
+      localStorage.clear()
+      dispatchEvent(new Event('storage'))
+      navigate('/')
+    }
+  }
   return (
     <>
       <Navigation></Navigation>
@@ -92,8 +113,8 @@ function EditUser() {
               variant="outline-warning"
               size="lg"
               onClick={() =>
-                CreateForum()
-              } /*TODO Rename this function, save changes */
+                SaveChanges()
+              }
               className="mt-3"
             >
               Save
@@ -117,8 +138,7 @@ function EditUser() {
           <Button
             variant="outline-danger"
             size="lg"
-            onClick={() => ClearAll()}
-            /*TODO Delete user, rename function, maxbe add alert on click*/
+            onClick={() => DeleteProfile()}
             className="mt-3"
           >
             Delete Profile

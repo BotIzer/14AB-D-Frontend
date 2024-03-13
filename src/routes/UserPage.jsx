@@ -1,7 +1,7 @@
 import Navigation from "../components/Navigation";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import axios from "../api/axios";
 import FriendList from "../components/FriendList";
@@ -22,6 +22,7 @@ export default function UserPage() {
   const [showChat, setShowChat] = useState(false)
   const [isFriend, setIsFriend] = useState(false)
   const [hasFriendRequest, setHasFriendRequest] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
@@ -120,7 +121,6 @@ export default function UserPage() {
       {post}
     </Link>
   ));
-
   return (
     <>
       <Navigation></Navigation>
@@ -149,7 +149,7 @@ export default function UserPage() {
                 style={{width: '128px', height: '128px'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" />
                 </Button>: <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '128px', height: '128px'}} /*TODO reroute to edit page onClick={()=>SendFriendRequest()}*/>
+                style={{width: '128px', height: '128px'}} onClick={()=>navigate(`/edituser/${user}`)} /*TODO reroute to edit page onClick={()=>SendFriendRequest()}*/>
                   <Image src="/src/assets/icons/edit.png" />
                 </Button>}
             </Row>

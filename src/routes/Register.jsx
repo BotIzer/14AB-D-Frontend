@@ -91,7 +91,6 @@ export default function Register() {
           withCredentials: true,
         }
       )
-      console.log(login);
       localStorage.setItem('token', login.data.token)
       localStorage.setItem('userInfo',JSON.stringify(login.data.userInfo))
       dispatchEvent(new Event('storage'))
