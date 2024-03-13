@@ -178,7 +178,7 @@ a:hover {
 }
 
 .dropdown-button button:active,
-.dropdown-button button:focus{
+.dropdown-button button:focus {
   background-color: #212529 !important;
   border: gold solid 1px !important;
   color: gold !important;
@@ -193,18 +193,20 @@ a:hover {
   font-weight: bold;
 }
 
-.custom-button{
+.custom-button {
   background-color: transparent;
   border: none;
 }
 
 .custom-button:hover,
 .custom-button:active,
-.custom-button:visited {
+.custom-button:visited,
+.custom-button:focus-visible {
   background-color: #e8cc80;
   color: #212529;
   font-weight: bold;
   text-shadow: none;
+  box-shadow: none;
   border: none;
 }
 
@@ -283,7 +285,7 @@ a:hover {
   filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
     brightness(102%) contrast(104%);
 }
-.hover-filter-red:hover{
+.hover-filter-red:hover {
   filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
     brightness(96%) contrast(89%);
 }
@@ -327,4 +329,12 @@ a:hover {
   bottom: 0;
   right: 0;
   z-index: 1030;
+}
+
+.custom-tab {
+  color: #e8cc80;
+}
+.custom-tab:hover,
+.custom-tab:focus {
+  color: gold;
 }

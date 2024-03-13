@@ -59,7 +59,21 @@ function Friends() {
     // TODO fix this, to not even show the first return.
     return <ErrorPage errorStatus={error} />
   }
-
+  const CreateGroupChat = async () =>{
+    axios.post(
+      '/chat',
+      {
+        
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      }
+    )
+  }
   const list = friends.map((chat) => (
     <Row key={chat._id} className="m-0">
       <Button
@@ -177,6 +191,9 @@ function Friends() {
             <div className="border"></div>
             {friends.length == 0 ? <i>No groups?</i> : null}
             {groupList}
+            <Button
+            onClick={()=> CreateGroupChat()}
+            >Create Group Chat</Button>
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{height: "50vh", width: "50vw"}}>
