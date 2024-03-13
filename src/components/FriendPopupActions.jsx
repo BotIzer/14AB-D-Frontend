@@ -45,7 +45,7 @@ function FriendPopupActions(props) {
   return (
     <div data-bs-theme="dark" className="border list-group list-group-flush h-100">
       {/* TODO: make it be in the middle */}
-      <p>{props.name}</p>
+      <p className="list-group-item secondary w-100 p-2 text-center">{props.name}</p>
       {props.type == 'friend' ?
         
       <React.Fragment>

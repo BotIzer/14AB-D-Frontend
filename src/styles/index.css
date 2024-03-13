@@ -199,7 +199,6 @@ a:hover {
 }
 
 .custom-button:hover,
-.custom-button:active,
 .custom-button:visited,
 .custom-button:focus-visible {
   background-color: #e8cc80;
@@ -208,6 +207,15 @@ a:hover {
   text-shadow: none;
   box-shadow: none;
   border: none;
+}
+
+.custom-button:active{
+  background-color: gold !important;
+  color: #212529 !important;
+  font-weight: bold;
+  text-shadow: none;
+  box-shadow: none;
+  border: none !important;
 }
 
 .clear-button,
