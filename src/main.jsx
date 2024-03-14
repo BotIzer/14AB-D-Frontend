@@ -21,6 +21,8 @@ import PostCard from "./components/PostCard.jsx";
 import CreateForum from "./routes/CreateForum.jsx";
 import Notifications from "./routes/Notifications.jsx"
 import EditUser from "./routes/EditUser.jsx";
+import EditForum from "./routes/EditForum";
+
 const socket = io('http://localhost:3000', {
   withCredentials: true
 });
@@ -110,6 +112,11 @@ const router = createBrowserRouter([
   {
     path: "/edituser/:user",
     element: isLoggedIn ? <EditUser></EditUser> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/editforum/:forum",
+    element: isLoggedIn ? <EditForum></EditForum> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);

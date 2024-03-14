@@ -1,5 +1,5 @@
 import Navigation from "../components/Navigation";
-import { Col, Row, Container, Table, Button } from "react-bootstrap";
+import { Col, Row, Container, Table, Button, Image } from "react-bootstrap";
 import PostCard from "../components/PostCard";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
@@ -101,12 +101,16 @@ function Forum() {
           style={{
             backgroundImage: data.forumData[0] && `url(${data.forumData[0].banner})`,
             backgroundSize: "cover",
-            height: "15vh",
+            height: "20vh",
           }}
         >
           <h1 className="text-outline text-center m-auto">
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
+          <Button className="position-absolute end-0 rounded-pill custom-button" 
+                style={{width: '128px', height: '128px'}} /*onClick={()=>navigate(`/edituser/${user}`)} TODO make this navigate to edit forum*/>
+                  <Image src="/src/assets/icons/edit.png" />
+          </Button>
         </Row>
         <Row className="no-padding-table">
           <Table responsive className="m-0" data-bs-theme="dark">
