@@ -28,12 +28,23 @@ function FriendPopupActions(props) {
 
   }
   const LeaveChat = async () =>{
-    console.log(props.selectedChat);
     await axios.post(
       '/chat/leaveChat',
       {
         chat_id: props.selectedChat
       },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      }
+    )
+  }
+  const DeleteChat = async () => {
+    await axios.delete(
+      `/chat/${props.selectedChat}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +94,7 @@ function FriendPopupActions(props) {
     {isOwner? <Button
       className="border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button"
       key="RemoveFriend"
-      onClick={()=> LeaveChat()}
+      onClick={()=> DeleteChat()}
     >
       Delete Chat
     </Button> : null}

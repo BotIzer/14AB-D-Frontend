@@ -37,7 +37,7 @@ function Navigation() {
     }
   };
   const RedirectToLink = async () => {
-    await axios.post(
+    const response = await axios.post(
       "/search",
       {
         keyword: inputValue,
@@ -46,6 +46,12 @@ function Navigation() {
         headers: { "Content-Type": "application/json" },
       }
     );
+    for (let index = 0; index < response.data.length; index++) {
+      if (response.data[index][0] !== undefined) {
+        navigate(`/user/${response.data[index][0].username}`)
+        break;
+      }
+    }
   };
   const HandleLogout = async () => {
     setIsLoggedIn(false);

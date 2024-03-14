@@ -45,7 +45,6 @@ function ChatWindow(currentChatData) {
   }, []);
   const SendMsg = async () => {
     event.preventDefault();
-    // TODO: check if it's friend/group and do as such
     const message = document.getElementById('sendMsg').value
     if (currentChatData.type === 'friend') {
       const response = await axios.post(
@@ -96,6 +95,9 @@ function ChatWindow(currentChatData) {
       )
     }
     else{
+      console.log("Id found");
+      console.log(currentChatData);
+      console.log("Id closed")
       await axios.post(
         '/comment',
         {

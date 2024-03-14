@@ -20,6 +20,7 @@ export default function UserPage() {
   const [error, setError] = useState("");
   const [messages, setMessages] = useState([])
   const [showChat, setShowChat] = useState(false)
+  const [chatId, setChatId] = useState(null)
   const [isFriend, setIsFriend] = useState(false)
   const [hasFriendRequest, setHasFriendRequest] = useState(false)
   const navigate = useNavigate()
@@ -50,6 +51,7 @@ export default function UserPage() {
               withCredentials: true,
             })
             setMessages(chatData.data.comments)
+            setChatId(response.data.returnArray[0]._id)
           }
           if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
            const friendRequests = await axios.get(
@@ -63,10 +65,8 @@ export default function UserPage() {
               withCredentials: true,
               }
             );
-            console.log(friendRequests);
             if (friendRequests.data.requests.includes(user)) {
               setHasFriendRequest(true)
-              console.log("request");
               return;
             }
             const friends = await axios.get(
@@ -82,7 +82,6 @@ export default function UserPage() {
             );
             if (friends.data.some(friend => friend.username === user)) {
               setIsFriend(true)
-              console.log("barát");
               return;
             }
           }
@@ -130,7 +129,7 @@ export default function UserPage() {
           className="m-0 border" 
           style={{ height: "80vh" }}
         >
-        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat?<ChatWindow chatData={messages}></ChatWindow> : null} 
+        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat?<ChatWindow selectedChat={chatId} chatData={messages}></ChatWindow> : null} 
           <Col className="border h-100 p-0" xs={2}>
             <FriendList
             ></FriendList>
