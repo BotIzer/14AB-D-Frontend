@@ -67,7 +67,7 @@ function Friends() {
         is_ttl: true,
         days_to_die: 3,
         is_private: false,
-        usernames: ['random','sorry']
+        usernames: ['random','sorry','sajtostaller']
       },
       {
         headers: {
