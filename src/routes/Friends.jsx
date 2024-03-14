@@ -23,6 +23,11 @@ function Friends() {
 
   const navigate = useNavigate()
 
+  addEventListener('removeFriend',()=>{
+    const removeIdx = friends.findIndex((element) => element == selectedFriend)
+    friends.splice(removeIdx,1)
+  })
+
   useEffect(() => {
     const GetFriends = async () => {
       if(!localStorage.getItem('token')){
