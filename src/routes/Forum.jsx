@@ -26,9 +26,7 @@ function Forum() {
       axios.get(`/forum/getAllThreads/${forum_id}`,
         {headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        withCredentials: true,
       })])
       setData({
         forumData: forumData.data,
@@ -36,6 +34,7 @@ function Forum() {
       });
   }
      GetForumData()
+    //  TODO: fix this ESLint error
   },[])
 
 
