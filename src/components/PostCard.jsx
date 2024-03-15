@@ -12,18 +12,22 @@ export default function PostCard({ post }) {
   withCredentials: true
 });
   useEffect(()=> {
-    socket.on('like',()=>{
-      console.log('Like sent');
+    socket.on('likedThread',(newLikes)=>{
+      console.log('Someone liked');
+      console.log(newLikes);
     })
+    socket.emit('likedThread',{threadId: post._id.thread_id})
     return() =>{
       socket.disconnect();
       socket.removeAllListeners();
     }
   },[isLiked,socket])
   useEffect(()=> {
-    socket.on('dislike',()=>{
-      console.log('Dislike sent');
+    socket.on('dislikedThread',(newDislikes)=>{
+      console.log('Someone disliked');
+      console.log(newDislikes);
     })
+    socket.emit('dislikedThread')
     return() =>{
       socket.disconnect();
       socket.removeAllListeners();
