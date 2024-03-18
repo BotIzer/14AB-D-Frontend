@@ -1,4 +1,4 @@
-import { Button, FormGroup, Row, Image, DropdownButton, DropdownItem } from "react-bootstrap";
+import { Button, FormGroup, Row, Image, DropdownButton, DropdownItem, Container, Table, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -6,16 +6,48 @@ import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useNavigate, } from "react-router-dom";
 import { useState } from "react";
+import PostCard from "../components/PostCard"
 
 function EditForum() {
   
   const [tagList, setTagList] = useState([]);
   const navigate = useNavigate();
   const preview = {
-    username: "test",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex cupiditate neque at itaque accusamus veritatis eligendi autem aperiam. Dolores provident voluptas est perferendis doloremque qui nulla ab, quaerat excepturi saepe.",
-    pfp: "/src/assets/react.svg",
-  }; //Make this dynamic
+    banner: "/src/assets/banner_test.jpg",
+    forum_name: "test Name",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat magni perspiciatis omnis, officia enim ex facere natus, mollitia ea nulla minus quae ducimus! Natus minima a placeat commodi eligendi. Odit."
+    
+  }; //Make previews dynamic
+  const categoryPreview = [
+    "gaming",
+    "test",
+    "e-sports",
+    "question"
+  ]
+  const postsPreview = [
+    {
+      _id: {forum_id: 1,
+         creator_id: 1,thread_id: 1},
+      name: "Peview Post 1",
+      content: "Content of Post 1",
+      image_array: [],
+      likes: 50,
+      dislikes: 1,
+      comment_count: 4,
+      postDate: new Date(),
+    },
+    {
+      _id: {forum_id: 2,
+        creator_id: 2,thread_id: 2},
+      name: "Peview Post 2",
+      content: "Content of Post 2",
+      image_array: [],
+      likes: 25,
+      dislikes: 1,
+      comment_count: 4,
+      postDate: new Date(),
+    },
+  ]
   const SaveChanges = async () => {
     const username = document.getElementById("username").value.trim();
     const profilePicture = document.getElementById("fileUpload").value.trim();
@@ -73,6 +105,22 @@ function EditForum() {
     await setTagList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
     document.getElementById('fileUpload').value = ""
   }
+/*data.forumData[0] && data.forumData[0] original code used for map*/
+  const categoryList = categoryPreview.map((category)=>(
+    <th
+          style={{ fontSize: "small", borderWidth: "2px" }}
+          key={category}
+          className="text-center"
+        >
+          <i className="tertiary">{category}</i>
+        </th>
+  ))
+  const postList = postsPreview.map((thread) => (
+    <Row key={thread._id} className="w-100">
+      <PostCard post={thread}></PostCard>
+    </Row>
+  ));
+
   return (
     <>
       <Navigation></Navigation>
@@ -185,20 +233,35 @@ function EditForum() {
           </Button>
         </Tab>
         <Tab eventKey="preview" title="Preview" className="tab-size">
-          <Row className="justify-content-center">
-            <Image
-              className="profileSize img-fluid"
-              src="/src/assets/react.svg"
-              roundedCircle
-              style={{ float: "center" }}
-            ></Image>
-          </Row>
-          <Row className="text-center">
-            <h4>{preview.username}</h4>
-          </Row>
-          <Row className="justify-content-center text-center">
-            <p className="text-justify secondary">{preview.description}</p>
-          </Row>
+        <Container fluid>
+        <Row
+          className="p-2"
+          style={{
+            backgroundImage: `url(${preview.banner})`,
+            backgroundSize: "cover",
+            height: "20vh",
+          }}
+        >
+          <h1 className="text-outline text-center m-auto">
+            {/*data.forumData[0] &&*/ preview.forum_name}
+          </h1>
+        </Row>
+        <Row className="no-padding-table">
+          <Table responsive className="m-0" data-bs-theme="dark">
+            <tbody>
+              <tr>{categoryList}</tr>
+            </tbody>
+          </Table>
+        </Row>
+        <Row className="secondary">
+          <div className="text-center p-5 custom-border">
+            <i>{preview.description}</i>
+          </div>
+        </Row>
+        <Col xs={12} md={{ span: 6, offset: 3 }}>
+          {postList}
+        </Col>
+      </Container>
         </Tab>
       </Tabs>
     </>
