@@ -12,30 +12,30 @@ export default function PostCard({ post }) {
   const socket = io('http://localhost:3000', {
   withCredentials: true
 });
-  useEffect(()=> {
-    socket.on('onOpinionChanged',(newLikes)=>{
-      console.log('Something changed');
-      console.log(newLikes);
-    })
-    return() =>{
-      socket.disconnect();
-      socket.removeAllListeners();
-    }
-  },[opinion,socket])
+  // useEffect(()=> {
+  //   socket.on('onOpinionChanged',(newLikes)=>{
+  //     console.log('Something changed');
+  //     console.log(newLikes);
+  //   })
+  //   return() =>{
+  //     socket.disconnect();
+  //     socket.removeAllListeners();
+  //   }
+  // },[opinion,socket])
 
   const LikedThread = (()=>{
     setOpinion({isLiked: !opinion.isLiked, isDisLiked: false})
     console.log(post._id.thread_id);
-    socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
+    // socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   const DislikedThread = (()=>{
     setOpinion({isLiked: false, isDisLiked: !opinion.isDisLiked})
-    socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
+    // socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
       <Card.Header className="primary">{post.name}</Card.Header>
-      <Card.Body className="secondary" style={{ height: "200px" }}>
+      <Card.Body className="secondary h-auto" style={{ height: "200px" }}>
         <Card.Text>{post.content}</Card.Text>{" "}
         <MyCarousel images={post.image_array}></MyCarousel>
         {/*TODO make text cut out if longer than space provided or make it scrollable?*/}

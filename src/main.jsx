@@ -13,7 +13,6 @@ import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
 import UserPage from "./routes/UserPage.jsx";
-import ForumCard from "./components/ForumCard.jsx";
 import Forums from "./routes/Forums.jsx";
 import Forum from "./routes/Forum.jsx";
 import { io } from "socket.io-client";
@@ -22,6 +21,7 @@ import CreateForum from "./routes/CreateForum.jsx";
 import Notifications from "./routes/Notifications.jsx"
 import EditUser from "./routes/EditUser.jsx";
 import EditForum from "./routes/EditForum";
+import EditPost from "./routes/EditPost";
 
 const socket = io('http://localhost:3000', {
   withCredentials: true
@@ -117,6 +117,11 @@ const router = createBrowserRouter([
   {
     path: "/editforum/:forum",
     element: isLoggedIn ? <EditForum></EditForum> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/editpost/:post",
+    element: isLoggedIn ? <EditPost></EditPost> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
