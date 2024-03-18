@@ -6,41 +6,31 @@ import { io } from "socket.io-client";
 import MyCarousel from "../components/MyCarousel";
 export default function PostCard({ post }) {
   const navigate = useNavigate();
+  const [opinion,setOpinion] = useState({isLiked: false, isDisLiked: false})
   const [isLiked, setIsLiked] = useState(false);
   const [isDisLiked, setIsDisLiked] = useState(false);
   const socket = io('http://localhost:3000', {
   withCredentials: true
 });
   useEffect(()=> {
-    socket.on('likedThread',(newLikes)=>{
-      console.log('Someone liked');
+    socket.on('onOpinionChanged',(newLikes)=>{
+      console.log('Something changed');
       console.log(newLikes);
     })
-    socket.emit('likedThread',{threadId: post._id.thread_id})
     return() =>{
       socket.disconnect();
       socket.removeAllListeners();
     }
-  },[isLiked,socket])
-  useEffect(()=> {
-    socket.on('dislikedThread',(newDislikes)=>{
-      console.log('Someone disliked');
-      console.log(newDislikes);
-    })
-    socket.emit('dislikedThread')
-    return() =>{
-      socket.disconnect();
-      socket.removeAllListeners();
-    }
-  },[isDisLiked, socket])
+  },[opinion,socket])
 
   const LikedThread = (()=>{
-    setIsLiked(!isLiked)
-    setIsDisLiked(false)
+    setOpinion({isLiked: !opinion.isLiked, isDisLiked: false})
+    console.log(post._id.thread_id);
+    socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   const DislikedThread = (()=>{
-    setIsLiked(false)
-    setIsDisLiked(!isDisLiked)
+    setOpinion({isLiked: false, isDisLiked: !opinion.isDisLiked})
+    socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
@@ -58,14 +48,14 @@ export default function PostCard({ post }) {
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
-              checked={isLiked}
+              checked={opinion.isLiked}
               value="1"
               onChange={() => LikedThread()}
             >
               <img
                 src="/src/assets/icons/fist_bump_64.png"
                 alt="fist-bump"
-                className={isLiked ? "filter-gold" : "filter-grey"}
+                className={opinion.isLiked ? "filter-gold" : "filter-grey"}
               />
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
                 {post.likes}
@@ -79,14 +69,14 @@ export default function PostCard({ post }) {
                 className="image-checkbox position-relative"
                 type="checkbox"
                 variant="secondary"
-                checked={isDisLiked}
+                checked={opinion.isDisLiked}
                 value="1"
                 onChange={() => DislikedThread()}
               >
                 <img
                   src="/src/assets/icons/lightning_64.png"
                   alt="skull"
-                  className={isDisLiked ? "filter-red" : "filter-grey"}
+                  className={opinion.isDisLiked ? "filter-red" : "filter-grey"}
                 />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
                   {post.dislikes}
