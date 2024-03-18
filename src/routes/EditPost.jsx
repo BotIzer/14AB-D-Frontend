@@ -8,46 +8,22 @@ import { useNavigate, } from "react-router-dom";
 import { useState } from "react";
 import PostCard from "../components/PostCard"
 
-function EditForum() {
+function EditPost() {
   
   const [tagList, setTagList] = useState([]);
   const navigate = useNavigate();
-  const preview = {
-    banner: "/src/assets/banner_test.jpg",
-    forum_name: "test Name",
-    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat magni perspiciatis omnis, officia enim ex facere natus, mollitia ea nulla minus quae ducimus! Natus minima a placeat commodi eligendi. Odit."
-    
-  }; //Make previews dynamic
-  const categoryPreview = [
-    "gaming",
-    "test",
-    "e-sports",
-    "question"
-  ]
-  const postsPreview = [
+  const preview = 
     {
       _id: {forum_id: 1,
          creator_id: 1,thread_id: 1},
       name: "Peview Post 1",
       content: "Content of Post 1",
-      image_array: [],
+      image_array: ["/src/assets/banner_test.jpg", "/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png"],
       likes: 50,
       dislikes: 1,
       comment_count: 4,
       postDate: new Date(),
-    },
-    {
-      _id: {forum_id: 2,
-        creator_id: 2,thread_id: 2},
-      name: "Peview Post 2",
-      content: "Content of Post 2",
-      image_array: [],
-      likes: 25,
-      dislikes: 1,
-      comment_count: 4,
-      postDate: new Date(),
-    },
-  ]
+    }//TODO: Make previews dynamic
   const SaveChanges = async () => {
     const username = document.getElementById("username").value.trim();
     const profilePicture = document.getElementById("fileUpload").value.trim();
@@ -100,51 +76,32 @@ function EditForum() {
     }
 
   }
-  //TODO you shouldnt be able to add empty string as tag
-  const AddTag = async () => {
-    await setTagList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
-    document.getElementById('fileUpload').value = ""
-  }
-/*data.forumData[0] && data.forumData[0] original code used for map*/
-  const categoryList = categoryPreview.map((category)=>(
-    <th
-          style={{ fontSize: "small", borderWidth: "2px" }}
-          key={category}
-          className="text-center"
-        >
-          <i className="tertiary">{category}</i>
-        </th>
-  ))
-  const postList = postsPreview.map((thread) => (
-    <Row key={thread._id} className="w-100">
-      <PostCard post={thread}></PostCard>
-    </Row>
-  ));
 
   return (
     <>
       <Navigation></Navigation>
       <Tabs
-        defaultActiveKey="editUser"
+        defaultActiveKey="editPost"
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
       >
-        <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
+        <Tab eventKey="editPost" title="Edit" className="border tab-size p-2">
           <FormGroup
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
           >
             <Form.Label className="secondary">Title</Form.Label>
             <Form.Control
-              size="lg"
               type="text"
               placeholder="title"
               className="mb-3 title text-center"
               id="title"
             />
           </FormGroup>
-          <FormGroup data-bs-theme="dark">
+          <FormGroup data-bs-theme="dark" className="text-center">
+            
+          <Form.Label className="secondary">Tags</Form.Label>
             <div className="d-flex justify-content-around m-2 secondary">
                 <DropdownButton
                   data-bs-theme="dark"
@@ -160,7 +117,7 @@ function EditForum() {
                 </DropdownButton>
                 <Form.Control
                   className="w-auto"
-                  placeholder="paste Imgur link here"
+                  placeholder="enter categories"
                   id="fileUpload"
                 ></Form.Control>
                 <Button
@@ -173,21 +130,39 @@ function EditForum() {
               </div>
           </FormGroup>
 
-          <FormGroup
-            className="p-2 w-100 h-100 text-center"
-            data-bs-theme="dark"
-          >
-            <Form.Label className="secondary">Banner</Form.Label>
-            <Form.Control
-              className="text-center mb-3"
-              data-bs-theme="dark"
-              placeholder="paste banner link here"
-              id="fileUpload"
-            ></Form.Control>
+          <FormGroup data-bs-theme="dark" className="text-center">
+            <Form.Label className="secondary">Image(es)</Form.Label>
+            <div className="d-flex justify-content-around m-2 secondary">
+                <DropdownButton
+                  data-bs-theme="dark"
+                  drop="down-centered"
+                  title="Tags:"
+                  className="dropdown-button"
+                >
+                  {tagList.map((item,index) => (
+                    <DropdownItem key={index}>
+                      {item}
+                    </DropdownItem>
+                  ))}
+                </DropdownButton>
+                <Form.Control
+                  className="w-auto"
+                  placeholder="enter categories"
+                  id="fileUpload"
+                ></Form.Control>
+                <Button
+                  variant="outline-warning"
+                  className="custom-button"
+                  onClick={() => AddTag()}
+                >
+                  Add
+                </Button>
+              </div>
           </FormGroup>
           <FormGroup className="text-center" data-bs-theme="dark">
             <Form.Label className="secondary">Description</Form.Label>
             <Form.Control
+              size="lg"
               className="text-center"
               as="textarea"
               placeholder="enter description"
@@ -211,7 +186,7 @@ function EditForum() {
               variant="outline-danger"
               size="lg"
               onClick={() => ClearAll()}
-              /*TODO route back to profile page, rename function*/
+              /*TODO route back to Forum page, rename function*/
               className="mt-3"
             >
               Cancel
@@ -219,8 +194,8 @@ function EditForum() {
           </div>
         </Tab>
         <Tab
-          eventKey="deleteForum"
-          title="Delete Forum"
+          eventKey="deletePost"
+          title="Delete Post"
           className="tab-size p-2 text-center"
         >
           <Button
@@ -229,43 +204,15 @@ function EditForum() {
             onClick={() => DeleteProfile()} //TODO rename function
             className="mt-3"
           >
-            Delete Forum
+            Delete Post
           </Button>
         </Tab>
         <Tab eventKey="preview" title="Preview" className="tab-size">
-        <Container fluid>
-        <Row
-          className="p-2"
-          style={{
-            backgroundImage: `url(${preview.banner})`,
-            backgroundSize: "cover",
-            height: "20vh",
-          }}
-        >
-          <h1 className="text-outline text-center m-auto">
-            {/*data.forumData[0] &&*/ preview.forum_name}
-          </h1>
-        </Row>
-        <Row className="no-padding-table">
-          <Table responsive className="m-0" data-bs-theme="dark">
-            <tbody>
-              <tr>{categoryList}</tr>
-            </tbody>
-          </Table>
-        </Row>
-        <Row className="secondary">
-          <div className="text-center p-5 custom-border">
-            <i>{preview.description}</i>
-          </div>
-        </Row>
-        <Col xs={12} md={{ span: 6, offset: 3 }}>
-          {postList}
-        </Col>
-      </Container>
+            <PostCard post={preview}></PostCard>
         </Tab>
       </Tabs>
     </>
   );
 }
 
-export default EditForum;
+export default EditPost;
