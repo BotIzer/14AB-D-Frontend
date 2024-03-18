@@ -107,7 +107,8 @@ function Forum() {
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
           <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '128px', height: '128px'}} /*onClick={()=>navigate(`/edituser/${user}`)} TODO make this navigate to edit forum*/>
+                style={{width: '128px', height: '128px'}} 
+                onClick={()=>navigate(`/editforum/${data.forumData[0].forum_name}`)}>
                   <Image src="/src/assets/icons/edit.png" />
           </Button>
         </Row>

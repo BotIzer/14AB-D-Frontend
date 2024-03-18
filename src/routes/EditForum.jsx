@@ -4,7 +4,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-import { useNavigate, } from "react-router-dom";
+import { useLocation, useNavigate, } from "react-router-dom";
 import { useState } from "react";
 import PostCard from "../components/PostCard"
 
@@ -12,6 +12,7 @@ function EditForum() {
   
   const [tagList, setTagList] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const preview = {
     banner: "/src/assets/banner_test.jpg",
     forum_name: "test Name",
@@ -77,25 +78,20 @@ function EditForum() {
       document.getElementById("fileUpload").value = "";
     }
   };
-  const DeleteProfile = async() => {
-    if (confirm("Are you sure you want to delete your account?")) {
-      const password = prompt("Please enter your password to confirm deletion")
-      if (password === null || !password.trim()) {
-        return;
-      }
+  const DeleteForum = async() => {
+    console.log(location.pathname.split('/')[2]);
+    if (confirm("Are you sure you want to delete this forum?")) {
       await axios.delete(
-        "/user",
+        "/forum",
         {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
-            password: password
+            forumname: location.pathname.split('/')[2] 
           },
           withCredentials: true,
         }
       );
-      localStorage.clear()
-      dispatchEvent(new Event('storage'))
       navigate('/')
     }
 
@@ -226,7 +222,7 @@ function EditForum() {
           <Button
             variant="outline-danger"
             size="lg"
-            onClick={() => DeleteProfile()} //TODO rename function
+            onClick={() => DeleteForum()} //TODO rename function
             className="mt-3"
           >
             Delete Forum
