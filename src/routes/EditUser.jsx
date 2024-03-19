@@ -4,15 +4,37 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function EditUser() {
   const navigate = useNavigate();
-  const preview = {
-    username: "test",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex cupiditate neque at itaque accusamus veritatis eligendi autem aperiam. Dolores provident voluptas est perferendis doloremque qui nulla ab, quaerat excepturi saepe.",
-    pfp: "/src/assets/react.svg",
-  }; //Make this dynamic
+  const location = useLocation();
+  const [previewData, setPreviewData] = useState({
+    username: "",
+    profile_image: "",
+    description: "",
+  });
+  useEffect(()=>{
+    const GetPreviewData = async () => {
+      const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      });
+       setPreviewData({
+        username: response.data.user.username,
+        profile_image: response.data.user.profile_image,
+        description: response.data.user.description,
+      });
+      document.getElementById("username").value = response.data.user.username;
+      document.getElementById("fileUpload").value = response.data.user.profile_image;
+      document.getElementById("description").value = response.data.user.description;
+    };
+    GetPreviewData();
+  },[location.pathname])
   const SaveChanges = async () => {
     const username = document.getElementById("username").value.trim();
     const profilePicture = document.getElementById("fileUpload").value.trim();
@@ -64,6 +86,17 @@ function EditUser() {
       navigate('/')
     }
   }
+  const HandleSelect = (key) =>{
+    if(key === 'preview'){
+      setPreviewData({
+        username: document.getElementById("username").value,
+        profile_image: document.getElementById("fileUpload").value,
+        description: document.getElementById("description").value
+      })
+    }
+  }
+
+
   return (
     <>
       <Navigation></Navigation>
@@ -72,6 +105,7 @@ function EditUser() {
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
+        onSelect={()=>HandleSelect()}
       >
         <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
           <FormGroup
@@ -106,6 +140,7 @@ function EditUser() {
               className="text-center"
               as="textarea"
               placeholder="enter description"
+              id="description"
             ></Form.Control>
           </FormGroup>
           <div
@@ -151,16 +186,16 @@ function EditUser() {
           <Row className="justify-content-center">
             <Image
               className="profileSize img-fluid"
-              src="/src/assets/react.svg"
+              src={previewData.profile_image}
               roundedCircle
               style={{ float: "center" }}
             ></Image>
           </Row>
           <Row className="text-center">
-            <h4>{preview.username}</h4>
+            <h4>{previewData.username}</h4>
           </Row>
           <Row className="justify-content-center text-center">
-            <p className="text-justify secondary">{preview.description}</p>
+            <p className="text-justify secondary">{previewData.description}</p>
           </Row>
         </Tab>
       </Tabs>
