@@ -96,10 +96,11 @@ function EditForum() {
     }
 
   }
-  //TODO you shouldnt be able to add empty string as tag
   const AddTag = async () => {
-    await setTagList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
-    document.getElementById('fileUpload').value = ""
+    if(document.getElementById('fileUpload').value.trim() !== ''){
+      await setTagList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
+      document.getElementById('fileUpload').value = ""
+    }
   }
 /*data.forumData[0] && data.forumData[0] original code used for map*/
   const categoryList = categoryPreview.map((category)=>(
@@ -156,7 +157,7 @@ function EditForum() {
                 </DropdownButton>
                 <Form.Control
                   className="w-auto"
-                  placeholder="paste Imgur link here"
+                  placeholder="add tags here"
                   id="fileUpload"
                 ></Form.Control>
                 <Button
