@@ -35,7 +35,7 @@ export default function PostCard({ post }) {
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
       <Card.Header className="primary">{post.name}</Card.Header>
-      <Card.Body className="secondary h-auto" style={{ height: "200px" }}>
+      <Card.Body className="secondary h-auto" style={{ minHeight: "200px" }}>
         <Card.Text>{post.content}</Card.Text>{" "}
         <MyCarousel images={post.image_array}></MyCarousel>
         {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
