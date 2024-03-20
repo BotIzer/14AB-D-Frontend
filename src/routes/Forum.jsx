@@ -108,7 +108,7 @@ function Forum() {
           </h1>
           <Button className="position-absolute end-0 rounded-pill custom-button" 
                 style={{width: '128px', height: '128px'}} 
-                onClick={()=>navigate(`/editforum/${data.forumData[0].forum_name}`)}>
+                onClick={()=>navigate(`/editforum/${data.forumData[0].forum_name}/${data.forumData[0]._id.forum_id}`)}>
                   <Image src="/src/assets/icons/edit.png" />
           </Button>
         </Row>

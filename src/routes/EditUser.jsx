@@ -35,16 +35,19 @@ function EditUser() {
     };
     GetPreviewData();
   },[location.pathname])
+  // TODO: save data to backend
   const SaveChanges = async () => {
     const username = document.getElementById("username").value.trim();
     const profilePicture = document.getElementById("fileUpload").value.trim();
+    const description = document.getElementById("description").value.trim();
     if (username !== "" && profilePicture !== "") {
       // TODO: Display error if title/banner is empty!
-      await axios.post(
-        "/forum",
+      await axios.put(
+        '/user',
         {
-          forum_name: title,
-          banner: banner,
+          username: username,
+          profile_image: profilePicture,
+          description: description
         },
         {
           headers: {
@@ -58,10 +61,9 @@ function EditUser() {
       return;
     }
   };
-  const ClearAll = async () => {
-    if (confirm("Are you sure you want to clear all fields?")) {
-      document.getElementById("title").value = "";
-      document.getElementById("fileUpload").value = "";
+  const Cancel = async () => {
+    if (confirm("Are you sure you want to cancel editing?")) {
+      navigate(`/user/${location.pathname.split('/')[2]}`)
     }
   };
   const DeleteProfile = async() => {
@@ -105,7 +107,7 @@ function EditUser() {
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
-        onSelect={()=>HandleSelect()}
+        onSelect={HandleSelect}
       >
         <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
           <FormGroup
@@ -160,8 +162,7 @@ function EditUser() {
             <Button
               variant="outline-danger"
               size="lg"
-              onClick={() => ClearAll()}
-              /*TODO route back to profile page, rename function*/
+              onClick={() => Cancel()}
               className="mt-3"
             >
               Cancel

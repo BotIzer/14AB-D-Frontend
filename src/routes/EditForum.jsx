@@ -5,20 +5,41 @@ import Tabs from "react-bootstrap/Tabs";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useLocation, useNavigate, } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostCard from "../components/PostCard"
 
 function EditForum() {
-  
-  const [tagList, setTagList] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const preview = {
-    banner: "/src/assets/banner_test.jpg",
-    forum_name: "test Name",
-    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat magni perspiciatis omnis, officia enim ex facere natus, mollitia ea nulla minus quae ducimus! Natus minima a placeat commodi eligendi. Odit."
-    
-  }; //Make previews dynamic
+
+  const [tagList, setTagList] = useState([]);
+  const [previewData, setPreviewData] = useState({
+    title: "",
+    tags: [],
+    banner: "",
+    description: "",
+  });
+  useEffect(() => {
+    const GetPreviewData = async () => {
+      const response = await axios.get(`/forum/${location.pathname.split("/")[3]}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      });
+      setPreviewData({
+        title: response.data[0].forum_name,
+        tags: response.data[0].tags,
+        banner: response.data[0].banner,
+        description: response.data[0].description,
+      });
+      document.getElementById("title").value = response.data[0].forum_name;
+      document.getElementById('banner').value = response.data[0].banner;
+      document.getElementById("description").value = response.data[0].description;
+    }
+    GetPreviewData();
+  },[location.pathname])
   const categoryPreview = [
     "gaming",
     "test",
@@ -51,7 +72,7 @@ function EditForum() {
   ]
   const SaveChanges = async () => {
     const username = document.getElementById("username").value.trim();
-    const profilePicture = document.getElementById("fileUpload").value.trim();
+    const profilePicture = document.getElementById("tagUpload").value.trim();
     if (username !== "" && profilePicture !== "") {
       // TODO: Display error if title/banner is empty!
       await axios.post(
@@ -72,14 +93,12 @@ function EditForum() {
       return;
     }
   };
-  const ClearAll = async () => {
-    if (confirm("Are you sure you want to clear all fields?")) {
-      document.getElementById("title").value = "";
-      document.getElementById("fileUpload").value = "";
+  const Cancel = async () => {
+    if (confirm("Are you sure you want to stop editing?")) {
+      navigate(`/forums/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}`)
     }
   };
   const DeleteForum = async() => {
-    console.log(location.pathname.split('/')[2]);
     if (confirm("Are you sure you want to delete this forum?")) {
       await axios.delete(
         "/forum",
@@ -97,12 +116,21 @@ function EditForum() {
 
   }
   const AddTag = async () => {
-    if(document.getElementById('fileUpload').value.trim() !== ''){
-      await setTagList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
-      document.getElementById('fileUpload').value = ""
+    if(document.getElementById('tagUpload').value.trim() !== ''){
+      await setTagList(prevItems=>[...prevItems,document.getElementById("tagUpload").value]);
+      document.getElementById('tagUpload').value = ""
     }
   }
-/*data.forumData[0] && data.forumData[0] original code used for map*/
+  const HandleSelect = (key) =>{
+    if(key === 'preview'){
+      setPreviewData({
+        title: document.getElementById("title").value,
+        tags: tagList,
+        banner: document.getElementById('banner').value,
+        description: document.getElementById("description").value,
+      })
+    }
+  }
   const categoryList = categoryPreview.map((category)=>(
     <th
           style={{ fontSize: "small", borderWidth: "2px" }}
@@ -125,6 +153,7 @@ function EditForum() {
         defaultActiveKey="editUser"
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
+        onSelect={()=>HandleSelect()}
         justify
       >
         <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
@@ -143,6 +172,7 @@ function EditForum() {
           </FormGroup>
           <FormGroup data-bs-theme="dark">
             <div className="d-flex justify-content-around m-2 secondary">
+              {/* TODO: fill it with tags dynamically */}
                 <DropdownButton
                   data-bs-theme="dark"
                   drop="down-centered"
@@ -158,7 +188,7 @@ function EditForum() {
                 <Form.Control
                   className="w-auto"
                   placeholder="add tags here"
-                  id="fileUpload"
+                  id="tagUpload"
                 ></Form.Control>
                 <Button
                   variant="outline-warning"
@@ -179,7 +209,7 @@ function EditForum() {
               className="text-center mb-3"
               data-bs-theme="dark"
               placeholder="paste banner link here"
-              id="fileUpload"
+              id="banner"
             ></Form.Control>
           </FormGroup>
           <FormGroup className="text-center" data-bs-theme="dark">
@@ -188,6 +218,7 @@ function EditForum() {
               className="text-center"
               as="textarea"
               placeholder="enter description"
+              id="description"
             ></Form.Control>
           </FormGroup>
           <div
@@ -207,8 +238,7 @@ function EditForum() {
             <Button
               variant="outline-danger"
               size="lg"
-              onClick={() => ClearAll()}
-              /*TODO route back to profile page, rename function*/
+              onClick={() => Cancel()}
               className="mt-3"
             >
               Cancel
@@ -234,13 +264,13 @@ function EditForum() {
         <Row
           className="p-2"
           style={{
-            backgroundImage: `url(${preview.banner})`,
+            backgroundImage: `url(${previewData.banner})`,
             backgroundSize: "cover",
             height: "20vh",
           }}
         >
           <h1 className="text-outline text-center m-auto">
-            {/*data.forumData[0] &&*/ preview.forum_name}
+            {previewData.title}
           </h1>
         </Row>
         <Row className="no-padding-table">
@@ -252,7 +282,7 @@ function EditForum() {
         </Row>
         <Row className="secondary">
           <div className="text-center p-5 custom-border">
-            <i>{preview.description}</i>
+            <i>{previewData.description}</i>
           </div>
         </Row>
         <Col xs={12} md={{ span: 6, offset: 3 }}>
