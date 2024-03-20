@@ -71,15 +71,18 @@ function EditForum() {
     },
   ]
   const SaveChanges = async () => {
-    const username = document.getElementById("username").value.trim();
-    const profilePicture = document.getElementById("tagUpload").value.trim();
-    if (username !== "" && profilePicture !== "") {
+    const title = document.getElementById("title").value.trim();
+    // const tags = document.getElementById("tags").value.trim();
+    const banner = document.getElementById('banner').value.trim();
+    const description = document.getElementById("description").value.trim();
+    if (title !== "" && banner !== "") {
       // TODO: Display error if title/banner is empty!
-      await axios.post(
-        "/forum",
+      await axios.put(
+        `/forum/${location.pathname.split("/")[3]}`,
         {
           forum_name: title,
           banner: banner,
+          description: description,
         },
         {
           headers: {
@@ -89,8 +92,6 @@ function EditForum() {
           withCredentials: true,
         }
       );
-    } else {
-      return;
     }
   };
   const Cancel = async () => {
@@ -153,7 +154,7 @@ function EditForum() {
         defaultActiveKey="editUser"
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
-        onSelect={()=>HandleSelect()}
+        onSelect={HandleSelect}
         justify
       >
         <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
