@@ -4,7 +4,7 @@ import { daysDifference } from "./ForumCard"; //<-- idk where to put this
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import MyCarousel from "../components/MyCarousel";
-export default function PostCard({ post }) {
+export default function PostCard() {
   const navigate = useNavigate();
   const [opinion,setOpinion] = useState({isLiked: false, isDisLiked: false})
   const [isLiked, setIsLiked] = useState(false);
@@ -22,10 +22,11 @@ export default function PostCard({ post }) {
   //     socket.removeAllListeners();
   //   }
   // },[opinion,socket])
+  useEffect(()=>{
 
+  },[])
   const LikedThread = (()=>{
     setOpinion({isLiked: !opinion.isLiked, isDisLiked: false})
-    console.log(post._id.thread_id);
     // socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   const DislikedThread = (()=>{
