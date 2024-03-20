@@ -28,6 +28,8 @@ const socket = io('http://localhost:3000', {
 });
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
+// TODO: if user is the same, shouldn't load in stuff
+const [isSameUser, setIsSameUser] = useState(false);
 addEventListener('storage',()=>{
   setIsLoggedIn((localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null))
 })
