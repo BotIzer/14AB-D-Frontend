@@ -6,30 +6,45 @@ import { io } from "socket.io-client";
 import MyCarousel from "../components/MyCarousel";
 export default function PostCard(post) {
   const navigate = useNavigate();
-  const [opinion,setOpinion] = useState({isLiked: false, isDisLiked: false})
+  const [opinion,setOpinion] = useState({isLiked: post.post.likes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username), 
+    isDisLiked: post.post.dislikes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username)})
+  const [opinionCount, setOpinionCount] = useState({likeCount: post.post.likes.count, 
+    dislikeCount: post.post.dislikes.count})
   const socket = io('http://localhost:3000', {
   withCredentials: true
 });
-  useEffect(()=> {
-    socket.on('onOpinionChanged',(data)=>{
-      console.log('Something changed');
-      console.log(post.post);
-    })
-    return() =>{
-      socket.disconnect();
-      socket.removeAllListeners();
-    }
-  },[opinion,socket])
   useEffect(()=>{
     socket.emit('onOpinionChanged',{threadId: post.post._id.thread_id, 
-      isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked, userToken: localStorage.getItem('token')})
-    
+      isLiked: opinion.isLiked, isDisliked: opinion.isDisLiked, userToken: localStorage.getItem('token')})
   },[opinion])
+  useEffect(()=> {
+      socket.on('onOpinionChanged',(data)=>{
+        setOpinionCount({likeCount: data.likeCount, dislikeCount: data.dislikeCount})
+      })
+      return() =>{
+        socket.disconnect();
+        socket.removeAllListeners();
+      }
+    },[opinionCount,socket])
   const LikedThread = (()=>{
-    setOpinion({isLiked: !opinion.isLiked, isDisLiked: false})
+    if (opinion.isLiked) {
+      setOpinion({isLiked: false, isDisLiked: false})
+    }
+    else{
+      setOpinion({isLiked: true, isDisLiked: false})
+    }
+    setOpinionCount({likeCount: post.post.likes.count, 
+      dislikeCount: post.post.dislikes.count})
   })
   const DislikedThread = (()=>{
-    setOpinion({isLiked: false, isDisLiked: !opinion.isDisLiked})
+    if (opinion.isDisLiked) {
+      setOpinion({isLiked: false, isDisLiked: false})
+    }
+    else{
+      setOpinion({isLiked: false, isDisLiked: true})
+    }
+    setOpinionCount({likeCount: post.post.likes.count, 
+      dislikeCount: post.post.dislikes.count})
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
@@ -58,7 +73,7 @@ export default function PostCard(post) {
                 className={opinion.isLiked ? "filter-gold" : "filter-grey"}
               />
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                {post.post.likes.count}
+                {opinionCount.likeCount}
               </span>{" "}
             </ToggleButton>
 
@@ -79,7 +94,7 @@ export default function PostCard(post) {
                   className={opinion.isDisLiked ? "filter-red" : "filter-grey"}
                 />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                  {post.post.dislikes.count}
+                  {opinionCount.dislikeCount}
                 </span>
               </ToggleButton>
             </Col>
