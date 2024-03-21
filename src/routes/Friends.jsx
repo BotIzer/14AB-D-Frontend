@@ -1,13 +1,12 @@
-import Button from 'react-bootstrap/Button'
+
 import Navigation from '../components/Navigation'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import FriendPopupActions from '../components/FriendPopupActions'
 import { useEffect, useState } from 'react'
 import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
 import ErrorPage from '../error-page'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { DropdownButton, Dropdown, Form, Button, Row, Col } from 'react-bootstrap'
 
 function Friends() {
   const [friends, setFriends] = useState([])
@@ -15,23 +14,23 @@ function Friends() {
   const [comments, setComments] = useState([])
   const [error, setError] = useState('')
   const [selectedChat, setSelectedChat] = useState(null)
-  const [selectedFriend,setSelectedFriend] = useState(null)
+  const [selectedFriend, setSelectedFriend] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
-  const [selectedChatType,setSelectedChatType] = useState('')
-  const [displayName,setDisplayName] = useState('')
+  const [selectedChatType, setSelectedChatType] = useState('')
+  const [displayName, setDisplayName] = useState('')
 
   const navigate = useNavigate()
 
-  addEventListener('removeFriend',()=>{
+  addEventListener('removeFriend', () => {
     const removeIdx = friends.findIndex((element) => element == selectedFriend)
-    friends.splice(removeIdx,1)
+    friends.splice(removeIdx, 1)
   })
 
   useEffect(() => {
     const GetFriends = async () => {
-      if(!localStorage.getItem('token')){
-        setError({response: {data: {message: 'You need to login to access this page!'}}})
+      if (!localStorage.getItem('token')) {
+        setError({ response: { data: { message: 'You need to login to access this page!' } } })
         return
       }
       try {
@@ -64,7 +63,7 @@ function Friends() {
     // TODO fix this, to not even show the first return.
     return <ErrorPage errorStatus={error} />
   }
-  const CreateGroupChat = async () =>{
+  const CreateGroupChat = async () => {
     axios.post(
       '/chat',
       {
@@ -72,7 +71,7 @@ function Friends() {
         is_ttl: true,
         days_to_die: 3,
         is_private: false,
-        usernames: ['random','sorry','sajtostaller']
+        usernames: ['random', 'sorry', 'sajtostaller']
       },
       {
         headers: {
@@ -83,7 +82,7 @@ function Friends() {
       }
     )
   }
-  addEventListener('clicked',()=>{
+  addEventListener('clicked', () => {
     setShowChat(false)
     setSelectedFriend(null)
     setSelectedChat(null)
@@ -95,15 +94,13 @@ function Friends() {
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          if(selectedChat == chat._id && selectedChatType == 'friend')
-          {
+          if (selectedChat == chat._id && selectedChatType == 'friend') {
             setShowPopup(false)
             setSelectedChat(null)
             setSelectedChatType('')
             setDisplayName('')
           }
-          else
-          {
+          else {
             setShowPopup(true)
             setSelectedChat(chat._id)
             setSelectedChatType('friend')
@@ -143,18 +140,16 @@ function Friends() {
   const groupList = groups.map((chat) => (
     <Row key={chat._id} className="m-0">
       <Button
-        className=" secondary clear-button m-0"
+        className="secondary clear-button m-0 px-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          if(selectedChat == chat._id && selectedChatType == 'group')
-          {
+          if (selectedChat == chat._id && selectedChatType == 'group') {
             setShowPopup(false)
             setSelectedChat(null)
             setSelectedChatType('')
             setDisplayName('')
           }
-          else
-          {
+          else {
             setShowPopup(true)
             setSelectedChat(chat._id)
             setSelectedChatType('group')
@@ -194,31 +189,44 @@ function Friends() {
     <>
       <Navigation></Navigation>
       <Row className="w-100 h-50 m-0">
-        <Col 
+        <Col
           data-bs-theme="dark"
-          className="m-0 p-0 list-group list-group-flush overflow-auto text-center custom-border"
+          className="m-0 p-0  text-center custom-border"
+          style={{ maxHeight: '50vh' }}
         >
           <Row className="m-0 pt-2">
             <h5>Friends</h5>
             <div className="border"></div>
             {friends.length == 0 ? <i>No friends?</i> : null}
-            {friendList}
+            <Col>{friendList}</Col>
           </Row>
           <div className="border"></div>
-          <Row className="m-0 pt-2">
+          <Row className="m-0 p-0 pt-2">
             <h5>Groups</h5>
             <div className="border"></div>
             {friends.length == 0 ? <i>No groups?</i> : null}
-            {groupList}
-            <Button
-            onClick={()=> CreateGroupChat()}
-            >Create Group Chat</Button>
+            <Col style={{ maxHeight: '35vh' }} className='overflow-auto'>{groupList}
+              <Button
+                variant='outline-warning'
+                onMouseEnter={() =>
+                (document.getElementById("addGroup").className =
+                  "filter-black")
+                }
+                onMouseLeave={() =>
+                (document.getElementById("addGroup").className =
+                  "filter-gold")
+                }
+              >
+                <div><b>+</b> <img id='addGroup' className='filter-gold' src="/src/assets/icons/group.png" /></div>
+              </Button></Col>
+              {/*TODO create popup for the right column for creating group*/}
+
           </Row>
         </Col>
-        <Col className="m-0 p-0" style={{height: "50vh", width: "50vw"}}>
+        <Col className="m-0 p-0" style={{ height: "50vh", width: "50vw" }}>
           {/* TODO: change this */}
-          {showPopup? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend}/> : null}
-          {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat}/> : null}
+          {showPopup ? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend} /> : null}
+          {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat} /> : null}
         </Col>
       </Row>
     </>
