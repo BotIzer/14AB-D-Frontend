@@ -54,10 +54,12 @@ function ForumCard(forum) {
     </>
   );
 }
-export function daysDifference(first, second) {
-  const date1 = new Date(first).getTime();
-  const date2 = new Date(second).getTime();
-  return Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
+export function DaysDifference(firstDate, secondDate) {
+  const firstDateInMilliseconds = new Date(firstDate).getTime();
+  const secondDateInMilliseconds = new Date(secondDate).getTime();
+  return secondDateInMilliseconds - firstDateInMilliseconds < 0 
+  ? Math.floor((secondDateInMilliseconds - firstDateInMilliseconds) / (1000 * 60 * 60 * 24))*-1 
+  : Math.floor((secondDateInMilliseconds - firstDateInMilliseconds) / (1000 * 60 * 60 * 24));
 }
 
 export default ForumCard;

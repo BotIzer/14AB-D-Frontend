@@ -75,9 +75,9 @@ function Forum() {
           <i className="tertiary">{category}</i>
         </th>
   ))
-  const postList = data.threads.map((thread) => (
+  const postList = data.threads && data.threads.map((thread) => (
     <Row key={thread._id.thread_id} className="w-100">
-      <PostCard></PostCard>
+      <PostCard post={thread}></PostCard>
     </Row>
   ));
   return (

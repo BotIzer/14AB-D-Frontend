@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Button, Col, Row, ToggleButton } from "react-bootstrap";
-import { daysDifference } from "./ForumCard"; //<-- idk where to put this
+import { DaysDifference } from "./ForumCard"; //<-- idk where to put this
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import MyCarousel from "../components/MyCarousel";
-export default function PostCard() {
+export default function PostCard(post) {
   const navigate = useNavigate();
   const [opinion,setOpinion] = useState({isLiked: false, isDisLiked: false})
   const [isLiked, setIsLiked] = useState(false);
@@ -23,7 +23,7 @@ export default function PostCard() {
   //   }
   // },[opinion,socket])
   useEffect(()=>{
-
+    console.log(post.post);
   },[])
   const LikedThread = (()=>{
     setOpinion({isLiked: !opinion.isLiked, isDisLiked: false})
@@ -35,17 +35,18 @@ export default function PostCard() {
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
-      <Card.Header className="primary">{post.name}</Card.Header>
+      <Card.Header className="primary">{post.post.name}</Card.Header>
       <Card.Body className="secondary h-auto" style={{ minHeight: "200px" }}>
-        <Card.Text>{post.content}</Card.Text>{" "}
-        <MyCarousel images={post.image_array}></MyCarousel>
+        <Card.Text>{post.post.content}</Card.Text>{" "}
+        {/* TODO: DO SOMETHING WHEN IT'S EMPTY */}
+        <MyCarousel images={post.post.image_array ? post.post.image_array : ['Nothing']}></MyCarousel>
         {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
       </Card.Body>
       <Card.Footer>
         <Row>
           <Col xs={3}>
             <ToggleButton
-              id={post._id.thread_id + "like"}
+              id={post.post._id && post.post._id.thread_id + "like"}
               className="image-checkbox position-relative"
               type="checkbox"
               variant="secondary"
@@ -66,7 +67,7 @@ export default function PostCard() {
             </Col>
             <Col xs={3}>
               <ToggleButton
-                id={post._id.thread_id + "dislike"}
+                id={post.post._id && post.post._id.thread_id + "dislike"}
                 className="image-checkbox position-relative"
                 type="checkbox"
                 variant="secondary"
@@ -80,7 +81,7 @@ export default function PostCard() {
                   className={opinion.isDisLiked ? "filter-red" : "filter-grey"}
                 />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                  {post.dislikes}
+                  {post.post.dislikes.count}
                 </span>
               </ToggleButton>
             </Col>
@@ -90,14 +91,15 @@ export default function PostCard() {
             >
               Comments
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                {post.comment_count}
+                {/* TODO: ADD THIS TO DATABASE */}
+                {post.post.comment_count}
               </span>
             </Button>
           </Col>
         </Row>
       </Card.Footer>
       <Card.Footer className="text-muted">
-        Posted {daysDifference(post.postDate, new Date())} days ago
+        Posted {DaysDifference(new Date(),post.post.creation_date)} days ago
       </Card.Footer>
     </Card>
   );
