@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function ForumCard(forum) {
   const navigate = useNavigate();
 
-  const sinceUpdate = daysDifference(forum.forum.lastUpdated, new Date());
+  const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date());
   // TODO: Fix this
   const categoryList = forum.forum.tags.map((category,index) => (
     <th style={{ fontSize: "small" }} key={index}>

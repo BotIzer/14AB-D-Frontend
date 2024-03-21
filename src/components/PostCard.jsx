@@ -7,31 +7,29 @@ import MyCarousel from "../components/MyCarousel";
 export default function PostCard(post) {
   const navigate = useNavigate();
   const [opinion,setOpinion] = useState({isLiked: false, isDisLiked: false})
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisLiked, setIsDisLiked] = useState(false);
   const socket = io('http://localhost:3000', {
   withCredentials: true
 });
-  // useEffect(()=> {
-  //   socket.on('onOpinionChanged',(newLikes)=>{
-  //     console.log('Something changed');
-  //     console.log(newLikes);
-  //   })
-  //   return() =>{
-  //     socket.disconnect();
-  //     socket.removeAllListeners();
-  //   }
-  // },[opinion,socket])
+  useEffect(()=> {
+    socket.on('onOpinionChanged',(data)=>{
+      console.log('Something changed');
+      console.log(post.post);
+    })
+    return() =>{
+      socket.disconnect();
+      socket.removeAllListeners();
+    }
+  },[opinion,socket])
   useEffect(()=>{
-    console.log(post.post);
-  },[])
+    socket.emit('onOpinionChanged',{threadId: post.post._id.thread_id, 
+      isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked, userToken: localStorage.getItem('token')})
+    
+  },[opinion])
   const LikedThread = (()=>{
     setOpinion({isLiked: !opinion.isLiked, isDisLiked: false})
-    // socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   const DislikedThread = (()=>{
     setOpinion({isLiked: false, isDisLiked: !opinion.isDisLiked})
-    // socket.emit('onOpinionChanged',{threadId: post._id.thread_id, isLiked: opinion.isLiked, isDisLiked: opinion.isDisLiked})
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
@@ -60,7 +58,7 @@ export default function PostCard(post) {
                 className={opinion.isLiked ? "filter-gold" : "filter-grey"}
               />
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                {post.likes}
+                {post.post.likes.count}
               </span>{" "}
             </ToggleButton>
 
