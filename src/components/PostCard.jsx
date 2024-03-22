@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Col, Row, ToggleButton } from "react-bootstrap";
+import { Card, Button, Col, Row, ToggleButton, DropdownButton, Dropdown, DropdownDivider } from "react-bootstrap";
 import { DaysDifference } from "./ForumCard"; //<-- idk where to put this
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
@@ -48,7 +48,24 @@ export default function PostCard(post) {
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
-      <Card.Header className="primary">{post.post.name}</Card.Header>
+      <Card.Header className="primary d-flex justify-content-between">
+        {post.post.name}
+        <DropdownButton variant="outline-warning" drop="down-centered" title={<img className="filter-gold" src="/src/assets/icons/dots.png" alt="" />}>
+        <Dropdown.Item
+          className="list-group-item secondary text-center"
+          // onClick={() => navigate(`/`)} TODO: make this navigate to editpost, make dropdown items only visible with correct authorizations
+        >
+        Edit
+    </Dropdown.Item>
+    <DropdownDivider></DropdownDivider>
+    <Dropdown.Item
+          className="list-group-item secondary text-center"
+        >
+        Delete
+    </Dropdown.Item>
+
+        </DropdownButton> 
+      </Card.Header>
       <Card.Body className="secondary h-auto" style={{ minHeight: "200px" }}>
         <Card.Text>{post.post.content}</Card.Text>{" "}
         {/* TODO: DO SOMETHING WHEN IT'S EMPTY */}
