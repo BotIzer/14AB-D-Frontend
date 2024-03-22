@@ -16,35 +16,32 @@ export default function PostCard(post) {
   useEffect(()=>{
     socket.emit('onOpinionChanged',{threadId: post.post._id.thread_id, 
       isLiked: opinion.isLiked, isDisliked: opinion.isDisLiked, userToken: localStorage.getItem('token')})
-  },[opinion])
-  useEffect(()=> {
-      socket.on('onOpinionChanged',(data)=>{
+      socket.on('likesAndDislikes',(data)=>{
         setOpinionCount({likeCount: data.likeCount, dislikeCount: data.dislikeCount})
       })
       return() =>{
         socket.disconnect();
         socket.removeAllListeners();
       }
-    },[opinionCount,socket])
+  },[opinion])
+
+
   const LikedThread = (()=>{
     if (opinion.isLiked) {
-      setOpinion({isLiked: false, isDisLiked: false})
+      setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: false, userToken: localStorage.getItem('token')})
     }
     else{
-      setOpinion({isLiked: true, isDisLiked: false})
+      setOpinion({threadId: post.post._id.thread_id, isLiked: true, isDisLiked: false, userToken: localStorage.getItem('token')})
     }
-    setOpinionCount({likeCount: post.post.likes.count, 
-      dislikeCount: post.post.dislikes.count})
   })
+
   const DislikedThread = (()=>{
     if (opinion.isDisLiked) {
-      setOpinion({isLiked: false, isDisLiked: false})
+      setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: false, userToken: localStorage.getItem('token')})
     }
     else{
-      setOpinion({isLiked: false, isDisLiked: true})
+      setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: true, userToken: localStorage.getItem('token')})
     }
-    setOpinionCount({likeCount: post.post.likes.count, 
-      dislikeCount: post.post.dislikes.count})
   })
   return (
     <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
