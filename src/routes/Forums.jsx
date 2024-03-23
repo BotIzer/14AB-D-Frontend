@@ -36,7 +36,7 @@ function Forums() {
         <Button
           className="m-5 clear-button fixed-bottom-right"
           style={{ backgroundColor: "#343a40" }}
-          onClick={() => navigate("/createforum/")}
+          onClick={() => navigate("/createforum")}
         >
           <img
             className="hover-filter-gold"

@@ -86,12 +86,12 @@ function CreateForum() {
           <i className="tertiary">{category}</i>
         </th>
   ))
-  const postList = postsPreview.map((thread) => (
-    <Row key={thread._id} className="w-100">
-      <PostCard post={thread}></PostCard>
-    </Row>
-  ));
-  
+  // const postList = postsPreview.map((thread) => (
+  //   <Row key={thread._id} className="w-100">
+  //     <PostCard post={thread}></PostCard>
+  //   </Row>
+  // ));
+  const postList = <p>postList</p>
   
   return (
     <>
