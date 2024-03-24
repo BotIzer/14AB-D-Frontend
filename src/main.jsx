@@ -22,6 +22,7 @@ import Notifications from "./routes/Notifications.jsx"
 import EditUser from "./routes/EditUser.jsx";
 import EditForum from "./routes/EditForum";
 import EditPost from "./routes/EditPost";
+import CreateChatPopup from "./components/CreateChatPopup.jsx";
 
 const socket = io('http://localhost:3000', {
   withCredentials: true
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/test",
-    element: <PostCard></PostCard>,
+    element: <CreateChatPopup></CreateChatPopup>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
