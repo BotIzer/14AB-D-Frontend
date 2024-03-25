@@ -1,7 +1,4 @@
-import { Button, FormGroup, DropdownButton, Container, Row, Col, Table } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
+import { Button, FormGroup, DropdownButton, Container, Row, Col, Table, Image, Form, Tab,  Tabs, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useState, } from "react";
@@ -171,6 +168,9 @@ function CreateForum() {
               defaultValue={"default"}
               id="banner"
             ></Form.Control>
+            <OverlayTrigger placement="right" overlay={<Tooltip>Note: banners with an aspect ratio of 6:1 work best, other pictures may appear stretched or shrunk</Tooltip>}>
+              <Image className="hover-filter-gold" src="/src/assets/icons/info.png"></Image>
+            </OverlayTrigger>
           </FormGroup>
           <FormGroup className="text-center" data-bs-theme="dark">
             <Form.Label className="secondary">Description</Form.Label>

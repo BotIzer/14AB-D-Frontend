@@ -219,6 +219,9 @@ const postList = <p>postList</p>
               placeholder="paste banner link here"
               id="banner"
             ></Form.Control>
+            <OverlayTrigger placement="right" overlay={<Tooltip>Note: banners with an aspect ratio of 6:1 work best, other pictures may appear stretched or shrunk</Tooltip>}>
+              <Image className="hover-filter-gold" src="/src/assets/icons/info.png"></Image>
+            </OverlayTrigger>
           </FormGroup>
           <FormGroup className="text-center" data-bs-theme="dark">
             <Form.Label className="secondary">Description</Form.Label>
