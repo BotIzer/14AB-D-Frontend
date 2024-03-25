@@ -1,6 +1,7 @@
 
 import Navigation from '../components/Navigation'
 import FriendPopupActions from '../components/FriendPopupActions'
+import CreateChatPopup from '../components/CreateChatPopup'
 import { useEffect, useState } from 'react'
 import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
@@ -205,7 +206,7 @@ function Friends() {
             <h5>Groups</h5>
             <div className="border"></div>
             {friends.length == 0 ? <i>No groups?</i> : null}
-            <Col style={{ maxHeight: '35vh' }} className='overflow-auto'>{groupList}
+            <Col style={{ maxHeight: '30vh' }} className='overflow-auto'>{groupList}
               <Button
                 variant='outline-warning'
                 onMouseEnter={() =>
@@ -227,6 +228,7 @@ function Friends() {
           {/* TODO: change this */}
           {showPopup ? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend} /> : null}
           {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat} /> : null}
+          {/*TODO change show variables to bootstrap offcanvas <CreateChatPopup></CreateChatPopup> */ }
         </Col>
       </Row>
     </>

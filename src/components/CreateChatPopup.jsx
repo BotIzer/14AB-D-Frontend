@@ -46,11 +46,11 @@ const selectFriend = dummyData.map((friend) => (
       <Col>
           <Row className="mx-auto text-center">
             <FormGroup data-bs-theme="dark">
-              <Form.Label>Select type</Form.Label>
-              <Form.Select id="selectType"  value={selectedValue} onChange={(e) => {setSelectedValue(e.target.value)}}>
+              <Form.Label className="secondary">Select type</Form.Label>
+              <Form.Select id="selectType" className="primary"  value={selectedValue} onChange={(e) => {setSelectedValue(e.target.value)}}>
                 
-                <option value="1">Group</option>
-                <option value="2">Direct message</option>
+                <option className="secondary" value="1">Group</option>
+                <option className="secondary" value="2">Direct message</option>
               </Form.Select>
             </FormGroup>
           </Row>
@@ -58,19 +58,29 @@ const selectFriend = dummyData.map((friend) => (
             { selectedValue == 1 ?
             <React.Fragment>
               <FormGroup>
-                <Form.Label>Participants</Form.Label>
-                <Col style={{maxHeight:"80px"}} className="overflow-auto w-50 mx-auto">
+                <Form.Label className="secondary">Participants</Form.Label>
+                <Col style={{maxHeight:"80px"}} className="overflow-auto w-50 mx-auto custom-border p-2 my-2">
                   {addFriends}
                 </Col>
+              </FormGroup>
+              <FormGroup data-bs-theme="dark">
+                <Form.Check className="d-flex justify-content-center mx-auto secondary" type="checkbox" label="temporary?"></Form.Check>
+                <Form.Label className="secondary">Expiration interval</Form.Label>
+                <Form.Control></Form.Control>
               </FormGroup>
             </React.Fragment>
             :
             <React.Fragment>
               <FormGroup data-bs-theme="dark">
-                <Form.Label>Participant</Form.Label>
+                <Form.Label className="secondary">Participant</Form.Label>
                 <Form.Select style={{maxHeight:"80px"}} className="overflow-auto w-50 mx-auto primary">
                   {selectFriend /*TODO make it so you can only select one person if DM is selected*/}
                 </Form.Select>
+              </FormGroup>
+              <FormGroup data-bs-theme="dark">
+                <Form.Check className="d-flex justify-content-center mx-auto secondary my-2" type="checkbox" label="temporary?"></Form.Check>
+                <Form.Label className="secondary">Expiration interval</Form.Label>
+                <Form.Control></Form.Control>
               </FormGroup>
             </React.Fragment>} 
           </Row>
