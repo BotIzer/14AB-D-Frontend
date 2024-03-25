@@ -150,11 +150,11 @@ function ChatWindow(currentChatData) {
 ));
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
-      <Navbar className="justify-content-end pt-0" sticky="top">
+      <Navbar className="justify-content-start pt-0" sticky="top">
         <Button className="close-button me-auto" onClick={()=>CloseChatWindow()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
-        <DropdownButton title="Add friend" className="dropdown-button dropdown-button-size my-2 mx-2">
+        <DropdownButton title="Add friend" className="dropdown-button my-2 mx-2">
         <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
         </DropdownButton>
       </Navbar>

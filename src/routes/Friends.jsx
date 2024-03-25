@@ -193,7 +193,7 @@ function Friends() {
         <Col
           data-bs-theme="dark"
           className="m-0 p-0  text-center custom-border"
-          style={{ maxHeight: '50vh' }}
+          style={{ maxHeight: '60vh' }}
         >
           <Row className="m-0 pt-2">
             <h5>Friends</h5>
