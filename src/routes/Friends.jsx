@@ -207,6 +207,8 @@ function Friends() {
             <div className="border"></div>
             {friends.length == 0 ? <i>No groups?</i> : null}
             <Col style={{ maxHeight: '30vh' }} className='overflow-auto'>{groupList}
+              </Col>
+              {/*TODO create popup for the right column for creating group*/}
               <Button
                 variant='outline-warning'
                 onMouseEnter={() =>
@@ -219,9 +221,7 @@ function Friends() {
                 }
               >
                 <div><b>+</b> <img id='addGroup' className='filter-gold' src="/src/assets/icons/group.png" /></div>
-              </Button></Col>
-              {/*TODO create popup for the right column for creating group*/}
-
+              </Button>
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{ height: "50vh", width: "50vw" }}>

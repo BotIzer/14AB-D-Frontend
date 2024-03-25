@@ -43,7 +43,7 @@ const selectFriend = dummyData.map((friend) => (
 
   return(
     <>
-      <Col>
+      <Col className="m-2">
           <Row className="mx-auto text-center">
             <FormGroup data-bs-theme="dark">
               <Form.Label className="secondary">Select type</Form.Label>
@@ -65,8 +65,8 @@ const selectFriend = dummyData.map((friend) => (
               </FormGroup>
               <FormGroup data-bs-theme="dark">
                 <Form.Check className="d-flex justify-content-center mx-auto secondary" type="checkbox" label="temporary?"></Form.Check>
-                <Form.Label className="secondary">Expiration interval</Form.Label>
-                <Form.Control></Form.Control>
+                <Form.Label className="secondary">Expiration interval (days)</Form.Label>
+                <Form.Control placeholder="e.g: 3" className="w-50 mx-auto"></Form.Control>
               </FormGroup>
             </React.Fragment>
             :
@@ -79,8 +79,8 @@ const selectFriend = dummyData.map((friend) => (
               </FormGroup>
               <FormGroup data-bs-theme="dark">
                 <Form.Check className="d-flex justify-content-center mx-auto secondary my-2" type="checkbox" label="temporary?"></Form.Check>
-                <Form.Label className="secondary">Expiration interval</Form.Label>
-                <Form.Control></Form.Control>
+                <Form.Label className="secondary">Expiration interval (days)</Form.Label>
+                <Form.Control placeholder="e.g: 3" className="w-50 mx-auto"></Form.Control>
               </FormGroup>
             </React.Fragment>} 
           </Row>
