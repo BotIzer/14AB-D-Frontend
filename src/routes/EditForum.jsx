@@ -19,6 +19,7 @@ function EditForum() {
     banner: "",
     description: "",
   });
+  const [displayError, setDisplayError] = useState(false)
   useEffect(() => {
     const GetPreviewData = async () => {
       const response = await axios.get(`/forum/${location.pathname.split("/")[3]}`, {
@@ -75,10 +76,12 @@ function EditForum() {
     // const tags = document.getElementById("tags").value.trim();
     const banner = document.getElementById('banner').value.trim();
     const description = document.getElementById("description").value.trim();
+    const forumId = location.pathname.split("/")[3]
+    console.log(forumId)
     if (title !== "" && banner !== "") {
       // TODO: Display error if title/banner is empty!
       await axios.put(
-        `/forum/${location.pathname.split("/")[3]}`,
+        `/forum/${forumId}`,
         {
           forum_name: title,
           banner: banner,
@@ -92,6 +95,10 @@ function EditForum() {
           withCredentials: true,
         }
       );
+      navigate(`/forums/${title}/${forumId}`)
+    }
+    else{
+      setDisplayError(true)
     }
   };
   const Cancel = async () => {
@@ -141,12 +148,12 @@ function EditForum() {
           <i className="tertiary">{category}</i>
         </th>
   ))
-  const postList = postsPreview.map((thread) => (
-    <Row key={thread._id} className="w-100">
-      <PostCard post={thread}></PostCard>
-    </Row>
-  ));
-
+  // const postList = postsPreview.map((thread) => (
+  //   <Row key={thread._id} className="w-100">
+  //     <PostCard post={thread}></PostCard>
+  //   </Row>
+  // ));
+const postList = <p>postList</p>
   return (
     <>
       <Navigation></Navigation>
@@ -221,6 +228,7 @@ function EditForum() {
               placeholder="enter description"
               id="description"
             ></Form.Control>
+            {displayError ? <div><span className="invalid">Title or Banner picture field is empty!</span></div> : null}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"

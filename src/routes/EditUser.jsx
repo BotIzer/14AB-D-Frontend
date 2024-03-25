@@ -15,6 +15,8 @@ function EditUser() {
     profile_image: "",
     description: "",
   });
+  const [displayError, setDisplayError] = useState(false)
+
   useEffect(()=>{
     const GetPreviewData = async () => {
       const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
@@ -41,7 +43,6 @@ function EditUser() {
     const profilePicture = document.getElementById("fileUpload").value.trim();
     const description = document.getElementById("description").value.trim();
     if (username !== "" && profilePicture !== "") {
-      // TODO: Display error if title/banner is empty!
       await axios.put(
         '/user',
         {
@@ -57,8 +58,9 @@ function EditUser() {
           withCredentials: true,
         }
       );
+      navigate(`/user/${username}`)
     } else {
-      return;
+      setDisplayError(true);
     }
   };
   const Cancel = async () => {
@@ -144,6 +146,7 @@ function EditUser() {
               placeholder="enter description"
               id="description"
             ></Form.Control>
+            {displayError ? <div><span className="invalid">Username or Profile picture field is empty!</span></div> : null}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"

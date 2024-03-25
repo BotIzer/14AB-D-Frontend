@@ -6,53 +6,19 @@ import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useState, } from "react";
 import PostCard from "../components/PostCard"
+import { useNavigate } from "react-router-dom";
 
 function CreateForum() {
 
-  
+  const navigate = useNavigate()
   const [previewData, setPreviewData] = useState({
     title: "",
     tags: [],
     banner: "",
     description: "",
   });
-  const [tagList, setTagList] = useState([]);
+  const [displayError, setDisplayError] = useState(false);
 
-  const CreateForum = async () => {
-    const title = document.getElementById('title').value.trim();
-    const banner = document.getElementById('fileUpload').value.trim();
-    if (title !== "" && banner !== "") {
-      // TODO: Display error if title/banner is empty!
-      await axios.post(
-        "/forum",
-        {
-          forum_name: title,
-          banner: banner,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          withCredentials: true,
-        }
-      );
-    }
-    document.getElementById("title").value = "";
-    document.getElementById("fileUpload").value = "";
-  };
-  const ClearAll = async () => {
-    if (confirm("Are you sure you want to clear all fields?")) {
-      document.getElementById("title").value = "";
-      document.getElementById("fileUpload").value = "";
-    }
-  };
-  const categoryPreview = [
-    "gaming",
-    "test",
-    "e-sports",
-    "question"
-  ]
   const postsPreview = [
     {
       _id: {forum_id: 1,
@@ -77,21 +43,67 @@ function CreateForum() {
       postDate: new Date(),
     },
   ]
-  const categoryList = categoryPreview.map((category)=>(
-    <th
-          style={{ fontSize: "small", borderWidth: "2px" }}
-          key={category}
-          className="text-center"
-        >
-          <i className="tertiary">{category}</i>
-        </th>
-  ))
+  // const categoryList = categoryPreview.map((category)=>(
+  //   <th
+  //         style={{ fontSize: "small", borderWidth: "2px" }}
+  //         key={category}
+  //         className="text-center"
+  //       >
+  //         <i className="tertiary">{category}</i>
+  //       </th>
+  // ))
   // const postList = postsPreview.map((thread) => (
   //   <Row key={thread._id} className="w-100">
   //     <PostCard post={thread}></PostCard>
   //   </Row>
   // ));
   const postList = <p>postList</p>
+
+
+  const CreateForum = async () => {
+    const title = document.getElementById('title').value.trim();
+    const banner = document.getElementById('banner').value.trim();
+    if (title !== "" && banner !== "") {
+      const response = await axios.post(
+        "/forum",
+        {
+          forum_name: title,
+          banner: banner,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+      navigate(`/forums/${title}/${response.data.forumId}`)
+    }
+    else{
+      setDisplayError(true);
+    }
+  };
+  const Cancel = async () => {
+    if (confirm("Are you sure you want to cancel forum creation?")) {
+      navigate('/forums')
+    }
+  };
+  const HandleSelect = async (eventKey) => {
+    if(eventKey === 'preview') {
+      const title = document.getElementById('title').value.trim();
+      const banner = document.getElementById('banner').value.trim();
+      const description = document.getElementById('description').value.trim();
+  
+      setPreviewData({
+        title: title,
+        tags: [],
+        banner: banner,
+        description: description
+      });
+    }
+  };
+
   
   return (
     <>
@@ -101,6 +113,7 @@ function CreateForum() {
         className="d-flex mb-5 mx-auto my-5 text-nowrap"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
+        onSelect={HandleSelect}
       >
         <Tab eventKey="forum" title="Create forum" className="border tab-size p-2">
         <FormGroup
@@ -125,11 +138,11 @@ function CreateForum() {
                   title="Tags:"
                   className="dropdown-button"
                 >
-                  {tagList.map((item,index) => (
+                  {/* {tagList.map((item,index) => (
                     <DropdownItem key={index}>
                       {item}
                     </DropdownItem>
-                  ))}
+                  ))} */}
                 </DropdownButton>
                 <Form.Control
                   className="w-auto"
@@ -155,6 +168,7 @@ function CreateForum() {
               className="text-center mb-3"
               data-bs-theme="dark"
               placeholder="paste banner link here"
+              defaultValue={"default"}
               id="banner"
             ></Form.Control>
           </FormGroup>
@@ -166,6 +180,7 @@ function CreateForum() {
               placeholder="enter description"
               id="description"
             ></Form.Control>
+            {displayError ? <div><span className="invalid">Title or Banner field is empty!</span></div> : null}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"
@@ -175,7 +190,7 @@ function CreateForum() {
               variant="outline-warning"
               size="lg"
               onClick={() =>
-                SaveChanges()
+                CreateForum()
               }
               className="mt-3"
             >
@@ -190,20 +205,6 @@ function CreateForum() {
               Cancel
             </Button>
           </div>
-        </Tab>
-        <Tab
-          eventKey="deleteForum"
-          title="Delete Forum"
-          className="tab-size p-2 text-center"
-        >
-          <Button
-            variant="outline-danger"
-            size="lg"
-            onClick={() => DeleteForum()} //TODO rename function
-            className="mt-3"
-          >
-            Delete Forum
-          </Button>
         </Tab>
         <Tab eventKey="preview" title="Preview" className="tab-size">
         <Container fluid>
@@ -222,7 +223,7 @@ function CreateForum() {
         <Row className="no-padding-table">
           <Table responsive className="m-0" data-bs-theme="dark">
             <tbody>
-              <tr>{categoryList}</tr>
+              <tr>{previewData.tags}</tr>
             </tbody>
           </Table>
         </Row>
