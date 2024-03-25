@@ -289,6 +289,12 @@ a:hover {
     brightness(96%) contrast(89%);
 }
 
+.hover-filter-gold {
+  @media (max-width: 992px) {
+    filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
+    brightness(102%) contrast(104%);
+  }
+}
 .hover-filter-gold:hover {
   filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
     brightness(102%) contrast(104%);

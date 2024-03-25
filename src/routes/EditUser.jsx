@@ -125,6 +125,19 @@ function EditUser() {
               id="username"
             />
           </FormGroup>
+          <FormGroup
+            className="p-2 w-100 h-100 text-center"
+            data-bs-theme="dark"
+          >
+            <Form.Label className="secondary">E-mail</Form.Label>
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="example@placeholder.com"
+              className="mb-3 title text-center"
+              id="username"
+            />
+          </FormGroup>
 
           <FormGroup
             className="p-2 w-100 h-100 text-center"
@@ -147,6 +160,71 @@ function EditUser() {
               id="description"
             ></Form.Control>
             {displayError ? <div><span className="invalid">Username or Profile picture field is empty!</span></div> : null}
+          </FormGroup>
+          <div
+            className="d-flex justify-content-around my-3"
+            style={{ borderTop: "1px solid white" }}
+          >
+            <Button
+              variant="outline-warning"
+              size="lg"
+              onClick={() =>
+                SaveChanges()
+              }
+              className="mt-3"
+            >
+              Save
+            </Button>
+            <Button
+              variant="outline-danger"
+              size="lg"
+              onClick={() => Cancel()}
+              className="mt-3"
+            >
+              Cancel
+            </Button>
+          </div>
+        </Tab>
+        <Tab eventKey="editPass" title="Change Password" className="border tab-size p-2">
+          <FormGroup
+            className="p-2 w-100 h-100 text-center"
+            data-bs-theme="dark"
+          >
+            <Form.Label className="secondary">Enter current password</Form.Label>
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="current password"
+              className="mb-3 title text-center"
+              id="currentPass"
+            />
+          </FormGroup>
+          <FormGroup
+            className="p-2 w-100 h-100 text-center"
+            data-bs-theme="dark"
+          >
+            <Form.Label className="secondary">New Password</Form.Label>
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="enter new password"
+              className="mb-3 title text-center"
+              id="newPass"
+            />
+          </FormGroup>
+          <FormGroup
+            className="p-2 w-100 h-100 text-center"
+            data-bs-theme="dark"
+          >
+            <Form.Label className="secondary">Confirm new Password</Form.Label>
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="re-enter new password"
+              className="mb-3 title text-center"
+              id="confirmPass"
+            />
+            {/* TODO checks for password validity and error messages*/}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"

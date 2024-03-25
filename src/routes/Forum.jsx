@@ -85,7 +85,7 @@ function Forum() {
       <Navigation></Navigation>
       <Container fluid>
         <Button
-          className="m-5 clear-button fixed-bottom-right"
+          className="clear-button fixed-bottom-right mb-4"
           style={{ backgroundColor: "#343a40" }}
           onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/createpost/`)}
         >
@@ -107,9 +107,9 @@ function Forum() {
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
           <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '128px', height: '128px'}} 
+                style={{width: '64px', height: '64px'}} 
                 onClick={()=>navigate(`/editforum/${data.forumData[0].forum_name}/${data.forumData[0]._id.forum_id}`)}>
-                  <Image src="/src/assets/icons/edit.png" />
+                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold" style={{margin: '-10px'}}/>
           </Button>
         </Row>
         <Row className="no-padding-table">
