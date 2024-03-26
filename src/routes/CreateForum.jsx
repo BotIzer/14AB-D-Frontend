@@ -23,8 +23,8 @@ function CreateForum() {
       name: "Peview Post 1",
       content: "Content of Post 1",
       image_array: [],
-      likes: 50,
-      dislikes: 1,
+      likes: {count: 2, users: ['lorem', 'angryjoe']},
+      dislikes: {count: 0, users: []},
       comment_count: 4,
       postDate: new Date(),
     },
@@ -34,28 +34,18 @@ function CreateForum() {
       name: "Peview Post 2",
       content: "Content of Post 2",
       image_array: [],
-      likes: 25,
-      dislikes: 1,
+      likes: {count: 0, users: []},
+      dislikes: {count: 2, users: ['ipsum', 'angryjoe']},
       comment_count: 4,
       postDate: new Date(),
     },
   ]
-  // const categoryList = categoryPreview.map((category)=>(
-  //   <th
-  //         style={{ fontSize: "small", borderWidth: "2px" }}
-  //         key={category}
-  //         className="text-center"
-  //       >
-  //         <i className="tertiary">{category}</i>
-  //       </th>
-  // ))
-  // const postList = postsPreview.map((thread) => (
-  //   <Row key={thread._id} className="w-100">
-  //     <PostCard post={thread}></PostCard>
-  //   </Row>
-  // ));
-  const postList = <p>postList</p>
 
+  const postList = postsPreview.map((thread) => (
+    <Row key={thread._id} className="w-100">
+      <PostCard post={thread}></PostCard>
+    </Row>
+  ));
 
   const CreateForum = async () => {
     const title = document.getElementById('title').value.trim();
