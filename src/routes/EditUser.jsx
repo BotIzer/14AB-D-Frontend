@@ -192,8 +192,9 @@ function EditUser() {
           >
             <Form.Label className="secondary">Enter current password</Form.Label>
             <Form.Control
+              
               size="lg"
-              type="text"
+              type="password"
               placeholder="current password"
               className="mb-3 title text-center"
               id="currentPass"
@@ -206,7 +207,7 @@ function EditUser() {
             <Form.Label className="secondary">New Password</Form.Label>
             <Form.Control
               size="lg"
-              type="text"
+              type="password"
               placeholder="enter new password"
               className="mb-3 title text-center"
               id="newPass"
@@ -219,7 +220,7 @@ function EditUser() {
             <Form.Label className="secondary">Confirm new Password</Form.Label>
             <Form.Control
               size="lg"
-              type="text"
+              type="password"
               placeholder="re-enter new password"
               className="mb-3 title text-center"
               id="confirmPass"

@@ -146,15 +146,15 @@ export default function UserPage() {
               ></Image>
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username && !isFriend && !hasFriendRequest ? 
                 <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '128px', height: '128px'}} onClick={()=>SendFriendRequest()}>
-                  <Image src="/src/assets/icons/add_user_64.png" />
+                style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
+                  <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />
                 </Button>
                 : 
                 null}
                 {user === JSON.parse(localStorage.getItem('userInfo')).username ? 
                 <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '128px', height: '128px'}} onClick={()=>navigate(`/edituser/${user}`)}>
-                  <Image src="/src/assets/icons/edit.png" />
+                style={{width: 'auto', height: 'auto'}} onClick={()=>navigate(`/edituser/${user}`)}>
+                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
                 </Button> : null}
             </Row>
             <Row className="justify-content-center">

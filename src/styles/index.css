@@ -299,6 +299,13 @@ a:hover {
   filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
     brightness(102%) contrast(104%);
 }
+
+.hover-filter-red {
+  @media (max-width: 992px) {
+    filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
+    brightness(96%) contrast(89%);
+  }
+}
 .hover-filter-red:hover {
   filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
     brightness(96%) contrast(89%);
