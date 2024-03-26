@@ -94,17 +94,22 @@ function CreateForum() {
   
       setPreviewData({
         title: title,
-        tags: [],
+        tags: previewData.tags,
         banner: banner,
         description: description
       });
     }
   };
   const AddTag = () => {
-    const previousPrevData = previewData
-    //TODO: Fix this
-    setPreviewData({title: previousPrevData.title, tags: prevItems=>[...prevItems, document.getElementById("tagUpload").value], 
-    banner: previousPrevData.banner, description: previousPrevData.description})
+    if(document.getElementById('tagUpload').value.trim() === ""){
+      document.getElementById('tagUpload').value = ""
+      return;
+    }
+    setPreviewData(prevState => ({
+      ...prevState,
+      tags: [...prevState.tags, document.getElementById('tagUpload').value]
+    }));
+    document.getElementById('tagUpload').value = ""
   }
   
   return (
@@ -227,7 +232,9 @@ function CreateForum() {
         <Row className="no-padding-table">
           <Table responsive className="m-0" data-bs-theme="dark">
             <tbody>
-              <tr>{previewData.tags}</tr>
+              <tr>{previewData.tags.map((tag, index) => (
+          <td key={index}>{tag}</td>
+        ))}</tr>
             </tbody>
           </Table>
         </Row>
