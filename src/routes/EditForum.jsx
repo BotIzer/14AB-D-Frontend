@@ -277,7 +277,8 @@ const postList = <p>postList</p>
           className="p-2"
           style={{
             backgroundImage: `url(${previewData.banner})`,
-            backgroundSize: "cover",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
             height: "20vh",
           }}
         >

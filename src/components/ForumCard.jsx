@@ -19,7 +19,7 @@ function ForumCard(forum) {
           className="secondary"
           style={{
             backgroundImage: `url(${forum.forum.banner})`,
-            backgroundSize: "cover",
+            backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat"
             //TODO make the image scale down with screen size instead of cut off
           }}
