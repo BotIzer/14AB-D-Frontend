@@ -1,4 +1,4 @@
-import { Button, FormGroup, DropdownButton, Container, Row, Col, Table, Image, Form, Tab,  Tabs, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, FormGroup, DropdownButton, Container, Row, Col, Table, Image, Form, Tab,  Tabs, OverlayTrigger, Tooltip, DropdownItem } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useState, } from "react";
@@ -100,7 +100,12 @@ function CreateForum() {
       });
     }
   };
-
+  const AddTag = () => {
+    const previousPrevData = previewData
+    //TODO: Fix this
+    setPreviewData({title: previousPrevData.title, tags: prevItems=>[...prevItems, document.getElementById("tagUpload").value], 
+    banner: previousPrevData.banner, description: previousPrevData.description})
+  }
   
   return (
     <>
@@ -128,18 +133,17 @@ function CreateForum() {
           </FormGroup>
           <FormGroup data-bs-theme="dark">
             <div className="d-flex justify-content-around m-2 secondary">
-              {/* TODO: fill it with tags dynamically */}
                 <DropdownButton
                   data-bs-theme="dark"
                   drop="down-centered"
                   title="Tags:"
                   className="dropdown-button"
                 >
-                  {/* {tagList.map((item,index) => (
+                  {previewData.tags.map((item,index) => (
                     <DropdownItem key={index}>
                       {item}
                     </DropdownItem>
-                  ))} */}
+                  ))}
                 </DropdownButton>
                 <Form.Control
                   className="w-auto"
