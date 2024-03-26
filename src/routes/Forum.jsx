@@ -121,7 +121,7 @@ function Forum() {
         </Row>
         <Row className="secondary">
           <div className="text-center p-5 custom-border">
-            <i>{dummyForum.description}</i>
+            <i>{data.forumData[0] && data.forumData[0].description}</i>
           </div>
         </Row>
         <Col xs={12} md={{ span: 6, offset: 3 }}>

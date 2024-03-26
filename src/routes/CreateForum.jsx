@@ -60,12 +60,15 @@ function CreateForum() {
   const CreateForum = async () => {
     const title = document.getElementById('title').value.trim();
     const banner = document.getElementById('banner').value.trim();
+    const description = document.getElementById('description').value.trim();
     if (title !== "" && banner !== "") {
       const response = await axios.post(
         "/forum",
         {
           forum_name: title,
           banner: banner,
+          tags: previewData.tags,
+          description: description
         },
         {
           headers: {
