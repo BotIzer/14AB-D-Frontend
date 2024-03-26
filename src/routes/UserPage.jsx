@@ -144,24 +144,24 @@ export default function UserPage() {
                 roundedCircle
                 style={{float: "center"}}
               ></Image>
-                {user !== JSON.parse(localStorage.getItem('userInfo')).username && !isFriend && !hasFriendRequest ? 
-                <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
-                  <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />
-                </Button>
-                : 
-                null}
-                {user === JSON.parse(localStorage.getItem('userInfo')).username ? 
-                <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: 'auto', height: 'auto'}} onClick={()=>navigate(`/edituser/${user}`)}>
-                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
-                </Button> : null}
             </Row>
             <Row className="justify-content-center">
               <OverlayTrigger placement="right" overlay={<Tooltip>
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
+                {user !== JSON.parse(localStorage.getItem('userInfo')).username && !isFriend && !hasFriendRequest ? 
+                <Button className="custom-button" 
+                style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
+                  <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />
+                </Button>
+                : 
+                null}
+                {user === JSON.parse(localStorage.getItem('userInfo')).username ? 
+                <Button className="rounded-pill custom-button" 
+                style={{width: 'auto', height: 'auto'}} onClick={()=>navigate(`/edituser/${user}`)}>
+                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
+                </Button> : null}
               <p className="text-justify secondary text-center">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
                 tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
