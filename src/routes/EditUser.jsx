@@ -130,12 +130,13 @@ function EditUser() {
       <Navigation></Navigation>
       <Tabs
         defaultActiveKey="editUser"
-        className="d-flex mb-5 mx-auto my-5 text-nowrap"
+        className="d-flex mx-auto text-nowrap mb-4"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
         onSelect={HandleSelect}
       >
-        <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
+        <Tab eventKey="editUser" title="Edit" className="tab-size p-2 custom-border">
+
         <FormGroup
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
@@ -155,7 +156,6 @@ function EditUser() {
           >
             <Form.Label className="secondary">Username</Form.Label>
             <Form.Control
-              size="lg"
               type="text"
               placeholder="username"
               className="mb-3 title text-center"
@@ -168,7 +168,6 @@ function EditUser() {
           >
             <Form.Label className="secondary">E-mail</Form.Label>
             <Form.Control
-              size="lg"
               type="text"
               placeholder="example@placeholder.com"
               className="mb-3 title text-center"
@@ -222,7 +221,7 @@ function EditUser() {
             </Button>
           </div>
         </Tab>
-        <Tab eventKey="editPass" title="Change Password" className="border tab-size p-2">
+        <Tab eventKey="editPass" title="Change Password" className="custom-border tab-size p-2">
           <FormGroup
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
