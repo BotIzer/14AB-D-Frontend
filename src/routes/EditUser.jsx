@@ -136,6 +136,19 @@ function EditUser() {
         onSelect={HandleSelect}
       >
         <Tab eventKey="editUser" title="Edit" className="border tab-size p-2">
+        <FormGroup
+            className="p-2 w-100 h-100 text-center"
+            data-bs-theme="dark"
+          >
+            <Form.Label className="secondary">Full Name</Form.Label>
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="Stun Seed"
+              className="mb-3 title text-center"
+              id="fullName"
+            />
+          </FormGroup>
           <FormGroup
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
