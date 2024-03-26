@@ -258,11 +258,11 @@ function EditUser() {
               variant="outline-warning"
               size="lg"
               onClick={() =>
-                SaveChanges()
+                ChangePassword()
               }
               className="mt-3"
             >
-              Save
+              Change password
             </Button>
             <Button
               variant="outline-danger"
