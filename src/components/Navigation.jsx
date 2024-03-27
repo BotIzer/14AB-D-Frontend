@@ -37,7 +37,7 @@ function Navigation() {
     }
   };
   const RedirectToLink = async () => {
-    await axios.post(
+    const response = await axios.post(
       "/search",
       {
         keyword: inputValue,
@@ -46,6 +46,12 @@ function Navigation() {
         headers: { "Content-Type": "application/json" },
       }
     );
+    for (let index = 0; index < response.data.length; index++) {
+      if (response.data[index][0] !== undefined) {
+        navigate(`/user/${response.data[index][0].username}`)
+        break;
+      }
+    }
   };
   const HandleLogout = async () => {
     setIsLoggedIn(false);
@@ -74,14 +80,14 @@ function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link
+            {isLoggedIn ? <Nav.Link
               style={textStyle}
               className="mx-2 my-auto"
               onClick={() => navigate("/chats")}
             >
               Friends
-            </Nav.Link>
-              <NotifDropdown></NotifDropdown>
+            </Nav.Link> : null}
+              {isLoggedIn ? <NotifDropdown></NotifDropdown> : null}
           </Nav>
           <Nav
             style={{ width: "100%" }}
@@ -97,7 +103,8 @@ function Navigation() {
                 onKeyDown={HandleKeyDown}
                 style={{ fontSize: "16px" }}
               />
-            <Dropdown show>
+              {/* TODO: FIX BIG TEXT PROBLEM */}
+            <Dropdown>
             <Dropdown.Menu className="custom-mw">
       {dummyItems.map((item) => (
         <Dropdown.Item className="d-flex justify-content-center"  key={item.id}>{item.name}</Dropdown.Item>

@@ -163,20 +163,25 @@ a:hover {
 
 .dropdown-button button {
   background-color: #212529 !important;
-  border: gold solid 1px;
-  color: gold;
+  border: gold solid 1px !important;
+  color: gold !important;
 }
 .btn.show {
   color: gold;
   border-color: gold;
 }
 
-.dropdown-button button:hover,
+.dropdown-button button:hover {
+  background-color: #212529 !important;
+  border: #e8cc80 solid 1px !important;
+  color: #e8cc80 !important;
+}
+
 .dropdown-button button:active,
 .dropdown-button button:focus {
   background-color: #212529 !important;
-  border: #e8cc80 solid 1px;
-  color: #e8cc80;
+  border: gold solid 1px !important;
+  color: gold !important;
 }
 
 .dropdown-item {
@@ -188,28 +193,53 @@ a:hover {
   font-weight: bold;
 }
 
+.custom-button {
+  background-color: transparent;
+  border: none;
+}
+
 .custom-button:hover,
-.custom-button:active,
-.custom-button:focus,
-.custom-button:visited {
-  background-color: #e8cc80 !important;
+.custom-button:visited,
+.custom-button:focus-visible {
+  background-color: #e8cc80;
+  color: #212529;
+  font-weight: bold;
+  text-shadow: none;
+  box-shadow: none;
+  border: none;
+}
+
+.custom-button:active{
+  background-color: gold !important;
   color: #212529 !important;
   font-weight: bold;
   text-shadow: none;
+  box-shadow: none;
+  border: none !important;
 }
 
 .clear-button,
 .clear-button:focus {
-  background-color: #212529 !important;
-  border: 0px;
+  background-color: transparent !important;
+  border: 0px !important;
 }
 .clear-button:hover,
 .clear-button:active,
 .clear-button:visited {
-  background-color: #212529 !important;
+  background-color: transparent !important;
   color: #b47d7d !important;
-  margin: 0px !important;
-  border: 0px;
+}
+
+.close-button,
+.close-button:focus {
+  background-color: #343a40 !important;
+  border: 0px !important;
+}
+.close-button:hover,
+.close-button:active,
+.close-button:visited {
+  background-color: #343a40 !important;
+  color: #b47d7d !important;
 }
 
 /*Chat window styling*/
@@ -232,6 +262,7 @@ a:hover {
   margin-bottom: 10px;
   color: white;
   list-style-type: none;
+  word-wrap: break-word;
 }
 
 .text-outline {
@@ -258,6 +289,28 @@ a:hover {
     brightness(96%) contrast(89%);
 }
 
+.hover-filter-gold {
+  @media (max-width: 992px) {
+    filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
+    brightness(102%) contrast(104%);
+  }
+}
+.hover-filter-gold:hover {
+  filter: invert(88%) sepia(13%) saturate(5895%) hue-rotate(359deg)
+    brightness(102%) contrast(104%);
+}
+
+.hover-filter-red {
+  @media (max-width: 992px) {
+    filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
+    brightness(96%) contrast(89%);
+  }
+}
+.hover-filter-red:hover {
+  filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
+    brightness(96%) contrast(89%);
+}
+
 .image-checkbox {
   background-color: transparent !important;
   border: none !important;
@@ -267,4 +320,42 @@ a:hover {
   @media (max-width: 992px) {
     width: 35vw;
   }
+}
+.dropdown-button-size .dropdown-menu {
+  width: 100%;
+}
+
+.comments-button,
+.comments-button:focus {
+  background-color: transparent;
+  border: 0px;
+}
+.comments-button:hover {
+  background-color: transparent;
+  color: gold;
+}
+
+.comments-button:active {
+  background-color: #e8cc80 !important;
+  color: #212529 !important;
+}
+
+.comments-button:visited {
+  background-color: transparent;
+  color: #b47d7d;
+}
+
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1030;
+}
+
+.custom-tab {
+  color: #e8cc80;
+}
+.custom-tab:hover,
+.custom-tab:focus {
+  color: gold;
 }

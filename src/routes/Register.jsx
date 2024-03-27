@@ -80,18 +80,20 @@ export default function Register() {
           withCredentials: false,
         }
       )
-      await axios.post(
+      const login = await axios.post(
         '/login',
         {
           email: email.toLowerCase(),
           password: pwd,
         },
         {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${localStorage.getItem('token')}`},
           withCredentials: true,
         }
       )
-      setUser(''), setPwd(''), setMatchPwd(''), setEmail('')
+      localStorage.setItem('token', login.data.token)
+      localStorage.setItem('userInfo',JSON.stringify(login.data.userInfo))
+      dispatchEvent(new Event('storage'))
       setErrMsg('User created!')
       setSuccess(true)
       navigate('/')

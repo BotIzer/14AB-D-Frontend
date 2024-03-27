@@ -13,16 +13,24 @@ import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
 import Friends from "./routes/Friends.jsx";
 import UserPage from "./routes/UserPage.jsx";
-import ForumCard from "./components/ForumCard.jsx";
 import Forums from "./routes/Forums.jsx";
 import Forum from "./routes/Forum.jsx";
 import { io } from "socket.io-client";
 import PostCard from "./components/PostCard.jsx";
+import CreateForum from "./routes/CreateForum.jsx";
+import Notifications from "./routes/Notifications.jsx"
+import EditUser from "./routes/EditUser.jsx";
+import EditForum from "./routes/EditForum";
+import EditPost from "./routes/EditPost";
+import CreateChatPopup from "./components/CreateChatPopup.jsx";
+
 const socket = io('http://localhost:3000', {
   withCredentials: true
 });
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
+// TODO: if user is the same, shouldn't load in stuff
+const [isSameUser, setIsSameUser] = useState(false);
 addEventListener('storage',()=>{
   setIsLoggedIn((localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null))
 })
@@ -60,23 +68,23 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/createpost",
+    path: "/forums/:forumName/createpost",
     element: <CreatePost></CreatePost>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
     path: '/chats',
-    element: <Friends></Friends>,
+    element: isLoggedIn ? <Friends></Friends> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
     path: '/chats/:user',
-    element: <Friends></Friends>,
+    element: isLoggedIn ? <Friends></Friends> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
     path: "/test",
-    element: <PostCard></PostCard>,
+    element: <CreateChatPopup></CreateChatPopup>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
@@ -90,8 +98,33 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/forums/:forum",
+    path: "/createforum",
+    element: <CreateForum></CreateForum>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/forums/:forum/:forumId",
     element: <Forum></Forum>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/notifications",
+    element: isLoggedIn ? <Notifications></Notifications> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/edituser/:user",
+    element: isLoggedIn ? <EditUser></EditUser> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/editforum/:forum/:forumId",
+    element: isLoggedIn ? <EditForum></EditForum> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/editpost/:post",
+    element: isLoggedIn ? <EditPost></EditPost> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);

@@ -1,37 +1,48 @@
-import { Button, FormGroup } from "react-bootstrap";
+import { Button, DropdownItem, FormGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import TextEditor from "../components/TextEditor";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-// import { useState } from "react";
-// import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function CreatePost() {
-  // const [imgList, setImgList] = useState([]);
-  // const AddToList = (text) => {
-  //   if (text != null && text!= "") {
-  //     return (<Dropdown.Item href={text}>{text}</Dropdown.Item>)
-  //   }
-  // }
+  const [imgList, setImgList] = useState([]);
+  const location = useLocation();
+  const forumName = location.pathname.split("/")[2];
+  console.log(forumName);
+  useEffect(()=>{
+    console.log(imgList);
+  },[imgList])
   const SendPost = async () => {
-    await axios.post(
-      "/thread",
-      {
-        forum_name: "Chit-chat",
-        name: document.querySelector(".title").value,
-        content: document.querySelector(".ql-editor").innerText,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
+    //TODO - Add error when empty
+    if (document.querySelector(".title").value.trim() !== "") {
+      await axios.post(
+        "/thread",
+        {
+          forum_name: forumName,
+          name: document.querySelector(".title").value,
+          content: document.querySelector(".ql-editor").innerText,
+          images: imgList
         },
-        withCredentials: true,
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+    }
+    const editor = document.querySelector(".ql-editor");
+    editor.innerHTML = "";
+    const titles = document.querySelectorAll(".title");
+    titles.forEach((title) => (title.value = ""));
+    document.getElementById("fileUpload").value = "";
+    setImgList([])
   };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
@@ -39,9 +50,14 @@ function CreatePost() {
       editor.innerHTML = "";
       const titles = document.querySelectorAll(".title");
       titles.forEach((title) => (title.value = ""));
+      document.getElementById("fileUpload").value = "";
+      setImgList([])
     }
-    document.getElementById("fileUpload").value = "";
   };
+  const AddImage = async () => {
+    await setImgList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
+    document.getElementById('fileUpload').value = ""
+  }
   return (
     <>
       <Navigation></Navigation>
@@ -87,13 +103,6 @@ function CreatePost() {
           data-bs-theme="dark"
         >
           <FormGroup className="p-2 w-100 h-100">
-            <Form.Label className="secondary">Title</Form.Label>
-            <Form.Control
-              size="lg"
-              type="text"
-              placeholder="Title"
-              className="mb-3 title"
-            />
             <div className="d-flex justify-content-around m-2 secondary">
               <DropdownButton
                 data-bs-theme="dark"
@@ -101,17 +110,21 @@ function CreatePost() {
                 title="Added Links:"
                 className="dropdown-button"
               >
-                {/* {imgList ? imgList : null} */}
+                {imgList.map((item,index) => (
+                  <DropdownItem key={index}>
+                    {item}
+                  </DropdownItem>
+                ))}
               </DropdownButton>
               <Form.Control
-                className="w-100"
+                className="w-100 mx-5"
                 placeholder="paste Imgur link here"
                 id="fileUpload"
               ></Form.Control>
               <Button
                 variant="outline-warning"
                 className="custom-button"
-                // onClick={() => setImgList([...imgList, AddToList(document.getElementById("fileUpload").value)])}
+                onClick={() => AddImage()}
               >
                 Add
               </Button>

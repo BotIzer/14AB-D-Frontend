@@ -47,7 +47,8 @@ export default function Login() {
           password: pwd,
         },
         {
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${localStorage.getItem('token')}`},
+          withCredentials: true,
         }
         )
       localStorage.setItem('token', response.data.token)

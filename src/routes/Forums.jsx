@@ -1,77 +1,49 @@
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Button, Form, FormGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import ForumCard from "../components/ForumCard";
+import axios from "../api/axios";
+import { useEffect, useState } from "react";
 
 function Forums() {
-  const loadedForums = [
-    {
-      title: "DummyTitle",
-      description: "DummyDescription",
-      categories: [
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-        "gaming",
-        "sports",
-        "music",
-      ],
-      banner: "/src/assets/banner_test.jpg",
-      topPost: {
-        title: "Post Title",
-        content: "Post Content",
-      },
-      lastUpdated: "2021-06-28T14:30:00.000Z",
-    },
-    {
-      title: "DummyTitle2",
-      description: "DummyDescription2",
-      categories: ["gaming", "sports", "music"],
-      banner: "/src/assets/banner_test.jpg",
-      topPost: {
-        title: "Post Title2",
-        content: "Post Content2",
-      },
-      lastUpdated: "2021-06-28T14:30:00.000Z",
-    },
-    {
-      title: "DummyTitle3",
-      description: "DummyDescription3",
-      categories: ["gaming", "sports", "music"],
-      banner: "/src/assets/banner_test.jpg",
-      topPost: {
-        title: "Post Title3",
-        content: "Post Content3",
-      },
-      lastUpdated: "2021-06-28T14:30:00.000Z",
-    },
-  ];
-  const listForums = loadedForums.map((forum) => (
-    <Row className="m-3 p-0" key={forum.title}>
+  const navigate = useNavigate();
+  const [forums, setForums] = useState([]);
+  useEffect(() => {
+    const GetForums = async () => {
+      const response = await axios.get("/forum", {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      });
+      setForums(response.data);
+      console.log(response.data[0]);
+    };
+    GetForums();
+  }, []);
+
+  const listForums = forums.map((forum) => (
+    <Row className="m-3 p-0" key={forum.forum_name}>
       <ForumCard forum={forum}></ForumCard>
     </Row>
   ));
+
   return (
     <>
       <Navigation></Navigation>
       <Container fluid>
+        <Button
+          className="m-5 clear-button fixed-bottom-right"
+          style={{ backgroundColor: "#343a40" }}
+          onClick={() => navigate("/createforum")}
+        >
+          <img
+            className="hover-filter-gold"
+            src="/src/assets/icons/add_forum.png"
+            alt="add forum"
+          />
+        </Button>
         <Row className="m-5">
           <h1 className="text-center">Popular forums</h1>
         </Row>
