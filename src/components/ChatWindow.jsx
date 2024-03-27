@@ -6,6 +6,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import FriendMenu from './FriendMenu';
 import Navbar from 'react-bootstrap/Navbar';
+import Ably from 'ably';
 
 function ChatWindow(currentChatData) {
   const location = useLocation()
@@ -14,6 +15,7 @@ function ChatWindow(currentChatData) {
   const [showFriends, setShowFriends] = useState(false)
   const [currentChat,setCurrentChat] = useState(null)
   const [friends, setFriends] = useState([])
+  const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
   useEffect(()=>{
     setMessages(currentChatData.chatData)
   },[currentChatData]);
@@ -30,18 +32,25 @@ function ChatWindow(currentChatData) {
       setFriends(response.data)
     }
     GetFriends()
-    const socket = io('http://localhost:3000', {
-      withCredentials: true
+    const channel = ably.channels.get("commentChanges");
+    channel.subscribe("commentChanges", (message) => {
+      setMessages(prevMessages => [...prevMessages, message.data])
     });
-    socket.on("message", (data) => {
-      setMessages(prevMessages => [...prevMessages, data]) 
-    });
+    // const socket = io('http://localhost:3000', {
+    //   withCredentials: true
+    // });
+    // socket.on("message", (data) => {
+    //   setMessages(prevMessages => [...prevMessages, data]) 
+    // });
     setCurrentChat(currentChatData.selectedChat)
-    return () => {
-      socket.off("message");
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.off("message");
+    //   socket.disconnect();
+    // };
     //TODO FIX THIS ESLINT ERROR
+    return () =>{
+      channel.unsubscribe();
+    };
   }, []);
   const SendMsg = async () => {
     event.preventDefault();
@@ -95,9 +104,6 @@ function ChatWindow(currentChatData) {
       )
     }
     else{
-      console.log("Id found");
-      console.log(currentChatData);
-      console.log("Id closed")
       await axios.post(
         '/comment',
         {
