@@ -24,9 +24,9 @@ import EditForum from "./routes/EditForum";
 import EditPost from "./routes/EditPost";
 import CreateChatPopup from "./components/CreateChatPopup.jsx";
 
-const socket = io('http://localhost:3000', {
-  withCredentials: true
-});
+// const socket = io('http://localhost:3000', {
+//   withCredentials: true
+// });
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
 // TODO: if user is the same, shouldn't load in stuff
@@ -39,18 +39,18 @@ useEffect(()=>{
     localStorage.clear();
   }
 },[isLoggedIn])
-useEffect(()=> {
-  socket.on('connect',()=>{
-    console.log('Connected to server');
-  })
-  socket.on('disconnect',()=>{
-    console.log('Disconnected from server');
-  })
-  return() =>{
-    socket.disconnect();
-    socket.removeAllListeners();
-  }
-},[])
+// useEffect(()=> {
+//   socket.on('connect',()=>{
+//     console.log('Connected to server');
+//   })
+//   socket.on('disconnect',()=>{
+//     console.log('Disconnected from server');
+//   })
+//   return() =>{
+//     socket.disconnect();
+//     socket.removeAllListeners();
+//   }
+// },[])
 const router = createBrowserRouter([
   {
     path: "/",
