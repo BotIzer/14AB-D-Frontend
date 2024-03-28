@@ -7,20 +7,22 @@ import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
 import ErrorPage from '../error-page'
 import { useNavigate } from 'react-router-dom'
-import { DropdownButton, Dropdown, Form, Button, Row, Col } from 'react-bootstrap'
+import { DropdownButton, Dropdown, Form, Button, Row, Col, Image } from 'react-bootstrap'
 
 function Friends() {
   const [friends, setFriends] = useState([])
   const [groups, setGroups] = useState([])
   const [comments, setComments] = useState([])
   const [error, setError] = useState('')
+  // TODO: Group these too, if possible
   const [selectedChat, setSelectedChat] = useState(null)
   const [selectedFriend, setSelectedFriend] = useState(null)
-  const [showPopup, setShowPopup] = useState(false)
-  const [showChat, setShowChat] = useState(false)
   const [selectedChatType, setSelectedChatType] = useState('')
   const [displayName, setDisplayName] = useState('')
-
+  // TODO: Group these together during refector to decrease rerender amounts
+  const [showPopup, setShowPopup] = useState(false)
+  const [showChat, setShowChat] = useState(false)
+  const [showCreateChat, setShowCreateChat] = useState(false)
   const navigate = useNavigate()
 
   addEventListener('removeFriend', () => {
@@ -64,6 +66,11 @@ function Friends() {
     // TODO fix this, to not even show the first return.
     return <ErrorPage errorStatus={error} />
   }
+  const SetShowLogic = () =>{
+    setShowCreateChat(true)
+    setShowPopup(false)
+    setShowChat(false)
+  }
   const CreateGroupChat = async () => {
     axios.post(
       '/chat',
@@ -95,6 +102,7 @@ function Friends() {
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
+          setShowCreateChat(false)
           if (selectedChat == chat._id && selectedChatType == 'friend') {
             setShowPopup(false)
             setSelectedChat(null)
@@ -112,6 +120,7 @@ function Friends() {
         }}
         onClick={async (e) => {
           e.preventDefault()
+          setShowCreateChat(false)
           setSelectedChat(chat._id)
           if (selectedChat == chat._id) {
             setShowChat(false)
@@ -144,6 +153,7 @@ function Friends() {
         className="secondary clear-button m-0 px-0"
         onContextMenu={(e) => {
           e.preventDefault()
+          setShowCreateChat(false)
           if (selectedChat == chat._id && selectedChatType == 'group') {
             setShowPopup(false)
             setSelectedChat(null)
@@ -161,6 +171,7 @@ function Friends() {
         }}
         onClick={async (e) => {
           e.preventDefault()
+          setShowCreateChat(false)
           setSelectedChat(chat._id)
           if (selectedChat == chat._id) {
             setShowChat(false)
@@ -220,7 +231,7 @@ function Friends() {
                   "filter-gold")
                 }
               >
-                <div><b>+</b> <img id='addGroup' className='filter-gold' src="/src/assets/icons/group.png" /></div>
+                <div onClick={()=>SetShowLogic()}><b>+</b> <Image id='addGroup' className='filter-gold' src="/src/assets/icons/group.png" /></div>
               </Button>
           </Row>
         </Col>
@@ -229,6 +240,7 @@ function Friends() {
           {showPopup ? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend} /> : null}
           {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat} /> : null}
           {/*TODO change show variables to bootstrap offcanvas <CreateChatPopup></CreateChatPopup> */ }
+          {showCreateChat ? <CreateChatPopup friends={friends}/> : null}
         </Col>
       </Row>
     </>

@@ -2,10 +2,7 @@ import {Row, Col, FormGroup, Form, ToggleButton, Button} from "react-bootstrap";
 import { useEffect, useState,  } from "react";
 import React from "react";
 
-
-
-
-export default function CreateChatPopup() {
+export default function CreateChatPopup(props) {
 const [selectedValue, setSelectedValue] = useState(1);
 
 const dummyData = [
@@ -14,7 +11,6 @@ const dummyData = [
   "Lajtaib",
   "Placeholder"
 ]
-
 
 useEffect(() => {
   console.log(selectedValue);
