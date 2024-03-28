@@ -15,7 +15,6 @@ function ChatWindow(currentChatData) {
   const [showFriends, setShowFriends] = useState(false)
   const [currentChat,setCurrentChat] = useState(null)
   const [friends, setFriends] = useState([])
-  const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
   useEffect(()=>{
     setMessages(currentChatData.chatData)
   },[currentChatData]);
@@ -32,25 +31,31 @@ function ChatWindow(currentChatData) {
       setFriends(response.data)
     }
     GetFriends()
-    const channel = ably.channels.get("commentChanges");
+    setCurrentChat(currentChatData.selectedChat)
+    if(process.env.NODE_ENV === "development"){
+      const socket = io('http://localhost:3000', {
+      withCredentials: true
+    });
+    socket.on("message", (data) => {
+      setMessages(prevMessages => [...prevMessages, data]) 
+    });
+    console.log("It is in development mode")
+        return () => {
+      socket.off("message");
+      socket.disconnect();
+    };
+    }
+    else{
+      const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
+      const channel = ably.channels.get("commentChanges");
     channel.subscribe("commentChanges", (message) => {
       setMessages(prevMessages => [...prevMessages, message.data])
     });
-    // const socket = io('http://localhost:3000', {
-    //   withCredentials: true
-    // });
-    // socket.on("message", (data) => {
-    //   setMessages(prevMessages => [...prevMessages, data]) 
-    // });
-    setCurrentChat(currentChatData.selectedChat)
-    // return () => {
-    //   socket.off("message");
-    //   socket.disconnect();
-    // };
-    //TODO FIX THIS ESLINT ERROR
+    console.log("It is in production mode");
     return () =>{
       channel.unsubscribe();
     };
+    }
   }, []);
   const SendMsg = async () => {
     event.preventDefault();
