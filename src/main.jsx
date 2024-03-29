@@ -23,6 +23,7 @@ import EditUser from "./routes/EditUser.jsx";
 import EditForum from "./routes/EditForum";
 import EditPost from "./routes/EditPost";
 import CreateChatPopup from "./components/CreateChatPopup.jsx";
+import VerifyEmail from "./routes/VerifyEmail.jsx";
 
 // const socket = io('http://localhost:3000', {
 //   withCredentials: true
@@ -59,12 +60,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: isLoggedIn ? <Navigate to="/" /> : <Login></Login>,
+    element: !isLoggedIn ?  <Login></Login> : <Navigate to="/" />,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
     path: "/register",
-    element: isLoggedIn ? <Navigate to="/" /> : <Register></Register>,
+    element: !isLoggedIn ? <Register></Register> : <Navigate to="/" />,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
@@ -125,6 +126,11 @@ const router = createBrowserRouter([
   {
     path: "/editpost/:post",
     element: isLoggedIn ? <EditPost></EditPost> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/verifyemail/:emailToken",
+    element: !isLoggedIn ? <VerifyEmail></VerifyEmail> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
