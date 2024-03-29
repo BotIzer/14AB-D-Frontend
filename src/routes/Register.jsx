@@ -31,7 +31,7 @@ export default function Register() {
 
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
-
+  const [succMessage, setSuccMessage] = useState('')
   useEffect(() => {
     userRef.current.focus()
   }, [])
@@ -76,27 +76,13 @@ export default function Register() {
           username: user,
         },
         {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', authorization: 'Bearer null' },
           withCredentials: false,
         }
       )
-      const login = await axios.post(
-        '/login',
-        {
-          email: email.toLowerCase(),
-          password: pwd,
-        },
-        {
-          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${localStorage.getItem('token')}`},
-          withCredentials: true,
-        }
-      )
-      localStorage.setItem('token', login.data.token)
-      localStorage.setItem('userInfo',JSON.stringify(login.data.userInfo))
-      dispatchEvent(new Event('storage'))
-      setErrMsg('User created!')
+      setSuccMessage('User created! Verify your email to log in!')
       setSuccess(true)
-      navigate('/')
+      console.log("success")
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
@@ -262,7 +248,8 @@ export default function Register() {
           color: errMsg ? 'red' : 'green',
         }}
       >
-        {errMsg !== null ? errMsg : success !== null ? success : null}
+        {errMsg !== null ? errMsg : null}
+        {succMessage !== null ? succMessage : null}
       </span>
     </>
   )
