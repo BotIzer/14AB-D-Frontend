@@ -2,7 +2,7 @@ import Navigation from "../components/Navigation";
 import Container from "react-bootstrap/Container";
 import DesktopLayout from "../components/DesktopLayout";
 import MobileLayout from "../components/MoblieLayout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "../api/axios";
 
 export default function VerifyEmail() {
