@@ -23,17 +23,22 @@ export default function UserPage() {
   const [chatId, setChatId] = useState(null)
   const [isFriend, setIsFriend] = useState(false)
   const [hasFriendRequest, setHasFriendRequest] = useState(false)
+  const [userData, setUserData] = useState(null)
   const navigate = useNavigate()
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
-        await axios.get(
+        // gets user page details, no matter who it is
+        const userResponse = await axios.get(
           `/user/${user}`,
           {},
           {
             headers: { "Content-Type": "application/json" },
           }
         );
+        setUserData(userResponse.data.user)
+        console.log(userResponse.data.user)
+        // if the loaded user is NOT the current user, load in the chats
         if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
           const response = await axios.get('/chats', {
             headers: {
@@ -42,7 +47,11 @@ export default function UserPage() {
             },
             withCredentials: true,
           })
-          if (response.data.returnArray[0].friend_user_name === user) {
+
+
+          // check if we have a friendly chat with them?
+          if (response.data.returnArray.length != 0 && response.data.returnArray[0].friend_user_name === user) {
+            
             const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
               headers: {
                 'Content-Type': 'application/json',
@@ -53,6 +62,7 @@ export default function UserPage() {
             setMessages(chatData.data.comments)
             setChatId(response.data.returnArray[0]._id)
           }
+          // if we aren't the user
           if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
            const friendRequests = await axios.get(
               '/user/friends/requests',
@@ -65,7 +75,7 @@ export default function UserPage() {
               withCredentials: true,
               }
             );
-            if (friendRequests.data.requests.includes(user)) {
+            if (friendRequests.data.requests && friendRequests.data.requests.includes(user)) {
               setHasFriendRequest(true)
               return;
             }
@@ -92,6 +102,9 @@ export default function UserPage() {
     };
     GetPageDetails();
   }, [user]);
+  useEffect(()=>{
+    console.log(userData)
+  },[userData])
   const SendFriendRequest = async () =>{
     try {
       await axios.post(
@@ -140,7 +153,7 @@ export default function UserPage() {
             <Row className="justify-content-center position-relative">
               <Image
                 className="profileSize img-fluid"
-                src="/src/assets/PFP_template.png"
+                src={userData !== null ? userData.profile_image : null}
                 roundedCircle
                 style={{float: "center"}}
               ></Image>
@@ -163,13 +176,7 @@ export default function UserPage() {
                   <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
                 </Button> : null}
               <p className="text-justify secondary text-center">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
-                aliquet volutpat ante in luctus. Nullam sit amet risus varius,
-                porttitor augue nec, dignissim nibh. Curabitur venenatis est
-                eget dui malesuada, nec imperdiet velit porttitor. Sed eget
-                justo mi. Nam faucibus sem a sodales consectetur. Maecenas
-                dictum hendrerit erat eu interdum.
+                {userData !== null ? userData.description : null}
               </p>
             </Row>
             <Row className="m-0">

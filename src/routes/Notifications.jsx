@@ -2,26 +2,37 @@ import Navigation from "../components/Navigation";
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { Button, Container, Tab, Row, Col, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Notifications() {
   const [friendRequests, setFriendRequests] = useState([]);
   const [toggleTab, setToggleTab] = useState("requests");
+  const location = useLocation();
+  const [currentPage,setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
+  const [limit, setLimit] = useState(parseInt(location.search.split('limit=')[1]) || 10);
   useEffect(() => {
     const GetFriendRequests = async () => {
       const response = await axios.get("/user/friends/requests", {
+        params: {
+          page: currentPage,
+          limit: limit
+        },
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         withCredentials: true,
       });
-      response.data.requests.length !== 0
-        ? setFriendRequests(response.data.requests)
-        : null;
+      console.log(response.data.returnRequests)
+      response.data.returnRequests.length !== 0
+        ? setFriendRequests(response.data.returnRequests)
+        : ["empty"];
     };
     GetFriendRequests();
   }, []);
+  useEffect(()=>{
+    console.log(friendRequests)
+  },[friendRequests])
   const AcceptFriendRequest = async (requestCreator) => {
     await axios.post(
       `/acceptFriendRequest/${requestCreator}`,
@@ -34,6 +45,7 @@ export default function Notifications() {
         withCredentials: true,
       }
     );
+    setFriendRequests(prevItems => prevItems.filter(friend => friend !== requestCreator))
   };
   const DeclineFriendRequest = async (requestCreator) => {
     await axios.post(
@@ -47,6 +59,7 @@ export default function Notifications() {
         withCredentials: true,
       }
     );
+    setFriendRequests(prevItems => prevItems.filter(friend => friend !== requestCreator))
   };
   // const listItems = friendRequests.map((friend) => (
   //   <div key={friend}>

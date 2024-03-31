@@ -15,7 +15,9 @@ const dummyData = [
 useEffect(() => {
   console.log(selectedValue);
 }, [selectedValue])
-
+useEffect(()=>{
+console.log(props)
+},[])
 
 const addFriends = dummyData.map((friend) => (
   <Row key={friend} className="p-0 m-0">
