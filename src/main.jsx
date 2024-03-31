@@ -24,6 +24,7 @@ import EditForum from "./routes/EditForum";
 import EditPost from "./routes/EditPost";
 import CreateChatPopup from "./components/CreateChatPopup.jsx";
 import VerifyEmail from "./routes/VerifyEmail.jsx";
+import CommentAccordion from "./components/CommentAccordion.jsx";
 
 // const socket = io('http://localhost:3000', {
 //   withCredentials: true
@@ -84,11 +85,6 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/test",
-    element: <CreateChatPopup></CreateChatPopup>,
-    errorElement: <ErrorPage></ErrorPage>,
-  },
-  {
     path: "/user/:user",
     element: <UserPage></UserPage>,
     errorElement: <ErrorPage></ErrorPage>,
@@ -131,6 +127,11 @@ const router = createBrowserRouter([
   {
     path: "/verifyemail/:emailToken",
     element: !isLoggedIn ? <VerifyEmail></VerifyEmail> : <Navigate to="/"/>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "/test",
+    element: <CommentAccordion></CommentAccordion>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
