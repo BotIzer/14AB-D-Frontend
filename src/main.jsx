@@ -25,6 +25,7 @@ import EditPost from "./routes/EditPost";
 import CreateChatPopup from "./components/CreateChatPopup.jsx";
 import VerifyEmail from "./routes/VerifyEmail.jsx";
 import CommentAccordion from "./components/CommentAccordion.jsx";
+import Comments from "./routes/Comments.jsx";
 
 // const socket = io('http://localhost:3000', {
 //   withCredentials: true
@@ -130,8 +131,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/test",
-    element: <CommentAccordion></CommentAccordion>,
+    path: "/forums/:forum/:forumId/:postId/comments",
+    element: <Comments></Comments>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: "test",
+    element: <Comments></Comments>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);

@@ -44,7 +44,7 @@ export default function PostCard(post) {
     }
   })
   return (
-    <Card className="text-center p-0 m-3" data-bs-theme="dark" xs={12} md={6}>
+    <Card className="text-center p-0" data-bs-theme="dark" xs={12} md={6}>
       <Card.Header className="primary d-flex justify-content-between">
         {post.post.name}
         <DropdownButton variant="outline-warning" drop="down-centered" title={<img className="filter-gold" src="/src/assets/icons/dots.png" alt="" />}>
