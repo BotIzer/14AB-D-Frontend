@@ -12,10 +12,6 @@ const dummyData = [
   "Lajtaib",
   "Placeholder"
 ]
-
-useEffect(()=>{
-console.log(props)
-},[])
 useEffect(()=>{
 document.getElementById('daysToLive').value = ""
 },[isTemporary])
@@ -38,7 +34,6 @@ const selectFriend = dummyData.map((friend) => (
   </option>
 ));
 const CreateGroupChat = async () => {
-  console.log('ran')
   if(document.getElementById('groupName').value.trim() === '') {
     setShowError(true)
     return
@@ -63,7 +58,6 @@ const CreateGroupChat = async () => {
         withCredentials: true,
       }
     )
-    console.log('ended too')
   } catch (error) {
     //do error handling soon
     console.log('got a massive error somehow')
@@ -75,6 +69,7 @@ const CloseChat = () => {
   {
     document.getElementById('groupName').value = '';
     setIsTemporary(false)
+    console.log(props.close)
     props.close()
   }
 }

@@ -14,25 +14,13 @@ function Friends() {
   const [groups, setGroups] = useState([])
   const [comments, setComments] = useState([])
   const [error, setError] = useState('')
-  // TODO: Group these too, if possible
-  const [selectedChat, setSelectedChat] = useState(null)
-  const [selectedFriend, setSelectedFriend] = useState(null)
-  const [selectedChatType, setSelectedChatType] = useState('')
-  const [displayName, setDisplayName] = useState('')
-  // TODO: Group these together during refector to decrease rerender amounts
-  const [showPopup, setShowPopup] = useState(false)
-  const [showChat, setShowChat] = useState(false)
-  const [showCreateChat, setShowCreateChat] = useState(false)
-  const [showData, setShowData] = useState({showChat: false, showPopup: false, showCreateChat: false})
+  const [props, setProps] = useState({selectedChat: null, selectedFriend: null, selectedChatType: null, displayName: ''})
+  const [showData, setShowData] = useState({showChat: false, showPopup: false, showCreateChat: false, lastAction: null})
   const location = useLocation()
-  const [currentPage,setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
+  // Group these together too
+  const [currentPage, setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
   const [limit, setLimit] = useState(parseInt(location.search.split('limit=')[1]) || 10);
   const navigate = useNavigate()
-
-  addEventListener('removeFriend', () => {
-    const removeIdx = friends.findIndex((element) => element == selectedFriend)
-    friends.splice(removeIdx, 1)
-  })
 
   useEffect(() => {
     const GetFriends = async () => {
@@ -70,52 +58,47 @@ function Friends() {
     }
     GetFriends()
   }, [])
+
+  const ShowChat= (action)=>{
+    setShowData({showChat: true, showPopup: false, showCreateChat: false, lastAction: action})
+  }
+  const ShowPopup = (action) =>{
+    setShowData({showChat: false, showPopup: true, showCreateChat: false, lastAction: action})
+  }
+  const ShowCreate = () =>{
+    setShowData({showChat: false, showPopup: false, showCreateChat: true})
+  }
+  const DoNotShow = () =>{
+    setShowData({showChat: false, showPopup: false, showCreateChat: false})
+  }
+  const ClearProps = () =>{
+    setProps({selectedChat: null, selectedFriend: null, selectedChatType: null, displayName: ''})
+  }
   if (error != '') {
-    // TODO fix this, to not even show the first return.
     return <ErrorPage errorStatus={error} />
   }
-  const SetShowLogic = () =>{
-    setShowCreateChat(true)
-    setShowPopup(false)
-    setShowChat(false)
-  }
-  
-  addEventListener('clicked', () => {
-    setShowChat(false)
-    setSelectedFriend(null)
-    setSelectedChat(null)
-    setSelectedChatType('')
-  })
+
   const friendList = friends.map((chat) => (
     <Row key={chat._id} className="m-0">
       <Button
         className=" secondary clear-button m-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          setShowCreateChat(false)
-          if (selectedChat == chat._id && selectedChatType == 'friend') {
-            setShowPopup(false)
-            setSelectedChat(null)
-            setSelectedChatType('')
-            setDisplayName('')
+          if (props.selectedChat == chat._id && showData.lastAction === "context") {
+            DoNotShow()
+            ClearProps()
           }
           else {
-            setShowPopup(true)
-            setSelectedChat(chat._id)
-            setSelectedChatType('friend')
-            setDisplayName(chat.friend_user_name)
+            ShowPopup("context")
+            setProps({selectedChat: chat._id, selectedChatType: 'friend', displayName: chat.friend_user_name})
           }
-          setShowChat(false)
-          setSelectedFriend(chat.friend_user_name)
+          setProps(prevProps=>({...prevProps, selectedFriend: chat.friend_user_name}))
         }}
         onClick={async (e) => {
           e.preventDefault()
-          setShowCreateChat(false)
-          setSelectedChat(chat._id)
-          if (selectedChat == chat._id) {
-            setShowChat(false)
-            setSelectedChat(null)
-            setSelectedChatType('')
+          if (props.selectedChat == chat._id && showData.lastAction === "click") {
+            DoNotShow()
+            ClearProps()
             return
           }
           const chatData = await axios.get(`/chat/${chat._id}/comments`, {
@@ -125,10 +108,9 @@ function Friends() {
             },
             withCredentials: true,
           })
-          setSelectedChatType('friend')
+          setProps(prevProps=>({...prevProps, selectedChat: chat._id, selectedChatType: 'friend'}))
           setComments(chatData.data.comments)
-          setShowChat(true)
-          setShowPopup(false)
+          ShowChat("click")
           navigate(`/chats/${chat.friend_user_name}`)
         }}
       >
@@ -143,30 +125,20 @@ function Friends() {
         className="secondary clear-button m-0 px-0"
         onContextMenu={(e) => {
           e.preventDefault()
-          setShowCreateChat(false)
-          if (selectedChat == chat._id && selectedChatType == 'group') {
-            setShowPopup(false)
-            setSelectedChat(null)
-            setSelectedChatType('')
-            setDisplayName('')
+          if (props.selectedChat == chat._id && showData.lastAction === "context") {
+            DoNotShow()
+            ClearProps()
           }
           else {
-            setShowPopup(true)
-            setSelectedChat(chat._id)
-            setSelectedChatType('group')
-            setDisplayName(chat.name)
+            ShowPopup("context")
+            setProps({selectedFriend: null, selectedChat: chat._id, selectedChatType: 'group', displayName: chat.name})
           }
-          setShowChat(false)
-          setSelectedFriend(null)
         }}
         onClick={async (e) => {
           e.preventDefault()
-          setShowCreateChat(false)
-          setSelectedChat(chat._id)
-          if (selectedChat == chat._id) {
-            setShowChat(false)
-            setSelectedChat(null)
-            setSelectedChatType('')
+          if (props.selectedChat == chat._id && showData.lastAction === "click") {
+            DoNotShow()
+            ClearProps()
             return
           }
           const chatData = await axios.get(`/chat/${chat._id}/comments`, {
@@ -176,10 +148,9 @@ function Friends() {
             },
             withCredentials: true,
           })
-          setSelectedChatType('group')
+          setProps({selectedFriend: null, selectedChat: chat._id, selectedChatType: 'group', displayName: chat.name})
           setComments(chatData.data.comments)
-          setShowChat(true)
-          setShowPopup(false)
+          ShowChat("click")
           navigate(`/chats/${chat.name}`)
         }}
       >
@@ -187,9 +158,7 @@ function Friends() {
       </Button>
     </Row>
   ))
-  const CloseCreateChatWindow = (()=>{
-    setShowCreateChat(false)
-  })
+
   return (
     <>
       <Navigation></Navigation>
@@ -223,16 +192,14 @@ function Friends() {
                   "filter-gold")
                 }
               >
-                <div onClick={()=>SetShowLogic()}><b>+</b> <Image id='addGroup' className='filter-gold' src="/src/assets/icons/group.png" /></div>
+                <div onClick={()=>ShowCreate()}><b>+</b> <Image id='addGroup' className='filter-gold' src="/src/assets/icons/group.png" /></div>
               </Button>
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{ height: "50vh", width: "50vw" }}>
-          {/* TODO: change this */}
-          {showPopup ? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend} /> : null}
-          {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat} /> : null}
-          {/*TODO change show variables to bootstrap offcanvas <CreateChatPopup></CreateChatPopup> */ }
-          {showCreateChat ? <CreateChatPopup close={CloseCreateChatWindow} friends={friends}/> : null}
+          {showData.showPopup ? <FriendPopupActions selectedChat={props.selectedChat} name={props.displayName} type={props.selectedChatType} friend={props.selectedFriend} /> : null}
+          {showData.showChat ? <ChatWindow close={()=>DoNotShow()} type={props.selectedChatType} chatData={comments} selectedChat={props.selectedChat} /> : null}
+          {showData.showCreateChat ? <CreateChatPopup close={()=>DoNotShow()} friends={friends}/> : null}
         </Col>
       </Row>
     </>

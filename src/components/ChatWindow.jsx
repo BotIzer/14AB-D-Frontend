@@ -159,8 +159,11 @@ function ChatWindow(currentChatData) {
         withCredentials: true,
       })
   }
-  const CloseChatWindow = () => {
-    dispatchEvent(new Event('clicked'))
+  const CloseChat = () => {
+    if(confirm("Are you sure you want to close the chat?"))
+    {
+      currentChatData.close()
+    }
   }
   const friendList = friends.map((friend) => (
     <Dropdown.Item
@@ -173,7 +176,7 @@ function ChatWindow(currentChatData) {
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
       <Navbar className="justify-content-start pt-0" sticky="top" style={{zIndex: '1000'}}>
-        <Button className="close-button me-auto" onClick={()=>currentChatData.close()} >
+        <Button className="close-button me-auto" onClick={() => CloseChat()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
         {/* TODO: BOTI MAKE IT CENTERED AND LOOK COOLIO */}

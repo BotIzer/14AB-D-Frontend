@@ -20,7 +20,6 @@ function FriendPopupActions(props) {
         withCredentials: true,
       }
     )
-    dispatchEvent(new Event('removeFriend'))
   }
   const GoToProfile = async () => {
     navigate(`/user/${props.friend}`)
