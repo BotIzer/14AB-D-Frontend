@@ -19,7 +19,9 @@ function Navigation() {
     currentPage: parseInt(location.search.split('page=')[1]) || 0,
     limit: parseInt(location.search.split('limit=')[1]) || 10
   });
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({forums: [], users: []});
+  const [timerOff, setTimerOff] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   useEffect(() => {
     setIsLoggedIn(
       localStorage.getItem("token") && localStorage.getItem("userInfo")
@@ -96,29 +98,45 @@ function Navigation() {
     window.removeEventListener("resize", updateDropdownWidth);
   };
   },[dropdownRef.current, dropdownWidth])
-  // useEffect(() => {
-  //   clearTimeout(timer);
-  //   const newTimer = setTimeout(async () => {
-  //     if (inputValue.trim() !== "") {
-  //       const response = await axios.post(
-  //         "/search",
-  //         {
-  //           keyword: inputValue,
-  //         },
-  //         {
-  //           params: {
-  //             page: pageDetails.currentPage,
-  //             limit: pageDetails.limit
-  //           },
-  //           headers: { "Content-Type": "application/json" },
-  //         }
-  //       );
-  //       setSearchResults(response.data);
-  //     }
-  //   }, 1000);
-
-  //   return () => clearTimeout(newTimer);
-  // }, [inputValue]);
+  useEffect(() => {
+    setTimerOff(false)
+    const timer = setTimeout(async () => {
+      if (inputValue.trim() !== "") {
+        const response = await axios.post(
+          "/search",
+          {
+            keyword: inputValue,
+          },
+          {
+            params: {
+              page: pageDetails.currentPage,
+              limit: pageDetails.limit
+            },
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        let temporaryForumArray = [];
+        let temporaryUserArray = [];
+        response.data[0].forEach(element => {
+          temporaryForumArray.push({
+            id: element._id.forum_id,
+            name: element.forum_name
+          });
+        })
+        response.data[1].forEach(element => {
+          temporaryUserArray.push({
+            name: element.username
+          });
+        })
+        setSearchResults({forums: temporaryForumArray, users: temporaryUserArray})
+        setTimerOff(true)
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [inputValue]);
+  useEffect(()=>{
+    console.log(searchResults.users)
+  },[searchResults])
   return (
     <Navbar
       expand="lg"
@@ -155,12 +173,18 @@ function Navigation() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 style={{ fontSize: "16px" }}
+                onFocus={()=>setShowSearchResults(true)} 
+                onBlur={()=>setShowSearchResults(false)}
               />
-            <Dropdown show={inputValue.trim() !== ""}>
+            <Dropdown show={inputValue.trim() !== "" && showSearchResults}>
             <Dropdown.Menu className="custom-mw" ref={dropdownRef}>
-      {dummyItems.map((item) => (
-        <Dropdown.Item className="d-flex justify-content-center"  key={item.id}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))+"..."}` : item.name}</Dropdown.Item>
+      {searchResults.users.length > 0 && searchResults.users.map((item) => (
+        <Dropdown.Item onClick={()=>navigate(`/user/${item.name}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (user)` : `${item.name} (user)`}</Dropdown.Item>
       ))}
+      {searchResults.forums.length > 0 && searchResults.forums.map((item) => (
+        <Dropdown.Item onClick={()=>navigate(`/forums/${item.name}/${item.id}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
+      ))}
+          {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item className="d-flex justify-content-center"  key="noResults">No search results</Dropdown.Item>}
            </Dropdown.Menu>
             </Dropdown>
             </Form>
