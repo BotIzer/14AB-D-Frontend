@@ -50,7 +50,7 @@ function NotifDropdown() {
         <Dropdown.Item
           eventKey="4"
           /*<--TODO: set this to dynamic*/ onClick={() =>
-            navigate("/notifications")
+            navigate("/notifications?page=0?limit=0")
           }
           onMouseEnter={() =>
             (document.getElementById("notification").src =

@@ -15,6 +15,7 @@ function ChatWindow(currentChatData) {
   const [showFriends, setShowFriends] = useState(false)
   const [currentChat,setCurrentChat] = useState(null)
   const [friends, setFriends] = useState([])
+  const [showError, setShowError] =  useState(false)
   useEffect(()=>{
     setMessages(currentChatData.chatData)
   },[currentChatData]);
@@ -60,28 +61,65 @@ function ChatWindow(currentChatData) {
   const SendMsg = async () => {
     event.preventDefault();
     const message = document.getElementById('sendMsg').value
-    if (currentChatData.type === 'friend') {
-      const response = await axios.post(
-        '/createOrRetrieveChat',
-        {
-          friend: friend,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        }
-      )
-      if (response.data.length === 0) {
-        await axios.post(
-          '/chat',
+    try {
+      if (currentChatData.type === 'friend') {
+
+        const response = await axios.post(
+          '/createOrRetrieveChat',
           {
-            name: friend,
-            is_ttl: false,
-            is_private: true,
-            other_user_name: friend,
+            friend: friend,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+        if (response.data.length === 0) {
+          await axios.post(
+            '/chat',
+            {
+              name: friend,
+              is_ttl: false,
+              is_private: true,
+              other_user_name: friend,
+              usernames: [friend]
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            }
+          )
+        }
+        await axios.post(
+          '/comment',
+          {
+            room_id: response.data._id,
+            text: message,
+            is_reply: false,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+  
+      }
+      else{
+        await axios.post(
+          '/comment',
+          {
+            room_id: currentChatData.selectedChat,
+            text: message,
+            is_reply: false,
           },
           {
             headers: {
@@ -92,40 +130,13 @@ function ChatWindow(currentChatData) {
           }
         )
       }
-      await axios.post(
-        '/comment',
-        {
-          room_id: response.data._id,
-          text: message,
-          is_reply: false,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        }
-      )
+      document.getElementById('sendMsg').value = "";
+    } catch (error) {
+      if (error.response.status === 404) {
+      }
+      setShowError(true)
     }
-    else{
-      await axios.post(
-        '/comment',
-        {
-          room_id: currentChatData.selectedChat,
-          text: message,
-          is_reply: false,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        }
-      )
-    }
-    document.getElementById('sendMsg').value = "";
+    
   }
   const HandleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -165,6 +176,8 @@ function ChatWindow(currentChatData) {
         <Button className="close-button me-auto" onClick={()=>CloseChatWindow()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
+        {/* TODO: BOTI MAKE IT CENTERED AND LOOK COOLIO */}
+        {showError ? <p autoFocus>ERROR: </p> : null}
         <DropdownButton title="Add friend" className="dropdown-button my-2 mx-2">
         <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
         </DropdownButton>

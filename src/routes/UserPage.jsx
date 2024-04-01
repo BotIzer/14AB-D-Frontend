@@ -23,18 +23,15 @@ export default function UserPage() {
   const [chatId, setChatId] = useState(null)
   const [isFriend, setIsFriend] = useState(false)
   const [hasFriendRequest, setHasFriendRequest] = useState(false)
+  const [userData, setUserData] = useState(null)
+  const [isSameUser, setIsSameUser] = useState(false);
   const navigate = useNavigate()
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
-        await axios.get(
-          `/user/${user}`,
-          {},
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
+        SetUserData()
+        setIsSameUser(user === JSON.parse(localStorage.getItem("userInfo")).username)
+        if (!isSameUser) {
           const response = await axios.get('/chats', {
             headers: {
               'Content-Type': 'application/json',
@@ -42,7 +39,8 @@ export default function UserPage() {
             },
             withCredentials: true,
           })
-          if (response.data.returnArray[0].friend_user_name === user) {
+          // if we have ANY chats, we try to find the messages for the chat with the user we're viewing
+          if (response.data.returnArray.length != 0 && response.data.returnArray[0].friend_user_name === user) {
             const chatData = await axios.get(`/chat/${response.data.returnArray[0]._id}/comments`, {
               headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +51,7 @@ export default function UserPage() {
             setMessages(chatData.data.comments)
             setChatId(response.data.returnArray[0]._id)
           }
-          if (user !== JSON.parse(localStorage.getItem("userInfo")).username) {
+          // if we aren't the user
            const friendRequests = await axios.get(
               '/user/friends/requests',
               {},
@@ -65,7 +63,19 @@ export default function UserPage() {
               withCredentials: true,
               }
             );
-            if (friendRequests.data.requests.includes(user)) {
+            console.log(friendRequests.data)
+            const sentFriendRequests = await axios.get(
+              '/user/friends/sentRequests',
+              {},
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+              }
+            );
+            if ((friendRequests.data.requests && friendRequests.data.requests.includes(user)) || sentFriendRequests.data.sentRequests.includes(user)) {
               setHasFriendRequest(true)
               return;
             }
@@ -83,15 +93,27 @@ export default function UserPage() {
             if (friends.data.some(friend => friend.username === user)) {
               setIsFriend(true)
               return;
-            }
           }
         }
       } catch (err) {
         setError(err);
       }
     };
+    const SetUserData = async () => {
+      const userResponse = await axios.get(
+        `/user/${user}`,
+        {},
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setUserData(userResponse.data.user)
+    }
     GetPageDetails();
   }, [user]);
+  useEffect(()=>{
+    console.log(userData)
+  },[userData])
   const SendFriendRequest = async () =>{
     try {
       await axios.post(
@@ -129,7 +151,7 @@ export default function UserPage() {
           className="m-0 border" 
           style={{ height: "80vh" }}
         >
-        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat?<ChatWindow selectedChat={chatId} chatData={messages}></ChatWindow> : null} 
+        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat ? <ChatWindow type="friend" selectedChat={chatId} chatData={messages}></ChatWindow> : null} 
           <Col className="border h-100 p-0" xs={2}>
             <FriendList
             ></FriendList>
@@ -140,7 +162,7 @@ export default function UserPage() {
             <Row className="justify-content-center position-relative">
               <Image
                 className="profileSize img-fluid"
-                src="/src/assets/PFP_template.png"
+                src={userData !== null ? userData.profile_image : null}
                 roundedCircle
                 style={{float: "center"}}
               ></Image>
@@ -150,7 +172,7 @@ export default function UserPage() {
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
-                {user !== JSON.parse(localStorage.getItem('userInfo')).username && !isFriend && !hasFriendRequest ? 
+                {!hasFriendRequest && !isFriend && user !== JSON.parse(localStorage.getItem('userInfo')).username ? 
                 <Button className="custom-button" 
                 style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />
@@ -163,13 +185,7 @@ export default function UserPage() {
                   <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
                 </Button> : null}
               <p className="text-justify secondary text-center">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-                tincidunt pellentesque pretium. Integer quis dolor mi. Aenean
-                aliquet volutpat ante in luctus. Nullam sit amet risus varius,
-                porttitor augue nec, dignissim nibh. Curabitur venenatis est
-                eget dui malesuada, nec imperdiet velit porttitor. Sed eget
-                justo mi. Nam faucibus sem a sodales consectetur. Maecenas
-                dictum hendrerit erat eu interdum.
+                {userData !== null ? userData.description : null}
               </p>
             </Row>
             <Row className="m-0">

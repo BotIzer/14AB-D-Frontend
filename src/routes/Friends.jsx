@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
 import ErrorPage from '../error-page'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { DropdownButton, Dropdown, Form, Button, Row, Col, Image } from 'react-bootstrap'
 
 function Friends() {
@@ -23,6 +23,9 @@ function Friends() {
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
   const [showCreateChat, setShowCreateChat] = useState(false)
+  const location = useLocation()
+  const [currentPage,setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
+  const [limit, setLimit] = useState(parseInt(location.search.split('limit=')[1]) || 10);
   const navigate = useNavigate()
 
   addEventListener('removeFriend', () => {
@@ -38,6 +41,10 @@ function Friends() {
       }
       try {
         const response = await axios.get('/chats', {
+          params: {
+            page: currentPage,
+            limit: limit
+          },
           headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -45,6 +52,7 @@ function Friends() {
           withCredentials: true,
         })
         if (response.data.returnArray) {
+          console.log(response.data)
           if (response.data.returnArray[0]) {
             setFriends(
               [...Object.values(response.data)[0]].filter((x) => x.is_private)
