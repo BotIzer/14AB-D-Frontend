@@ -38,20 +38,22 @@ const selectFriend = dummyData.map((friend) => (
   </option>
 ));
 const CreateGroupChat = async () => {
-  if(document.getElementById('groupName').value.trim() === ''
-  || true) {
+  console.log('ran')
+  if(document.getElementById('groupName').value.trim() === '') {
     setShowError(true)
     return
   }
   try {
+    const groupName = document.getElementById('groupName').value.trim();
+    const daysToDie = document.getElementById('daysToLive').value;
     await axios.post(
       '/chat',
       {
-        name: document.getElementById('groupName'),
+        name: groupName,
         is_ttl: isTemporary,
-        days_to_die:3,
+        days_to_die: daysToDie,
         is_private: false,
-        usernames: ['random', 'sorry', 'sajtostaller']
+        usernames: []
       },
       {
         headers: {
@@ -61,10 +63,20 @@ const CreateGroupChat = async () => {
         withCredentials: true,
       }
     )
+    console.log('ended too')
   } catch (error) {
     //do error handling soon
+    console.log('got a massive error somehow')
+    console.log(error)
   }
-  
+}
+const CloseChat = () => {
+  if(confirm("Are you sure you want to close the chat?"))
+  {
+    document.getElementById('groupName').value = '';
+    setIsTemporary(false)
+    props.close()
+  }
 }
 
   return(
@@ -85,7 +97,7 @@ const CreateGroupChat = async () => {
               </FormGroup>
               <FormGroup data-bs-theme="dark">
                 <Form.Check className="d-flex justify-content-center mx-auto secondary" type="checkbox" label="temporary?" id="isTemporary"
-                onChange={(event)=>setIsTemporary(event.target.checked)}></Form.Check>
+                onChange={(event)=>setIsTemporary(event.target.checked)} checked={isTemporary}></Form.Check>
                 <Form.Label className="secondary">Expiration interval (days)</Form.Label>
                 <Form.Control disabled={!isTemporary} id="daysToLive" placeholder="e.g: 3" className="w-50 mx-auto"></Form.Control>
               </FormGroup>
@@ -95,7 +107,7 @@ const CreateGroupChat = async () => {
             <Button
                   variant="outline-warning"
                   size="lg"
-                  // onClick={() => } TODO: Make function that creates the chat
+                  onClick={() => CreateGroupChat()}
                   className="mt-3"
                 >
                   Create
@@ -105,7 +117,7 @@ const CreateGroupChat = async () => {
                 <Button
                   variant="outline-danger"
                   size="lg"
-                  // onClick={() => } TODO Make function that closes window? maybe easier on the page itself idk
+                  onClick={() => CloseChat()}
                   className="mt-3"
                 >
                   Cancel
