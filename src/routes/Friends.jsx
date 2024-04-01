@@ -23,6 +23,7 @@ function Friends() {
   const [showPopup, setShowPopup] = useState(false)
   const [showChat, setShowChat] = useState(false)
   const [showCreateChat, setShowCreateChat] = useState(false)
+  const [showData, setShowData] = useState({showChat: false, showPopup: false, showCreateChat: false})
   const location = useLocation()
   const [currentPage,setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
   const [limit, setLimit] = useState(parseInt(location.search.split('limit=')[1]) || 10);
@@ -186,6 +187,9 @@ function Friends() {
       </Button>
     </Row>
   ))
+  const CloseCreateChatWindow = (()=>{
+    setShowCreateChat(false)
+  })
   return (
     <>
       <Navigation></Navigation>
@@ -205,10 +209,9 @@ function Friends() {
           <Row className="m-0 p-0 pt-2">
             <h5>Groups</h5>
             <div className="border"></div>
-            {friends.length == 0 ? <i>No groups?</i> : null}
+            {groups.length == 0 ? <i>No groups?</i> : null}
             <Col style={{ maxHeight: '30vh' }} className='overflow-auto'>{groupList}
               </Col>
-              {/*TODO create popup for the right column for creating group*/}
               <Button
                 variant='outline-warning'
                 onMouseEnter={() =>
@@ -229,7 +232,7 @@ function Friends() {
           {showPopup ? <FriendPopupActions selectedChat={selectedChat} name={displayName} type={selectedChatType} friend={selectedFriend} /> : null}
           {showChat ? <ChatWindow type={selectedChatType} chatData={comments} selectedChat={selectedChat} /> : null}
           {/*TODO change show variables to bootstrap offcanvas <CreateChatPopup></CreateChatPopup> */ }
-          {showCreateChat ? <CreateChatPopup friends={friends}/> : null}
+          {showCreateChat ? <CreateChatPopup close={CloseCreateChatWindow} friends={friends}/> : null}
         </Col>
       </Row>
     </>
