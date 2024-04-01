@@ -26,6 +26,7 @@ import CreateChatPopup from "./components/CreateChatPopup.jsx";
 import VerifyEmail from "./routes/VerifyEmail.jsx";
 import CommentAccordion from "./components/CommentAccordion.jsx";
 import Comments from "./routes/Comments.jsx";
+import Blacklist from "./routes/Blacklist.jsx";
 
 // const socket = io('http://localhost:3000', {
 //   withCredentials: true
@@ -136,8 +137,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
+    path: "/forums/:forum/:forumId/blacklist",
+    element: <Blacklist></Blacklist>,
+    errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
     path: "test",
-    element: <Comments></Comments>,
+    element: <Blacklist></Blacklist>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
