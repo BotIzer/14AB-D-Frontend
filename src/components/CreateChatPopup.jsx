@@ -1,10 +1,11 @@
 import {Row, Col, FormGroup, Form, ToggleButton, Button} from "react-bootstrap";
 import { useEffect, useState,  } from "react";
 import React from "react";
+import axios from "../api/axios";
 
 export default function CreateChatPopup(props) {
-const [selectedValue, setSelectedValue] = useState(1);
-
+const [isTemporary, setIsTemporary] = useState(false);
+const [showError, setShowError] = useState(false);
 const dummyData = [
   "BotIzer",
   "Markneu22",
@@ -12,13 +13,12 @@ const dummyData = [
   "Placeholder"
 ]
 
-useEffect(() => {
-  console.log(selectedValue);
-}, [selectedValue])
 useEffect(()=>{
 console.log(props)
 },[])
-
+useEffect(()=>{
+document.getElementById('daysToLive').value = ""
+},[isTemporary])
 const addFriends = dummyData.map((friend) => (
   <Row key={friend} className="p-0 m-0">
     <Col className="text-center px-3 my-auto">
@@ -37,24 +37,46 @@ const selectFriend = dummyData.map((friend) => (
 
   </option>
 ));
-
+const CreateGroupChat = async () => {
+  if(document.getElementById('groupName').value.trim() === ''
+  || true) {
+    setShowError(true)
+    return
+  }
+  try {
+    await axios.post(
+      '/chat',
+      {
+        name: document.getElementById('groupName'),
+        is_ttl: isTemporary,
+        days_to_die:3,
+        is_private: false,
+        usernames: ['random', 'sorry', 'sajtostaller']
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      }
+    )
+  } catch (error) {
+    //do error handling soon
+  }
+  
+}
 
   return(
     <>
       <Col className="m-2">
           <Row className="mx-auto text-center">
-            <FormGroup data-bs-theme="dark">
-              <Form.Label className="secondary">Select type</Form.Label>
-              <Form.Select id="selectType" className="primary"  value={selectedValue} onChange={(e) => {setSelectedValue(e.target.value)}}>
-                
-                <option className="secondary" value="1">Group</option>
-                <option className="secondary" value="2">Direct message</option>
-              </Form.Select>
-            </FormGroup>
           </Row>
           <Row className="mx-auto text-center">
-            { selectedValue == 1 ?
-            <React.Fragment>
+              <FormGroup data-bs-theme="dark">
+              <Form.Label className="secondary">Group Name</Form.Label>
+              <Form.Control placeholder="Stun's Group" className="w-50 mx-auto" id="groupName"></Form.Control>
+              </FormGroup>
               <FormGroup>
                 <Form.Label className="secondary">Participants</Form.Label>
                 <Col style={{maxHeight:"80px"}} className="overflow-auto w-50 mx-auto custom-border p-2 my-2">
@@ -62,25 +84,11 @@ const selectFriend = dummyData.map((friend) => (
                 </Col>
               </FormGroup>
               <FormGroup data-bs-theme="dark">
-                <Form.Check className="d-flex justify-content-center mx-auto secondary" type="checkbox" label="temporary?"></Form.Check>
+                <Form.Check className="d-flex justify-content-center mx-auto secondary" type="checkbox" label="temporary?" id="isTemporary"
+                onChange={(event)=>setIsTemporary(event.target.checked)}></Form.Check>
                 <Form.Label className="secondary">Expiration interval (days)</Form.Label>
-                <Form.Control placeholder="e.g: 3" className="w-50 mx-auto"></Form.Control>
+                <Form.Control disabled={!isTemporary} id="daysToLive" placeholder="e.g: 3" className="w-50 mx-auto"></Form.Control>
               </FormGroup>
-            </React.Fragment>
-            :
-            <React.Fragment>
-              <FormGroup data-bs-theme="dark">
-                <Form.Label className="secondary">Participant</Form.Label>
-                <Form.Select style={{maxHeight:"80px"}} className="overflow-auto w-50 mx-auto primary">
-                  {selectFriend /*TODO make it so you can only select one person if DM is selected*/}
-                </Form.Select>
-              </FormGroup>
-              <FormGroup data-bs-theme="dark">
-                <Form.Check className="d-flex justify-content-center mx-auto secondary my-2" type="checkbox" label="temporary?"></Form.Check>
-                <Form.Label className="secondary">Expiration interval (days)</Form.Label>
-                <Form.Control placeholder="e.g: 3" className="w-50 mx-auto"></Form.Control>
-              </FormGroup>
-            </React.Fragment>} 
           </Row>
           <Row className="mx-auto text-center">
           <Col>

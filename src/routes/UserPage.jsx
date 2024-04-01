@@ -29,7 +29,7 @@ export default function UserPage() {
   useEffect(() => {
     const GetPageDetails = async () => {
       try {
-        SetUserData()
+        InitializeUserData()
         setIsSameUser(user === JSON.parse(localStorage.getItem("userInfo")).username)
         if (!isSameUser) {
           const response = await axios.get('/chats', {
@@ -99,7 +99,7 @@ export default function UserPage() {
         setError(err);
       }
     };
-    const SetUserData = async () => {
+    const InitializeUserData = async () => {
       const userResponse = await axios.get(
         `/user/${user}`,
         {},
@@ -172,7 +172,7 @@ export default function UserPage() {
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
-                {!hasFriendRequest && !isFriend && user !== JSON.parse(localStorage.getItem('userInfo')).username ? 
+                {!hasFriendRequest && !isFriend && !isSameUser ? 
                 <Button className="custom-button" 
                 style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />

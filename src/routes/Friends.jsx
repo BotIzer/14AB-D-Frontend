@@ -52,7 +52,6 @@ function Friends() {
           withCredentials: true,
         })
         if (response.data.returnArray) {
-          console.log(response.data)
           if (response.data.returnArray[0]) {
             setFriends(
               [...Object.values(response.data)[0]].filter((x) => x.is_private)
@@ -79,25 +78,7 @@ function Friends() {
     setShowPopup(false)
     setShowChat(false)
   }
-  const CreateGroupChat = async () => {
-    axios.post(
-      '/chat',
-      {
-        name: 'Test Chat',
-        is_ttl: true,
-        days_to_die: 3,
-        is_private: false,
-        usernames: ['random', 'sorry', 'sajtostaller']
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
-  }
+  
   addEventListener('clicked', () => {
     setShowChat(false)
     setSelectedFriend(null)
