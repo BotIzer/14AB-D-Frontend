@@ -172,7 +172,7 @@ function ChatWindow(currentChatData) {
 ));
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
-      <Navbar className="justify-content-start pt-0" sticky="top">
+      <Navbar className="justify-content-start pt-0" sticky="top" style={{zIndex: '1000'}}>
         <Button className="close-button me-auto" onClick={()=>CloseChatWindow()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
@@ -184,7 +184,7 @@ function ChatWindow(currentChatData) {
       </Navbar>
       <MessageList messages={messages}></MessageList>
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
-      <Navbar sticky="bottom" style={{backgroundColor: '#343a40'}}>
+      <Navbar sticky="bottom" style={{backgroundColor: '#343a40', zIndex: '1000'}}>
       <Container fluid className='justify-content-center w-100'>
         <Navbar.Toggle aria-controls="navbarScroll" />
           <Form className='w-100'>
