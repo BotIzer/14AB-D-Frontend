@@ -1,18 +1,12 @@
 import Navigation from "../components/Navigation";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
 import axios from "../api/axios";
 import FriendList from "../components/FriendList";
 import { useEffect, useState } from "react";
 import ErrorPage from "../error-page";
-import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
 import ChatWindow from "../components/ChatWindow";
-import { Button } from "react-bootstrap";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import {Row, Col, Container,Image,Button,OverlayTrigger,Tooltip, Offcanvas} from "react-bootstrap"
 
 export default function UserPage() {
   const location = useLocation();
@@ -143,6 +137,11 @@ export default function UserPage() {
       {post}
     </Link>
   ));
+
+  function CloseChat() {
+    setShowChat(false)
+  }
+
   return (
     <>
       <Navigation></Navigation>
@@ -151,7 +150,7 @@ export default function UserPage() {
           className="m-0 border" 
           style={{ height: "80vh" }}
         >
-        {user !== JSON.parse(localStorage.getItem('userInfo')).username && showChat ? <ChatWindow type="friend" selectedChat={chatId} chatData={messages}></ChatWindow> : null} 
+        <Offcanvas data-bs-theme="dark" show={showChat && !isSameUser}><ChatWindow close={CloseChat} type="friend" selectedChat={chatId} chatData={messages}></ChatWindow></Offcanvas>
           <Col className="border h-100 p-0" xs={2}>
             <FriendList
             ></FriendList>

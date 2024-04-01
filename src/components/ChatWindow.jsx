@@ -173,7 +173,7 @@ function ChatWindow(currentChatData) {
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
       <Navbar className="justify-content-start pt-0" sticky="top" style={{zIndex: '1000'}}>
-        <Button className="close-button me-auto" onClick={()=>CloseChatWindow()} >
+        <Button className="close-button me-auto" onClick={()=>currentChatData.close()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
         {/* TODO: BOTI MAKE IT CENTERED AND LOOK COOLIO */}
