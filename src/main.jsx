@@ -28,13 +28,8 @@ import CommentAccordion from "./components/CommentAccordion.jsx";
 import Comments from "./routes/Comments.jsx";
 import Blacklist from "./routes/Blacklist.jsx";
 
-// const socket = io('http://localhost:3000', {
-//   withCredentials: true
-// });
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
-// TODO: if user is the same, shouldn't load in stuff
-const [isSameUser, setIsSameUser] = useState(false);
 addEventListener('storage',()=>{
   setIsLoggedIn((localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null))
 })
@@ -43,18 +38,6 @@ useEffect(()=>{
     localStorage.clear();
   }
 },[isLoggedIn])
-// useEffect(()=> {
-//   socket.on('connect',()=>{
-//     console.log('Connected to server');
-//   })
-//   socket.on('disconnect',()=>{
-//     console.log('Disconnected from server');
-//   })
-//   return() =>{
-//     socket.disconnect();
-//     socket.removeAllListeners();
-//   }
-// },[])
 const router = createBrowserRouter([
   {
     path: "/",

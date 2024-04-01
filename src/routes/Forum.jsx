@@ -99,7 +99,8 @@ function Forum() {
           className="p-2"
           style={{
             backgroundImage: data.forumData[0] && `url(${data.forumData[0].banner})`,
-            backgroundSize: "cover",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
             height: "20vh",
           }}
         >

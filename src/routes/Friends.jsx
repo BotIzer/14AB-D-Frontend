@@ -17,9 +17,10 @@ function Friends() {
   const [props, setProps] = useState({selectedChat: null, selectedFriend: null, selectedChatType: null, displayName: ''})
   const [showData, setShowData] = useState({showChat: false, showPopup: false, showCreateChat: false, lastAction: null})
   const location = useLocation()
-  // Group these together too
-  const [currentPage, setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
-  const [limit, setLimit] = useState(parseInt(location.search.split('limit=')[1]) || 10);
+  const [pageDetails, setPageDetails] = useState({
+    currentPage: parseInt(location.search.split('page=')[1]) || 0,
+    limit: parseInt(location.search.split('limit=')[1]) || 10
+  });
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -31,8 +32,8 @@ function Friends() {
       try {
         const response = await axios.get('/chats', {
           params: {
-            page: currentPage,
-            limit: limit
+            page: pageDetails.currentPage,
+            limit: pageDetails.limit
           },
           headers: {
             'Content-Type': 'application/json',

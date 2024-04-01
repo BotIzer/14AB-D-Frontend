@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "../api/axios";
@@ -13,6 +13,13 @@ function Navigation() {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [dropdownWidth, setDropdownWidth] = useState(0);
+  const [pageDetails, setPageDetails] = useState({
+    currentPage: parseInt(location.search.split('page=')[1]) || 0,
+    limit: parseInt(location.search.split('limit=')[1]) || 10
+  });
+  const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
     setIsLoggedIn(
       localStorage.getItem("token") && localStorage.getItem("userInfo")
@@ -24,17 +31,18 @@ function Navigation() {
       navigate('/')
     });
   }, []);
-  const [inputValue, setInputValue] = useState("");
+  const dropdownRef = useRef(null);
   const textStyle = {
     color: "gold",
     fontSize: "20px",
   };
 
   const HandleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      RedirectToLink();
+    event.preventDefault()
+    if(inputValue.trim() === ""){
+      return;
     }
+    RedirectToLink();
   };
   const RedirectToLink = async () => {
     const response = await axios.post(
@@ -43,13 +51,23 @@ function Navigation() {
         keyword: inputValue,
       },
       {
+        params: {
+          page: pageDetails.currentPage,
+          limit: pageDetails.limit
+        },
         headers: { "Content-Type": "application/json" },
       }
     );
     for (let index = 0; index < response.data.length; index++) {
       if (response.data[index][0] !== undefined) {
-        navigate(`/user/${response.data[index][0].username}`)
-        break;
+        if(response.data[index][0].forum_name !== undefined){
+          navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
+          break;
+        }
+        else if(response.data[index][0].username !== undefined){
+          navigate(`/user/${response.data[index][0].username}`)
+          break;
+        }
       }
     }
   };
@@ -65,6 +83,42 @@ function Navigation() {
     { id: 4, name: 'Item 4' },
     { id: 5, name: 'Item 5' },
   ];
+  useEffect(()=>{
+    const updateDropdownWidth = () => {
+      if (dropdownRef.current) {
+        const width = dropdownRef.current.offsetWidth;
+        setDropdownWidth(width);
+      }
+    };
+    updateDropdownWidth()
+  window.addEventListener("resize", updateDropdownWidth);
+  return () => {
+    window.removeEventListener("resize", updateDropdownWidth);
+  };
+  },[dropdownRef.current, dropdownWidth])
+  // useEffect(() => {
+  //   clearTimeout(timer);
+  //   const newTimer = setTimeout(async () => {
+  //     if (inputValue.trim() !== "") {
+  //       const response = await axios.post(
+  //         "/search",
+  //         {
+  //           keyword: inputValue,
+  //         },
+  //         {
+  //           params: {
+  //             page: pageDetails.currentPage,
+  //             limit: pageDetails.limit
+  //           },
+  //           headers: { "Content-Type": "application/json" },
+  //         }
+  //       );
+  //       setSearchResults(response.data);
+  //     }
+  //   }, 1000);
+
+  //   return () => clearTimeout(newTimer);
+  // }, [inputValue]);
   return (
     <Navbar
       expand="lg"
@@ -93,21 +147,19 @@ function Navigation() {
             style={{ width: "100%" }}
             className="mx-auto justify-content-center"
           >
-            <Form className="custom-mw mx-2">
+            <Form className="custom-mw mx-2" onSubmit={HandleKeyDown}>
               <Form.Control
                 type="text"
                 placeholder="Search"
                 className="mt-2 mt-md-0"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={HandleKeyDown}
                 style={{ fontSize: "16px" }}
               />
-              {/* TODO: FIX BIG TEXT PROBLEM */}
-            <Dropdown>
-            <Dropdown.Menu className="custom-mw">
+            <Dropdown show={inputValue.trim() !== ""}>
+            <Dropdown.Menu className="custom-mw" ref={dropdownRef}>
       {dummyItems.map((item) => (
-        <Dropdown.Item className="d-flex justify-content-center"  key={item.id}>{item.name}</Dropdown.Item>
+        <Dropdown.Item className="d-flex justify-content-center"  key={item.id}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))+"..."}` : item.name}</Dropdown.Item>
       ))}
            </Dropdown.Menu>
             </Dropdown>

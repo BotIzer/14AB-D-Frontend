@@ -8,14 +8,16 @@ export default function Notifications() {
   const [friendRequests, setFriendRequests] = useState([]);
   const [toggleTab, setToggleTab] = useState("requests");
   const location = useLocation();
-  const [currentPage,setCurrentPage] = useState(parseInt(location.search.split('page=')[1]) || 0);
-  const [limit, setLimit] = useState(parseInt(location.search.split('limit=')[1]) || 10);
+  const [pageDetails, setPageDetails] = useState({
+    currentPage: parseInt(location.search.split('page=')[1]) || 0,
+    limit: parseInt(location.search.split('limit=')[1]) || 10
+  });
   useEffect(() => {
     const GetFriendRequests = async () => {
       const response = await axios.get("/user/friends/requests", {
         params: {
-          page: currentPage,
-          limit: limit
+          page: pageDetails.currentPage,
+          limit: pageDetails.limit
         },
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +28,7 @@ export default function Notifications() {
       console.log(response.data.returnRequests)
       response.data.returnRequests.length !== 0
         ? setFriendRequests(response.data.returnRequests)
-        : ["empty"];
+        : [];
     };
     GetFriendRequests();
   }, []);

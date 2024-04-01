@@ -5,7 +5,6 @@ function ForumCard(forum) {
   const navigate = useNavigate();
 
   const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date());
-  // TODO: Fix this
   const categoryList = forum.forum.tags.map((category,index) => (
     <th style={{ fontSize: "small" }} key={index}>
       <i className="tertiary">{category}</i>
@@ -21,7 +20,6 @@ function ForumCard(forum) {
             backgroundImage: `url(${forum.forum.banner})`,
             backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat"
-            //TODO make the image scale down with screen size instead of cut off
           }}
         >
           <Card.Title className="text-outline">
