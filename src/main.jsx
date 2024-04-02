@@ -44,7 +44,7 @@ if(process.env.NODE_ENV === "development"){
   const socket = io('http://localhost:3000', {
   withCredentials: true,
   query:{
-    username: localStorage.getItem("userInfo")
+    username: localStorage.getItem("userInfo") === undefined || localStorage.getItem("userInfo") === null ? null : localStorage.getItem("userInfo")
   }
 });
 socket.on("connect", () => {
