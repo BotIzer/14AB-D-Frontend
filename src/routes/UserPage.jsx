@@ -172,7 +172,7 @@ export default function UserPage() {
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
                 {!hasFriendRequest && !isFriend && !isSameUser ? 
-                <Button className="custom-button" 
+                <Button className="clear-button"
                 style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
                   <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />
                 </Button>
