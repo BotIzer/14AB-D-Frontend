@@ -114,7 +114,7 @@ function EditForum() {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
-            forumname: location.pathname.split('/')[2] 
+            forumname: decodeURIComponent(location.pathname.split('/')[2])
           },
           withCredentials: true,
         }

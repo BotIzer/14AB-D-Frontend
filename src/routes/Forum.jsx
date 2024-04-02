@@ -109,7 +109,7 @@ function Forum() {
           </h1>
           <Button className="position-absolute end-0 rounded-pill custom-button" 
                 style={{width: '64px', height: '64px'}} 
-                onClick={()=>navigate(`/editforum/${data.forumData[0].forum_name}/${data.forumData[0]._id.forum_id}`)}>
+                onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
                   <Image src="/src/assets/icons/edit.png" className="hover-filter-gold" style={{margin: '-10px'}}/>
           </Button>
         </Row>
