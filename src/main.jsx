@@ -27,6 +27,7 @@ import VerifyEmail from "./routes/VerifyEmail.jsx";
 import CommentAccordion from "./components/CommentAccordion.jsx";
 import Comments from "./routes/Comments.jsx";
 import Blacklist from "./routes/Blacklist.jsx";
+import FrontPage from "./routes/FrontPage.jsx";
 
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
@@ -41,7 +42,7 @@ useEffect(()=>{
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>,
+    element: isLoggedIn ? <Home></Home> : <FrontPage></FrontPage>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
@@ -126,7 +127,7 @@ const router = createBrowserRouter([
   },
   {
     path: "test",
-    element: <Blacklist></Blacklist>,
+    element: <FrontPage></FrontPage>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
