@@ -1,13 +1,10 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Form from "react-bootstrap/Form";
+
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "../api/axios";
 import NotifDropdown from "./NotifDropdown";
-import { Dropdown, DropdownDivider, DropdownItem, DropdownMenu, Row } from "react-bootstrap";
+import { Dropdown, Image, Container, Nav, Navbar, Form } from "react-bootstrap";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -147,7 +144,7 @@ function Navigation() {
     >
       <Container fluid>
         <Nav.Link style={textStyle} onClick={() => navigate("/")}>
-          BlitzForFriends
+          BlitzForFriends <Image src="/src/assets/icons/BFF_Outline_128.png" style={{width: "64px", height: "64px"}}></Image>
         </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -5,6 +5,7 @@ import { Col, Row, Container, Button, FormGroup, FormSelect, Form, Image } from 
 function Blacklist() {
 
   const [isBanned, setisBanned] = useState(true);
+  //TODO Make this an individual field per person
 
   const dummyMembers = [
     {_id: 1,
@@ -21,12 +22,12 @@ function Blacklist() {
   ]
 
   const blackList = dummyBanned.map((banned) => (
-    <Row key={banned._id} className="p-0 m-0">
-      <Col className="text-start px-3 my-auto text-danger">
-        {banned.name}
+    <Row key={banned._id} className="p-0 m-0" style={isBanned? {backgroundColor: "rgba(255,0,0,0.2)"} : {backgroundColor: "rgba(0,255,0,0.2)"}}>
+      <Col className="text-start px-3 my-auto secondary">
+        <b>{banned.name}</b>
       </Col>
       <Col className="text-end p-0">
-        <Button variant="outline-danger"><Image className={isBanned? "filter-red" : "filter-green"} src={isBanned ? "/src/assets/icons/block.png" : "/src/assets/icons/check.png"}></Image></Button>
+        <Button variant={isBanned? "outline-danger" : "outline-success"}><Image className={isBanned? "filter-red" : "filter-green"} src={isBanned ? "/src/assets/icons/block.png" : "/src/assets/icons/check.png"}></Image></Button>
       </Col>
       <div style={{border: "2px solid #44454c"}}></div>
     </Row>
