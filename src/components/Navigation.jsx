@@ -179,10 +179,10 @@ function Navigation() {
             <Dropdown show={inputValue.trim() !== "" && showSearchResults}>
             <Dropdown.Menu className="custom-mw" ref={dropdownRef}>
       {searchResults.users.length > 0 && searchResults.users.map((item) => (
-        <Dropdown.Item onMouseDown={()=>HandleSearchNavigation(`/user/${item.name}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (user)` : `${item.name} (user)`}</Dropdown.Item>
+        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/user/${item.name}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (user)` : `${item.name} (user)`}</Dropdown.Item>
       ))}
       {searchResults.forums.length > 0 && searchResults.forums.map((item) => (
-        <Dropdown.Item onMouseDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
+        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
       ))}
           {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item onClick={()=>console.log("Hello?")} className="d-flex justify-content-center"  key="noResults">No search results</Dropdown.Item>}
            </Dropdown.Menu>
