@@ -38,6 +38,36 @@ useEffect(()=>{
     localStorage.clear();
   }
 },[isLoggedIn])
+useEffect(()=>{
+if(process.env.NODE_ENV === "development"){
+  const socket = io('http://localhost:3000', {
+  withCredentials: true,
+  query:{
+    username: localStorage.getItem("userInfo")
+  }
+});
+socket.on("connect", () => {
+  console.log("Connected to SOCKET.IO")
+});
+socket.on("disconnect", () => {
+  console.log("Disconnected from SOCKET.IO")
+});
+socket.on('forumUpdate',(changes)=>{
+  console.log(changes.forumName)
+})
+console.log("It is in development mode")
+    return () => {
+  socket.disconnect();
+};
+}
+else{
+  const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
+  console.log("It is in production mode");
+return () =>{
+  channel.unsubscribe();
+}
+}
+},[])
 const router = createBrowserRouter([
   {
     path: "/",

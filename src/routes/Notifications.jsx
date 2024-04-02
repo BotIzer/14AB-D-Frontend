@@ -62,6 +62,7 @@ export default function Notifications() {
       }
     );
     setFriendRequests(prevItems => prevItems.filter(friend => friend !== requestCreator))
+    console.log(requestCreator)
   };
   // const listItems = friendRequests.map((friend) => (
   //   <div key={friend}>
