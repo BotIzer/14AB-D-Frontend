@@ -4,39 +4,46 @@ import { useNavigate } from "react-router-dom";
 
 function NotifDropdown(props) {
   const navigate = useNavigate();
-  const dummyNotifs = {
-    count: 3,
-    data: [
-      {
-        id: 1,
-        message: "frontend is kil",
-        image: "imgurLink",
-        source: "user",
-      },
-      {
-        id: 2,
-        message: "backend is kil",
-        image: "imgurLink",
-        source: "user",
-      },
-      {
-        id: 3,
-        message: "dorito",
-        image: "imgurLink",
-        source: "forum",
-      },
-    ],
-  };
+  const [notifications, setNotifications] = useState([])
+  // const dummyNotifs = {
+  //   count: 3,
+  //   data: [
+  //     {
+  //       id: 1,
+  //       message: "frontend is kil",
+  //       image: "imgurLink",
+  //       source: "user",
+  //     },
+  //     {
+  //       id: 2,
+  //       message: "backend is kil",
+  //       image: "imgurLink",
+  //       source: "user",
+  //     },
+  //     {
+  //       id: 3,
+  //       message: "dorito",
+  //       image: "imgurLink",
+  //       source: "forum",
+  //     },
+  //   ],
+  // };
   useEffect(()=>{
-
-  },)
-  const notifs = dummyNotifs.data.map((notif) => (
+    if (!props.notificationData.hasSent && props.notificationData.updateMessage !== "") {
+      setNotifications([props.notificationData.updateMessage])
+      props.setForumData()
+    }
+  },[props])
+  useEffect(()=>{
+    console.log(notifications)
+  },[notifications])
+  const notifs = notifications && notifications.map((notif) => (
     <Dropdown.Item
       key={notif.id}
       className="list-group-item secondary text-center"
       onClick={() => navigate(`/${notif.source}/${notif.id}`)}
     >
-      {notif.message}
+      {notif}
     </Dropdown.Item>
   ));
 
@@ -64,7 +71,7 @@ function NotifDropdown(props) {
               "/src/assets/icons/envelope_gold_16.png")
           }
         >
-          See more ({dummyNotifs.count}){" "}
+          See more ({notifications.length}){" "}
           <img
             id="notification"
             src="/src/assets/icons/envelope_gold_16.png"

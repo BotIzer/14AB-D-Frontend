@@ -31,12 +31,6 @@ function Navigation() {
       navigate('/')
     });
   }, []);
-  useEffect(()=>{
-    if (!forumData.hasSent && forumData.updateMessage !== "") {
-      console.log(forumData.updateMessage)
-      setForumData({...forumData, hasSent: true})
-    }
-  },[forumData])
   const dropdownRef = useRef(null);
   const textStyle = {
     color: "gold",
@@ -166,7 +160,7 @@ function Navigation() {
             >
               Friends
             </Nav.Link> : null}
-              {isLoggedIn ? <NotifDropdown notificationData={forumData}></NotifDropdown> : null}
+              {isLoggedIn ? <NotifDropdown setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
             style={{ width: "100%" }}
