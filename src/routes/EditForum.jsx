@@ -95,7 +95,7 @@ function EditForum() {
           withCredentials: true,
         }
       );
-      navigate(`/forums/${title}/${forumId}`)
+      navigate(`/forums/${encodeURIComponent(title)}/${forumId}`)
     }
     else{
       setDisplayError(true)

@@ -54,7 +54,7 @@ socket.on("disconnect", () => {
   console.log("Disconnected from SOCKET.IO")
 });
 socket.on('forumUpdate',(changes)=>{
-  console.log(changes.forumName)
+  console.log(changes.updateData)
 })
 console.log("It is in development mode")
     return () => {
