@@ -21,6 +21,7 @@ function Friends() {
     currentPage: parseInt(location.search.split('page=')[1]) || 0,
     limit: parseInt(location.search.split('limit=')[1]) || 10
   });
+  const [owners, setOwners] = useState({})
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -59,7 +60,23 @@ function Friends() {
     }
     GetFriends()
   }, [])
-
+  useEffect(()=>{
+    const SetOwner = async ()=>{
+    let chatOwner = {};
+    for (let index = 0; index < groups.length; index++) {
+      const response = await axios.get(`/chat/${groups[index]._id}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      chatOwner = { ...chatOwner, [groups[index]._id]:  response.data.chat.owner};
+    }
+    setOwners(chatOwner)
+    }
+    SetOwner()
+  },[groups])
   const ShowChat= (action)=>{
     setShowData({showChat: true, showPopup: false, showCreateChat: false, lastAction: action})
   }
@@ -73,7 +90,7 @@ function Friends() {
     setShowData({showChat: false, showPopup: false, showCreateChat: false})
   }
   const ClearProps = () =>{
-    setProps({selectedChat: null, selectedFriend: null, selectedChatType: null, displayName: ''})
+    setProps({selectedChat: null, selectedFriend: null, selectedChatType: null, displayName: '', owner: ''})
   }
   if (error != '') {
     return <ErrorPage errorStatus={error} />
@@ -198,7 +215,7 @@ function Friends() {
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{ height: "50vh", width: "50vw" }}>
-          {showData.showPopup ? <FriendPopupActions selectedChat={props.selectedChat} name={props.displayName} type={props.selectedChatType} friend={props.selectedFriend} /> : null}
+          {showData.showPopup ? <FriendPopupActions owners={owners} selectedChat={props.selectedChat} name={props.displayName} type={props.selectedChatType} friend={props.selectedFriend} /> : null}
           {showData.showChat ? <ChatWindow close={()=>DoNotShow()} type={props.selectedChatType} chatData={comments} selectedChat={props.selectedChat} /> : null}
           {showData.showCreateChat ? <CreateChatPopup close={()=>DoNotShow()} friends={friends}/> : null}
         </Col>

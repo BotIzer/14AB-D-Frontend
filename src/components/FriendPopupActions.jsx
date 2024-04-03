@@ -1,11 +1,15 @@
 import { Button } from "react-bootstrap";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function FriendPopupActions(props) {
-  const isOwner = true; //TODO check if current user is the owner or not
+  const [isOwner, setIsOwner] = useState(false)
   const navigate = useNavigate();
+  useEffect(()=>{
+    
+    // if(props.owners[props.selectedChat] === )
+  },[])
   const RemoveFriend = async () =>{
     await axios.delete(
       `/friend/${props.friend}`,
@@ -86,14 +90,14 @@ function FriendPopupActions(props) {
     </Button>
     <Button
       className="border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button"
-      key="RemoveFriend"
+      key="LeaveChat"
       onClick={()=> LeaveChat()}
     >
       Leave Chat
     </Button>
     {isOwner? <Button
       className="border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button"
-      key="RemoveFriend"
+      key="DeleteChat"
       onClick={()=> DeleteChat()}
     >
       Delete Chat

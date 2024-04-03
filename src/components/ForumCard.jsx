@@ -1,15 +1,30 @@
 import { Button, Card, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 
 function ForumCard(forum) {
   const navigate = useNavigate();
-
+  {console.log(forum)}
   const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date());
   const categoryList = forum.forum.tags.map((category,index) => (
     <th style={{ fontSize: "small" }} key={index}>
       <i className="tertiary">{category}</i>
     </th>
   ));
+  const SubscribeToForum = async () =>{
+    console.log(forum.forum._id.forum_id)
+    await axios.post('/forum/subscribeToForum',
+    {
+      forum_id: forum.forum._id.forum_id
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true
+    })
+  }
   return (
     <>
       <Card className="text-center p-0" data-bs-theme="dark">
@@ -22,6 +37,7 @@ function ForumCard(forum) {
             backgroundRepeat: "no-repeat"
           }}
         >
+          <Button onClick={()=>SubscribeToForum()}>Subscribe</Button>
           <Card.Title className="text-outline">
             {/* {forum.forum.topPost.title} */}
             We need to fix this ASAP
