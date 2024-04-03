@@ -77,6 +77,7 @@ function EditForum() {
     const banner = document.getElementById('banner').value.trim();
     const description = document.getElementById("description").value.trim();
     const forumId = location.pathname.split("/")[3]
+    const tags = tagList
     console.log(forumId)
     if (title !== "" && banner !== "") {
       // TODO: Display error if title/banner is empty!
@@ -86,6 +87,7 @@ function EditForum() {
           forum_name: title,
           banner: banner,
           description: description,
+          tags: tags
         },
         {
           headers: {

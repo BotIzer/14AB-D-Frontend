@@ -1,11 +1,11 @@
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "../api/axios";
 import NotifDropdown from "./NotifDropdown";
 import { Dropdown, Image, Container, Nav, Navbar, Form } from "react-bootstrap";
-
+import {NotificationContext} from "../main"
 function Navigation() {
   const navigate = useNavigate();
 
@@ -19,6 +19,7 @@ function Navigation() {
   const [searchResults, setSearchResults] = useState({forums: [], users: []});
   const [timerOff, setTimerOff] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const {forumData, setForumData} = useContext(NotificationContext)
   useEffect(() => {
     setIsLoggedIn(
       localStorage.getItem("token") && localStorage.getItem("userInfo")
@@ -30,6 +31,12 @@ function Navigation() {
       navigate('/')
     });
   }, []);
+  useEffect(()=>{
+    if (!forumData.hasSent && forumData.updateMessage !== "") {
+      console.log(forumData.updateMessage)
+      setForumData({...forumData, hasSent: true})
+    }
+  },[forumData])
   const dropdownRef = useRef(null);
   const textStyle = {
     color: "gold",
@@ -159,7 +166,7 @@ function Navigation() {
             >
               Friends
             </Nav.Link> : null}
-              {isLoggedIn ? <NotifDropdown></NotifDropdown> : null}
+              {isLoggedIn ? <NotifDropdown notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
             style={{ width: "100%" }}

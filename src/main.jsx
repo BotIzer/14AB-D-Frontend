@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Home from "./routes/Home.jsx";
 import "./styles/index.css";
@@ -28,9 +28,12 @@ import CommentAccordion from "./components/CommentAccordion.jsx";
 import Comments from "./routes/Comments.jsx";
 import Blacklist from "./routes/Blacklist.jsx";
 import FrontPage from "./routes/FrontPage.jsx";
+import Navigation from "./components/Navigation.jsx";
 
+export const NotificationContext = createContext();
 export default function App(){
 const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null);
+const [forumData, setForumData] = useState({updateMessage: "", hasSent: false});
 addEventListener('storage',()=>{
   setIsLoggedIn((localStorage.getItem("token") !== null && localStorage.getItem("userInfo") !== null))
 })
@@ -54,7 +57,7 @@ socket.on("disconnect", () => {
   console.log("Disconnected from SOCKET.IO")
 });
 socket.on('forumUpdate',(changes)=>{
-  console.log(changes.updateData)
+  setForumData({updateMessage: changes.updateMessage, hasSent: false})
 })
 console.log("It is in development mode")
     return () => {
@@ -165,9 +168,11 @@ return(
   // THIS CAUSES RERENDERING TWICE
   // DOESN'T AFFECT PRODUCTION
   // SHOULD BE FINE
+  <NotificationContext.Provider value={{forumData,setForumData}}>
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
+  </NotificationContext.Provider>
 );
 }
 ReactDOM.createRoot(document.getElementById("root")).render(

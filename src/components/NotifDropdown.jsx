@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function NotifDropdown() {
+function NotifDropdown(props) {
   const navigate = useNavigate();
   const dummyNotifs = {
     count: 3,
@@ -26,7 +27,9 @@ function NotifDropdown() {
       },
     ],
   };
+  useEffect(()=>{
 
+  },)
   const notifs = dummyNotifs.data.map((notif) => (
     <Dropdown.Item
       key={notif.id}
