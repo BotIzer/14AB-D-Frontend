@@ -17,8 +17,8 @@ export default function CreateChatPopup(props) {
     document.getElementById("daysToLive").value = "";
   }, [isTemporary]);
   const addFriends = dummyData.map((friend) => (
-    <Row key={friend} className="border border-secondary text-nowrap">
-      <Col className="p-2">
+    <Row key={friend} className="border border-secondary text-nowrap w-100 mx-auto">
+      <Col className="p-2 text-start">
       <Button variant="outline-warning">+</Button>{friend}
       </Col>
     </Row>
@@ -82,8 +82,8 @@ export default function CreateChatPopup(props) {
         <FormGroup>
           <Form.Label className="secondary">Participants</Form.Label>
           <Col
-            style={{ maxHeight: "80px" }}
-            className="overflow-auto mx-auto custom-border p-2 my-2"
+            style={{ maxHeight: "280px" }}
+            className="overflow-auto mx-auto custom-border my-3"
           >
             {addFriends}
           </Col>
