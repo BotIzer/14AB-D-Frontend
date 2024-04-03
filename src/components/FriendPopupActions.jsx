@@ -7,9 +7,22 @@ function FriendPopupActions(props) {
   const [isOwner, setIsOwner] = useState(false)
   const navigate = useNavigate();
   useEffect(()=>{
-    
-    // if(props.owners[props.selectedChat] === )
+    const GetSelfId = async ()=>{
+      const userId = await axios.get(`/username/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+    {
+      headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    withCredentials: true})
+    if(props.owners[props.selectedChat] === userId.data._id){
+      setIsOwner(true)
+    }
+    }
   },[])
+  useEffect(()=>{
+    console.log(isOwner)
+  },[isOwner])
   const RemoveFriend = async () =>{
     await axios.delete(
       `/friend/${props.friend}`,
