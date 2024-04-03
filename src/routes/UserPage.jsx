@@ -141,6 +141,7 @@ export default function UserPage() {
   function CloseChat() {
     setShowChat(false)
   }
+  
 
   return (
     <>
@@ -151,10 +152,6 @@ export default function UserPage() {
           style={{ height: "80vh" }}
         >
         <Offcanvas data-bs-theme="dark" show={showChat && !isSameUser}><ChatWindow close={CloseChat} type="friend" selectedChat={chatId} chatData={messages}></ChatWindow></Offcanvas>
-          <Col className="border h-100 p-0" xs={2}>
-            <FriendList
-            ></FriendList>
-          </Col>
           <Col  
             className="border overflow-auto h-100"
           >
@@ -171,22 +168,30 @@ export default function UserPage() {
                 {user !== JSON.parse(localStorage.getItem('userInfo')).username ? "Message" : "This is you"}</Tooltip>}>
                 <Button className="text-center clear-button fs-2 primary" style={{width: "auto"}}
                 onClick={()=>setShowChat(!showChat)}>{user}</Button></OverlayTrigger>
-                {!hasFriendRequest && !isFriend && !isSameUser ? 
-                <Button className="clear-button"
-                style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
-                  <Image src="/src/assets/icons/add_user_64.png" className="hover-filter-gold" />
-                </Button>
-                : 
-                null}
-                {user === JSON.parse(localStorage.getItem('userInfo')).username ? 
-                <Button className="rounded-pill custom-button" 
-                style={{width: 'auto', height: 'auto'}} onClick={()=>navigate(`/edituser/${user}`)}>
-                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
-                </Button> : null}
-              <p className="text-justify secondary text-center">
-                {userData !== null ? userData.description : null}
-              </p>
+                
             </Row>
+                <Row className="justify-content-center">
+                  {!hasFriendRequest && !isFriend && !isSameUser ?
+                  <Button className="clear-button"
+                  style={{width: 'auto', height: 'auto'}} onClick={()=>SendFriendRequest()}>
+                    <Image src="/src/assets/icons/add_user_64.png" style={{width: '32px', height: '32px'}} className="hover-filter-gold" />
+                  </Button>
+                  :
+                  null}
+                  {user === JSON.parse(localStorage.getItem('userInfo')).username ?
+                  <Button className="rounded-pill custom-button"
+                  style={{width: 'auto', height: 'auto'}} onClick={()=>navigate(`/edituser/${user}`)}>
+                    <Image src="/src/assets/icons/edit.png" style={{width: '32px', height: '32px'}} className="hover-filter-gold"/>
+                  </Button> : null}
+                </Row>
+                
+               <div style={{borderTop: "3px solid #44454c"}}></div>
+                
+              <Row>
+                <p className="text-justify secondary text-center">
+                  {userData !== null ? userData.description : null}
+                </p>
+              </Row>
             <Row className="m-0">
               <h4 className="text-center">Top posts</h4>
               <div
