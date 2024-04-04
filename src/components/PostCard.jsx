@@ -4,43 +4,57 @@ import { DaysDifference } from "./ForumCard"; //<-- idk where to put this
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import MyCarousel from "../components/MyCarousel";
+import axios from "../api/axios";
 export default function PostCard(post) {
   const navigate = useNavigate();
   const [opinion,setOpinion] = useState({isLiked: post.post.likes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username), 
     isDisLiked: post.post.dislikes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username)})
   const [opinionCount, setOpinionCount] = useState({likeCount: post.post.likes.count, 
     dislikeCount: post.post.dislikes.count})
-  const socket = io('http://localhost:3000', {
-  withCredentials: true
-});
   useEffect(()=>{
-    socket.emit('onOpinionChanged',{threadId: post.post._id.thread_id, 
-      isLiked: opinion.isLiked, isDisliked: opinion.isDisLiked, userToken: localStorage.getItem('token')})
-      socket.on('likesAndDislikes',(data)=>{
-        setOpinionCount({likeCount: data.likeCount, dislikeCount: data.dislikeCount})
-      })
-      return() =>{
-        socket.disconnect();
-        socket.removeAllListeners();
-      }
-  },[opinion])
-
-
-  const LikedThread = (()=>{
+    console.log(opinionCount)
+  },[opinionCount])
+  useEffect(()=>{
+    console.log(post)
+  },[])
+  const SendOpinion = async (opinion) => await axios.post(`/thread/${post.post._id.thread_id}/likeDislike`,
+  {
+    pressedButton: opinion 
+  })
+  const LikedThread = (async()=>{
+    await SendOpinion("like")
     if (opinion.isLiked) {
       setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: false, userToken: localStorage.getItem('token')})
+      setOpinionCount({likeCount: opinionCount.likeCount-1, dislikeCount: opinionCount.dislikeCount})
     }
     else{
+      if(opinion.isDisLiked){
+        setOpinionCount({likeCount: opinionCount.likeCount+1, dislikeCount: opinionCount.dislikeCount-1})
+      }
+      else{
+        setOpinionCount({likeCount: opinionCount.likeCount+1, dislikeCount: opinionCount.dislikeCount})
+      }
       setOpinion({threadId: post.post._id.thread_id, isLiked: true, isDisLiked: false, userToken: localStorage.getItem('token')})
+      
+      
     }
   })
 
   const DislikedThread = (()=>{
+    SendOpinion("dislike")
     if (opinion.isDisLiked) {
       setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: false, userToken: localStorage.getItem('token')})
+      setOpinionCount({likeCount: opinionCount.likeCount, dislikeCount: opinionCount.dislikeCount-1})
     }
     else{
+      if(opinion.isLiked){
+        setOpinionCount({likeCount: opinionCount.likeCount-1, dislikeCount: opinionCount.dislikeCount+1})
+      }
+      else{
+        setOpinionCount({likeCount: opinionCount.likeCount, dislikeCount: opinionCount.dislikeCount+1})
+      }
       setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: true, userToken: localStorage.getItem('token')})
+      
     }
   })
   return (
