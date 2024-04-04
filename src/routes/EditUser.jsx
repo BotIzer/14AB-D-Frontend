@@ -15,8 +15,25 @@ function EditUser() {
     profile_image: "",
     description: "",
   });
+  const PWD_REGEX =
+  /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
   const [displayError, setDisplayError] = useState(false)
 
+  const [oldPassword, setOldPassword] = useState("")
+
+  const[password, setPassword] = useState("")
+  const [validPassword, setValidPassword] = useState(false)
+
+  const [matchPwd, setMatchPwd] = useState("")
+  const [validMatch, setValidMatch] = useState(true)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  useEffect(() => {
+    const result = PWD_REGEX.test(password)
+    setValidPassword(result)
+    const match = password === matchPwd
+    setValidMatch(match)
+  }, [password, matchPwd])
   useEffect(()=>{
     const GetPreviewData = async () => {
       const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
@@ -123,7 +140,31 @@ function EditUser() {
       })
     }
   }
-
+  const ChangePassword = async () => {
+    if(oldPassword.trim() == "" || password.trim() == "" || matchPwd.trim() == ""){
+      setError("Complete all fields before sending data!")
+      return
+    }
+    try {
+      const response = await axios.post('/user/changePassword',
+      {
+        old_passwd: document.getElementById('currentPass').value,
+        new_passwd: document.getElementById('newPass').value,
+        new_passwd2: document.getElementById('confirmPass').value
+      },
+      {
+        headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+    })
+    setSuccess("Success! " + response.data.message)
+    } catch (error) {
+      setError(error.response.data.message)
+    }
+   
+  }
 
   return (
     <>
@@ -234,6 +275,7 @@ function EditUser() {
               placeholder="current password"
               className="mb-3 title text-center"
               id="currentPass"
+              onChange={(e)=>setOldPassword(e.target.value)}
             />
           </FormGroup>
           <FormGroup
@@ -247,7 +289,23 @@ function EditUser() {
               placeholder="enter new password"
               className="mb-3 title text-center"
               id="newPass"
+              onChange={(e) => setPassword(e.target.value)}
             />
+            <p className={password == oldPassword && password && oldPassword ? 'invalid' : 'offcanvas'}>New password cannot be the same as the old password!</p>
+            <p
+                  id="pwdnote"
+                  className={password && !validPassword ? 'invalid' : 'offcanvas'}
+                >
+                  8 to 24 characters. <br />
+                  Must include uppercase and lowercase letters, a number, and
+                  a special character. <br />
+                  Allowed characters:{' '}
+                  <span aria-label="exclamation mark">!</span>
+                  <span aria-label="at symbol">@</span>{' '}
+                  <span aria-label="hashtag">#</span>
+                  <span aria-label="dollar sign">$</span>{' '}
+                  <span aria-label="percent">%</span>
+                </p>
           </FormGroup>
           <FormGroup
             className="p-2 w-100 h-100 text-center"
@@ -260,8 +318,17 @@ function EditUser() {
               placeholder="re-enter new password"
               className="mb-3 title text-center"
               id="confirmPass"
+              onChange={(e) => setMatchPwd(e.target.value)}
             />
             {/* TODO checks for password validity and error messages*/}
+            <p
+                    id="confirmnote"
+                    className={!validMatch ? 'invalid' : 'offcanvas'}
+                  >
+                    Must match the first password input field.
+                  </p>
+            {error !== "" && <b style={{fontSize: '40px'}} className="invalid">{error}</b>}
+            {success != "" && <b style={{fontSize: '40px'}} className="valid">{success}</b>}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"
