@@ -63,20 +63,20 @@ function NotifDropdown(props) {
             navigate("/notifications?page=0?limit=0")
           }
           onMouseEnter={() =>
-            (document.getElementById("notification").src =
-              "/src/assets/icons/envelope_16.png")
+            (document.getElementById("notification").className =
+              "my-auto filter-black")
           }
           onMouseLeave={() =>
-            (document.getElementById("notification").src =
-              "/src/assets/icons/envelope_gold_16.png")
+            (document.getElementById("notification").className =
+              "my-auto filter-gold")
           }
         >
           See more ({notifications.length}){" "}
           <img
             id="notification"
-            src="/src/assets/icons/envelope_gold_16.png"
+            src="/src/assets/icons/envelope_16.png"
             alt="notifications"
-            className="my-auto"
+            className="my-auto filter-gold"
           />
         </Dropdown.Item>
       </DropdownButton>
