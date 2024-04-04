@@ -4,7 +4,6 @@ import axios from "../api/axios";
 
 function ForumCard(forum) {
   const navigate = useNavigate();
-  {console.log(forum)}
   const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date());
   const categoryList = forum.forum.tags.map((category,index) => (
     <th style={{ fontSize: "small" }} key={index}>
@@ -43,7 +42,7 @@ function ForumCard(forum) {
             We need to fix this ASAP
           </Card.Title>
           <Card.Text className="text-outline">
-            {/* <i>{forum.forum.topPost.content}</i> */}
+            {/* <i>{forum.forum.topPost.content}</i> TODO ezek miért commentelve vannak?*/}
             <i>Fix this too</i>
           </Card.Text>
           <Button 
