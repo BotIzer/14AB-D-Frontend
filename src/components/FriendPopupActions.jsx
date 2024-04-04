@@ -42,7 +42,8 @@ function FriendPopupActions(props) {
     navigate(`/user/${props.friend}`)
   }
   const ListMembers = async () =>{
-
+    //TODO: finish this
+    console.log(props.users[props.selectedChat])
   }
   const LeaveChat = async () =>{
     await axios.post(

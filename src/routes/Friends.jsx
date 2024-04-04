@@ -22,6 +22,7 @@ function Friends() {
     limit: parseInt(location.search.split('limit=')[1]) || 10
   });
   const [owners, setOwners] = useState({})
+  const [users, setUsers] = useState()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -63,6 +64,7 @@ function Friends() {
   useEffect(()=>{
     const SetOwner = async ()=>{
     let chatOwner = {};
+    let chatUsers = {}
     for (let index = 0; index < groups.length; index++) {
       const response = await axios.get(`/chat/${groups[index]._id}`,{
         headers: {
@@ -71,9 +73,11 @@ function Friends() {
         },
         withCredentials: true,
       })
+      chatUsers = {...users, [groups[index]._id]: response.data.chat.users}
       chatOwner = { ...chatOwner, [groups[index]._id]:  response.data.chat.owner};
     }
     setOwners(chatOwner)
+    setUsers(chatUsers)
     }
     SetOwner()
   },[groups])
@@ -215,7 +219,7 @@ function Friends() {
           </Row>
         </Col>
         <Col className="m-0 p-0" style={{ height: "50vh", width: "50vw" }}>
-          {showData.showPopup ? <FriendPopupActions owners={owners} selectedChat={props.selectedChat} name={props.displayName} type={props.selectedChatType} friend={props.selectedFriend} /> : null}
+          {showData.showPopup ? <FriendPopupActions users={users} owners={owners} selectedChat={props.selectedChat} name={props.displayName} type={props.selectedChatType} friend={props.selectedFriend} /> : null}
           {showData.showChat ? <ChatWindow close={()=>DoNotShow()} type={props.selectedChatType} chatData={comments} selectedChat={props.selectedChat} /> : null}
           {showData.showCreateChat ? <CreateChatPopup close={()=>DoNotShow()} friends={friends}/> : null}
         </Col>

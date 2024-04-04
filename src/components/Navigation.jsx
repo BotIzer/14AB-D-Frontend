@@ -20,6 +20,7 @@ function Navigation() {
   const [timerOff, setTimerOff] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const {forumData, setForumData} = useContext(NotificationContext)
+  const [notifications, setNotifications] = useState([])
   useEffect(() => {
     setIsLoggedIn(
       localStorage.getItem("token") && localStorage.getItem("userInfo")
@@ -30,6 +31,18 @@ function Navigation() {
       );
       navigate('/')
     });
+    const GetNotifications = async ()=>{
+      const response = await axios.get('/notification',
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      })
+      setNotifications(response.data)
+    }
+    GetNotifications()
   }, []);
   const dropdownRef = useRef(null);
   const textStyle = {
