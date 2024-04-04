@@ -1,4 +1,4 @@
-import { Col, Row, Container, Button, Form, FormGroup } from "react-bootstrap";
+import { Col, Row, Container, Button, Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import ForumCard from "../components/ForumCard";
@@ -29,12 +29,24 @@ function Forums() {
     </Row>
   ));
 
+  //TODO connect to backend, make active page dynamic
+  let pages = []
+  let pagesCount = 20
+  let active = 20 
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(
+    <Pagination.Item key={i} active={i === active}>
+      {i}
+    </Pagination.Item>
+    ) 
+  }
+
   return (
     <>
       <Navigation></Navigation>
-      <Container fluid>
+      <Container data-bs-theme="dark" fluid>
         <Button
-          className="m-5 clear-button fixed-bottom-right"
+          className="mb-5 clear-button fixed-bottom-right"
           style={{ backgroundColor: "#343a40" }}
           onClick={() => navigate("/createforum")}
         >
@@ -47,11 +59,20 @@ function Forums() {
         <Row className="m-5">
           <h1 className="text-center">Popular forums</h1>
         </Row>
-        <Row className="border justify-content-center">
+        <Row className="justify-content-center">
           <Col xs={12} md={6}>
             {listForums}
           </Col>
         </Row>
+          <Pagination className="justify-content-center">
+            <Pagination.First/>
+            <Pagination.Prev/>
+            {pages[active - 2]}
+            {pages[active - 1]}
+            {pages[active]}
+            <Pagination.Next/>
+            <Pagination.Last/>
+          </Pagination> {/* TODO: Connect pagination to backend*/}
       </Container>
     </>
   );

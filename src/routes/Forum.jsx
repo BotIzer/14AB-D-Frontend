@@ -1,5 +1,5 @@
 import Navigation from "../components/Navigation";
-import { Col, Row, Container, Table, Button, Image } from "react-bootstrap";
+import { Col, Row, Container, Table, Button, Image, Pagination } from "react-bootstrap";
 import PostCard from "../components/PostCard";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
@@ -80,10 +80,22 @@ function Forum() {
       <PostCard post={thread}></PostCard>
     </Row>
   ));
+
+  let pages = []
+  let pagesCount = 20
+  let active = 20 
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(
+    <Pagination.Item key={i} active={i === active}>
+      {i}
+    </Pagination.Item>
+    ) 
+  }
+
   return (
     <>
       <Navigation></Navigation>
-      <Container fluid>
+      <Container data-bs-theme="dark" fluid>
         <Button
           className="clear-button fixed-bottom-right mb-4"
           style={{ backgroundColor: "#343a40" }}
@@ -128,6 +140,15 @@ function Forum() {
         <Col xs={12} md={{ span: 6, offset: 3 }}>
           {postList}
         </Col>
+        <Pagination className="justify-content-center">
+            <Pagination.First/>
+            <Pagination.Prev/>
+            {pages[active - 2]}
+            {pages[active - 1]}
+            {pages[active]}
+            <Pagination.Next/>
+            <Pagination.Last/>
+          </Pagination> {/* TODO: Connect pagination to backend*/}
       </Container>
     </>
   );
