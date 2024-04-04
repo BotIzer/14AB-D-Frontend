@@ -4,14 +4,15 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
-import { useNavigate, } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useNavigate, } from "react-router-dom";
+import { useEffect, useState } from "react";
 import PostCard from "../components/PostCard"
 
 function EditPost() {
   
   const [tagList, setTagList] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const preview = 
     {
       _id: {forum_id: 1,
@@ -19,11 +20,14 @@ function EditPost() {
       name: "Peview Post 1",
       content: "Content of Post 1",
       image_array: ["/src/assets/banner_test.jpg", "/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png"],
-      likes: 50,
-      dislikes: 1,
+      likes: {users: [], count: 0},
+      dislikes: {users: [], count: 0},
       comment_count: 4,
       postDate: new Date(),
     }//TODO: Make previews dynamic
+  useEffect(()=>{
+    const GetThreadData = axios.get(`/thread/${location.pathname.split('/')[3]}`)
+  },[])
   const SaveChanges = async () => {
     const username = document.getElementById("username").value.trim();
     const profilePicture = document.getElementById("fileUpload").value.trim();

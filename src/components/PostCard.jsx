@@ -64,7 +64,8 @@ export default function PostCard(post) {
         <DropdownButton variant="outline-warning" drop="down-centered" title={<img className="filter-gold" src="/src/assets/icons/dots.png" alt="" />}>
         <Dropdown.Item
           className="list-group-item secondary text-center"
-          // onClick={() => navigate(`/`)} TODO: make this navigate to editpost, make dropdown items only visible with correct authorizations
+          onClick={() => navigate(`/editpost/${post.post.name}/${post.post._id.thread_id}`)} 
+          // TODO: make this navigate to editpost, make dropdown items only visible with correct authorizations
         >
         Edit
     </Dropdown.Item>

@@ -139,7 +139,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/editpost/:post",
+    path: "/editpost/:post/:postId",
     element: isLoggedIn ? <EditPost></EditPost> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },

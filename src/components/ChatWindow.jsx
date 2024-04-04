@@ -160,10 +160,7 @@ function ChatWindow(currentChatData) {
       })
   }
   const CloseChat = () => {
-    if(confirm("Are you sure you want to close the chat?"))
-    {
-      currentChatData.close()
-    }
+    currentChatData.close()
   }
   const friendList = friends.map((friend) => (
     <Dropdown.Item
