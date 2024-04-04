@@ -7,10 +7,19 @@ import axios from "../api/axios";
 import { useLocation, useNavigate, } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PostCard from "../components/PostCard"
+import ErrorPage from "../error-page";
 
 function EditPost() {
-  
-  const [tagList, setTagList] = useState([]);
+  const [imageList, setImageList] = useState([]);
+  const [previewData, setPreviewData] = useState({
+    _id: "",
+    name: "",
+    image_array: [],
+    content: "",
+  });
+  const [forum, setForum] = useState({forumName: "", forumId: ""})
+  const [error, setError] = useState("")
+  const [isCreator, setIsCreator] = useState(false)
   const navigate = useNavigate();
   const location = useLocation();
   const preview = 
@@ -26,18 +35,63 @@ function EditPost() {
       postDate: new Date(),
     }//TODO: Make previews dynamic
   useEffect(()=>{
-    const GetThreadData = axios.get(`/thread/${location.pathname.split('/')[3]}`)
+    const GetThreadData = async() => {
+    const response = await axios.get(`/thread/${location.pathname.split('/')[3]}`,
+    { headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    withCredentials: true,
+    })
+    console.log("Fuck off")
+    console.log(response.data._id.creator_id)
+    await GetCreatorName(response.data._id.creator_id)
+    console.log(response.data)
+    document.getElementById('name').value = response.data.name;
+    document.getElementById('content').value = response.data.content
+    setImageList(response.data.image_array)
+    setPreviewData({_id: response.data._id, name: response.data.name, image_array: response.data.image_array, content: response.data.content})
+    GetForum(response.data._id.forum_id)
+    }
+    const GetCreatorName = async (creatorId) =>{
+      const response = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+       {
+         headers: {
+           'Content-Type': 'application/json',
+           authorization: `Bearer ${localStorage.getItem('token')}`,
+         },
+         withCredentials: true,
+       })
+       if (response.data.user._id !== creatorId) {
+         setError({ response: { data: { message: 'You are not authorized to view this page!!' } } })
+         return
+       }
+     } 
+    const GetForum = async(forumId) =>{
+      const response = await axios.get(`/forum/${forumId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      })
+      setForum({forumName: response.data[0].forum_name, forumId: forumId})
+    }
+    GetThreadData();
   },[])
   const SaveChanges = async () => {
-    const username = document.getElementById("username").value.trim();
-    const profilePicture = document.getElementById("fileUpload").value.trim();
-    if (username !== "" && profilePicture !== "") {
-      // TODO: Display error if title/banner is empty!
-      await axios.post(
-        "/forum",
+    const name = document.getElementById("name").value.trim();
+    const image_array = document.getElementById("fileUpload").value.trim();
+    const content = document.getElementById("content").value.trim()
+    if (name !== "") {
+      // TODO: Display error if nameis empty!
+      await axios.put(
+        `/thread/${previewData._id.thread_id}`,
         {
-          forum_name: title,
-          banner: banner,
+          name: name,
+          content: content,
+          image_array: image_array
         },
         {
           headers: {
@@ -47,40 +101,42 @@ function EditPost() {
           withCredentials: true,
         }
       );
+      navigate(`/forums/${forum.forumName}/${forum.forumId}`)
     } else {
       return;
     }
   };
-  const ClearAll = async () => {
-    if (confirm("Are you sure you want to clear all fields?")) {
-      document.getElementById("title").value = "";
-      document.getElementById("fileUpload").value = "";
+  const Cancel = async () => {
+    if (confirm("Are you sure you want to cancel editing?")) {
+      console.log(forum.forumName)
+      navigate(`/forums/${forum.forumName}/${forum.forumId}`)
     }
   };
-  const DeleteProfile = async() => {
-    if (confirm("Are you sure you want to delete your account?")) {
-      const password = prompt("Please enter your password to confirm deletion")
-      if (password === null || !password.trim()) {
-        return;
-      }
+  const DeletePost = async() => {
+    if (confirm("Are you sure you want to delete this post?")) {
       await axios.delete(
-        "/user",
+        `/thread/${previewData._id.thread_id}`,
         {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
-            password: password
           },
           withCredentials: true,
         }
       );
-      localStorage.clear()
-      dispatchEvent(new Event('storage'))
-      navigate('/')
+      navigate(`/forums/${forum.forumName}/${forum.forumId}`)
     }
 
   }
-
+  const AddImage = async () => {
+    if(document.getElementById('fileUpload').value.trim() !== ''){
+      await setImageList(prevItems=>[...prevItems,document.getElementById("fileUpload").value]);
+      document.getElementById('fileUpload').value = ""
+    }
+  }
+  if (error != '') {
+    return <ErrorPage errorStatus={error} />
+  }
   return (
     <>
       <Navigation></Navigation>
@@ -95,55 +151,24 @@ function EditPost() {
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
           >
-            <Form.Label className="secondary">Title</Form.Label>
+            <Form.Label className="secondary">name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="title"
-              className="mb-3 title text-center"
-              id="title"
+              placeholder="name"
+              className="mb-3 name text-center"
+              id="name"
             />
           </FormGroup>
-          <FormGroup data-bs-theme="dark" className="text-center">
-            
-          <Form.Label className="secondary">Tags</Form.Label>
-            <div className="d-flex justify-content-around m-2 secondary">
-                <DropdownButton
-                  data-bs-theme="dark"
-                  drop="down-centered"
-                  title="Tags:"
-                  className="dropdown-button"
-                >
-                  {tagList.map((item,index) => (
-                    <DropdownItem key={index}>
-                      {item}
-                    </DropdownItem>
-                  ))}
-                </DropdownButton>
-                <Form.Control
-                  className="w-auto"
-                  placeholder="enter categories"
-                  id="fileUpload"
-                ></Form.Control>
-                <Button
-                  variant="outline-warning"
-                  className="custom-button"
-                  onClick={() => AddTag()}
-                >
-                  Add
-                </Button>
-              </div>
-          </FormGroup>
-
           <FormGroup data-bs-theme="dark" className="text-center">
             <Form.Label className="secondary">Image(es)</Form.Label>
             <div className="d-flex justify-content-around m-2 secondary">
                 <DropdownButton
                   data-bs-theme="dark"
                   drop="down-centered"
-                  title="Tags:"
+                  title="image_array:"
                   className="dropdown-button"
                 >
-                  {tagList.map((item,index) => (
+                  {imageList.map((item,index) => (
                     <DropdownItem key={index}>
                       {item}
                     </DropdownItem>
@@ -151,25 +176,26 @@ function EditPost() {
                 </DropdownButton>
                 <Form.Control
                   className="w-auto"
-                  placeholder="enter categories"
+                  placeholder="enter imgur links"
                   id="fileUpload"
                 ></Form.Control>
                 <Button
                   variant="outline-warning"
                   className="custom-button"
-                  onClick={() => AddTag()}
+                  onClick={() => AddImage()}
                 >
                   Add
                 </Button>
               </div>
           </FormGroup>
           <FormGroup className="text-center" data-bs-theme="dark">
-            <Form.Label className="secondary">Description</Form.Label>
+            <Form.Label className="secondary">Content</Form.Label>
             <Form.Control
               size="lg"
               className="text-center"
               as="textarea"
-              placeholder="enter description"
+              placeholder="enter content"
+              id="content"
             ></Form.Control>
           </FormGroup>
           <div
@@ -189,8 +215,7 @@ function EditPost() {
             <Button
               variant="outline-danger"
               size="lg"
-              onClick={() => ClearAll()}
-              /*TODO route back to Forum page, rename function*/
+              onClick={() => Cancel()}
               className="mt-3"
             >
               Cancel
@@ -205,7 +230,7 @@ function EditPost() {
           <Button
             variant="outline-danger"
             size="lg"
-            onClick={() => DeleteProfile()} //TODO rename function
+            onClick={() => DeletePost()}
             className="mt-3"
           >
             Delete Post

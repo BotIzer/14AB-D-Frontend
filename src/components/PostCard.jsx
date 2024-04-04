@@ -64,7 +64,7 @@ export default function PostCard(post) {
         <DropdownButton variant="outline-warning" drop="down-centered" title={<img className="filter-gold" src="/src/assets/icons/dots.png" alt="" />}>
         <Dropdown.Item
           className="list-group-item secondary text-center"
-          onClick={() => navigate(`/editpost/${post.post.name}/${post.post._id.thread_id}`)} 
+          onClick={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
           // TODO: make dropdown items only visible with correct authorizations
         >
         Edit
@@ -75,7 +75,7 @@ export default function PostCard(post) {
         >
         Delete
     </Dropdown.Item>
-
+    {/* TODO: Remove delete button from here, replace it with an icon */}
         </DropdownButton> 
       </Card.Header>
       <Card.Body className="secondary h-auto" style={{ minHeight: "200px" }}>

@@ -7,10 +7,11 @@ import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 
 function CreatePost() {
   const [imgList, setImgList] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(false)
   const location = useLocation();
   const forumName = location.pathname.split("/")[2];
   console.log(forumName);
@@ -23,7 +24,7 @@ function CreatePost() {
       await axios.post(
         "/thread",
         {
-          forum_name: forumName,
+          forum_name: decodeURIComponent(forumName),
           name: document.querySelector(".title").value,
           content: document.querySelector(".ql-editor").innerText,
           images: imgList
@@ -43,6 +44,7 @@ function CreatePost() {
     titles.forEach((title) => (title.value = ""));
     document.getElementById("fileUpload").value = "";
     setImgList([])
+    setIsSuccess(true)
   };
   const ClearAll = async () => {
     if (confirm("Are you sure you want to clear all fields?")) {
@@ -78,6 +80,8 @@ function CreatePost() {
             />
             <Form.Label className="secondary">Body</Form.Label>
             <TextEditor className="h-100"></TextEditor>
+            {/* TODO: Style this */}
+            {isSuccess? <p style={{fontSize: "40"}}>Congratulations! Your post was succesful!</p> :null}
             <div className="d-flex justify-content-around my-3">
               <Button
                 variant="outline-warning"
