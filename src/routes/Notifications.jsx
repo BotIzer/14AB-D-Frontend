@@ -72,9 +72,7 @@ export default function Notifications() {
   // ));
 
 
-  const testFriendRequests = ["NagyonHosszúUsername", "ÚristenDeNagyonHosszúUsername", "Pici"]
-
-  const requestsList = testFriendRequests.map((friend) => (
+  const requestsList = friendRequests.map((friend) => (
     <div>
       <Row>
         <Link
