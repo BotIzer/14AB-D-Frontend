@@ -70,7 +70,7 @@ export default function UserPage() {
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                authorization: `Bearer ${localStorage.getItem("token")}`,
               },
               withCredentials: true,
             }
@@ -82,7 +82,7 @@ export default function UserPage() {
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                authorization: `Bearer ${localStorage.getItem("token")}`,
               },
               withCredentials: true,
             }
@@ -101,7 +101,7 @@ export default function UserPage() {
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                authorization: `Bearer ${localStorage.getItem("token")}`,
               },
               withCredentials: true,
             }
