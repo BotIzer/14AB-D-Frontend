@@ -173,19 +173,20 @@ function ChatWindow(currentChatData) {
   return (
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
       <Navbar className="justify-content-start pt-0" sticky="top" style={{zIndex: '1000'}}>
-        <Button className="close-button me-auto" onClick={() => CloseChat()} >
+       
+        <DropdownButton title={<img style={{width: '32px', height: '32px'}} src='/src/assets/icons/add_user_64.png' className='filter-gold'></img>} className="dropdown-button  m-0">
+        <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
+        </DropdownButton>
+        <Button className="close-button ms-auto" onClick={() => CloseChat()} >
           <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
         </Button>
         {/* TODO: BOTI MAKE IT CENTERED AND LOOK COOLIO */}
         {showError ? <p autoFocus>ERROR: </p> : null}
-        <DropdownButton title="Add friend" className="dropdown-button my-2 mx-2">
-        <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
-        </DropdownButton>
       </Navbar>
       <MessageList messages={messages}></MessageList>
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
       <Navbar sticky="bottom" style={{backgroundColor: '#343a40', zIndex: '1000'}}>
-      <Container fluid className='justify-content-center w-100'>
+      <Container fluid className='justify-content-center w-100 p-0'>
         <Navbar.Toggle aria-controls="navbarScroll" />
           <Form className='w-100'>
           <FormGroup controlId="sendMsg">
