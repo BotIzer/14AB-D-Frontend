@@ -76,7 +76,7 @@ function Forum() {
         </th>
   ))
   const postList = data.threads && data.threads.map((thread) => (
-    <Row key={thread._id.thread_id} className="w-100">
+    <Row key={thread._id.thread_id} className="my-3 p-3">
       <PostCard post={thread}></PostCard>
     </Row>
   ));
@@ -119,10 +119,10 @@ function Forum() {
           <h1 className="text-outline text-center m-auto">
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
-          <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '64px', height: '64px'}} 
+          <Button className="position-absolute end-0 rounded-pill clear-button" 
+                style={{width: 'auto', height: 'auto'}} 
                 onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
-                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold" style={{margin: '-10px'}}/>
+                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
           </Button>
         </Row>
         <Row className="no-padding-table">
