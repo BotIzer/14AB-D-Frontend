@@ -71,37 +71,32 @@ export default function Notifications() {
   //   </div>
   // ));
 
+
   const requestsList = friendRequests.map((friend) => (
-    <Row className="m-2 p-2 border-bottom border-secondary" key={friend}>
-      <Col xs={6} md={10} className="align-self-center tertiary">
+    <div>
+      <Row>
         <Link
-          className="primary"
-          to={`/user/${friend}`}
-          style={{ textDecoration: "none" }}
+            className="primary my-2"
+            to={`/user/${friend}`}
+            style={{ textDecoration: "none", width: "auto" }}
         >
           <b>
             <i>{friend}</i>
-          </b>{" "}
+          </b>
         </Link>
-        wants to be your friend!
-      </Col>
-      <Col xs={3} md={1}>
-        <Button
-          variant="outline-warning"
-          onClick={() => AcceptFriendRequest(friend)}
-        >
-          Accept
-        </Button>
-      </Col>
-      <Col xs={3} md={1}>
-        <Button
-          variant="outline-danger"
-          onClick={() => DeclineFriendRequest(friend)}
-        >
-          Decline
-        </Button>
-      </Col>
-    </Row>
+      </Row>
+      <Row className="border-bottom border-secondary">
+        <Col className="tertiary">
+          wants to be your friend!
+        </Col>
+        <Col>
+          <Row className="px-2 justify-content-around">
+            <Button style={{width: "40%"}} variant="outline-warning px-0">Accept</Button>
+            <Button style={{width: "40%"}} variant="outline-danger px-0">Decline</Button>
+          </Row>
+        </Col>
+      </Row>
+    </div>
   ));
 
   return (

@@ -160,7 +160,7 @@ const router = createBrowserRouter([
   },
   {
     path: "test",
-    element: <VerifyEmail></VerifyEmail>,
+    element: <Comments></Comments>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
