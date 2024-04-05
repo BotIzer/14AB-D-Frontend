@@ -314,9 +314,6 @@ a:hover {
     filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
     brightness(96%) contrast(89%);
 }
-.filter-red:hover{
-  filter:none;
-}
 
 .filter-green {
   filter: brightness(0) saturate(100%) invert(73%) sepia(8%) saturate(5235%) hue-rotate(77deg) brightness(74%) contrast(78%);

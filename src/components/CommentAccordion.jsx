@@ -102,7 +102,7 @@ export default function CommentAccordion(props) {
         <Accordion data-bs-theme="dark" defaultActiveKey="0">
           <Card>
             <Card.Header className="text-muted w-100 p-0 m-0" as={Row}>
-              <Col className="w-50">
+              <Col className="text-nowrap p-0">
                 <ContextAwareToggle eventKey="0">+</ContextAwareToggle>
                 <i style={{ fontSize: "small" }}>
                   <Link className="chat-name secondary">
@@ -112,7 +112,7 @@ export default function CommentAccordion(props) {
                   days ago
                 </i>
               </Col>
-              <Col className="w-50 text-end">
+              <Col className="text-end">
                 <ToggleButton
                   // id={post.post._id && post.post._id.thread_id + "like"}
                   id={1}
