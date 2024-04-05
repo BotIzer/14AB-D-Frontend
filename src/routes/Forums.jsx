@@ -61,7 +61,7 @@ function Forums() {
   let pages = []
   for (let i = 1; i <= pageData.pageCount; i++) {
     pages.push(
-    <Pagination.Item onClick={()=>setPageData({...pageData, currentPage: i,})} key={i} active={i === pageData.currentPage}>
+    <Pagination.Item onClick={()=>handlePaginationClick(i)} key={i} active={i === pageData.currentPage}>
       {i}
     </Pagination.Item>
     ) 
