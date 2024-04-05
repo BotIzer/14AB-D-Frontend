@@ -7,7 +7,10 @@ import { useEffect, useState } from "react";
 
 function Forums() {
   const navigate = useNavigate();
+
   const [forums, setForums] = useState([]);
+  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 1, 
+  pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
   useEffect(() => {
     const GetForums = async () => {
       const response = await axios.get("/forum", {
@@ -17,7 +20,7 @@ function Forums() {
         },
         withCredentials: true,
       });
-      
+      setPageData({currentPage: pageData.currentPage, pageCount: response.data.pagesCount})
       const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,{
         headers: {
           'Content-Type': 'application/json',
@@ -38,6 +41,9 @@ function Forums() {
   useEffect(()=>{
     console.log(forums)
   },[forums])
+  useEffect(()=>{
+    console.log(pageData.currentPage)
+  },[pageData])
   const listForums = forums.map((forum) => (
     <Row className="m-3 p-0" key={forum.forum_name}>
       <ForumCard forum={forum}></ForumCard>
@@ -46,11 +52,9 @@ function Forums() {
 
   //TODO connect to backend, make active page dynamic
   let pages = []
-  let pagesCount = 20
-  let active = 20 
-  for (let i = 1; i <= pagesCount; i++) {
+  for (let i = 1; i <= pageData.pageCount; i++) {
     pages.push(
-    <Pagination.Item key={i} active={i === active}>
+    <Pagination.Item onClick={()=>setPageData({...pageData, currentPage: i,})} key={i} active={i === pageData.currentPage}>
       {i}
     </Pagination.Item>
     ) 
@@ -80,13 +84,11 @@ function Forums() {
           </Col>
         </Row>
           <Pagination className="justify-content-center">
-            <Pagination.First/>
-            <Pagination.Prev/>
-            {pages[active - 2]}
-            {pages[active - 1]}
-            {pages[active]}
-            <Pagination.Next/>
-            <Pagination.Last/>
+            <Pagination.First onClick={()=>setPageData({...pageData, currentPage: 1})}/>
+            <Pagination.Prev onClick={()=>setPageData({...pageData, currentPage: pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1})}/>
+            {pages}
+            <Pagination.Next onClick={()=>setPageData({...pageData, currentPage: pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1})}/>
+            <Pagination.Last onClick={()=>setPageData({...pageData, currentPage: pageData.pageCount})}/>
           </Pagination> {/* TODO: Connect pagination to backend*/}
       </Container>
     </>

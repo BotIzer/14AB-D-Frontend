@@ -207,7 +207,7 @@ function Navigation() {
             <Nav.Link
               style={textStyle}
               className="mx-2 my-2"
-              onClick={() => navigate("/forums")}
+              onClick={() => navigate("/forums?page=0")}
             >
               Forums
             </Nav.Link>
