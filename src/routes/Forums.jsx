@@ -17,12 +17,27 @@ function Forums() {
         },
         withCredentials: true,
       });
-      setForums(response.data);
-      console.log(response.data[0]);
+      
+      const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true 
+      })
+      const updatedForums = response.data.forums.map(forum => {
+        return {
+          ...forum,
+          isSubscribed: Object.values(forum.users).some(user => user.user_id === userResponse.data.user._id)
+        };
+      });
+      setForums(updatedForums);
     };
     GetForums();
   }, []);
-
+  useEffect(()=>{
+    console.log(forums)
+  },[forums])
   const listForums = forums.map((forum) => (
     <Row className="m-3 p-0" key={forum.forum_name}>
       <ForumCard forum={forum}></ForumCard>

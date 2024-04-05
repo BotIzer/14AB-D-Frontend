@@ -1,6 +1,7 @@
 import { Button, Card, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import { useEffect, useState } from "react";
 
 function ForumCard(forum) {
   const navigate = useNavigate();
@@ -10,8 +11,8 @@ function ForumCard(forum) {
       <i className="tertiary">{category}</i>
     </th>
   ));
+  const [isSubscribed, setIsSubscribed] = useState(forum.forum.isSubscribed)
   const SubscribeToForum = async () =>{
-    console.log(forum.forum._id.forum_id)
     await axios.post('/forum/subscribeToForum',
     {
       forum_id: forum.forum._id.forum_id
@@ -23,6 +24,21 @@ function ForumCard(forum) {
       },
       withCredentials: true
     })
+    setIsSubscribed(true)
+  }
+  const UnsubscribeFromForum = async () =>{
+    await axios.post('/forum/unsubscribeFromForum',
+    {
+      forum_id: forum.forum._id.forum_id
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true
+    })
+    setIsSubscribed(false)
   }
   return (
     <>
@@ -36,7 +52,8 @@ function ForumCard(forum) {
             backgroundRepeat: "no-repeat"
           }}
         >
-          <Button onClick={()=>SubscribeToForum()}>Subscribe</Button>
+          {!isSubscribed ?<Button onClick={()=>SubscribeToForum()}>Subscribe</Button> :
+          <Button onClick={()=>UnsubscribeFromForum()}>Unsubscribe</Button>}
           <Card.Title className="text-outline">
             {/* {forum.forum.topPost.title} */}
             We need to fix this ASAP
