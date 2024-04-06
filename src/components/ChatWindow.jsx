@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import MessageList from './chat-components/MessageList';
-import { Form, FormGroup, Button, Container, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Form, FormGroup, Button, Container, DropdownButton, Dropdown, Col, Row } from 'react-bootstrap';
 import axios from '../api/axios';
 import { useLocation, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -173,14 +173,21 @@ function ChatWindow(currentChatData) {
     <div data-bs-theme="dark" className="p-0 h-100 w-100 border overflow-auto">
       <Navbar className="justify-content-start pt-0" sticky="top" style={{zIndex: '1000'}}>
        
-        <DropdownButton title={<img style={{width: '32px', height: '32px'}} src='/src/assets/icons/add_user_64.png' className='filter-gold'></img>} className="dropdown-button  m-0">
-        <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
-        </DropdownButton>
-        <Button className="close-button ms-auto" onClick={() => CloseChat()} >
-          <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
-        </Button>
-        {/* TODO: BOTI MAKE IT CENTERED AND LOOK COOLIO */}
-        {showError ? <p autoFocus>ERROR: </p> : null}
+          <Col>
+          {!showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: "rgba(220,53,69, 0.5)"}}><p className='w-auto' autoFocus>ERROR:{error.message}</p></Row> : null}
+            <Row className='w-100 mx-auto'>
+              <Col className='text-start p-0'>
+                <DropdownButton title={<img style={{width: '32px', height: '32px'}} src='/src/assets/icons/add_user_64.png' className='filter-gold'></img>} className="dropdown-button  m-0">
+                <div className='overflow-auto' style={{maxHeight: "200px"}}>{friendList}</div>
+                </DropdownButton>
+              </Col>
+              <Col className='text-end p-0'>
+                <Button className="close-button ms-auto" onClick={() => CloseChat()} >
+                  <img className="hover-filter-red" src="/src/assets/icons/close.png" alt="" />
+                </Button>
+              </Col>
+            </Row>
+          </Col>
       </Navbar>
       <MessageList messages={messages}></MessageList>
       {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
