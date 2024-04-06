@@ -10,17 +10,21 @@ import {
   Nav,
   Pagination,
 } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Notifications() {
+  const navigate = useNavigate()
+  const location = useLocation();
   const [friendRequests, setFriendRequests] = useState([]);
   const [toggleTab, setToggleTab] = useState("requests");
-  const location = useLocation();
-  const [currentPage, setCurrentPage] = useState(parseInt(location.search.split("page=")[1]) || 0,)
   const [notifications,setNotifications] = useState({})
+  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
+  pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
+
+
   useEffect(() => {
     const GetFriendRequests = async () => {
-      const response = await axios.get(`/user/friends/requests?page=${currentPage-1}`, {
+      const response = await axios.get(`/user/friends/requests?page=${pageData.currentPage}`, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -41,15 +45,22 @@ export default function Notifications() {
       },
       withCredentials: true,
     })
+    setPageData({currentPage: pageData.currentPage, pageCount: response.data.notificationsPageCount})
     console.log(response.data)
     setNotifications(response.data)
     }
     GetFriendRequests();
     GetNotifications();
-  }, []);
-  useEffect(() => {
-    console.log(friendRequests);
-  }, [friendRequests]);
+  }, [location]);
+  useEffect(()=>{
+    if(notifications.notifications && notifications.notifications.length <= 0 && pageData.pageCount != 0){
+      setPageData({
+        currentPage: pageData.currentPage-1 <= 0 ? 0 : pageData.currentPage,
+        pageCount: pageData.pageCount - 1 <= 0 ? 0 : pageData.pageCount
+      });
+      navigate(`/notifications?page=${pageData.currentPage-1 <= 0 ? 0 : pageData.currentPage-1}`)
+    }
+  },[notifications])
   const AcceptFriendRequest = async (requestCreator) => {
     await axios.post(
       `/acceptFriendRequest/${requestCreator}`,
@@ -82,10 +93,10 @@ export default function Notifications() {
       prevItems.filter((friend) => friend !== requestCreator)
     );
   };
-  const listItems = notifications.notifications && notifications.notifications.map((notification) => (
+  let listItems = notifications.notifications && notifications.notifications.map((notification) => (
     <div key={notification.id}>
       <p>{notification.text}</p>
-      <Button onClick={() => console.log(seen)}>Seen</Button>
+      <Button onClick={() => console.log("seen")}>Seen</Button>
       <Button onClick={() => DeleteNotification(notification.id)}>Delete</Button>
     </div>
   ));
@@ -136,20 +147,23 @@ export default function Notifications() {
       };
   });
   }
+  const handlePaginationClick = (pageNumber) =>{
+    setPageData(prevState => ({
+      ...prevState,
+      currentPage: pageNumber
+    }));
+    navigate(`/notifications?page=${pageNumber}`);
+  } 
   //TODO connect to backend, make active page dynamic
-  let pages = [];
-  let pagesCount = 20;
-  let active = 20;
-  for (let i = 1; i <= pagesCount; i++) {
+  let pages = []
+  for (let i = 1; i <= pageData.pageCount; i++) {
     pages.push(
-      <Pagination.Item key={i} active={i === active}>
-        {i}
-      </Pagination.Item>
-    );
+    <Pagination.Item onClick={()=>handlePaginationClick(i)} key={i} active={i === pageData.currentPage}>
+      {i}
+    </Pagination.Item>
+    ) 
   }
-  useEffect(()=>{
-    console.log(notifications)
-  },[notifications])
+  
   return (
     <>
       <Navigation />
@@ -158,9 +172,9 @@ export default function Notifications() {
           <Col>
             <Row>
               <Tab.Content>
-                <Tab.Pane eventKey="requests">{requestsList}</Tab.Pane>
+                <Tab.Pane eventKey="requests">{requestsList && requestsList.length <= 0 ? "No friend requests." : requestsList}</Tab.Pane>
                 <Tab.Pane eventKey="notifications">
-                  {listItems}
+                  {listItems && listItems.length <= 0 ? "No notifications." : listItems}
                 </Tab.Pane>
               </Tab.Content>
             </Row>
@@ -171,16 +185,13 @@ export default function Notifications() {
               >
                 <Col>
                   <Row>
-                    <Pagination className="justify-content-center p-0 m-0 custom-pagination">
-                      <Pagination.First />
-                      <Pagination.Prev />
-                      {pages[active - 2]}
-                      {pages[active - 1]}
-                      {pages[active]}
-                      <Pagination.Next />
-                      <Pagination.Last />
-                    </Pagination>{" "}
-                    {/* TODO: Connect pagination to backend*/}
+                  <Pagination className="justify-content-center custom-pagination">
+            <Pagination.First onClick={()=>handlePaginationClick(1)}/>
+            <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
+            {pages}
+            <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+            <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
+          </Pagination> {/* TODO: Connect pagination to backend*/}
                   </Row>
                   <Row className="justify-content-center">
                     <Col className="text-center p-0" style={{maxWidth: "fit-content"}}>
