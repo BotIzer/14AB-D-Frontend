@@ -162,8 +162,8 @@ a:hover {
 /*Dropdown menu styling*/
 
 .dropdown-button button {
-  background-color: #212529 !important;
-  border: gold solid 1px !important;
+  background-color: transparent;
+  border: gold solid 1px;
   color: gold !important;
 }
 .btn.show {
@@ -172,14 +172,14 @@ a:hover {
 }
 
 .dropdown-button button:hover {
-  background-color: #212529 !important;
-  border: #e8cc80 solid 1px !important;
+  background-color: transparent !important;
+  border: #e8cc80 solid 1px ;
   color: #e8cc80 !important;
 }
 
 .dropdown-button button:active,
 .dropdown-button button:focus {
-  background-color: #212529 !important;
+  background-color: transparent !important;
   border: gold solid 1px !important;
   color: gold !important;
 }
@@ -317,6 +317,10 @@ a:hover {
 
 .filter-green {
   filter: brightness(0) saturate(100%) invert(73%) sepia(8%) saturate(5235%) hue-rotate(77deg) brightness(74%) contrast(78%);
+}
+
+.hover-filter-black:hover{
+  filter: brightness(0) saturate(100%);
 }
 
 .image-checkbox {
