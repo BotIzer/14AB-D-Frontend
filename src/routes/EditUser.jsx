@@ -1,7 +1,4 @@
-import { Button, FormGroup, Row, Image } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
+import { Button, FormGroup, Row, Col, Image, Form, Tab, Tabs, DropdownButton, DropdownItem } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,6 +7,8 @@ import { useEffect, useState } from "react";
 function EditUser() {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const [tagList, setTagList] = useState([]);
   const [previewData, setPreviewData] = useState({
     username: "",
     profile_image: "",
@@ -166,19 +165,27 @@ function EditUser() {
    
   }
 
+
+  const AddTag = async () => {
+    if(document.getElementById('tagUpload').value.trim() !== ''){
+      await setTagList(prevItems=>[...prevItems,document.getElementById("tagUpload").value]);
+      document.getElementById('tagUpload').value = ""
+    }
+  }
+
   return (
     <>
       <Navigation></Navigation>
       <Tabs
         defaultActiveKey="editUser"
-        className="d-flex mx-auto text-nowrap mb-4"
+        className="d-flex mx-auto text-nowrap mb-4 justify-content-center"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
         onSelect={HandleSelect}
       >
-        <Tab eventKey="editUser" title="Edit" className="tab-size p-2 custom-border">
+        <Tab eventKey="editUser" title="Edit" className="tab-size p-2 custom-border overflow-auto">
 
-        <FormGroup
+          <FormGroup
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
           >
@@ -215,6 +222,39 @@ function EditUser() {
               id="email"
             />
           </FormGroup>
+
+
+        
+          <FormGroup data-bs-theme="dark" className="w-100">
+            <div className="d-flex justify-content-around m-2 secondary">
+              {/* TODO: fill it with tags dynamically */}
+                <DropdownButton
+                  data-bs-theme="dark"
+                  drop="down-centered"
+                  title="Tags:"
+                  className="dropdown-button w-25"
+                >
+                  {tagList.map((item,index) => (
+                    <DropdownItem key={index} className="text-center" id={item}>
+                      <Row className="justify-content-around"><Col className="my-auto">{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = "text-center dropdown-item bg-danger"}} onMouseLeave={() => {document.getElementById(item).className = "text-center dropdown-item"}} style={{border: 'none'}} variant="outline-danger" className="p-0"><img className="filter-red hover-filter-black border border-2 border-danger rounded p-1" src="/src/assets/icons/trash.png" alt="trash" /></Button></Col></Row>
+                    </DropdownItem>
+                  ))}
+                </DropdownButton>
+                <Form.Control
+                  className="w-50 mx-3"
+                  placeholder="add tags here"
+                  id="tagUpload"
+                ></Form.Control>
+                <Button
+                  variant="outline-warning"
+                  className="custom-button w-25"
+                  onClick={() => AddTag()}
+                >
+                  Add
+                </Button>
+              </div>
+          </FormGroup>
+
 
           <FormGroup
             className="p-2 w-100 h-100 text-center"
@@ -262,6 +302,7 @@ function EditUser() {
             </Button>
           </div>
         </Tab>
+
         <Tab eventKey="editPass" title="Change Password" className="custom-border tab-size p-2">
           <FormGroup
             className="p-2 w-100 h-100 text-center"
