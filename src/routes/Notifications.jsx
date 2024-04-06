@@ -20,6 +20,7 @@ export default function Notifications() {
   const [notifications,setNotifications] = useState({})
   const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
+  const [removeId, setRemoveId] = useState("")
 
 
   useEffect(() => {
@@ -140,6 +141,7 @@ export default function Notifications() {
         withCredentials: true,
       }
     )
+    setRemoveId(deletionId)
     setNotifications(prevNotifications => {
       return {
           ...prevNotifications,
@@ -166,7 +168,7 @@ export default function Notifications() {
   
   return (
     <>
-      <Navigation />
+      <Navigation removeId={removeId}/>
       <Container fluid data-bs-theme="dark">
         <Tab.Container id="left-tabs-example" defaultActiveKey="requests">
           <Col>

@@ -6,7 +6,7 @@ import axios from "../api/axios";
 import NotifDropdown from "./NotifDropdown";
 import { Dropdown, Image, Container, Nav, Navbar, Form } from "react-bootstrap";
 import {NotificationContext} from "../main"
-function Navigation() {
+function Navigation(props) {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,6 +21,7 @@ function Navigation() {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const {forumData, setForumData} = useContext(NotificationContext)
   const [notifications, setNotifications] = useState([])
+  const [removeId, setRemoveId] = useState(props.removeId)
   useEffect(() => {
     setIsLoggedIn(
       localStorage.getItem("token") && localStorage.getItem("userInfo")
@@ -49,6 +50,7 @@ function Navigation() {
     color: "gold",
     fontSize: "20px",
   };
+  
 
   const HandleKeyDown = (event) => {
     event.preventDefault()
@@ -151,6 +153,9 @@ function Navigation() {
   const HandleSearchNavigation = (route)=>{
     navigate(route)
   }
+  useEffect(()=>{
+    setRemoveId(props.removeId)
+  },[props])
   return (
     <Navbar
       expand="lg"
@@ -173,7 +178,7 @@ function Navigation() {
             >
               Chats
             </Nav.Link> : null}
-              {isLoggedIn ? <NotifDropdown setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
+              {isLoggedIn ? <NotifDropdown removeId={removeId} setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
             style={{ width: "100%" }}

@@ -8,26 +8,6 @@ function NotifDropdown(props) {
   const [notifications, setNotifications] = useState([])
   const [singleNotif, setSingleNotif] = useState("")
   useEffect(()=>{
-    const sendNotification = async (text) =>{
-      const response = await axios.post('/notification',
-      {
-        text: text
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        withCredentials: true,
-      })
-      setSingleNotif(response)
-    }
-    if (!props.notificationData.hasSent && props.notificationData.updateMessage !== "") {
-      sendNotification(props.notificationData.updateMessage)
-      props.setForumData()
-    }
-  },[props])
-  useEffect(()=>{
     console.log(singleNotif)
   },[singleNotif])
   useEffect(()=>{
@@ -45,6 +25,7 @@ function NotifDropdown(props) {
     GetNotifications()
   },[])
   useEffect(()=>{
+    console.log("new notifs")
     console.log(notifications)
   },[notifications])
   const notifs = notifications.notifications && notifications.notifications.map((notif) => (
@@ -56,7 +37,17 @@ function NotifDropdown(props) {
       {notif.text}
     </Dropdown.Item>
   ));
-
+  useEffect(()=>{
+    if(notifications.notifications && props.removeId !== ''){
+      console.log("success")
+      const updatedNotifications = notifications.notifications.filter((notification) => notification.id !== props.removeId);
+  setNotifications(prevState => ({
+  ...prevState,
+  notifications: updatedNotifications
+}));
+    }
+  
+  },[props])
   return (
     <>
       <DropdownButton
@@ -70,7 +61,7 @@ function NotifDropdown(props) {
         <Dropdown.Item
           eventKey="4"
           onClick={() =>
-            navigate("/notifications?page=0")
+            navigate("/notifications?page=1")
           }
           onMouseEnter={() =>
             (document.getElementById("notification").className =
