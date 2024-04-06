@@ -16,17 +16,11 @@ export default function Notifications() {
   const [friendRequests, setFriendRequests] = useState([]);
   const [toggleTab, setToggleTab] = useState("requests");
   const location = useLocation();
-  const [pageDetails, setPageDetails] = useState({
-    currentPage: parseInt(location.search.split("page=")[1]) || 0,
-    limit: parseInt(location.search.split("limit=")[1]) || 10,
-  });
+  const [currentPage, setCurrentPage] = useState(parseInt(location.search.split("page=")[1]) || 0,)
+  const [notifications,setNotifications] = useState({})
   useEffect(() => {
     const GetFriendRequests = async () => {
-      const response = await axios.get("/user/friends/requests", {
-        params: {
-          page: pageDetails.currentPage,
-          limit: pageDetails.limit,
-        },
+      const response = await axios.get(`/user/friends/requests?page=${currentPage-1}`, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -38,7 +32,20 @@ export default function Notifications() {
         ? setFriendRequests(response.data.returnRequests)
         : [];
     };
+    const GetNotifications = async() => {
+      const response = await axios.get('/notification',
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      withCredentials: true,
+    })
+    console.log(response.data)
+    setNotifications(response.data)
+    }
     GetFriendRequests();
+    GetNotifications();
   }, []);
   useEffect(() => {
     console.log(friendRequests);
@@ -75,13 +82,13 @@ export default function Notifications() {
       prevItems.filter((friend) => friend !== requestCreator)
     );
   };
-  // const listItems = friendRequests.map((friend) => (
-  //   <div key={friend}>
-  //     <p>{friend}</p>
-  //     <Button onClick={() => AcceptFriendRequest(friend)}>Accept</Button>
-  //     <Button onClick={() => DeclineFriendRequest(friend)}>Decline</Button>
-  //   </div>
-  // ));
+  const listItems = notifications.notifications && notifications.notifications.map((notification) => (
+    <div key={notification.id}>
+      <p>{notification.text}</p>
+      <Button onClick={() => console.log(seen)}>Seen</Button>
+      <Button onClick={() => DeleteNotification(notification.id)}>Delete</Button>
+    </div>
+  ));
 
   const requestsList = friendRequests.map((friend) => (
     <div>
@@ -111,7 +118,24 @@ export default function Notifications() {
       </Row>
     </div>
   ));
-
+  const DeleteNotification = async(deletionId) =>{
+    await axios.delete(
+      `/notification/${deletionId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        withCredentials: true,
+      }
+    )
+    setNotifications(prevNotifications => {
+      return {
+          ...prevNotifications,
+          notifications: prevNotifications.notifications.filter(notification => notification.id !== deletionId)
+      };
+  });
+  }
   //TODO connect to backend, make active page dynamic
   let pages = [];
   let pagesCount = 20;
@@ -123,7 +147,9 @@ export default function Notifications() {
       </Pagination.Item>
     );
   }
-
+  useEffect(()=>{
+    console.log(notifications)
+  },[notifications])
   return (
     <>
       <Navigation />
@@ -134,7 +160,7 @@ export default function Notifications() {
               <Tab.Content>
                 <Tab.Pane eventKey="requests">{requestsList}</Tab.Pane>
                 <Tab.Pane eventKey="notifications">
-                  Second tab content {/*TODO notification list*/}
+                  {listItems}
                 </Tab.Pane>
               </Tab.Content>
             </Row>
