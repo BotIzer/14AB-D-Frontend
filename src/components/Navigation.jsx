@@ -171,7 +171,7 @@ function Navigation() {
               className="mx-2 my-auto"
               onClick={() => navigate("/chats")}
             >
-              Friends
+              Chats
             </Nav.Link> : null}
               {isLoggedIn ? <NotifDropdown setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>

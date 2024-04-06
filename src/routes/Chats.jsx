@@ -6,13 +6,7 @@ import ChatWindow from "../components/ChatWindow";
 import axios from "../api/axios";
 import ErrorPage from "../error-page";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  Button,
-  Row,
-  Col,
-  Image,
-  Pagination
-} from "react-bootstrap";
+import { Button, Row, Col, Image, Pagination, Nav, Tab } from "react-bootstrap";
 
 function Friends() {
   const [friends, setFriends] = useState([]);
@@ -64,12 +58,16 @@ function Friends() {
         });
         if (response.data.returnArray) {
           if (response.data.returnArray) {
-            console.log(response.data.returnArray)
+            console.log(response.data.returnArray);
             setFriends(
-              [...Object.values(response.data.returnArray)].filter((x) => x.is_private)
+              [...Object.values(response.data.returnArray)].filter(
+                (x) => x.is_private
+              )
             );
             setGroups(
-              [...Object.values(response.data.returnArray)].filter((x) => !x.is_private)
+              [...Object.values(response.data.returnArray)].filter(
+                (x) => !x.is_private
+              )
             );
           }
         }
@@ -249,8 +247,6 @@ function Friends() {
     </Row>
   ));
 
-
-  
   //TODO connect to backend, make active page dynamic
   let pages = [];
   let pagesCount = 20;
@@ -263,90 +259,176 @@ function Friends() {
     );
   }
 
-
   return (
     <>
       <Navigation></Navigation>
-      <Row className="w-100 h-50 m-0">
-        <Col
-          data-bs-theme="dark"
-          className="m-0 p-0  text-center custom-border"
-          style={{ maxHeight: "80vh", maxWidth: "50vw" }}
+      <Tab.Container defaultActiveKey="chats">
+        <Tab.Content>
+          <Tab.Pane eventKey="chats">
+            <Row className="w-100 h-50 m-0">
+              <Col
+                data-bs-theme="dark"
+                className="m-0 p-0  text-center custom-border"
+                style={{ maxHeight: "80vh", maxWidth: "50vw" }}
+              >
+                <Row className="m-0 pt-2">
+                  <h5>Direct messages</h5>
+                  <div className="border"></div>
+                  {friends.length == 0 ? <i>No friends?</i> : null}
+                  <Col className="overflow-auto">
+                    {friendList}
+                    {/*TODO create seperate variable for dms*/}
+                    <Pagination className="justify-content-center p-0 m-0">
+                      <Pagination.Prev />
+                      {pages[active - 1]}
+                      <Pagination.Next />
+                    </Pagination>{" "}
+                    {/* TODO: Connect pagination to backend*/}
+                  </Col>
+                </Row>
+                <div className="border"></div>
+                <Row className="m-0 p-0 pt-2">
+                  <h5>Groups</h5>
+                  <div className="border"></div>
+                  {groups.length == 0 ? <i>No groups?</i> : null}
+                  <Col style={{ maxHeight: "30vh" }} className="overflow-auto">
+                    {groupList}
+                    <Row>
+                      <Pagination className="justify-content-center p-0 m-0">
+                        <Pagination.Prev />
+                        {pages[active - 1]}
+                        <Pagination.Next />
+                      </Pagination>{" "}
+                      {/* TODO: Connect pagination to backend*/}
+                    </Row>
+                  </Col>
+                  <Button
+                    variant="outline-warning"
+                    onMouseEnter={() =>
+                      (document.getElementById("addGroup").className =
+                        "filter-black")
+                    }
+                    onMouseLeave={() =>
+                      (document.getElementById("addGroup").className =
+                        "filter-gold")
+                    }
+                  >
+                    <div onClick={() => ShowCreate()}>
+                      <b>+</b>{" "}
+                      <Image
+                        id="addGroup"
+                        className="filter-gold"
+                        src="/src/assets/icons/group.png"
+                      />
+                    </div>
+                  </Button>
+                </Row>
+              </Col>
+              <Col className="m-0 p-0" style={{ maxWidth: "50vw" }}>
+                {showData.showPopup ? (
+                  <FriendPopupActions
+                    users={users}
+                    owners={owners}
+                    selectedChat={props.selectedChat}
+                    name={props.displayName}
+                    type={props.selectedChatType}
+                    friend={props.selectedFriend}
+                  />
+                ) : null}
+                {showData.showChat ? (
+                  <ChatWindow
+                    close={() => DoNotShow()}
+                    type={props.selectedChatType}
+                    chatData={comments}
+                    selectedChat={props.selectedChat}
+                  />
+                ) : null}
+                {showData.showCreateChat ? (
+                  <CreateChatPopup
+                    close={() => DoNotShow()}
+                    friends={friends}
+                  />
+                ) : null}
+              </Col>
+            </Row>
+          </Tab.Pane>
+          <Tab.Pane eventKey="friends">
+            <Row className="w-100 h-50 m-0">
+              <Col
+                data-bs-theme="dark"
+                className="m-0 p-0  text-center custom-border"
+                style={{ maxHeight: "80vh", maxWidth: "50vw" }}
+              >
+                <Row className="m-0 pt-2">
+                  <h5>Friends</h5>
+                  <div className="border"></div>
+                  {friends.length == 0 ? <i>No friends?</i> : null}
+                  <Col className="overflow-auto">
+                    {friendList}
+                    {/* TODO create seperate variable for all friends and dms */}
+                    <Pagination className="justify-content-center p-0 m-0">
+                      <Pagination.Prev />
+                      {pages[active - 1]}
+                      <Pagination.Next />
+                    </Pagination>{" "}
+                    {/* TODO: Connect pagination to backend*/}
+                  </Col>
+                </Row>
+                <div className="border"></div>
+              </Col>
+              <Col className="m-0 p-0" style={{ maxHeight: "80vh", maxWidth: "50vw"}}>
+                  {showData.showPopup ? (
+                    <FriendPopupActions
+                      users={users}
+                      owners={owners}
+                      selectedChat={props.selectedChat}
+                      name={props.displayName}
+                      type={props.selectedChatType}
+                      friend={props.selectedFriend}
+                    />
+                  ) : null}
+                  {showData.showChat ? (
+                    <ChatWindow
+                      close={() => DoNotShow()}
+                      type={props.selectedChatType}
+                      chatData={comments}
+                      selectedChat={props.selectedChat}
+                    />
+                  ) : null}
+                </Col>
+            </Row>
+          </Tab.Pane>
+        </Tab.Content>
+        <Nav
+          className="fixed-bottom justify-content-center"
+          style={{ backgroundColor: "#343a40" }}
         >
-          <Row className="m-0 pt-2">
-            <h5>Friends</h5>
-            <div className="border"></div>
-            {friends.length == 0 ? <i>No friends?</i> : null}
-            <Col className="overflow-auto">
-              {friendList}
-              <Pagination className="justify-content-center p-0 m-0">
-                <Pagination.Prev />
-                {pages[active - 1]}
-                <Pagination.Next />
-              </Pagination>{" "}
-              {/* TODO: Connect pagination to backend*/}
-            </Col>
-          </Row>
-          <div className="border"></div>
-          <Row className="m-0 p-0 pt-2">
-            <h5>Groups</h5>
-            <div className="border"></div>
-            {groups.length == 0 ? <i>No groups?</i> : null}
-            <Col style={{ maxHeight: "30vh" }} className="overflow-auto">
-              {groupList}
-              <Row>
-              <Pagination className="justify-content-center p-0 m-0">
-                <Pagination.Prev />
-                {pages[active - 1]}
-                <Pagination.Next />
-              </Pagination>{" "}
-              {/* TODO: Connect pagination to backend*/}
-              </Row>
-            </Col>
-            <Button
-              variant="outline-warning"
-              onMouseEnter={() =>
-                (document.getElementById("addGroup").className = "filter-black")
-              }
-              onMouseLeave={() =>
-                (document.getElementById("addGroup").className = "filter-gold")
-              }
-            >
-              <div onClick={() => ShowCreate()}>
-                <b>+</b>{" "}
-                <Image
-                  id="addGroup"
-                  className="filter-gold"
-                  src="/src/assets/icons/group.png"
-                />
-              </div>
-            </Button>
-          </Row>
-        </Col>
-        <Col className="m-0 p-0" style={{ maxWidth: "50vw" }}>
-          {showData.showPopup ? (
-            <FriendPopupActions
-              users={users}
-              owners={owners}
-              selectedChat={props.selectedChat}
-              name={props.displayName}
-              type={props.selectedChatType}
-              friend={props.selectedFriend}
-            />
-          ) : null}
-          {showData.showChat ? (
-            <ChatWindow
-              close={() => DoNotShow()}
-              type={props.selectedChatType}
-              chatData={comments}
-              selectedChat={props.selectedChat}
-            />
-          ) : null}
-          {showData.showCreateChat ? (
-            <CreateChatPopup close={() => DoNotShow()} friends={friends} />
-          ) : null}
-        </Col>
-      </Row>
+          <Col>
+            <Row className="justify-content-center">
+              <Col
+                className="text-center p-0"
+                style={{ maxWidth: "fit-content" }}
+              >
+                <Nav.Item>
+                  <Nav.Link className="custom-tab secondary" eventKey="chats">
+                    Chats
+                  </Nav.Link>
+                </Nav.Item>
+              </Col>
+              <Col
+                className="text-center p-0"
+                style={{ maxWidth: "fit-content" }}
+              >
+                <Nav.Item>
+                  <Nav.Link className="custom-tab secondary" eventKey="friends">
+                    Friend List
+                  </Nav.Link>
+                </Nav.Item>
+              </Col>
+            </Row>
+          </Col>
+        </Nav>
+      </Tab.Container>
     </>
   );
 }
