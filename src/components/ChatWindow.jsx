@@ -174,7 +174,7 @@ function ChatWindow(currentChatData) {
       <Navbar className="justify-content-start pt-0" sticky="top" style={{zIndex: '1000'}}>
        
           <Col>
-          {!showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: "rgba(220,53,69, 0.5)"}}><p className='w-auto' autoFocus>ERROR:{error.message}</p></Row> : null}
+          {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: "rgba(220,53,69, 0.5)"}}><p className='w-auto' autoFocus>ERROR:{error.message}</p></Row> : null}
             <Row className='w-100 mx-auto'>
               <Col className='text-start p-0'>
                 <DropdownButton title={<img style={{width: '32px', height: '32px'}} src='/src/assets/icons/add_user_64.png' className='filter-gold'></img>} className="dropdown-button  m-0">
