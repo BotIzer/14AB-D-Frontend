@@ -106,7 +106,7 @@ export default function UserPage() {
               withCredentials: true,
             }
           );
-          if (friends.data.some((friend) => friend.username === user)) {
+          if (friends.data.returnFriends.some((friend) => friend.username === user)) {
             setIsFriend(true);
             return;
           }

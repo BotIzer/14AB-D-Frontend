@@ -28,8 +28,7 @@ function ChatWindow(currentChatData) {
         },
         withCredentials: true,
       })
-      console.log(response.data);
-      setFriends(response.data)
+      setFriends(response.data.returnFriends)
     }
     GetFriends()
     setCurrentChat(currentChatData.selectedChat)

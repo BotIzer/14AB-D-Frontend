@@ -63,14 +63,13 @@ function Friends() {
           withCredentials: true,
         });
         if (response.data.returnArray) {
-          if (response.data.returnArray[0]) {
+          if (response.data.returnArray) {
+            console.log(response.data.returnArray)
             setFriends(
-              [...Object.values(response.data)[0]].filter((x) => x.is_private)
+              [...Object.values(response.data.returnArray)].filter((x) => x.is_private)
             );
-          }
-          if (response.data.returnArray[1]) {
             setGroups(
-              [...Object.values(response.data)[0]].filter((x) => !x.is_private)
+              [...Object.values(response.data.returnArray)].filter((x) => !x.is_private)
             );
           }
         }
