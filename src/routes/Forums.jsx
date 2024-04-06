@@ -90,7 +90,7 @@ function Forums() {
             {listForums}
           </Col>
         </Row>
-          <Pagination className="justify-content-center">
+          <Pagination className="justify-content-center custom-pagination">
             <Pagination.First onClick={()=>handlePaginationClick(1)}/>
             <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
             {pages}

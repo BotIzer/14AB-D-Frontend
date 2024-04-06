@@ -140,7 +140,7 @@ function Forum() {
         <Col xs={12} md={{ span: 6, offset: 3 }}>
           {postList}
         </Col>
-        <Pagination className="justify-content-center">
+        <Pagination className="justify-content-center custom-pagination">
             <Pagination.First/>
             <Pagination.Prev/>
             {pages[active - 2]}

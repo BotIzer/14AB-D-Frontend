@@ -145,7 +145,7 @@ export default function Notifications() {
               >
                 <Col>
                   <Row>
-                    <Pagination className="justify-content-center p-0 m-0">
+                    <Pagination className="justify-content-center p-0 m-0 custom-pagination">
                       <Pagination.First />
                       <Pagination.Prev />
                       {pages[active - 2]}

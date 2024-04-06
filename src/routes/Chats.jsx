@@ -278,7 +278,7 @@ function Friends() {
                   <Col className="overflow-auto">
                     {friendList}
                     {/*TODO create seperate variable for dms*/}
-                    <Pagination className="justify-content-center p-0 m-0">
+                    <Pagination className="justify-content-center p-0 m-0 custom-pagination">
                       <Pagination.Prev />
                       {pages[active - 1]}
                       <Pagination.Next />
@@ -294,7 +294,7 @@ function Friends() {
                   <Col style={{ maxHeight: "30vh" }} className="overflow-auto">
                     {groupList}
                     <Row>
-                      <Pagination className="justify-content-center p-0 m-0">
+                      <Pagination className="justify-content-center p-0 m-0 custom-pagination">
                         <Pagination.Prev />
                         {pages[active - 1]}
                         <Pagination.Next />
@@ -366,7 +366,7 @@ function Friends() {
                   <Col className="overflow-auto">
                     {friendList}
                     {/* TODO create seperate variable for all friends and dms */}
-                    <Pagination className="justify-content-center p-0 m-0">
+                    <Pagination className="justify-content-center p-0 m-0 custom-pagination">
                       <Pagination.Prev />
                       {pages[active - 1]}
                       <Pagination.Next />
