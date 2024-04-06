@@ -11,7 +11,7 @@ import ErrorPage from "./error-page.jsx";
 import Login from "./routes/Login.jsx";
 import Register from "./routes/Register.jsx";
 import CreatePost from "./routes/CreatePost.jsx";
-import Friends from "./routes/Friends.jsx";
+import Friends from "./routes/Chats.jsx";
 import UserPage from "./routes/UserPage.jsx";
 import Forums from "./routes/Forums.jsx";
 import Forum from "./routes/Forum.jsx";
