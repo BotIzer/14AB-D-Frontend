@@ -1,11 +1,28 @@
 import { Button } from "react-bootstrap";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function FriendPopupActions(props) {
-  const isOwner = true; //TODO check if current user is the owner or not
+  const [isOwner, setIsOwner] = useState(false)
   const navigate = useNavigate();
+  useEffect(()=>{
+    const GetSelfId = async ()=>{
+      const userId = await axios.get(`/username/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+    {
+      headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    withCredentials: true})
+    if(props.owners[props.selectedChat] === userId.data._id){
+      setIsOwner(true)
+    }
+    }
+  },[])
+  useEffect(()=>{
+    console.log(isOwner)
+  },[isOwner])
   const RemoveFriend = async () =>{
     await axios.delete(
       `/friend/${props.friend}`,
@@ -20,13 +37,13 @@ function FriendPopupActions(props) {
         withCredentials: true,
       }
     )
-    dispatchEvent(new Event('removeFriend'))
   }
   const GoToProfile = async () => {
     navigate(`/user/${props.friend}`)
   }
   const ListMembers = async () =>{
-
+    //TODO: finish this
+    console.log(props.users[props.selectedChat])
   }
   const LeaveChat = async () =>{
     await axios.post(
@@ -87,14 +104,14 @@ function FriendPopupActions(props) {
     </Button>
     <Button
       className="border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button"
-      key="RemoveFriend"
+      key="LeaveChat"
       onClick={()=> LeaveChat()}
     >
       Leave Chat
     </Button>
     {isOwner? <Button
       className="border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button"
-      key="RemoveFriend"
+      key="DeleteChat"
       onClick={()=> DeleteChat()}
     >
       Delete Chat

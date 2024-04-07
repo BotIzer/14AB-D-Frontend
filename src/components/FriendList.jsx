@@ -25,11 +25,10 @@ export default function FriendList() {
           withCredentials: true,
         }
       )
-       response.data.length !== 0 ? setFriends(response.data) : setFriends(["No friends? :("])
+       response.data.length !== 0 ? setFriends(response.data.returnFriends) : setFriends(["No friends? :("])
     }
     GetFriends()
   },[])
-
   const listItems = friends.map((friend) => (
     <Link
       className="list-group-item secondary"

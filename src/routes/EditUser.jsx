@@ -1,7 +1,4 @@
-import { Button, FormGroup, Row, Image } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
+import { Button, FormGroup, Row, Col, Image, Form, Tab, Tabs, DropdownButton, DropdownItem } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,13 +7,32 @@ import { useEffect, useState } from "react";
 function EditUser() {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const [tagList, setTagList] = useState([]);
   const [previewData, setPreviewData] = useState({
     username: "",
     profile_image: "",
     description: "",
   });
+  const PWD_REGEX =
+  /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
   const [displayError, setDisplayError] = useState(false)
 
+  const [oldPassword, setOldPassword] = useState("")
+
+  const[password, setPassword] = useState("")
+  const [validPassword, setValidPassword] = useState(false)
+
+  const [matchPwd, setMatchPwd] = useState("")
+  const [validMatch, setValidMatch] = useState(true)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  useEffect(() => {
+    const result = PWD_REGEX.test(password)
+    setValidPassword(result)
+    const match = password === matchPwd
+    setValidMatch(match)
+  }, [password, matchPwd])
   useEffect(()=>{
     const GetPreviewData = async () => {
       const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
@@ -51,7 +67,8 @@ function EditUser() {
             username: username,
             profile_image: profilePicture,
             description: description,
-            email: email
+            hobbies: tagList,
+            email: email,
           },
           {
             headers: {
@@ -69,6 +86,7 @@ function EditUser() {
             username: username,
             profile_image: profilePicture,
             description: description,
+            hobbies: tagList
           },
           {
             headers: {
@@ -123,21 +141,58 @@ function EditUser() {
       })
     }
   }
+  const ChangePassword = async () => {
+    if(oldPassword.trim() == "" || password.trim() == "" || matchPwd.trim() == ""){
+      setError("Complete all fields before sending data!")
+      return
+    }
+    try {
+      const response = await axios.post('/user/changePassword',
+      {
+        old_passwd: document.getElementById('currentPass').value,
+        new_passwd: document.getElementById('newPass').value,
+        new_passwd2: document.getElementById('confirmPass').value
+      },
+      {
+        headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+    })
+    setSuccess("Success! " + response.data.message)
+    } catch (error) {
+      setError(error.response.data.message)
+    }
+   
+  }
 
 
+  const AddTag = async () => {
+    if(document.getElementById('tagUpload').value.trim() !== ''){
+      await setTagList(prevItems=>[...prevItems,document.getElementById("tagUpload").value]);
+      document.getElementById('tagUpload').value = ""
+    }
+  }
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      AddTag()
+    }
+  };
   return (
     <>
       <Navigation></Navigation>
       <Tabs
         defaultActiveKey="editUser"
-        className="d-flex mx-auto text-nowrap mb-4"
+        className="d-flex mx-auto text-nowrap mb-4 justify-content-center"
         style={{ width: "40vw", borderBottom: "none" }}
         justify
         onSelect={HandleSelect}
       >
-        <Tab eventKey="editUser" title="Edit" className="tab-size p-2 custom-border">
+        <Tab eventKey="editUser" title="Edit" className="tab-size p-2 custom-border overflow-auto">
 
-        <FormGroup
+          <FormGroup
             className="p-2 w-100 h-100 text-center"
             data-bs-theme="dark"
           >
@@ -174,6 +229,40 @@ function EditUser() {
               id="email"
             />
           </FormGroup>
+
+
+        
+          <FormGroup data-bs-theme="dark" className="w-100">
+            <div className="d-flex justify-content-around m-2 secondary">
+              {/* TODO: fill it with tags dynamically */}
+                <DropdownButton
+                  data-bs-theme="dark"
+                  drop="down-centered"
+                  title="Tags:"
+                  className="dropdown-button w-25"
+                >
+                  {tagList.map((item,index) => (
+                    <DropdownItem key={index} className="text-center" id={item}>
+                      <Row className="justify-content-around"><Col className="my-auto">{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = "text-center dropdown-item bg-danger"}} onMouseLeave={() => {document.getElementById(item).className = "text-center dropdown-item"}} style={{border: 'none'}} variant="outline-danger" className="p-0"><img className="filter-red hover-filter-black border border-2 border-danger rounded p-1" src="/src/assets/icons/trash.png" alt="trash" /></Button></Col></Row>
+                    </DropdownItem>
+                  ))}
+                </DropdownButton>
+                <Form.Control
+                  className="w-50 mx-3"
+                  placeholder="add tags here"
+                  id="tagUpload"
+                  onKeyDown={(event)=>handleKeyDown(event)}
+                ></Form.Control>
+                <Button
+                  variant="outline-warning"
+                  className="custom-button w-25"
+                  onClick={() => AddTag()}
+                >
+                  Add
+                </Button>
+              </div>
+          </FormGroup>
+
 
           <FormGroup
             className="p-2 w-100 h-100 text-center"
@@ -221,6 +310,7 @@ function EditUser() {
             </Button>
           </div>
         </Tab>
+
         <Tab eventKey="editPass" title="Change Password" className="custom-border tab-size p-2">
           <FormGroup
             className="p-2 w-100 h-100 text-center"
@@ -234,6 +324,7 @@ function EditUser() {
               placeholder="current password"
               className="mb-3 title text-center"
               id="currentPass"
+              onChange={(e)=>setOldPassword(e.target.value)}
             />
           </FormGroup>
           <FormGroup
@@ -247,7 +338,23 @@ function EditUser() {
               placeholder="enter new password"
               className="mb-3 title text-center"
               id="newPass"
+              onChange={(e) => setPassword(e.target.value)}
             />
+            <p className={password == oldPassword && password && oldPassword ? 'invalid' : 'offcanvas'}>New password cannot be the same as the old password!</p>
+            <p
+                  id="pwdnote"
+                  className={password && !validPassword ? 'invalid' : 'offcanvas'}
+                >
+                  8 to 24 characters. <br />
+                  Must include uppercase and lowercase letters, a number, and
+                  a special character. <br />
+                  Allowed characters:{' '}
+                  <span aria-label="exclamation mark">!</span>
+                  <span aria-label="at symbol">@</span>{' '}
+                  <span aria-label="hashtag">#</span>
+                  <span aria-label="dollar sign">$</span>{' '}
+                  <span aria-label="percent">%</span>
+                </p>
           </FormGroup>
           <FormGroup
             className="p-2 w-100 h-100 text-center"
@@ -260,8 +367,17 @@ function EditUser() {
               placeholder="re-enter new password"
               className="mb-3 title text-center"
               id="confirmPass"
+              onChange={(e) => setMatchPwd(e.target.value)}
             />
             {/* TODO checks for password validity and error messages*/}
+            <p
+                    id="confirmnote"
+                    className={!validMatch ? 'invalid' : 'offcanvas'}
+                  >
+                    Must match the first password input field.
+                  </p>
+            {error !== "" && <b style={{fontSize: '40px'}} className="invalid">{error}</b>}
+            {success != "" && <b style={{fontSize: '40px'}} className="valid">{success}</b>}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"

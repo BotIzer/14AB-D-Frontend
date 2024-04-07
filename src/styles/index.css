@@ -162,8 +162,8 @@ a:hover {
 /*Dropdown menu styling*/
 
 .dropdown-button button {
-  background-color: #212529 !important;
-  border: gold solid 1px !important;
+  background-color: transparent;
+  border: gold solid 1px;
   color: gold !important;
 }
 .btn.show {
@@ -172,14 +172,14 @@ a:hover {
 }
 
 .dropdown-button button:hover {
-  background-color: #212529 !important;
-  border: #e8cc80 solid 1px !important;
+  background-color: transparent !important;
+  border: #e8cc80 solid 1px ;
   color: #e8cc80 !important;
 }
 
 .dropdown-button button:active,
 .dropdown-button button:focus {
-  background-color: #212529 !important;
+  background-color: transparent !important;
   border: gold solid 1px !important;
   color: gold !important;
 }
@@ -310,6 +310,18 @@ a:hover {
   filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
     brightness(96%) contrast(89%);
 }
+.filter-red{
+    filter: invert(25%) sepia(60%) saturate(2706%) hue-rotate(334deg)
+    brightness(96%) contrast(89%);
+}
+
+.filter-green {
+  filter: brightness(0) saturate(100%) invert(73%) sepia(8%) saturate(5235%) hue-rotate(77deg) brightness(74%) contrast(78%);
+}
+
+.hover-filter-black:hover{
+  filter: brightness(0) saturate(100%);
+}
 
 .image-checkbox {
   background-color: transparent !important;
@@ -358,4 +370,18 @@ a:hover {
 .custom-tab:hover,
 .custom-tab:focus {
   color: gold;
+}
+
+/*Pagination css*/
+.custom-pagination .page-item a{
+  color: #e8cc80;
+}
+.custom-pagination .active .page-link{
+  background-color: gold;
+  color: #212529;
+  font-weight: bold;
+  border-color: transparent;
+}
+.custom-pagination .page-link:focus {
+  box-shadow: 0 0 0 0.25rem rgba(	232,	204,	128, 0.25);
 }

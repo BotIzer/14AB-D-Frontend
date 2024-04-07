@@ -1,5 +1,5 @@
 import Navigation from "../components/Navigation";
-import { Col, Row, Container, Table, Button, Image } from "react-bootstrap";
+import { Col, Row, Container, Table, Button, Image, Pagination } from "react-bootstrap";
 import PostCard from "../components/PostCard";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
@@ -76,14 +76,26 @@ function Forum() {
         </th>
   ))
   const postList = data.threads && data.threads.map((thread) => (
-    <Row key={thread._id.thread_id} className="w-100">
+    <Row key={thread._id.thread_id} className="my-3 p-3">
       <PostCard post={thread}></PostCard>
     </Row>
   ));
+
+  let pages = []
+  let pagesCount = 20
+  let active = 20 
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(
+    <Pagination.Item key={i} active={i === active}>
+      {i}
+    </Pagination.Item>
+    ) 
+  }
+
   return (
     <>
       <Navigation></Navigation>
-      <Container fluid>
+      <Container data-bs-theme="dark" fluid>
         <Button
           className="clear-button fixed-bottom-right mb-4"
           style={{ backgroundColor: "#343a40" }}
@@ -99,17 +111,18 @@ function Forum() {
           className="p-2"
           style={{
             backgroundImage: data.forumData[0] && `url(${data.forumData[0].banner})`,
-            backgroundSize: "cover",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
             height: "20vh",
           }}
         >
           <h1 className="text-outline text-center m-auto">
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
-          <Button className="position-absolute end-0 rounded-pill custom-button" 
-                style={{width: '64px', height: '64px'}} 
-                onClick={()=>navigate(`/editforum/${data.forumData[0].forum_name}/${data.forumData[0]._id.forum_id}`)}>
-                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold" style={{margin: '-10px'}}/>
+          <Button className="position-absolute end-0 rounded-pill clear-button" 
+                style={{width: 'auto', height: 'auto'}} 
+                onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
+                  <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
           </Button>
         </Row>
         <Row className="no-padding-table">
@@ -127,6 +140,15 @@ function Forum() {
         <Col xs={12} md={{ span: 6, offset: 3 }}>
           {postList}
         </Col>
+        <Pagination className="justify-content-center custom-pagination">
+            <Pagination.First/>
+            <Pagination.Prev/>
+            {pages[active - 2]}
+            {pages[active - 1]}
+            {pages[active]}
+            <Pagination.Next/>
+            <Pagination.Last/>
+          </Pagination> {/* TODO: Connect pagination to backend*/}
       </Container>
     </>
   );

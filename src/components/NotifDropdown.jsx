@@ -1,42 +1,62 @@
+import { useEffect, useRef, useState } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 
-function NotifDropdown() {
+function NotifDropdown(props) {
   const navigate = useNavigate();
-  const dummyNotifs = {
-    count: 3,
-    data: [
-      {
-        id: 1,
-        message: "frontend is kil",
-        image: "imgurLink",
-        source: "user",
-      },
-      {
-        id: 2,
-        message: "backend is kil",
-        image: "imgurLink",
-        source: "user",
-      },
-      {
-        id: 3,
-        message: "dorito",
-        image: "imgurLink",
-        source: "forum",
-      },
-    ],
-  };
+  const [notifications, setNotifications] = useState([])
+  const [singleNotif, setSingleNotif] = useState("")
+  const [dropdownWidth, setDropdownWidth] = useState(250);
 
-  const notifs = dummyNotifs.data.map((notif) => (
+  const dropdownRef = useRef(null);
+
+  useEffect(()=>{
+    const GetNotifications = async() => {
+      const response = await axios.get('/notification',
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      withCredentials: true,
+    })
+    setNotifications(response.data)
+    }
+    GetNotifications()
+  },[])
+  useEffect(()=>{
+    if(notifications.notifications && props.removeId !== ''){
+      console.log("success")
+      const updatedNotifications = notifications.notifications.filter((notification) => notification.id !== props.removeId);
+  setNotifications(prevState => ({
+  ...prevState,
+  notifications: updatedNotifications
+}));
+    }
+  },[props])
+  useEffect(()=>{
+    const updateDropdownWidth = () => {
+      if (dropdownRef.current) {
+        const width = dropdownRef.current.offsetWidth;
+        setDropdownWidth((prevWidth) => (prevWidth === 0 ? 250 : width));
+      }
+    };
+    updateDropdownWidth()
+  window.addEventListener("resize", updateDropdownWidth);
+  return () => {
+    window.removeEventListener("resize", updateDropdownWidth);
+  };
+  },[dropdownRef])
+  const notifs = notifications.notifications && notifications.notifications.map((notif) => (
     <Dropdown.Item
       key={notif.id}
       className="list-group-item secondary text-center"
-      onClick={() => navigate(`/${notif.source}/${notif.id}`)}
+      onClick={() => navigate(`/notifications/${notif.id}`)}
     >
-      {notif.message}
+      {`${notif.text.substring(0,Math.floor(dropdownWidth/16))}...`}
     </Dropdown.Item>
   ));
-
   return (
     <>
       <DropdownButton
@@ -44,31 +64,34 @@ function NotifDropdown() {
         data-bs-theme="dark"
         title="Notifications"
         className="dropdown-button dropdown-button-size my-2 mx-2" /*onSelect={(eventKey) => console.log(eventKey)} use eventkey to set function*/
+        ref={dropdownRef}
       >
         {notifs}
         <Dropdown.Divider />
+        <Dropdown.Menu>
         <Dropdown.Item
           eventKey="4"
-          /*<--TODO: set this to dynamic*/ onClick={() =>
-            navigate("/notifications")
+          onClick={() =>
+            navigate("/notifications?page=1")
           }
           onMouseEnter={() =>
-            (document.getElementById("notification").src =
-              "/src/assets/icons/envelope_16.png")
+            (document.getElementById("notification").className =
+              "my-auto filter-black")
           }
           onMouseLeave={() =>
-            (document.getElementById("notification").src =
-              "/src/assets/icons/envelope_gold_16.png")
+            (document.getElementById("notification").className =
+              "my-auto filter-gold")
           }
         >
-          See more ({dummyNotifs.count}){" "}
+          See more ({(notifications.notifications && notifications.notifications.length) || 0}){" "}
           <img
             id="notification"
-            src="/src/assets/icons/envelope_gold_16.png"
+            src="/src/assets/icons/envelope_16.png"
             alt="notifications"
-            className="my-auto"
+            className="my-auto filter-gold"
           />
         </Dropdown.Item>
+        </Dropdown.Menu>
       </DropdownButton>
     </>
   );

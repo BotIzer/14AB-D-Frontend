@@ -77,6 +77,7 @@ function EditForum() {
     const banner = document.getElementById('banner').value.trim();
     const description = document.getElementById("description").value.trim();
     const forumId = location.pathname.split("/")[3]
+    const tags = tagList
     console.log(forumId)
     if (title !== "" && banner !== "") {
       // TODO: Display error if title/banner is empty!
@@ -86,6 +87,7 @@ function EditForum() {
           forum_name: title,
           banner: banner,
           description: description,
+          tags: tags
         },
         {
           headers: {
@@ -95,7 +97,7 @@ function EditForum() {
           withCredentials: true,
         }
       );
-      navigate(`/forums/${title}/${forumId}`)
+      navigate(`/forums/${encodeURIComponent(title)}/${forumId}`)
     }
     else{
       setDisplayError(true)
@@ -114,7 +116,7 @@ function EditForum() {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
-            forumname: location.pathname.split('/')[2] 
+            forumname: decodeURIComponent(location.pathname.split('/')[2])
           },
           withCredentials: true,
         }
@@ -178,29 +180,29 @@ const postList = <p>postList</p>
               id="title"
             />
           </FormGroup>
-          <FormGroup data-bs-theme="dark">
+          <FormGroup data-bs-theme="dark" className="w-100">
             <div className="d-flex justify-content-around m-2 secondary">
               {/* TODO: fill it with tags dynamically */}
                 <DropdownButton
                   data-bs-theme="dark"
                   drop="down-centered"
                   title="Tags:"
-                  className="dropdown-button"
+                  className="dropdown-button w-25"
                 >
                   {tagList.map((item,index) => (
-                    <DropdownItem key={index}>
-                      {item}
+                    <DropdownItem key={index} className="text-center" id={item}>
+                      <Row className="justify-content-around"><Col className="my-auto">{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = "text-center dropdown-item bg-danger"}} onMouseLeave={() => {document.getElementById(item).className = "text-center dropdown-item"}} style={{border: 'none'}} variant="outline-danger" className="p-0"><img className="filter-red hover-filter-black" src="/src/assets/icons/trash.png" alt="trash" /></Button></Col></Row>
                     </DropdownItem>
                   ))}
                 </DropdownButton>
                 <Form.Control
-                  className="w-auto"
+                  className="w-50 mx-3"
                   placeholder="add tags here"
                   id="tagUpload"
                 ></Form.Control>
                 <Button
                   variant="outline-warning"
-                  className="custom-button"
+                  className="custom-button w-25"
                   onClick={() => AddTag()}
                 >
                   Add
