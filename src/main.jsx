@@ -44,7 +44,7 @@ useEffect(()=>{
   }
 },[isLoggedIn])
 useEffect(()=>{
-if(process.env.NODE_ENV !== "development"){
+if(process.env.NODE_ENV === "development"){
   const socket = io('http://localhost:3000', {
   withCredentials: true,
   query:{
@@ -67,13 +67,29 @@ console.log("It is in development mode")
 }
 else {
   const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
-  const channel = ably.channels.get("forumUpdates");
-  channel.subscribe("forumUpdate", (message) => {
-    setForumData({ updateMessage: message.data.updateMessage, hasSent: false });
-  });
-  console.log("It is in production mode");
+  const channel = ably.channels.get(`${(localStorage.getItem("userInfo") !== undefined && 
+  localStorage.getItem("userInfo") !== null) ? JSON.parse(localStorage.getItem('userInfo')).username: ""}forumUpdate`);
+  // ably.connection.on('connected',()=>{
+  //   console.log('Connected to Ably')
+  // })
+  console.log(channel)
+  const connect = ably.channels.get('connect');
+  connect.publish('connect', { username: localStorage.getItem("userInfo") === undefined || 
+  localStorage.getItem("userInfo") === null ? null : localStorage.getItem("userInfo") });
+  if(localStorage.getItem('userInfo') !== undefined && localStorage.getItem('userInfo') !== null){
+    console.log("Entered change channel")
+    console.log(`${JSON.parse(localStorage.getItem('userInfo')).username}forumUpdate`)
+    channel.subscribe(`${JSON.parse(localStorage.getItem('userInfo')).username}forumUpdate`, (changes) => {
+      console.log("Uh oh something changed")
+      console.log(changes.data.updateMessage)
+      setForumData({ updateMessage: changes.data.updateMessage, hasSent: false });
+    });
+  }
   return () => {
     channel.unsubscribe();
+    connect.publish('disconnect', { username: localStorage.getItem("userInfo") === undefined || 
+    localStorage.getItem("userInfo") === null ? null : localStorage.getItem("userInfo") });
+    ably.close()
   };
 }
 }, []);
