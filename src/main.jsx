@@ -29,6 +29,7 @@ import Comments from "./routes/Comments.jsx";
 import Blacklist from "./routes/Blacklist.jsx";
 import FrontPage from "./routes/FrontPage.jsx";
 import Navigation from "./components/Navigation.jsx";
+import Ably from 'ably';
 
 export const NotificationContext = createContext();
 export default function App(){
@@ -64,14 +65,18 @@ console.log("It is in development mode")
   socket.disconnect();
 };
 }
-else{
+else {
   const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
+  const channel = ably.channels.get("forumUpdates");
+  channel.subscribe("forumUpdate", (message) => {
+    setForumData({ updateMessage: message.data.updateMessage, hasSent: false });
+  });
   console.log("It is in production mode");
-return () =>{
-  channel.unsubscribe();
+  return () => {
+    channel.unsubscribe();
+  };
 }
-}
-},[])
+}, []);
 const router = createBrowserRouter([
   {
     path: "/",

@@ -43,7 +43,8 @@ function EditUser() {
             username: username,
             profile_image: profilePicture,
             description: description,
-            email: email
+            hobbies: tagList,
+            email: email,
           },
           {
             headers: {
@@ -61,6 +62,7 @@ function EditUser() {
             username: username,
             profile_image: profilePicture,
             description: description,
+            hobbies: tagList
           },
           {
             headers: {
@@ -148,34 +150,12 @@ function EditUser() {
       document.getElementById('tagUpload').value = ''
     }
   }
-
-  useEffect(() => {
-    const result = PWD_REGEX.test(password)
-    setValidPassword(result)
-    const match = password === matchPwd
-    setValidMatch(match)
-  }, [password, matchPwd])
-  useEffect(()=>{
-    const GetPreviewData = async () => {
-      const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-       setPreviewData({
-        username: response.data.user.username,
-        profile_image: response.data.user.profile_image,
-        description: response.data.user.description,
-      })
-      document.getElementById('username').value = response.data.user.username
-      document.getElementById('fileUpload').value = response.data.user.profile_image
-      document.getElementById('description').value = response.data.user.description
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      AddTag()
     }
-    GetPreviewData()
-  },[location.pathname])
-
+  };
   return (
     <>
       <Navigation></Navigation>
@@ -244,9 +224,10 @@ function EditUser() {
                   ))}
                 </DropdownButton>
                 <Form.Control
-                  className='w-50 mx-3'
-                  placeholder='add tags here'
-                  id='tagUpload'
+                  className="w-50 mx-3"
+                  placeholder="add tags here"
+                  id="tagUpload"
+                  onKeyDown={(event)=>handleKeyDown(event)}
                 ></Form.Control>
                 <Button
                   variant='outline-warning'
