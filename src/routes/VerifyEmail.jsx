@@ -1,18 +1,17 @@
-import Navigation from '../components/Navigation'
-import {Container, Row, Button} from 'react-bootstrap'
-import { useEffect, useState } from 'react'
-import axios from '../api/axios'
-import { useLocation, useNavigate } from 'react-router-dom'
+import Navigation from "../components/Navigation";
+import {Container, Row, Button} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import axios from "../api/axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function VerifyEmail() {
-    const location = useLocation()
-    const navigate = useNavigate() 
-
+export default function VerifyEmail() {
     const [response, setResponse] = useState(null)
     const [isVerified, setIsVerified] = useState(true)
-
+    const location = useLocation()
+    const navigate = useNavigate() 
     useEffect(() => {
         const path = `${import.meta.env.VITE_EMAIL_VERIFICATION}/${location.pathname.split('/')[2]}`
+        console.log(path)
         const VerifyEmail = async () => {
            const response = await axios.get(path, {
                     headers: {
@@ -23,7 +22,7 @@ function VerifyEmail() {
                   })
                   setResponse(response.data)
         }
-        VerifyEmail()
+        VerifyEmail();
     },[])
   return (
     <>
@@ -36,6 +35,5 @@ function VerifyEmail() {
         </Row>}
       </Container>
     </>
-  )
+  );
 }
-export default VerifyEmail
