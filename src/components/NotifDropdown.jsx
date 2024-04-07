@@ -36,11 +36,8 @@ function NotifDropdown(props) {
     }
   },[props])
   useEffect(()=>{
-    console.log("racism")
-    console.log(dropdownRef.current)
     const updateDropdownWidth = () => {
       if (dropdownRef.current) {
-        console.log("WHAT THE FUCKING SHIT IS THIS BULLSHIT")
         const width = dropdownRef.current.offsetWidth;
         setDropdownWidth((prevWidth) => (prevWidth === 0 ? 250 : width));
       }
@@ -51,10 +48,6 @@ function NotifDropdown(props) {
     window.removeEventListener("resize", updateDropdownWidth);
   };
   },[dropdownRef])
-  useEffect(()=>{
-    console.log("fuck you")
-    console.log(dropdownWidth)
-  },[dropdownWidth])
   const notifs = notifications.notifications && notifications.notifications.map((notif) => (
     <Dropdown.Item
       key={notif.id}
