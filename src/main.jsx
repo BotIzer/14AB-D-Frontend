@@ -66,9 +66,7 @@ console.log("It is in development mode")
 };
 }
 else {
-  const ably = new Ably.Realtime({
-    key: process.env.VITE_APP_ABLY_KEY,
-  });
+  const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
   const channel = ably.channels.get("forumUpdates");
   channel.subscribe("forumUpdate", (message) => {
     setForumData({ updateMessage: message.data.updateMessage, hasSent: false });
