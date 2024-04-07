@@ -65,7 +65,7 @@ console.log("It is in development mode")
 };
 }
 else {
-  const ably = new Realtime({
+  const ably = new Ably.Realtime({
     key: process.env.VITE_APP_ABLY_KEY,
   });
   const channel = ably.channels.get("forumUpdates");
