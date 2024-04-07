@@ -1,14 +1,25 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import axios from "../api/axios";
-import { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Link } from 'react-router-dom'
+import axios from '../api/axios'
+import { useEffect, useState } from 'react'
 
-export default function FriendList() {
+function FriendList() {
 
   const [friends, setFriends] = useState([])
-  addEventListener("storage", () => {
+  addEventListener('storage', () => {
     setFriends([])
   })
+
+  const listItems = friends.map((friend) => (
+    <Link
+      className='list-group-item secondary'
+      to={`/user/${friend.username}`}
+      key={friend}
+    >
+      {friend.username}
+    </Link>
+  ))
+
   useEffect(() => {
     const GetFriends = async () => {
       // temporary fix to homepage
@@ -25,26 +36,20 @@ export default function FriendList() {
           withCredentials: true,
         }
       )
-       response.data.length !== 0 ? setFriends(response.data.returnFriends) : setFriends(["No friends? :("])
+       response.data.length !== 0 ? setFriends(response.data.returnFriends) : setFriends(['No friends? :('])
     }
     GetFriends()
   },[])
-  const listItems = friends.map((friend) => (
-    <Link
-      className="list-group-item secondary"
-      to={`/user/${friend.username}`}
-      key={friend}
-    >
-      {friend.username}
-    </Link>
-  ));
+  
   return (
     <div
-      data-bs-theme="dark"
-      className="list-group list-group-flush p-2 h-100 overflow-auto custom-border"
+      data-bs-theme='dark'
+      className='list-group list-group-flush p-2 h-100 overflow-auto custom-border'
     >
-      <p className="text-center">Online</p>
+      <p className='text-center'>Online</p>
       {listItems}
     </div>
-  );
+  )
 }
+
+export default FriendList
