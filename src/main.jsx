@@ -68,17 +68,12 @@ console.log("It is in development mode")
 else {
   const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
   const channel = ably.channels.get("forumUpdates");
-  const connection = ably.channels.get('connect');
-  connection.subscribe('connect',()=>{
-    console.log("Connected to Ably")
-  })
   channel.subscribe("forumUpdate", (message) => {
     setForumData({ updateMessage: message.data.updateMessage, hasSent: false });
   });
   console.log("It is in production mode");
   return () => {
     channel.unsubscribe();
-    connection.unsubscribe();
   };
 }
 }, []);
