@@ -1,13 +1,12 @@
-import CommentAccordion from '../components/CommentAccordion'
-import PostCard from '../components/PostCard'
-import {Container, Row, Col} from 'react-bootstrap'
+import CommentAccordion from "../components/CommentAccordion";
+import PostCard from "../components/PostCard";
+import {Container, Row, Col} from "react-bootstrap";
 
 function Comments(params) {
-  //TODO Replace dummyData
   const dummyCreator = {
     _id: 1,
-    name: 'Béla',
-  }
+    name: "Béla",
+  };
   const dummyComments = [
     {
       _id: {
@@ -15,7 +14,7 @@ function Comments(params) {
         creator_id: 1,
         message_id: 1,
       },
-      text: 'Nem dolgozol eleget',
+      text: "Nem dolgozol eleget",
       reply: {
         is_reply: false,
         parent_comment_id: null,
@@ -32,7 +31,7 @@ function Comments(params) {
         creator_id: 2,
         message_id: 2,
       },
-      text: 'Mé nem',
+      text: "Mé nem",
       reply: {
         is_reply: false,
         parent_comment_id: null,
@@ -50,34 +49,34 @@ function Comments(params) {
       creator_id: 1,
       thread_id: 1,
   },
-  name: 'title',
+  name: "title",
   likes: {
       count: 2,
-      users: ['MN', 'Béla'],
+      users: ["MN", "Béla"],
   },
   dislikes: {
       count: 1,
-      users: ['BotIzer'],
+      users: ["BotIzer"],
   },
-  editors: ['Béla'],
-  emoticons: [''],
+  editors: ["Béla"],
+  emoticons: [""],
   creation_date:  Date.now,
-  content: 'Béla munkaideje',
-  image_array: [''],
+  content: "Béla munkaideje",
+  image_array: [""],
 }
 
 const commentList = dummyComments.map((comment) => (
-  <Row key={comment._id.message_id} className='justify-content-center'>
+  <Row key={comment._id.message_id} className="justify-content-center">
     <CommentAccordion comment={comment} creator={dummyCreator}></CommentAccordion>
   </Row>
-))
-//TODO Get replace dummy Creator
+));
+//TODO creatort ki kell keresni vhogy
 
 return (
   <>
    <Container fluid>
-     <Col xs='auto'>
-       <Row className='justify-content-center m-2 mb-4'>
+     <Col xs="auto">
+       <Row className="justify-content-center m-2 mb-4">
          <PostCard post={dummyPost}></PostCard>
        </Row>
        {commentList}
@@ -88,4 +87,4 @@ return (
 )
 }
 
-export default Comments
+export default Comments;

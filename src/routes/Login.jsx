@@ -1,12 +1,15 @@
 import Navigation from '../components/Navigation'
-import { Container, Row, Col, Form } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 import { useEffect, useState, useRef } from 'react'
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate()
 
   const emailRef = useRef()
@@ -20,7 +23,18 @@ function Login() {
   const [errMsg, setErrMsg] = useState('')
   const [success, setSuccess] = useState(false)
 
-  
+  useEffect(() => {
+    emailRef.current.focus()
+  }, [])
+
+  useEffect(() => {
+    const result = EMAIL_REGEX.test(email)
+    setValidEmail(result)
+  }, [email])
+
+  useEffect(() => {
+    setErrMsg('')
+  }, [email, pwd])
 
   const HandleSubmit = async (e) => {
     e.preventDefault()
@@ -58,78 +72,65 @@ function Login() {
       errRef.current.focus()
     }
   }
-
-  useEffect(() => {
-    emailRef.current.focus()
-  }, [])
-
-  useEffect(() => {
-    const result = EMAIL_REGEX.test(email)
-    setValidEmail(result)
-  }, [email])
-
-  useEffect(() => {
-    setErrMsg('')
-  }, [email, pwd])
   return (
     <>
       <Navigation></Navigation>
       <Container>
         <Row
-          className='justify-content-center'
-          xs='auto'
+          className="justify-content-center"
+          xs="auto"
         >
           <Col
-            xs='auto'
-            className='justify-content-center border border-warning rounded mt-5'
+            xs="auto"
+            className="justify-content-center border border-warning rounded mt-5"
             style={{ backgroundColor: '#4a4b4f' }}
           >
             <div
-              className='border border-warning rounded p-5 my-3'
+              className="border border-warning rounded p-5 my-3"
               style={{ overflow: 'auto', width: '60vw', maxWidth: '500px'}}
             >
               <h1>Sign in</h1>
               <Form onSubmit={HandleSubmit}>
-                <Form.Group className='mb-3'>
-                  <Form.Label htmlFor='email'>Email address</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="email">Email address</Form.Label>
                   <Form.Control
-                    type='email'
-                     placeholder= {'Enter e-mail'}
-                    id='email'
+                    type="email"
+                     placeholder= {"Enter e-mail"}
+                    id="email"
                     ref={emailRef}
-                    autoComplete='off'
+                    autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    aria-describedby='uidnote'
+                    aria-describedby="uidnote"
                   />
                   <p
-                    id='uidnote'
+                    id="uidnote"
                     className={email && !validEmail ? 'invalid' : 'offcanvas'}
                   >
                     Must contain @ and a . (dot) followed by a domain (ex: com)!
                   </p>
                 </Form.Group>
-                <Form.Group className='mb-3'>
-                  <Form.Label htmlFor='password'>Password</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="password">Password</Form.Label>
                   <Form.Control
-                    type='password'
-                     placeholder= {'Enter password'}
-                    id='password'
+                    type="password"
+                     placeholder= {"Enter password"}
+                    id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     required
-                    aria-describedby='pwdnote'
+                    aria-describedby="pwdnote"
                   />
                 </Form.Group>
                 <button
-                  type='submit'
-                  className='btn btn-warning mb-2'
+                  type="submit"
+                  className="btn btn-warning mb-2"
                 >
                   Login
                 </button>
               </Form>
               <button
                   onClick={()=>navigate('/register')}
-                  className='btn btn-warning'
+                  className="btn btn-warning"
                 >
                   Register
                 </button>
@@ -145,4 +146,3 @@ function Login() {
     </>
   )
 }
-export default Login
