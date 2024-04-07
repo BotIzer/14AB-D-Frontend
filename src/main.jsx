@@ -44,7 +44,7 @@ useEffect(()=>{
   }
 },[isLoggedIn])
 useEffect(()=>{
-if(process.env.NODE_ENV === "development"){
+if(process.env.NODE_ENV !== "development"){
   const socket = io('http://localhost:3000', {
   withCredentials: true,
   query:{
