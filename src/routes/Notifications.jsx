@@ -21,7 +21,7 @@ export default function Notifications() {
   const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
   const [removeId, setRemoveId] = useState("")
-
+  const [seenNotifications, setSeenNotifications] = useState([])
 
   useEffect(() => {
     const GetFriendRequests = async () => {
@@ -49,6 +49,10 @@ export default function Notifications() {
     setPageData({currentPage: pageData.currentPage, pageCount: response.data.notificationsPageCount})
     console.log(response.data)
     setNotifications(response.data)
+    const seenNotifications = response.data.notifications
+    .filter(notification => notification.seen)
+    .map(notification => notification.id);
+    setSeenNotifications(seenNotifications);
     }
     GetFriendRequests();
     GetNotifications();
@@ -58,6 +62,7 @@ export default function Notifications() {
       setPageData({
         currentPage: pageData.currentPage-1 <= 0 ? 0 : pageData.currentPage,
         pageCount: pageData.pageCount - 1 <= 0 ? 0 : pageData.pageCount
+        
       });
       navigate(`/notifications?page=${pageData.currentPage-1 <= 0 ? 0 : pageData.currentPage-1}`)
     }
@@ -94,10 +99,25 @@ export default function Notifications() {
       prevItems.filter((friend) => friend !== requestCreator)
     );
   };
+  const SendSeen = async (seenNotification) =>{
+    setSeenNotifications([...seenNotifications, seenNotification]);
+    await axios.put(`/notification/${seenNotification}`,
+  {
+    seen: true
+  },
+  {
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    withCredentials: true,
+  })
+  }
+  {console.log(notifications)}
   let listItems = notifications.notifications && notifications.notifications.map((notification) => (
     <div key={notification.id}>
       <p>{notification.text}</p>
-      <Button onClick={() => console.log("seen")}>Seen</Button>
+      <Button disabled={seenNotifications.includes(notification.id)} onClick={() => SendSeen(notification.id)}>Seen</Button>
       <Button onClick={() => DeleteNotification(notification.id)}>Delete</Button>
     </div>
   ));
@@ -165,6 +185,7 @@ export default function Notifications() {
     </Pagination.Item>
     ) 
   }
+
   
   return (
     <>
