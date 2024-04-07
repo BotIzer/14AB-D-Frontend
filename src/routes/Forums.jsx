@@ -38,6 +38,8 @@ function Forums() {
         withCredentials: true 
       })
       const updatedForums = response.data.forums.map(forum => {
+        console.log("HELLO")
+        console.log(forum)
         return {
           ...forum,
           isSubscribed: Object.values(forum.users).some(user => user.user_id === userResponse.data.user._id)
