@@ -64,14 +64,20 @@ console.log("It is in development mode")
   socket.disconnect();
 };
 }
-else{
-  const ably = new Ably.Realtime({key: import.meta.env.VITE_APP_ABLY_KEY})
+else {
+  const ably = new Realtime({
+    key: process.env.VITE_APP_ABLY_KEY,
+  });
+  const channel = ably.channels.get("forumUpdates");
+  channel.subscribe("forumUpdate", (message) => {
+    setForumData({ updateMessage: message.data.updateMessage, hasSent: false });
+  });
   console.log("It is in production mode");
-return () =>{
-  channel.unsubscribe();
+  return () => {
+    channel.unsubscribe();
+  };
 }
-}
-},[])
+}, []);
 const router = createBrowserRouter([
   {
     path: "/",

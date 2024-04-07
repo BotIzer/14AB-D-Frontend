@@ -67,7 +67,8 @@ function EditUser() {
             username: username,
             profile_image: profilePicture,
             description: description,
-            email: email
+            hobbies: tagList,
+            email: email,
           },
           {
             headers: {
@@ -85,6 +86,7 @@ function EditUser() {
             username: username,
             profile_image: profilePicture,
             description: description,
+            hobbies: tagList
           },
           {
             headers: {
@@ -172,7 +174,12 @@ function EditUser() {
       document.getElementById('tagUpload').value = ""
     }
   }
-
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      AddTag()
+    }
+  };
   return (
     <>
       <Navigation></Navigation>
@@ -244,6 +251,7 @@ function EditUser() {
                   className="w-50 mx-3"
                   placeholder="add tags here"
                   id="tagUpload"
+                  onKeyDown={(event)=>handleKeyDown(event)}
                 ></Form.Control>
                 <Button
                   variant="outline-warning"
