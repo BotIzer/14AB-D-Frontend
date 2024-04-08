@@ -30,9 +30,14 @@ function UserPage() {
   const [hasFriendRequest, setHasFriendRequest] = useState(false)
   const [userData, setUserData] = useState(null)
   const [isSameUser, setIsSameUser] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('userInfo') !== null)
  
   const SendFriendRequest = async () => {
     try {
+      if(!isLoggedIn){
+        setError("Log in to send a friend request!")
+        return;
+      }
       await axios.post(
         `/friend/${user}`,
         {
@@ -54,18 +59,7 @@ function UserPage() {
   const CloseChat = () => {
     setShowChat(false)
   }
-
-  if (error !== '') {
-    return <ErrorPage errorStatus={error} />
-  }
   
-  //TODO replace dummy Data
-  const dummyPosts = ['First post', 'Lorem', 'Ipsum']
-  const posts = dummyPosts.map((post) => (
-    <Link key={post} className='list-group-item secondary'>
-      {post}
-    </Link>
-  ))
   let hobbyList
 
   if (userData !== null && userData.hobbies.length!== 0) {
@@ -85,9 +79,9 @@ function UserPage() {
       try {
         InitializeUserData()
         setIsSameUser(
-          user === JSON.parse(localStorage.getItem('userInfo')).username
+          isLoggedIn && user === JSON.parse(localStorage.getItem('userInfo')).username
         )
-        if (!isSameUser) {
+        if (!isSameUser && isLoggedIn) {
           const response = await axios.get('/chats', {
             headers: {
               'Content-Type': 'application/json',
@@ -179,6 +173,11 @@ function UserPage() {
   useEffect(() => {
   }, [userData])
 
+
+  if (error !== '') {
+    return <ErrorPage errorStatus={error} />
+  }
+
   return (
     <>
       <Navigation></Navigation>
@@ -206,7 +205,7 @@ function UserPage() {
                 placement='right'
                 overlay={
                   <Tooltip>
-                    {localStorage.getItem('userInfo') === null ? "Message" : (user !==
+                    {localStorage.getItem('userInfo') === null ? "Log in to message" : (user !==
                     JSON.parse(localStorage.getItem('userInfo')).username
                       ? 'Message'
                       : 'This is you')}
@@ -216,14 +215,14 @@ function UserPage() {
                 <Button
                   className='text-center clear-button fs-2 primary'
                   style={{ width: 'auto' }}
-                  onClick={() => setShowChat(!showChat)}
+                  onClick={() => isLoggedIn && !isSameUser ? setShowChat(!showChat) : null}
                 >
                   {user}
                 </Button>
               </OverlayTrigger>
             </Row>
             <Row className='justify-content-center'>
-              {!hasFriendRequest && !isFriend && !isSameUser ? (
+              {!hasFriendRequest && !isFriend && !isSameUser && isLoggedIn ? (
                 <Button
                   className='clear-button'
                   style={{ width: 'auto', height: 'auto' }}
@@ -264,15 +263,6 @@ function UserPage() {
               <p className='text-justify secondary text-center'>
                 {userData !== null ? userData.description : null}
               </p>
-            </Row>
-            <Row className='m-0'>
-              <h4 className='text-center'>Top posts</h4>
-              <div
-                data-bs-theme='dark'
-                className='text-center list-group list-group-flush list-group-numbered'
-              >
-                {posts}
-              </div>
             </Row>
           </Col>
         </Row>
