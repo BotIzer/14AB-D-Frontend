@@ -26,6 +26,7 @@ function Forum() {
       axios.get(`/forum/getAllThreads/${forum_id}`,
         {headers: {
           'Content-Type': 'application/json',
+          authorization: 'Bearer null'
         },
       })])
       setData({
