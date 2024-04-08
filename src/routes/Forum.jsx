@@ -20,7 +20,7 @@ function Forum() {
         {headers: {
           'Content-Type': 'application/json',
           authorization: `${localStorage.getItem('token') !== null ? 
-          `Bearer ${localstorage.getItem('token')}` : 'Bearer null'}`
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
         },
         withCredentials: true,
       }),
@@ -28,7 +28,7 @@ function Forum() {
         {headers: {
           'Content-Type': 'application/json',
           authorization: `${localStorage.getItem('token') !== null ? 
-          `Bearer ${localstorage.getItem('token')}` : 'Bearer null'}`
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
         },
       })])
       setData({
