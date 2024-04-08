@@ -52,8 +52,8 @@ function ForumCard(forum) {
             backgroundRepeat: 'no-repeat'
           }}
         >
-          {!isSubscribed ?<Button onClick={()=>SubscribeToForum()}>Subscribe</Button> :
-          <Button onClick={()=>UnsubscribeFromForum()}>Unsubscribe</Button>}
+          {localStorage.getItem('userInfo') !== null ? !isSubscribed ?<Button onClick={()=>SubscribeToForum()}>Subscribe</Button> :
+          <Button onClick={()=>UnsubscribeFromForum()}>Unsubscribe</Button> : null}
           <Card.Title className='text-outline'>
             {/* {forum.forum.topPost.title} */}
             We need to fix this ASAP
