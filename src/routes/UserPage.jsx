@@ -108,9 +108,9 @@ function UserPage() {
             setChatId(response.data.returnArray[0]._id)
           }
           // if we aren't the user
+          console.log(localStorage.getItem('token'))
           const friendRequests = await axios.get(
             '/user/friends/requests',
-            {},
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -121,7 +121,6 @@ function UserPage() {
           )
           const sentFriendRequests = await axios.get(
             '/user/friends/sentRequests',
-            {},
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -140,7 +139,6 @@ function UserPage() {
           }
           const friends = await axios.get(
             '/friends',
-            {},
             {
               headers: {
                 'Content-Type': 'application/json',

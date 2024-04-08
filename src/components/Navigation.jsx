@@ -136,26 +136,28 @@ function Navigation(props) {
 
   useEffect(() => {
     setIsLoggedIn(
-      localStorage.getItem('token') && localStorage.getItem('userInfo')
+      localStorage.getItem('token') !== null && localStorage.getItem('userInfo') !== null
     )
     addEventListener('storage', () => {
       setIsLoggedIn(
-        localStorage.getItem('token') && localStorage.getItem('userInfo')
+        localStorage.getItem('token') !== null && localStorage.getItem('userInfo') !== null
       )
       navigate('/')
     })
-    // const GetNotifications = async ()=>{
-    //   const response = await axios.get('/notification',
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       authorization: `Bearer ${localStorage.getItem('token')}`,
-    //     },
-    //     withCredentials: true,
-    //   })
-    //   setNotifications(response.data)
-    // }
-    // GetNotifications()
+    const GetNotifications = async ()=>{
+      const response = await axios.get('/notification',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      setNotifications(response.data)
+    }
+    if(localStorage.getItem('token') !== null){
+      GetNotifications()
+    }
   }, [])
 
   return (
