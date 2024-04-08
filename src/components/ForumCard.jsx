@@ -40,7 +40,6 @@ function ForumCard(forum) {
     </th>
   ))
   
-  const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date())
   return (
     <>
       <Card className='text-center p-0' data-bs-theme='dark'>
@@ -78,9 +77,6 @@ function ForumCard(forum) {
             </tbody>
           </Table>
         </Card.Header>
-        <Card.Footer className='text-muted'>
-          Last updated: <i>{sinceUpdate}</i> days ago
-        </Card.Footer>
       </Card>
     </>
   )
