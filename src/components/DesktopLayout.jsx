@@ -2,7 +2,6 @@ import FriendList from "../components/FriendList";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MyCarousel from "../components/MyCarousel";
-import RecentList from "./RecentList";
 
 function DesktopLayout() {
   return (
@@ -15,9 +14,6 @@ function DesktopLayout() {
             <MyCarousel images={["/src/assets/react.svg",
      "/src/assets/banner_test.jpg",
      "/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png"]}/>
-          </Col>
-          <Col className="border h-100 p-0" sm={3} md={2}>
-            <RecentList/>
           </Col>
         </Row>
     </>
