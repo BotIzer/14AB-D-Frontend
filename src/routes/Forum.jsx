@@ -19,14 +19,16 @@ function Forum() {
         axios.get(`/forum/${forum_id}`,
         {headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localstorage.getItem('token')}` : 'Bearer null'}`
         },
         withCredentials: true,
       }),
       axios.get(`/forum/getAllThreads/${forum_id}`,
         {headers: {
           'Content-Type': 'application/json',
-          authorization: 'Bearer null'
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localstorage.getItem('token')}` : 'Bearer null'}`
         },
       })])
       setData({
