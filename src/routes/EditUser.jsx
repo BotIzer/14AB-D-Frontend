@@ -47,6 +47,7 @@ function EditUser() {
         profile_image: response.data.user.profile_image,
         description: response.data.user.description,
       });
+      setTagList(response.data.user.hobbies)
       document.getElementById("username").value = response.data.user.username;
       document.getElementById("fileUpload").value = response.data.user.profile_image;
       document.getElementById("description").value = response.data.user.description;
@@ -169,7 +170,7 @@ function EditUser() {
 
 
   const AddTag = async () => {
-    if(document.getElementById('tagUpload').value.trim() !== ''){
+    if(document.getElementById('tagUpload').value.trim() !== '' && !tagList.includes(document.getElementById('tagUpload').value.trim())){
       await setTagList(prevItems=>[...prevItems,document.getElementById("tagUpload").value]);
       document.getElementById('tagUpload').value = ""
     }
@@ -180,6 +181,9 @@ function EditUser() {
       AddTag()
     }
   };
+  const removeTag = (tag) =>{
+    setTagList(prevTags => prevTags.filter(item => item !== tag));
+  }
   return (
     <>
       <Navigation></Navigation>
@@ -234,7 +238,6 @@ function EditUser() {
         
           <FormGroup data-bs-theme="dark" className="w-100">
             <div className="d-flex justify-content-around m-2 secondary">
-              {/* TODO: fill it with tags dynamically */}
                 <DropdownButton
                   data-bs-theme="dark"
                   drop="down-centered"
@@ -243,7 +246,11 @@ function EditUser() {
                 >
                   {tagList.map((item,index) => (
                     <DropdownItem key={index} className="text-center" id={item}>
-                      <Row className="justify-content-around"><Col className="my-auto">{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = "text-center dropdown-item bg-danger"}} onMouseLeave={() => {document.getElementById(item).className = "text-center dropdown-item"}} style={{border: 'none'}} variant="outline-danger" className="p-0"><img className="filter-red hover-filter-black border border-2 border-danger rounded p-1" src="/src/assets/icons/trash.png" alt="trash" /></Button></Col></Row>
+                      <Row className="justify-content-around"><Col className="my-auto">{item}</Col> <Col><Button onClick={()=>removeTag(item)} 
+                      onMouseEnter={() => {document.getElementById(item).className = "text-center dropdown-item bg-danger"}} 
+                      onMouseLeave={() => {document.getElementById(item).className = "text-center dropdown-item"}} style={{border: 'none'}} 
+                      variant="outline-danger" className="p-0">
+                      <img className="filter-red hover-filter-black border border-2 border-danger rounded p-1" src="/src/assets/icons/trash.png" alt="trash" /></Button></Col></Row>
                     </DropdownItem>
                   ))}
                 </DropdownButton>

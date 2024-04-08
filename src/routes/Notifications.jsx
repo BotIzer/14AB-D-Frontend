@@ -174,6 +174,7 @@ export default function Notifications() {
       ...prevState,
       currentPage: pageNumber
     }));
+    console.log(pageNumber)
     navigate(`/notifications?page=${pageNumber}`);
   } 
   //TODO connect to backend, make active page dynamic
@@ -199,24 +200,24 @@ export default function Notifications() {
                   {requestsList && requestsList.length <= 0 ? "No friend requests." : requestsList}
                   <Row>
                     <Pagination className="justify-content-center custom-pagination fixed-bottom mb-5">
-                      <Pagination.First onClick={()=>handlePaginationClick(1)}/>
+                      <Pagination.First onClick={()=>handlePaginationClick(0)}/>
                       <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
                         {pages}
-                      <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+                      <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 0 : pageData.currentPage+1)}/>
                       <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-                    </Pagination> {/* TODO: Connect pagination to backend*/}
+                    </Pagination>
                   </Row>
                 </Tab.Pane>
                 <Tab.Pane eventKey="notifications">
                   {listItems && listItems.length <= 0 ? "No notifications." : listItems}
                   <Row>
                     <Pagination className="justify-content-center custom-pagination fixed-bottom mb-5">
-                      <Pagination.First onClick={()=>handlePaginationClick(1)}/>
+                      <Pagination.First onClick={()=>handlePaginationClick(0)}/>
                       <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
                         {pages}
-                      <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+                      <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 0 : pageData.currentPage+1)}/>
                       <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-                    </Pagination> {/* TODO: Connect pagination to backend*/}
+                    </Pagination>
                   </Row>
                 </Tab.Pane>
               </Tab.Content>

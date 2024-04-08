@@ -29,6 +29,7 @@ export default function UserPage() {
   const [hasFriendRequest, setHasFriendRequest] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isSameUser, setIsSameUser] = useState(false);
+  const [isImageWorking, setIsImageWorking] = useState(true)
   const navigate = useNavigate();
   useEffect(() => {
     const GetPageDetails = async () => {
@@ -191,12 +192,21 @@ export default function UserPage() {
           </Offcanvas>
           <Col className="border overflow-auto h-100">
             <Row className="justify-content-center position-relative">
+            {isImageWorking?
               <Image
                 className="profileSize img-fluid"
                 src={userData !== null ? userData.profile_image : null}
+                onError={()=>setIsImageWorking(false)}
                 roundedCircle
                 style={{ float: "center" }}
-              ></Image>
+              ></Image> :
+              <Image
+                className="profileSize img-fluid"
+                src="https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile?$pjpeg$&jpegSize=200&wid=720"
+                onError={()=>setIsImageWorking(false)}
+                roundedCircle
+                style={{ float: "center" }}
+              ></Image>}
             </Row>
             <Row className="justify-content-center">
               <OverlayTrigger
@@ -230,6 +240,7 @@ export default function UserPage() {
                     src="/src/assets/icons/add_user_64.png"
                     style={{ width: "32px", height: "32px" }}
                     className="hover-filter-gold"
+                    alt="Edit user"
                   />
                 </Button>
               ) : null}
