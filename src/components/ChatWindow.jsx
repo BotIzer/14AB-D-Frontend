@@ -217,7 +217,6 @@ useEffect(() => {
           </Form>
       </Container>
     </Navbar>
-      {/*  */}
     </div>
   )
 }
