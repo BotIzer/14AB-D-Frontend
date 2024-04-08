@@ -7,10 +7,10 @@ function MessageList(props) {
   const messages = props.messages.map((message) => {
     return (
       <div className='p-2 w-100' key={message._id.message_id} style={borderStyle}>
-        <Link to={'/user/' + message.creator_name} className="chat-name secondary">
+        <Link to={'/user/' + message.creator_name} className='chat-name secondary'>
           {message.creator_name}
         </Link>
-        <p className="chat-text">{message.text}</p>
+        <p className='chat-text'>{message.text}</p>
       </div>
     )
   })
