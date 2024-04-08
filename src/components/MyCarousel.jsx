@@ -8,19 +8,21 @@ function MyCarousel(images) {
   // ];
 
   const imageList = images.images.map((image) => (
-    <Carousel.Item key={image} className="text-center" >
-      <img
-        src={image}
-        className="img-fluid bannerSize"
-        alt={image.slice(0, image.length - 4)}
-        style={{ float: "center"}}
-      />
+    <Carousel.Item key={image} className="text-center" style={{backgroundImage: `url(${image})`,
+    backgroundSize: "100% 100%",
+    backgroundRepeat: "no-repeat"}}>
+      <div className="primary">
+        <h1 className=" text-outline">Title</h1>
+      </div>
+      <div className="secondary">
+        <p className="text-outline">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet, non nam, nesciunt voluptates doloremque praesentium aut saepe iste cupiditate, pariatur ullam ut qui nemo distinctio! Recusandae architecto nulla non et.</p>
+      </div>
     </Carousel.Item>
   ));
 
   return (
     <Carousel
-      className="d-block w-100 h-100 overflow-hidden p-0"
+      className="d-block w-100 h-100 p-0"
       indicators={false}
       interval={null}
     >

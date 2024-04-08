@@ -1,7 +1,6 @@
 import Navigation from "../components/Navigation";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-import FriendList from "../components/FriendList";
 import { useEffect, useState } from "react";
 import ErrorPage from "../error-page";
 import { Link } from "react-router-dom";
