@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 function ForumCard(forum) {
   const navigate = useNavigate()
   const [isSubscribed, setIsSubscribed] = useState(forum.forum.isSubscribed)
+  const [isBannerValid, setIsBannerValid] = useState(true)
+
   const SubscribeToForum = async () =>{
     await axios.post('/forum/subscribeToForum',
     {
@@ -41,6 +43,13 @@ function ForumCard(forum) {
   ))
   
   const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date())
+  useEffect(()=>{
+    const img = new Image();
+    img.src = forum.forum.banner
+    img.onerror = ()=>{
+      setIsBannerValid(false)
+    }
+  },[forum.forum.banner])
   return (
     <>
       <Card className='text-center p-0' data-bs-theme='dark'>
@@ -48,7 +57,9 @@ function ForumCard(forum) {
         <Card.Body
           className='secondary'
           style={{
-            backgroundImage: `url(${forum.forum.banner})`,
+            // TODO: ADD DEFAULT LINK
+            backgroundImage: `url(${isBannerValid? 
+              forum.forum.banner : 'https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile?$pjpeg$&jpegSize=200&wid=720'})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat'
           }}
