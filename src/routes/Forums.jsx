@@ -84,7 +84,7 @@ function Forums() {
     <>
       <Navigation></Navigation>
       <Container data-bs-theme='dark' fluid>
-        <Button
+        {localStorage.getItem('token') !== null ? <Button
           className='mb-5 clear-button fixed-bottom-right'
           style={{ backgroundColor: '#343a40' }}
           onClick={() => navigate('/createforum')}
@@ -94,7 +94,7 @@ function Forums() {
             src='/src/assets/icons/add_forum.png'
             alt='add forum'
           />
-        </Button>
+        </Button> : null}
         <Row className='m-5'>
           <h1 className='text-center'>Popular forums</h1>
         </Row>

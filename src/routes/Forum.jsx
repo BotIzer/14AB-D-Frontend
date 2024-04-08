@@ -99,7 +99,7 @@ function Forum() {
     <>
       <Navigation></Navigation>
       <Container data-bs-theme="dark" fluid>
-        <Button
+        {localStorage.getItem('token') !== null ? <Button
           className="clear-button fixed-bottom-right mb-4"
           style={{ backgroundColor: "#343a40" }}
           onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/createpost/`)}
@@ -109,7 +109,7 @@ function Forum() {
             src="/src/assets/icons/add_forum.png"
             alt="add forum"
           />
-        </Button>
+        </Button> : null}
         <Row
           className="p-2"
           style={{
@@ -122,11 +122,12 @@ function Forum() {
           <h1 className="text-outline text-center m-auto">
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
-          <Button className="position-absolute end-0 rounded-pill clear-button" 
+          {/* TODO LET ONLY OWNER EDIT IT LOL */}
+          {localStorage.getItem('token') !== null ? <Button className="position-absolute end-0 rounded-pill clear-button" 
                 style={{width: 'auto', height: 'auto'}} 
                 onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
                   <Image src="/src/assets/icons/edit.png" className="hover-filter-gold"/>
-          </Button>
+          </Button> : null}
         </Row>
         <Row className="no-padding-table">
           <Table responsive className="m-0" data-bs-theme="dark">

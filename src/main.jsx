@@ -111,7 +111,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/forums/:forumName/createpost",
-    element: <CreatePost></CreatePost>,
+    element: isLoggedIn ? <CreatePost></CreatePost> : <Navigate to="/" />,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
@@ -136,7 +136,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/createforum",
-    element: <CreateForum></CreateForum>,
+    element: isLoggedIn ? <CreateForum></CreateForum> : <Navigate to="/"/>,
     errorElement: <ErrorPage></ErrorPage>,
   },
   {

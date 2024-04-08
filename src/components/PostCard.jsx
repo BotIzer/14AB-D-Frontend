@@ -8,8 +8,9 @@ import axios from '../api/axios'
 
 function PostCard(post) {
   const navigate = useNavigate()
-  const [opinion,setOpinion] = useState({isLiked: post.post.likes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username), 
-    isDisLiked: post.post.dislikes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username)})
+  const [opinion,setOpinion] = useState({isLiked: localStorage.getItem('userInfo') !== null && 
+  post.post.likes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username), 
+    isDisLiked: localStorage.getItem('userInfo') !== null && post.post.dislikes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username)})
   const [opinionCount, setOpinionCount] = useState({likeCount: post.post.likes.count, 
     dislikeCount: post.post.dislikes.count})
   

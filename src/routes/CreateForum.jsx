@@ -1,7 +1,7 @@
 import { Button, FormGroup, DropdownButton, Container, Row, Col, Table, Image, Form, Tab,  Tabs, OverlayTrigger, Tooltip, DropdownItem } from 'react-bootstrap'
 import Navigation from '../components/Navigation'
 import axios from '../api/axios'
-import { useState, } from 'react'
+import { useEffect, useState, } from 'react'
 import PostCard from '../components/PostCard'
 import { useNavigate } from 'react-router-dom'
 
@@ -104,7 +104,11 @@ function CreateForum() {
     }))
     document.getElementById('tagUpload').value = ''
   }
-  
+  useEffect(()=>{
+    if(localStorage.getItem('token') === null){
+      navigate('/')
+    }
+  },[])
   return (
     <>
       <Navigation></Navigation>

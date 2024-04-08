@@ -102,6 +102,9 @@ function EditForum() {
         </th>
   ))
 useEffect(() => {
+  if(localStorage.getItem('token') === null){
+    navigate('/')
+  }
   const GetPreviewData = async () => {
     const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`, {
       headers: {
