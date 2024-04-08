@@ -206,10 +206,10 @@ function UserPage() {
                 placement='right'
                 overlay={
                   <Tooltip>
-                    {user !==
+                    {localStorage.getItem('userInfo') === null ? "Message" : (user !==
                     JSON.parse(localStorage.getItem('userInfo')).username
                       ? 'Message'
-                      : 'This is you'}
+                      : 'This is you')}
                   </Tooltip>
                 }
               >
@@ -236,7 +236,7 @@ function UserPage() {
                   />
                 </Button>
               ) : null}
-              {user ===
+              {localStorage.getItem('userInfo') !== null && user ===
               JSON.parse(localStorage.getItem('userInfo')).username ? (
                 <Button
                   className='rounded-pill custom-button'

@@ -144,18 +144,18 @@ function Navigation(props) {
       )
       navigate('/')
     })
-    const GetNotifications = async ()=>{
-      const response = await axios.get('/notification',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-      setNotifications(response.data)
-    }
-    GetNotifications()
+    // const GetNotifications = async ()=>{
+    //   const response = await axios.get('/notification',
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       authorization: `Bearer ${localStorage.getItem('token')}`,
+    //     },
+    //     withCredentials: true,
+    //   })
+    //   setNotifications(response.data)
+    // }
+    // GetNotifications()
   }, [])
 
   return (

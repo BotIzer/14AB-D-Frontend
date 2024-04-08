@@ -47,6 +47,17 @@ function Forums() {
         withCredentials: true,
       })
       setPageData({currentPage: pageData.currentPage, pageCount: response.data.pagesCount})
+      if(localStorage.getItem('userInfo') === null){
+        // TODO: DO NOT SHOW SUBSCRIBE BUTTON
+        const updatedForums = response.data.forums.map(forum => {
+          return {
+            ...forum,
+            isSubscribed: false
+          }
+        })
+        setForums(updatedForums)
+        return;
+      }
       const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,{
         headers: {
           'Content-Type': 'application/json',
