@@ -100,6 +100,7 @@ function PostCard(post) {
               checked={opinion.isLiked}
               value='1'
               onChange={() => LikedThread()}
+              disabled={localStorage.getItem('token') === null}
             >
               <img
                 src='/src/assets/icons/fist_bump_64.png'
@@ -121,6 +122,7 @@ function PostCard(post) {
                 checked={opinion.isDisLiked}
                 value='1'
                 onChange={() => DislikedThread()}
+                disabled={localStorage.getItem('token') === null}
               >
                 <img
                   src='/src/assets/icons/lightning_64.png'
