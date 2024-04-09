@@ -134,8 +134,7 @@ function PostCard(post) {
                 </span>
               </ToggleButton>
             </Col>
-          <Col xs={6} className='text-end'>
-            {console.log(decodeURIComponent(location.pathname.split('/')[2]))}
+          {post.isDisabled ? null : <Col xs={6} className='text-end'>
             <Button
               className='comments-button tertiary position-relative h-100' /*onClick={() => navigate('/post/comments')} TODO make this navigate to comment section*/
               onPointerDown={()=>navigate(
@@ -147,7 +146,7 @@ function PostCard(post) {
                 {post.post.comment_count}
               </span>
             </Button>
-          </Col>
+          </Col>}
         </Row>
       </Card.Footer>
       <Card.Footer className='text-muted'>

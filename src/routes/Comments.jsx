@@ -86,7 +86,7 @@ useEffect(()=>{
     },
     withCredentials: true,
     })
-    setThreadData({post: response.data})
+    setThreadData(response.data)
   }
   GetThreadData()
 },[])
@@ -96,7 +96,7 @@ return (
    <Container fluid>
      <Col xs='auto'>
        <Row className='justify-content-center m-2 mb-4'>
-         <PostCard post={(threadData !== undefined ? threadData : dummyPost)}></PostCard>
+         <PostCard isDisabled={true} post={(threadData !== undefined ? threadData : dummyPost)}></PostCard>
        </Row>
        {commentList}
      </Col>
