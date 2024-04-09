@@ -87,9 +87,6 @@ function EditPost() {
       document.getElementById('fileUpload').value = ''
     }
   }
-  if (error != '') {
-    return <ErrorPage errorStatus={error} />
-  }
 
   useEffect(()=>{
     const GetThreadData = async() => {
@@ -134,6 +131,9 @@ function EditPost() {
     }
     GetThreadData()
   },[])
+  if (error != '') {
+    return <ErrorPage errorStatus={error} />
+  }
   return (
     <>
       <Navigation></Navigation>
