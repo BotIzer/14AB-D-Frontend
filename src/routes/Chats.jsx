@@ -6,14 +6,15 @@ import ChatWindow from '../components/ChatWindow'
 import axios from '../api/axios'
 import ErrorPage from '../error-page'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Row, Col, Image, Pagination, Nav, Tab } from 'react-bootstrap'
+import { Button, Row, Col, Image, Pagination, Nav, Tab, Tooltip, OverlayTrigger } from 'react-bootstrap'
 
 function Chats() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const [friends, setFriends] = useState([])
+  const [directMessages, setDirectMessages] = useState([])
   const [groups, setGroups] = useState([])
+  const [friends, setFriends] = useState([])
   const [comments, setComments] = useState([])
   const [error, setError] = useState('')
   const [props, setProps] = useState({
@@ -28,10 +29,6 @@ function Chats() {
     showCreateChat: false,
     lastAction: null,
   })
-  const [pageDetails, setPageDetails] = useState({
-    currentPage: parseInt(location.search.split('page=')[1]) || 0,
-    limit: parseInt(location.search.split('limit=')[1]) || 10,
-  })
   const [owners, setOwners] = useState({})
   const [users, setUsers] = useState()
   const [paginationPageData, setPaginationPageData] = useState({
@@ -42,7 +39,7 @@ function Chats() {
     friendsCurrentPage: parseInt(new URLSearchParams(location.search).get('friendspage')) || 1, 
     friendsPageCount: parseInt(new URLSearchParams(location.search).get('friendspage')) || 1,
     })
-  
+  const [activeKey, setActiveKey] = useState('chats')
 
   const handlePaginationClick = (pageNumber, pageType) =>{
     
@@ -91,67 +88,144 @@ function Chats() {
       owner: '',
     })
   }
-  if (error != '') {
-    return <ErrorPage errorStatus={error} />
-  }
-
-  const friendList = friends.map((chat) => (
-    <Row key={chat._id} className='m-0'>
+  const directMessageList = directMessages.map((chat) => (
+  <Row key={chat._id} className='m-0'>
+    <Button
+      className={`secondary clear-button m-0`}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        if (
+          props.selectedChat === chat._id &&
+          showData.lastAction === 'context'
+        ) {
+          DoNotShow();
+          ClearProps();
+        } else {
+          ShowPopup('context');
+          setProps({
+            selectedChat: chat._id,
+            selectedChatType: 'friend',
+            displayName: chat.friend_user_name,
+          });
+        }
+        setProps((prevProps) => ({
+          ...prevProps,
+          selectedFriend: chat.friend_user_name,
+        }));
+      }}
+      onClick={async (e) => {
+        e.preventDefault();
+        if (
+          props.selectedChat === chat._id &&
+          showData.lastAction === 'click'
+        ) {
+          DoNotShow();
+          ClearProps();
+          return;
+        }
+        const chatData = await axios.get(`/chat/${chat._id}/comments`, {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        });
+        setProps((prevProps) => ({
+          ...prevProps,
+          selectedChat: chat._id,
+          selectedChatType: 'friend',
+        }));
+        setComments(chatData.data.comments);
+        ShowChat('click');
+        navigate(`/chats/${chat.friend_user_name}`);
+      }}
+    >
+      {chat.friend_user_name}
+    </Button>
+  </Row>
+));
+  const friendList = friends.map((friend)=>{
+    return (
+      <Row key={friend.username} className='m-0'>
+      <OverlayTrigger overlay={<Tooltip>Message</Tooltip>}>
       <Button
-        className=' secondary clear-button m-0'
-        onContextMenu={(e) => {
-          e.preventDefault()
-          if (
-            props.selectedChat == chat._id &&
-            showData.lastAction === 'context'
-          ) {
-            DoNotShow()
-            ClearProps()
-          } else {
-            ShowPopup('context')
-            setProps({
-              selectedChat: chat._id,
-              selectedChatType: 'friend',
-              displayName: chat.friend_user_name,
-            })
-          }
-          setProps((prevProps) => ({
-            ...prevProps,
-            selectedFriend: chat.friend_user_name,
-          }))
-        }}
-        onClick={async (e) => {
-          e.preventDefault()
-          if (
-            props.selectedChat == chat._id &&
-            showData.lastAction === 'click'
-          ) {
-            DoNotShow()
-            ClearProps()
-            return
-          }
-          const chatData = await axios.get(`/chat/${chat._id}/comments`, {
+      className={`secondary clear-button m-0`}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        if (
+          showData.lastAction === 'context'
+        ) {
+          DoNotShow();
+          ClearProps();
+        } else {
+          ShowPopup('context');
+        }
+        setProps({
+          selectedChat: null,
+          selectedFriend: friend.username,
+          selectedChatType: 'friend',
+          displayName: friend.username,
+        })
+      }}
+      onClick={async (e) => {
+        e.preventDefault();
+        const response = await axios.post(
+          '/createOrRetrieveChat',
+          {
+            friend: friend.username,
+          },
+          {
             headers: {
               'Content-Type': 'application/json',
               authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             withCredentials: true,
-          })
-          setProps((prevProps) => ({
-            ...prevProps,
-            selectedChat: chat._id,
-            selectedChatType: 'friend',
-          }))
-          setComments(chatData.data.comments)
-          ShowChat('click')
-          navigate(`/chats/${chat.friend_user_name}`)
-        }}
-      >
-        {chat.friend_user_name}
-      </Button>
-    </Row>
-  ))
+          }
+        );
+        if (response.data.length === 0) {
+          await axios.post(
+            '/chat',
+            {
+              name: friend.username,
+              is_ttl: false,
+              is_private: true,
+              other_user_name: friend.username,
+              usernames: [friend.username]
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            }
+          )
+        }
+        else{
+          setActiveKey('chats')
+        }
+        if (
+          showData.lastAction === 'click'
+        ) {
+          DoNotShow();
+          ClearProps();
+          return;
+        }
+        setProps({
+          selectedChat: null,
+          selectedFriend: friend.username,
+          selectedChatType: 'friend',
+          displayName: friend.username,
+        })
+      }}
+    >
+      {friend.username}
+    </Button>
+    </OverlayTrigger>
 
+  </Row>
+    );
+  });
   const groupList = groups.map((chat) => (
     <Row key={chat._id} className='m-0'>
       <Button
@@ -234,7 +308,7 @@ function Chats() {
   }
 
   useEffect(() => {
-    const GetFriends = async () => {
+    const GetDirectMessages = async () => {
       if (!localStorage.getItem('token')) {
         setError({
           response: {
@@ -246,8 +320,7 @@ function Chats() {
       try {
         const response = await axios.get('/chats', {
           params: {
-            page: pageDetails.currentPage,
-            limit: pageDetails.limit,
+            page: paginationPageData.dmCurrentPage
           },
           headers: {
             'Content-Type': 'application/json',
@@ -257,7 +330,7 @@ function Chats() {
         })
         if (response.data.returnArray) {
           if (response.data.returnArray) {
-            setFriends(
+            setDirectMessages(
               [...Object.values(response.data.returnArray)].filter(
                 (x) => x.is_private
               )
@@ -273,7 +346,22 @@ function Chats() {
         setError(err)
       }
     }
+    const GetFriends = async () =>{
+      try {
+        const response = await axios.get('friends',{
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setFriends(response.data.returnFriends)
+      } catch (err) {
+        setError(err)
+      }
+    }
     GetFriends()
+    GetDirectMessages()
   }, [])
   useEffect(() => {
     const SetOwner = async () => {
@@ -298,28 +386,17 @@ function Chats() {
     }
     SetOwner()
   }, [groups])
-
   useEffect(()=>{
-    console.log("dm current:");
-    console.log(paginationPageData.dmCurrentPage)
-  },[paginationPageData.dmCurrentPage])
-
-  useEffect(()=>{
-    console.log("group current:");
-    console.log(paginationPageData.groupCurrentPage)
-  },[paginationPageData.groupCurrentPage])
-
-  useEffect(()=>{
-    console.log("friends current:");
-    console.log(paginationPageData.friendsCurrentPage)
-    console.log(paginationPageData.friendsPageCount)
-  },[paginationPageData.friendsCurrentPage])
-
+    console.log(directMessages)
+  },[directMessages])
+  if (error != '') {
+    return <ErrorPage errorStatus={error} />
+  }
 
   return (
     <>
       <Navigation></Navigation>
-      <Tab.Container defaultActiveKey='chats'>
+      <Tab.Container defaultActiveKey='chats' activeKey={activeKey}>
         <Tab.Content>
           <Tab.Pane eventKey='chats'>
             <Row className='w-100 h-50 m-0'>
@@ -333,7 +410,7 @@ function Chats() {
                   <div className='border'></div>
                   {friends.length == 0 ? <i>No friends?</i> : null}
                   <Col className='overflow-auto'>
-                    {friendList}
+                    {directMessageList}
                     {/*TODO create seperate variable for dms*/}
                     <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
                       <Pagination.Prev onPointerDown={()=>handlePaginationClick(paginationPageData.dmCurrentPage -1 <= 0 ? paginationPageData.dmPageCount : paginationPageData.dmCurrentPage - 1, 'dm')}/>
@@ -467,7 +544,7 @@ function Chats() {
                 style={{ maxWidth: 'fit-content' }}
               >
                 <Nav.Item>
-                  <Nav.Link className='custom-tab secondary' eventKey='chats'>
+                  <Nav.Link className='custom-tab secondary' eventKey='chats' onPointerDown={()=>setActiveKey('chats')}>
                     Chats
                   </Nav.Link>
                 </Nav.Item>
@@ -477,7 +554,7 @@ function Chats() {
                 style={{ maxWidth: 'fit-content' }}
               >
                 <Nav.Item>
-                  <Nav.Link className='custom-tab secondary' eventKey='friends'>
+                  <Nav.Link className='custom-tab secondary' eventKey='friends' onPointerDown={()=>setActiveKey('friends')}>
                     Friend List
                   </Nav.Link>
                 </Nav.Item>

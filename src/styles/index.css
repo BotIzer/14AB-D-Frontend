@@ -368,7 +368,8 @@ a:hover {
   color: #e8cc80;
 }
 .custom-tab:hover,
-.custom-tab:focus {
+.custom-tab:focus,
+.custom-tab.active {
   color: gold;
 }
 

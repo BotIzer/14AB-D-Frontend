@@ -15,9 +15,9 @@ function CreateChatPopup(props) {
   const [friendList, setFriendList] = useState([])
   //TODO replace dummyData
   const addFriends = friendList.map((friend) => (
-    <Row key={friend} className='border border-secondary text-nowrap w-100 mx-auto'>
+    <Row key={friend.username} className='border border-secondary text-nowrap w-100 mx-auto'>
       <Col className='p-2 text-start'>
-      <Button variant='outline-warning'>+</Button>{friend}
+      <Button variant='outline-warning'>+</Button>{friend.username}
       </Col>
     </Row>
   ))
