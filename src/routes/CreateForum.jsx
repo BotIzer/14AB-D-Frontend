@@ -104,6 +104,14 @@ function CreateForum() {
     }))
     document.getElementById('tagUpload').value = ''
   }
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      AddTag()
+    }
+  };
+
   useEffect(()=>{
     if(localStorage.getItem('token') === null){
       navigate('/')
@@ -151,6 +159,7 @@ function CreateForum() {
                   className='w-auto'
                   placeholder='add tags here'
                   id='tagUpload'
+                  onKeyDown={(event)=>handleKeyDown(event)}
                 ></Form.Control>
                 <Button
                   variant='outline-warning'
