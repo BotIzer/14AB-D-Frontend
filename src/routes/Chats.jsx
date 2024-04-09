@@ -45,10 +45,14 @@ function Friends() {
   
 
   const handlePaginationClick = (pageNumber, pageType) =>{
+    
     setPaginationPageData({
       dmCurrentPage: (pageType == 'dm'? pageNumber : paginationPageData.dmCurrentPage),
       groupCurrentPage: (pageType == 'group'? pageNumber : paginationPageData.groupCurrentPage),
       friendsCurrentPage: (pageType == 'friends'? pageNumber : paginationPageData.friendsCurrentPage),
+      dmPageCount: paginationPageData.dmPageCount,
+      groupPageCount: paginationPageData.groupPageCount,
+      friendsPageCount: paginationPageData.friendsPageCount
       })
       
     navigate(`/chats?${pageType}page=${pageNumber}`)
@@ -308,6 +312,7 @@ function Friends() {
   useEffect(()=>{
     console.log("friends current:");
     console.log(paginationPageData.friendsCurrentPage)
+    console.log(paginationPageData.friendsPageCount)
   },[paginationPageData.friendsCurrentPage])
 
 
