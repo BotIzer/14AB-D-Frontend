@@ -1,4 +1,4 @@
-import { Button, FormGroup, Row, Image, DropdownButton, DropdownItem, Container, Table, Col, OverlayTrigger, Tooltip, Form, Tab, Tabs } from 'react-bootstrap'
+import { Button, FormGroup, Row, Image as ReactImage, DropdownButton, DropdownItem, Container, Table, Col, OverlayTrigger, Tooltip, Form, Tab, Tabs } from 'react-bootstrap'
 import Navigation from '../components/Navigation'
 import axios from '../api/axios'
 import { useLocation, useNavigate, } from 'react-router-dom'
@@ -15,7 +15,7 @@ function EditForum() {
     description: '',
   })
   const [displayError, setDisplayError] = useState(false)
-
+  const [isBannerValid, setIsBannerValid] = useState(true)
   //TODO replace dummy data  
   const categoryPreview = [
     'gaming',
@@ -127,6 +127,18 @@ useEffect(() => {
   }
   GetPreviewData()
 },[location.pathname])
+
+useEffect(()=>{
+  const img = new Image();
+    img.src = previewData.profile_image;
+    img.onload = ()=>{
+      setIsBannerValid(true)
+    }
+    img.onerror = () => {
+      setIsBannerValid(false);
+    };
+},[previewData.banner])
+
   return (
     <>
       <Navigation></Navigation>
@@ -196,7 +208,7 @@ useEffect(() => {
               id='banner'
             ></Form.Control>
             <OverlayTrigger placement='right' overlay={<Tooltip>Note: banners with an aspect ratio of 6:1 work best, other pictures may appear stretched or shrunk</Tooltip>}>
-              <Image className='hover-filter-gold' src='/src/assets/icons/info.png'></Image>
+              <ReactImage className='hover-filter-gold' src='/src/assets/icons/info.png'></ReactImage>
             </OverlayTrigger>
           </FormGroup>
           <FormGroup className='text-center' data-bs-theme='dark'>
@@ -252,7 +264,7 @@ useEffect(() => {
         <Row
           className='p-2'
           style={{
-            backgroundImage: `url(${previewData.banner})`,
+            backgroundImage: `url(${isBannerValid ? previewData.banner : import.meta.env.VITE_BFF_DEFAULT})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
             height: '20vh',
