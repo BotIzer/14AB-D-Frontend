@@ -11,7 +11,6 @@ function EditForum() {
   const [tagList, setTagList] = useState([])
   const [previewData, setPreviewData] = useState({
     title: '',
-    tags: [],
     banner: '',
     description: '',
   })
@@ -92,7 +91,7 @@ function EditForum() {
       })
     }
   }
-  const categoryList = categoryPreview.map((category)=>(
+  const categoryList = tagList.map((category)=>(
     <th
           style={{ fontSize: 'small', borderWidth: '2px' }}
           key={category}
@@ -101,6 +100,9 @@ function EditForum() {
           <i className='tertiary'>{category}</i>
         </th>
   ))
+  const removeTag = (tag) =>{
+    setTagList(prevTags => prevTags.filter(item => item !== tag));
+  }
 useEffect(() => {
   if(localStorage.getItem('token') === null){
     navigate('/')
@@ -115,10 +117,10 @@ useEffect(() => {
     })
     setPreviewData({
       title: response.data[0].forum_name,
-      tags: response.data[0].tags,
       banner: response.data[0].banner,
       description: response.data[0].description,
     })
+    setTagList(response.data[0].tags)
     document.getElementById('title').value = response.data[0].forum_name
     document.getElementById('banner').value = response.data[0].banner
     document.getElementById('description').value = response.data[0].description
@@ -160,7 +162,10 @@ useEffect(() => {
                 >
                   {tagList.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
+                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                       {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
+                        {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
+                        variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
                     </DropdownItem>
                   ))}
                 </DropdownButton>
@@ -270,7 +275,6 @@ useEffect(() => {
           </div>
         </Row>
         <Col xs={12} md={{ span: 6, offset: 3 }}>
-          {postList}
         </Col>
       </Container>
         </Tab>
