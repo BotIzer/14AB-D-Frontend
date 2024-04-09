@@ -75,6 +75,14 @@ function EditForum() {
     }
 
   }
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      AddTag()
+    }
+  };
+
   const AddTag = async () => {
     if(document.getElementById('tagUpload').value.trim() !== ''){
       await setTagList(prevItems=>[...prevItems,document.getElementById('tagUpload').value])
@@ -91,6 +99,9 @@ function EditForum() {
       })
     }
   }
+
+
+
   const categoryList = tagList.map((category)=>(
     <th
           style={{ fontSize: 'small', borderWidth: '2px' }}
@@ -185,6 +196,7 @@ useEffect(()=>{
                   className='w-50 mx-3'
                   placeholder='add tags here'
                   id='tagUpload'
+                  onKeyDown={(event)=>handleKeyDown(event)}
                 ></Form.Control>
                 <Button
                   variant='outline-warning'
