@@ -1,4 +1,4 @@
-import { Button, FormGroup, Row, Col, Image, Form, Tab, Tabs, DropdownButton, DropdownItem } from "react-bootstrap";
+import { Button, FormGroup, Row, Col, Image as ReactImage, Form, Tab, Tabs, DropdownButton, DropdownItem } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -27,6 +27,7 @@ function EditUser() {
   const [validMatch, setValidMatch] = useState(true)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
+  const [isBannerValid, setIsBannerValid] = useState(true)
   useEffect(() => {
     const result = PWD_REGEX.test(password)
     setValidPassword(result)
@@ -184,6 +185,16 @@ function EditUser() {
   const removeTag = (tag) =>{
     setTagList(prevTags => prevTags.filter(item => item !== tag));
   }
+  useEffect(() => {
+    const img = new Image();
+    img.src = previewData.profile_image;
+    img.onload = ()=>{
+      setIsBannerValid(true)
+    }
+    img.onerror = () => {
+      setIsBannerValid(false);
+    };
+  }, [previewData.profile_image,HandleSelect]);
   return (
     <>
       <Navigation></Navigation>
@@ -426,12 +437,12 @@ function EditUser() {
         </Tab>
         <Tab eventKey="preview" title="Preview" className="tab-size">
           <Row className="justify-content-center">
-            <Image
+            <ReactImage
               className="profileSize img-fluid"
-              src={previewData.profile_image}
+              src={isBannerValid ? previewData.profile_image : import.meta.env.VITE_BFF_DEFAULT}
               roundedCircle
               style={{ float: "center" }}
-            ></Image>
+            ></ReactImage>
           </Row>
           <Row className="text-center">
             <h4>{previewData.username}</h4>
