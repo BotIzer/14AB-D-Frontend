@@ -96,10 +96,10 @@ function Notifications() {
         <Col className='tertiary'>wants to be your friend!</Col>
         <Col>
           <Row className='px-2 justify-content-around'>
-            <Button style={{ width: '40%' }} variant='outline-warning px-0'>
+            <Button style={{ width: '40%' }} variant='outline-warning px-0' onPointerDown={()=>AcceptFriendRequest(friend)}>
               Accept
             </Button>
-            <Button style={{ width: '40%' }} variant='outline-danger px-0'>
+            <Button style={{ width: '40%' }} variant='outline-danger px-0' onPointerDown={()=>AcceptFriendRequest(friend)}>
               Decline
             </Button>
           </Row>
@@ -144,13 +144,15 @@ function Notifications() {
   }
   useEffect(() => {
     const GetFriendRequests = async () => {
-      const response = await axios.get(`/user/friends/requests?page=${pageData.currentPage}`, {
+      const response = await axios.get(`/user/friends/requests?page=${pageData.currentPage-1}`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         withCredentials: true,
       })
+      console.log("helllooooo")
+      console.log(response.data)
       response.data.returnRequests.length !== 0
         ? setFriendRequests(response.data.returnRequests)
         : []

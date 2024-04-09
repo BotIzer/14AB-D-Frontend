@@ -8,7 +8,7 @@ import ErrorPage from '../error-page'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Row, Col, Image, Pagination, Nav, Tab } from 'react-bootstrap'
 
-function Friends() {
+function Chats() {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -491,4 +491,4 @@ function Friends() {
 }
 
 
-export default Friends
+export default Chats

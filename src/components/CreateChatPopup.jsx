@@ -12,9 +12,9 @@ import axios from '../api/axios'
 function CreateChatPopup(props) {
   const [isTemporary, setIsTemporary] = useState(false)
   const [showError, setShowError] = useState(false)
-
+  const [friendList, setFriendList] = useState([])
   //TODO replace dummyData
-  const addFriends = dummyData.map((friend) => (
+  const addFriends = friendList.map((friend) => (
     <Row key={friend} className='border border-secondary text-nowrap w-100 mx-auto'>
       <Col className='p-2 text-start'>
       <Button variant='outline-warning'>+</Button>{friend}
@@ -61,7 +61,20 @@ function CreateChatPopup(props) {
   useEffect(() => {
     document.getElementById('daysToLive').value = ''
   }, [isTemporary])
-
+  useEffect(()=>{
+    const GetFriends = async () => {
+      const response = await axios.get('/friends', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      setFriendList(response.data.returnFriends)
+      console.log(response.data.returnFriends)
+    }
+    GetFriends()
+  },[])
   return (
     <>
       <Row className='mx-auto text-center'>
