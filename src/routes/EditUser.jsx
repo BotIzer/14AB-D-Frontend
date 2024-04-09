@@ -1,4 +1,4 @@
-import { Button, FormGroup, Row, Col, Image as ReactImage, Form, Tab, Tabs, DropdownButton, DropdownItem } from "react-bootstrap";
+import { Button, FormGroup, Row, Col, Image as ReactImage, Form, Tab, Tabs, DropdownButton, DropdownItem, Table } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import axios from "../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -185,6 +185,11 @@ function EditUser() {
   const removeTag = (tag) =>{
     setTagList(prevTags => prevTags.filter(item => item !== tag));
   }
+  const hobbyList = tagList.map((hobby,index) => (
+    <th style={{ fontSize: 'small' }} key={index}>
+      <i className='tertiary'>{hobby}</i>
+    </th>
+  ))
   useEffect(() => {
     const img = new Image();
     img.src = previewData.profile_image;
@@ -444,6 +449,13 @@ function EditUser() {
               style={{ float: "center" }}
             ></ReactImage>
           </Row>
+          <Row className='justify-content-center'>
+              <Table responsive className='m-0' data-bs-theme="dark">
+              <tbody>
+                <tr className='text-center'>{hobbyList}</tr>
+              </tbody>
+              </Table>
+            </Row>
           <Row className="text-center">
             <h4>{previewData.username}</h4>
           </Row>
