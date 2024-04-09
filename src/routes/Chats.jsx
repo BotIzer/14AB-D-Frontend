@@ -34,6 +34,26 @@ function Friends() {
   })
   const [owners, setOwners] = useState({})
   const [users, setUsers] = useState()
+  const [paginationPageData, setPaginationPageData] = useState({
+    dmCurrentPage: parseInt(new URLSearchParams(location.search).get('dmpage')) || 1, 
+    dmPageCount: parseInt(new URLSearchParams(location.search).get('dmpage')) || 1,
+    groupCurrentPage: parseInt(new URLSearchParams(location.search).get('grouppage')) || 1, 
+    groupPageCount: parseInt(new URLSearchParams(location.search).get('grouppage')) || 1,
+    friendsCurrentPage: parseInt(new URLSearchParams(location.search).get('friendspage')) || 1, 
+    friendsPageCount: parseInt(new URLSearchParams(location.search).get('friendspage')) || 1,
+    })
+  
+
+  const handlePaginationClick = (pageNumber, pageType) =>{
+    setPaginationPageData({
+      dmCurrentPage: (pageType == 'dm'? pageNumber : paginationPageData.dmCurrentPage),
+      groupCurrentPage: (pageType == 'group'? pageNumber : paginationPageData.groupCurrentPage),
+      friendsCurrentPage: (pageType == 'friends'? pageNumber : paginationPageData.friendsCurrentPage),
+      })
+      
+    navigate(`/chats?${pageType}page=${pageNumber}`)
+  } 
+
 
 
   const ShowChat = (action) => {
@@ -184,12 +204,26 @@ function Friends() {
   ))
 
   //TODO connect to backend, make active page dynamic
-  let pages = []
-  let pagesCount = 20
-  let active = 20
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(
-      <Pagination.Item key={i} active={i === active}>
+  let dmPages = []
+  for (let i = 1; i <= paginationPageData.dmPageCount; i++) {
+    dmPages.push(
+      <Pagination.Item key={i} active={i === paginationPageData.dmCurrentPage} onPointerDown={()=>handlePaginationClick(i, 'dm')}>
+        {i}
+      </Pagination.Item>
+    )
+  }
+  let groupPages = []
+  for (let i = 1; i <= paginationPageData.groupPageCount; i++) {
+    groupPages.push(
+      <Pagination.Item key={i} active={i === paginationPageData.groupCurrentPage} onPointerDown={()=>handlePaginationClick(i, 'group')}>
+        {i}
+      </Pagination.Item>
+    )
+  }
+  let friendsPages = []
+  for (let i = 1; i <= paginationPageData.friendsPageCount; i++) {
+    friendsPages.push(
+      <Pagination.Item key={i} active={i === paginationPageData.friendsCurrentPage} onPointerDown={()=>handlePaginationClick(i, 'friends')}>
         {i}
       </Pagination.Item>
     )
@@ -261,6 +295,22 @@ function Friends() {
     SetOwner()
   }, [groups])
 
+  useEffect(()=>{
+    console.log("dm current:");
+    console.log(paginationPageData.dmCurrentPage)
+  },[paginationPageData.dmCurrentPage])
+
+  useEffect(()=>{
+    console.log("group current:");
+    console.log(paginationPageData.groupCurrentPage)
+  },[paginationPageData.groupCurrentPage])
+
+  useEffect(()=>{
+    console.log("friends current:");
+    console.log(paginationPageData.friendsCurrentPage)
+  },[paginationPageData.friendsCurrentPage])
+
+
   return (
     <>
       <Navigation></Navigation>
@@ -281,9 +331,9 @@ function Friends() {
                     {friendList}
                     {/*TODO create seperate variable for dms*/}
                     <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
-                      <Pagination.Prev />
-                      {pages[active - 1]}
-                      <Pagination.Next />
+                      <Pagination.Prev onPointerDown={()=>handlePaginationClick(paginationPageData.dmCurrentPage -1 <= 0 ? paginationPageData.dmPageCount : paginationPageData.dmCurrentPage - 1, 'dm')}/>
+                      {dmPages}
+                      <Pagination.Next onPointerDown={()=>handlePaginationClick(paginationPageData.dmCurrentPage +1 > paginationPageData.dmPageCount ? 1 : paginationPageData.dmCurrentPage + 1, 'dm')}/>
                     </Pagination>{' '}
                     {/* TODO: Connect pagination to backend*/}
                   </Col>
@@ -297,9 +347,9 @@ function Friends() {
                     {groupList}
                     <Row>
                       <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
-                        <Pagination.Prev />
-                        {pages[active - 1]}
-                        <Pagination.Next />
+                        <Pagination.Prev onPointerDown={()=>handlePaginationClick(paginationPageData.groupCurrentPage -1 <= 0 ? paginationPageData.groupPageCount : paginationPageData.groupCurrentPage - 1, 'group')}/>
+                        {groupPages}
+                        <Pagination.Next onPointerDown={()=>handlePaginationClick(paginationPageData.groupCurrentPage +1 > paginationPageData.groupPageCount ? 1 : paginationPageData.groupCurrentPage + 1, 'group')}/>
                       </Pagination>{' '}
                       {/* TODO: Connect pagination to backend*/}
                     </Row>
@@ -369,9 +419,9 @@ function Friends() {
                     {friendList}
                     {/* TODO create seperate variable for all friends and dms */}
                     <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
-                      <Pagination.Prev />
-                      {pages[active - 1]}
-                      <Pagination.Next />
+                      <Pagination.Prev onPointerDown={()=>handlePaginationClick(paginationPageData.friendsCurrentPage -1 <= 0 ? paginationPageData.friendsPageCount : paginationPageData.friendsCurrentPage - 1, 'friends')}/>
+                      {friendsPages}
+                      <Pagination.Next onPointerDown={()=>handlePaginationClick(paginationPageData.friendsCurrentPage +1 > paginationPageData.friendsPageCount ? 1 : paginationPageData.friendsCurrentPage + 1, 'friends')}/>
                     </Pagination>{' '}
                     {/* TODO: Connect pagination to backend*/}
                   </Col>
