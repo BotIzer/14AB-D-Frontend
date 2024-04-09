@@ -1,4 +1,4 @@
-import { Button, FormGroup, Row, Image, DropdownButton, DropdownItem, Container, Table, Col, OverlayTrigger, Tooltip, Form, Tab, Tabs } from 'react-bootstrap'
+import { Button, FormGroup, Row, Image as ReactImage, DropdownButton, DropdownItem, Container, Table, Col, OverlayTrigger, Tooltip, Form, Tab, Tabs } from 'react-bootstrap'
 import Navigation from '../components/Navigation'
 import axios from '../api/axios'
 import { useLocation, useNavigate, } from 'react-router-dom'
@@ -11,12 +11,11 @@ function EditForum() {
   const [tagList, setTagList] = useState([])
   const [previewData, setPreviewData] = useState({
     title: '',
-    tags: [],
     banner: '',
     description: '',
   })
   const [displayError, setDisplayError] = useState(false)
-
+  const [isBannerValid, setIsBannerValid] = useState(true)
   //TODO replace dummy data  
   const categoryPreview = [
     'gaming',
@@ -92,7 +91,7 @@ function EditForum() {
       })
     }
   }
-  const categoryList = categoryPreview.map((category)=>(
+  const categoryList = tagList.map((category)=>(
     <th
           style={{ fontSize: 'small', borderWidth: '2px' }}
           key={category}
@@ -101,6 +100,9 @@ function EditForum() {
           <i className='tertiary'>{category}</i>
         </th>
   ))
+  const removeTag = (tag) =>{
+    setTagList(prevTags => prevTags.filter(item => item !== tag));
+  }
 useEffect(() => {
   if(localStorage.getItem('token') === null){
     navigate('/')
@@ -115,16 +117,28 @@ useEffect(() => {
     })
     setPreviewData({
       title: response.data[0].forum_name,
-      tags: response.data[0].tags,
       banner: response.data[0].banner,
       description: response.data[0].description,
     })
+    setTagList(response.data[0].tags)
     document.getElementById('title').value = response.data[0].forum_name
     document.getElementById('banner').value = response.data[0].banner
     document.getElementById('description').value = response.data[0].description
   }
   GetPreviewData()
 },[location.pathname])
+
+useEffect(()=>{
+  const img = new Image();
+    img.src = previewData.profile_image;
+    img.onload = ()=>{
+      setIsBannerValid(true)
+    }
+    img.onerror = () => {
+      setIsBannerValid(false);
+    };
+},[previewData.banner])
+
   return (
     <>
       <Navigation></Navigation>
@@ -160,7 +174,10 @@ useEffect(() => {
                 >
                   {tagList.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
+                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                       {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
+                        {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
+                        variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
                     </DropdownItem>
                   ))}
                 </DropdownButton>
@@ -191,7 +208,7 @@ useEffect(() => {
               id='banner'
             ></Form.Control>
             <OverlayTrigger placement='right' overlay={<Tooltip>Note: banners with an aspect ratio of 6:1 work best, other pictures may appear stretched or shrunk</Tooltip>}>
-              <Image className='hover-filter-gold' src='/src/assets/icons/info.png'></Image>
+              <ReactImage className='hover-filter-gold' src='/src/assets/icons/info.png'></ReactImage>
             </OverlayTrigger>
           </FormGroup>
           <FormGroup className='text-center' data-bs-theme='dark'>
@@ -247,7 +264,7 @@ useEffect(() => {
         <Row
           className='p-2'
           style={{
-            backgroundImage: `url(${previewData.banner})`,
+            backgroundImage: `url(${isBannerValid ? previewData.banner : import.meta.env.VITE_BFF_DEFAULT})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
             height: '20vh',
@@ -270,7 +287,6 @@ useEffect(() => {
           </div>
         </Row>
         <Col xs={12} md={{ span: 6, offset: 3 }}>
-          {postList}
         </Col>
       </Container>
         </Tab>
