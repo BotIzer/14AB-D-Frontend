@@ -50,6 +50,14 @@ function CreatePost() {
       setImgList([])
     }
   }
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      AddTag()
+    }
+  };
+
   const AddImage = async () => {
     await setImgList(prevItems=>[...prevItems,document.getElementById('fileUpload').value])
     document.getElementById('fileUpload').value = ''
@@ -122,6 +130,7 @@ function CreatePost() {
                 className='w-100 mx-5'
                 placeholder='paste Imgur link here'
                 id='fileUpload'
+                onKeyDown={(event)=>handleKeyDown(event)}
               ></Form.Control>
               <Button
                 variant='outline-warning'
