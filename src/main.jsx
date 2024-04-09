@@ -179,11 +179,6 @@ const router = createBrowserRouter([
     element: <Blacklist></Blacklist>,
     errorElement: <ErrorPage></ErrorPage>,
   },
-  {
-    path: "test",
-    element: <Comments></Comments>,
-    errorElement: <ErrorPage></ErrorPage>,
-  },
 ]);
 return(
   // THIS CAUSES RERENDERING TWICE

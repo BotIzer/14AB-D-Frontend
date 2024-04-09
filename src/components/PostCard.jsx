@@ -135,8 +135,11 @@ function PostCard(post) {
               </ToggleButton>
             </Col>
           <Col xs={6} className='text-end'>
+            {console.log(decodeURIComponent(location.pathname.split('/')[2]))}
             <Button
               className='comments-button tertiary position-relative h-100' /*onClick={() => navigate('/post/comments')} TODO make this navigate to comment section*/
+              onPointerDown={()=>navigate(
+                `/forums/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}/${post.post._id.thread_id}/comments`)}
             >
               Comments
               <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
