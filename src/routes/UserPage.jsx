@@ -9,7 +9,7 @@ import {
   Row,
   Col,
   Container,
-  Image,
+  Image as ReactImage,
   Button,
   OverlayTrigger,
   Tooltip,
@@ -31,6 +31,7 @@ function UserPage() {
   const [userData, setUserData] = useState(null)
   const [isSameUser, setIsSameUser] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('userInfo') !== null)
+  const [isBannerValid, setIsBannerValid] = useState(true)
  
   const SendFriendRequest = async () => {
     try {
@@ -168,9 +169,20 @@ function UserPage() {
     }
     GetPageDetails()
   }, [user])
-  useEffect(() => {
-  }, [userData])
-
+  useEffect(()=>{
+    if(userData !== null){
+    const img = new Image();
+    img.src = userData.profile_image;
+    img.onload = ()=>{
+      setIsBannerValid(true)
+    }
+    img.onerror = () => {
+      setIsBannerValid(false);
+      console.log("kurva")
+    };
+    console.log(userData.profile_image)
+    }
+  },[userData])
 
   if (error !== '') {
     return <ErrorPage errorStatus={error} />
@@ -191,12 +203,19 @@ function UserPage() {
           </Offcanvas>
           <Col className='border overflow-auto h-100'>
             <Row className='justify-content-center position-relative'>
-              <Image
+              <ReactImage
                 className='profileSize img-fluid'
-                src={userData !== null ? userData.profile_image : null}
+                src={userData !== null && isBannerValid ? userData.profile_image : import.meta.env.VITE_BFF_DEFAULT}
                 roundedCircle
                 style={{ float: 'center' }}
-              ></Image>
+              ></ReactImage>
+            </Row>
+            <Row className='justify-content-center'>
+              <Table responsive className='m-0'>
+              <tbody>
+                <tr className='text-center'>{userData !== null ? hobbyList : null}</tr>
+              </tbody>
+              </Table>
             </Row>
             <Row className='justify-content-center'>
               <OverlayTrigger
@@ -226,7 +245,7 @@ function UserPage() {
                   style={{ width: 'auto', height: 'auto' }}
                   onClick={() => SendFriendRequest()}
                 >
-                  <Image
+                  <ReactImage
                     src='/src/assets/icons/add_user_64.png'
                     style={{ width: '32px', height: '32px' }}
                     className='hover-filter-gold'
@@ -240,7 +259,7 @@ function UserPage() {
                   style={{ width: 'auto', height: 'auto' }}
                   onClick={() => navigate(`/edituser/${user}`)}
                 >
-                  <Image
+                  <ReactImage
                     src='/src/assets/icons/edit.png'
                     style={{ width: '32px', height: '32px' }}
                     className='hover-filter-gold'
@@ -250,13 +269,6 @@ function UserPage() {
             </Row>
 
             <div style={{ borderTop: '3px solid #44454c' }}></div>
-            <Row className='justify-content-center'>
-              <Table responsive className='m-0'>
-              <tbody>
-                <tr className='text-center'>{userData !== null ? hobbyList : null}</tr>
-              </tbody>
-              </Table>
-            </Row>
             <Row>
               <p className='text-justify secondary text-center'>
                 {userData !== null ? userData.description : null}
