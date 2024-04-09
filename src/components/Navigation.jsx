@@ -217,7 +217,7 @@ function Navigation(props) {
             <Nav.Link
               style={textStyle}
               className='mx-2 my-2'
-              onClick={() => navigate('/forums?page=0')}
+              onClick={() => navigate('/forums?page=1')}
             >
               Forums
             </Nav.Link>
