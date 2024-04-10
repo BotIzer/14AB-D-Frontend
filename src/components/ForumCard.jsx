@@ -7,9 +7,12 @@ function ForumCard(forum) {
   const navigate = useNavigate()
   const [isSubscribed, setIsSubscribed] = useState(forum.forum.isSubscribed)
   const [isBannerValid, setIsBannerValid] = useState(true)
+  const [showError, setShowError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const SubscribeToForum = async () =>{
-    await axios.post('/forum/subscribeToForum',
+    try {
+      await axios.post('/forum/subscribeToForum',
     {
       forum_id: forum.forum._id.forum_id
     },
@@ -21,6 +24,10 @@ function ForumCard(forum) {
       withCredentials: true
     })
     setIsSubscribed(true)
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const UnsubscribeFromForum = async () =>{
     await axios.post('/forum/unsubscribeFromForum',

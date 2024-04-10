@@ -16,6 +16,7 @@ function ChatWindow(currentChatData) {
   const [currentChat,setCurrentChat] = useState(null)
   const [friends, setFriends] = useState([])
   const [showError, setShowError] =  useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   
   const SendMsg = async () => {
     event.preventDefault()
@@ -94,6 +95,7 @@ function ChatWindow(currentChatData) {
       if (error.response.status === 404) {
       }
       setShowError(true)
+      setErrorMessage(error.response.message)
     }
     
   }
@@ -104,19 +106,24 @@ function ChatWindow(currentChatData) {
     }
   }
   const AddToChat = async (friendname) =>{
-    await axios.post(
-      '/chat/addFriend',
-      {
-        friend_name: friendname,
-        chat_id: currentChatData.selectedChat
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
+    try {
+      await axios.post(
+        '/chat/addFriend',
+        {
+          friend_name: friendname,
+          chat_id: currentChatData.selectedChat
         },
-        withCredentials: true,
-      })
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const CloseChat = () => {
     currentChatData.close()
@@ -135,14 +142,19 @@ useEffect(()=>{
 },[currentChatData])
 useEffect(() => {
   const GetFriends = async () => {
-    const response = await axios.get('/friends', {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      withCredentials: true,
-    })
-    setFriends(response.data.returnFriends)
+    try {
+      const response = await axios.get('/friends', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      setFriends(response.data.returnFriends)
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   GetFriends()
   setCurrentChat(currentChatData.selectedChat)

@@ -13,6 +13,7 @@ function CreateChatPopup(props) {
   const [isTemporary, setIsTemporary] = useState(false)
   const [showError, setShowError] = useState(false)
   const [friendList, setFriendList] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
   //TODO replace dummyData
   const addFriends = friendList.map((friend) => (
     <Row key={friend.username} className='border border-secondary text-nowrap w-100 mx-auto'>
@@ -47,7 +48,8 @@ function CreateChatPopup(props) {
         }
       )
     } catch (error) {
-      //TODO do error handling soon
+      setShowError(true)
+      setErrorMessage(error.response.message)
     }
   }
   const CloseChat = () => {
@@ -63,21 +65,27 @@ function CreateChatPopup(props) {
   }, [isTemporary])
   useEffect(()=>{
     const GetFriends = async () => {
-      const response = await axios.get('/friends', {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-      setFriendList(response.data.returnFriends)
-      console.log(response.data.returnFriends)
+      try {
+        const response = await axios.get('/friends', {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setFriendList(response.data.returnFriends)
+        console.log(response.data.returnFriends)
+      } catch (error) {
+        setShowError(true)
+        setErrorMessage(error.response.message)
+      }
     }
     GetFriends()
   },[])
   return (
     <>
       <Row className='mx-auto text-center'>
+        {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{error.message}</p></Row> : null}
         <FormGroup data-bs-theme='dark'>
           <Form.Label className='secondary'>Group Name</Form.Label>
           <Form.Control
