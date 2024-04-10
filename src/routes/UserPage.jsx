@@ -160,7 +160,6 @@ function UserPage() {
     const InitializeUserData = async () => {
       const userResponse = await axios.get(
         `/user/${user}`,
-        {},
         {
           headers: { 'Content-Type': 'application/json' },
         }

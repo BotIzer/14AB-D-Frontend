@@ -1,5 +1,5 @@
 import Navigation from '../components/Navigation'
-import { Col, Row, Container, Table, Button, Image, Pagination } from 'react-bootstrap'
+import { Col, Row, Container, Table, Button, Image as ReactImage, Pagination } from 'react-bootstrap'
 import PostCard from '../components/PostCard'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import axios from '../api/axios'
@@ -13,7 +13,9 @@ function Forum() {
     forumData: [],
     threads: []
   })
-
+  const [isBannerValid, setIsBannerValid] = useState(false)
+  const [isSubscribed, setIsSubscribed] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
 
   const categoryList = data.forumData[0] && data.forumData[0].tags.map((category)=>(
     <th
@@ -69,7 +71,38 @@ function Forum() {
     //  TODO: fix this ESLint error
   },[])
 
-
+  useEffect(()=>{
+    if(data.forumData.length !== 0){
+      const img = new Image();
+      img.src = data.forumData[0].banner
+      img.onload = ()=>{
+        setIsBannerValid(true)
+      }
+      img.onerror = ()=>{
+        setIsBannerValid(false)
+      }
+    }
+  },[data.forumData])
+  useEffect(()=>{
+    // TODO: Block route to create post and edit forum!
+    if(data.forumData.length !== 0){
+      const CheckIfIsOwner = async() =>{
+        const userResponse = await axios.get(
+          `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+          {
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+        if(data.forumData[0]._id.creator_id === userResponse.data.user._id){
+          setIsOwner(true)
+        }
+        else{
+          setIsOwner(false)
+        }
+      }
+      CheckIfIsOwner()
+    }
+  },[data])
   return (
     <>
       <Navigation></Navigation>
@@ -88,7 +121,7 @@ function Forum() {
         <Row
           className='p-2'
           style={{
-            backgroundImage: data.forumData[0] && `url(${data.forumData[0].banner})`,
+            backgroundImage: data.forumData[0] && isBannerValid ? `url(${data.forumData[0].banner})` : `url(${import.meta.env.VITE_BFF_DEFAULT})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
             height: '20vh',
@@ -97,11 +130,10 @@ function Forum() {
           <h1 className='text-outline text-center m-auto'>
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
-          {/* TODO LET ONLY OWNER EDIT IT LOL */}
-          {localStorage.getItem('token') !== null ? <Button className='position-absolute end-0 rounded-pill clear-button' 
+          {localStorage.getItem('token') !== null && isOwner ? <Button className='position-absolute end-0 rounded-pill clear-button' 
                 style={{width: 'auto', height: 'auto'}} 
                 onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
-                  <Image src='/src/assets/icons/edit.png' className='hover-filter-gold'/>
+                  <ReactImage src='/src/assets/icons/edit.png' className='hover-filter-gold'/>
           </Button> : null}
         </Row>
         <Row className='no-padding-table'>
