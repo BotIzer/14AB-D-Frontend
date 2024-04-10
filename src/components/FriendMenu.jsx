@@ -6,21 +6,28 @@ import axios from '../api/axios'
 function FriendMenu(props) {
     const [friends, setFriends] = useState([])
     const [chat, setChat] = useState(null)
+    const [showError, setShowError] =  useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const AddToChat = async (friend) =>{
-        await axios.post(
-          '/chat/addFriend',
-          {
-            friendName: friend,
-            chat_id: props.chat,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: `Bearer ${localStorage.getItem('token')}`,
+        try {
+          await axios.post(
+            '/chat/addFriend',
+            {
+              friendName: friend,
+              chat_id: props.chat,
             },
-            withCredentials: true,
-          })
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            })
+        } catch (error) {
+          setErrorMessage(error.response.message)
+          setShowError(true)
+        }
       }
       const listItems = friends.map((friend) => (
         <Button

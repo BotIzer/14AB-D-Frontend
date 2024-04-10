@@ -89,7 +89,7 @@ function CreateChatPopup(props) {
   return (
     <>
       <Row className='mx-auto text-center'>
-        {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{error.message}</p></Row> : null}
+        {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{errorMessage}</p></Row> : null}
         <FormGroup data-bs-theme='dark'>
           <Form.Label className='secondary'>Group Name</Form.Label>
           <Form.Control

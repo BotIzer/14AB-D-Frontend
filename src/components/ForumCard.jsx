@@ -30,7 +30,8 @@ function ForumCard(forum) {
     }
   }
   const UnsubscribeFromForum = async () =>{
-    await axios.post('/forum/unsubscribeFromForum',
+    try {
+      await axios.post('/forum/unsubscribeFromForum',
     {
       forum_id: forum.forum._id.forum_id
     },
@@ -42,14 +43,16 @@ function ForumCard(forum) {
       withCredentials: true
     })
     setIsSubscribed(false)
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const categoryList = forum.forum.tags.map((category,index) => (
     <th style={{ fontSize: 'small' }} key={index}>
       <i className='tertiary'>{category}</i>
     </th>
   ))
-  
-  const sinceUpdate = DaysDifference(forum.forum.lastUpdated, new Date())
   useEffect(()=>{
     const img = new Image();
     img.src = forum.forum.banner
@@ -97,6 +100,7 @@ function ForumCard(forum) {
             </tbody>
           </Table>
         </Card.Header>
+        {showError ? <Card.Footer className='text-muted'><Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{errorMessage}</p></Row></Card.Footer> : null}
       </Card>
     </>
   )
