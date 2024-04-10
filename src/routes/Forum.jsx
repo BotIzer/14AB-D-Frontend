@@ -14,6 +14,8 @@ function Forum() {
     threads: []
   })
   const [isBannerValid, setIsBannerValid] = useState(false)
+  const [isSubscribed, setIsSubscribed] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
 
   const categoryList = data.forumData[0] && data.forumData[0].tags.map((category)=>(
     <th
@@ -81,6 +83,26 @@ function Forum() {
       }
     }
   },[data.forumData])
+  useEffect(()=>{
+    // TODO: Block route to create post and edit forum!
+    if(data.forumData.length !== 0){
+      const CheckIfIsOwner = async() =>{
+        const userResponse = await axios.get(
+          `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+          {
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+        if(data.forumData[0]._id.creator_id === userResponse.data.user._id){
+          setIsOwner(true)
+        }
+        else{
+          setIsOwner(false)
+        }
+      }
+      CheckIfIsOwner()
+    }
+  },[data])
   return (
     <>
       <Navigation></Navigation>
@@ -108,8 +130,7 @@ function Forum() {
           <h1 className='text-outline text-center m-auto'>
             {data.forumData[0] && data.forumData[0].forum_name}
           </h1>
-          {/* TODO LET ONLY OWNER EDIT IT LOL */}
-          {localStorage.getItem('token') !== null ? <Button className='position-absolute end-0 rounded-pill clear-button' 
+          {localStorage.getItem('token') !== null && isOwner ? <Button className='position-absolute end-0 rounded-pill clear-button' 
                 style={{width: 'auto', height: 'auto'}} 
                 onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
                   <ReactImage src='/src/assets/icons/edit.png' className='hover-filter-gold'/>
