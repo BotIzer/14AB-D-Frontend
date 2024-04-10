@@ -1,4 +1,4 @@
-import { Button, Card, Table } from 'react-bootstrap'
+import { Button, Card, Table, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 import { useEffect, useState } from 'react'
@@ -31,7 +31,7 @@ function ForumCard(forum) {
   }
   const UnsubscribeFromForum = async () =>{
     try {
-      await axios.post('/forum/unsubscribeFromForum',
+      await axios.post('/forum/leaveForum',
     {
       forum_id: forum.forum._id.forum_id
     },

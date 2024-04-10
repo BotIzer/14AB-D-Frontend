@@ -100,6 +100,7 @@ function Forum() {
           setIsOwner(false)
         }
         // TODO: IF YOU GO TO THE ROUTE, YOU SHOULD BE KICKED OFF
+        // WITH ERROR
         setIsSubscribed(data.forumData[0].users.some(user =>  user.user_id === userResponse.data.user._id) || 
         data.forumData[0]._id.creator_id === userResponse.data.user._id)
       }
