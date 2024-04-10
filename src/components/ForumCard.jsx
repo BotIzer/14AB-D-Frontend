@@ -66,9 +66,10 @@ function ForumCard(forum) {
         >
           {localStorage.getItem('userInfo') !== null ? !isSubscribed ?<Button onClick={()=>SubscribeToForum()}>Subscribe</Button> :
           <Button onClick={()=>UnsubscribeFromForum()}>Unsubscribe</Button> : null}
-          <Card.Title className='text-outline'>
+          {/* TODO: fix this */}
+          <Card.Title className='text-outline overflow-auto' style={{maxHeight: "50px"}}>
             {/* {forum.forum.topPost.title} */}
-            We need to fix this ASAP
+            {forum.forum.description}
           </Card.Title>
           <Card.Text className='text-outline'>
             {/* <i>{forum.forum.topPost.content}</i> TODO ezek miért commentelve vannak?*/}

@@ -13,11 +13,14 @@ function CreateChatPopup(props) {
   const [isTemporary, setIsTemporary] = useState(false)
   const [showError, setShowError] = useState(false)
   const [friendList, setFriendList] = useState([])
-  //TODO replace dummyData
+  const [groupMembers, setGroupMembers] = useState([])
+
   const addFriends = friendList.map((friend) => (
     <Row key={friend.username} className='border border-secondary text-nowrap w-100 mx-auto'>
       <Col className='p-2 text-start'>
-      <Button variant='outline-warning'>+</Button>{friend.username}
+      <Button variant='outline-warning' onPointerDown={()=>groupMembers.includes(friend.username) ? setGroupMembers(groupMembers.filter(member => member !== friend.username))
+      : setGroupMembers([...groupMembers, friend.username])}>
+        {groupMembers.includes(friend.username) ? "-" : "+"}</Button>{friend.username}
       </Col>
     </Row>
   ))
@@ -36,7 +39,7 @@ function CreateChatPopup(props) {
           is_ttl: isTemporary,
           days_to_die: daysToDie,
           is_private: false,
-          usernames: [],
+          usernames: groupMembers,
         },
         {
           headers: {
@@ -46,6 +49,7 @@ function CreateChatPopup(props) {
           withCredentials: true,
         }
       )
+      props.close()
     } catch (error) {
       //TODO do error handling soon
     }
