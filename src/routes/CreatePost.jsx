@@ -66,6 +66,32 @@ function CreatePost() {
   useEffect(()=>{
     console.log(imgList)
   },[imgList])
+  useEffect(()=>{
+    const GetForumData = async () =>{
+      const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+        },
+        withCredentials: true,
+      })
+      const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+        },
+      })
+       // TODO: Show error if not owner
+       // TODO: make it work if user is not in the user list
+    if(response.data[0]._id.creator_id !== userResponse.data.user._id){
+      console.log("not owner")
+    }
+    }
+      GetForumData()
+  },[])
   return (
     <>
       <Navigation></Navigation>
