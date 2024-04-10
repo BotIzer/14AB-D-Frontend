@@ -177,7 +177,6 @@ function UserPage() {
     }
     img.onerror = () => {
       setIsBannerValid(false);
-      console.log("kurva")
     };
     console.log(userData.profile_image)
     }
