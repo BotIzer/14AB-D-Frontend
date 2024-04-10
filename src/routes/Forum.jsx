@@ -99,6 +99,9 @@ function Forum() {
         else{
           setIsOwner(false)
         }
+        // TODO: IF YOU GO TO THE ROUTE, YOU SHOULD BE KICKED OFF
+        setIsSubscribed(data.forumData[0].users.some(user =>  user.user_id === userResponse.data.user._id) || 
+        data.forumData[0]._id.creator_id === userResponse.data.user._id)
       }
       CheckIfIsOwner()
     }
@@ -107,7 +110,7 @@ function Forum() {
     <>
       <Navigation></Navigation>
       <Container data-bs-theme='dark' fluid>
-        {localStorage.getItem('token') !== null ? <Button
+        {localStorage.getItem('token') !== null && isSubscribed ? <Button
           className='clear-button fixed-bottom-right mb-4'
           style={{ backgroundColor: '#343a40' }}
           onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/createpost/`)}
