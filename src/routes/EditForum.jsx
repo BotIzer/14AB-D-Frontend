@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 
 function EditForum() {
   const location = useLocation()
-
   const navigate = useNavigate()
+
   const [tagList, setTagList] = useState([])
   const [previewData, setPreviewData] = useState({
     title: '',
@@ -149,6 +149,31 @@ useEffect(()=>{
       setIsBannerValid(false);
     };
 },[previewData.banner])
+useEffect(()=>{
+  const GetForumData = async () =>{
+    const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${localStorage.getItem('token') !== null ? 
+        `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+      },
+      withCredentials: true,
+    })
+    const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${localStorage.getItem('token') !== null ? 
+        `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+      },
+    })
+    // TODO: Show error if not owner
+    if(response.data[0]._id.creator_id !== userResponse.data.user._id){
+      console.log("not owner")
+    }
+  }
+  GetForumData()
+},[])
 
   return (
     <>
