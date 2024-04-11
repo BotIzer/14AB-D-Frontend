@@ -109,6 +109,7 @@ function EditPost() {
     },
     withCredentials: true,
     })
+    console.log(response)
     await GetCreatorName(response.data._id.creator_id)
     document.getElementById('name').value = response.data.name
     document.getElementById('content').value = response.data.content
@@ -130,14 +131,14 @@ function EditPost() {
          },
          withCredentials: true,
        })
+       if (response.data.user._id !== creatorId) {
+        setError({ response: { data: { message: 'You are not authorized to view this page!!' } } })
+        return
+      }
       } catch (error) {
-        setError('Could not get user inforomation')
+        setError('Could not get user information')
         setShowError(true)
       }
-       if (response.data.user._id !== creatorId) {
-         setError({ response: { data: { message: 'You are not authorized to view this page!!' } } })
-         return
-       }
      } 
     const GetForum = async(forumId) =>{
       try {
