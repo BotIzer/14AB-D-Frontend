@@ -245,9 +245,17 @@ function CreateForum() {
         <Row className='no-padding-table'>
           <Table responsive className='m-0' data-bs-theme='dark'>
             <tbody>
-              <tr>{previewData.tags.map((tag, index) => (
-          <td key={index}>{tag}</td>
-        ))}</tr>
+              <tr>
+                {previewData.tags.map((tag, index) => (
+                <th
+                style={{ fontSize: 'small', borderWidth: '2px' }}
+                key={index}
+                className='text-center'
+              >
+                <i className='tertiary'>{tag}</i>
+              </th>
+                  ))}
+              </tr>
             </tbody>
           </Table>
         </Row>
