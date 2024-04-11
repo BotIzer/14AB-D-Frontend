@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function MyCarousel(forums) {
   const navigate = useNavigate()
   const [isBannerValid, setIsBannerValid] = useState({})
-  const carouselItems = forums.forums && forums.forums.length !== 0 && forums.forums.map((forum) => (
+  const carouselItems = forums.forums && forums.forums.length !== 0 ? forums.forums.map((forum) => (
     <Carousel.Item key={forum._id.forum_id} className='text-center'>
       <img
         src={isBannerValid[forum.banner] ? forum.banner : import.meta.env.VITE_BFF_DEFAULT}
@@ -20,6 +20,15 @@ function MyCarousel(forums) {
         <h3><Button onPointerDown={()=>goToForum(forum.forum_name, forum._id.forum_id)}>Visit Forum</Button></h3>
         <p>{forum.description && forum.description}</p>
       </Carousel.Caption>
+    </Carousel.Item>
+  )) : forums.images && forums.images.map((image) => (
+    <Carousel.Item key={image} className='text-center'>
+      <img
+        src={isBannerValid[image] ? image : import.meta.env.VITE_BFF_DEFAULT}
+        className='img-fluid bannerSize'
+        alt={image.slice(0, image.lastIndexOf('.'))}
+        style={{ float: 'center' }}
+      />
     </Carousel.Item>
   ));
   const goToForum = async (forum_name, id)=>{
@@ -40,6 +49,24 @@ function MyCarousel(forums) {
           setIsBannerValid(prevState => ({
             ...prevState,
             [forum.banner]: false
+          }));
+        };
+      });
+    }
+    else if(forums.images){
+      forums.images.forEach(image => {
+        const img = new Image();
+        img.src = image;
+        img.onload = () => {
+          setIsBannerValid(prevState => ({
+            ...prevState,
+            [image]: true
+          }));
+        };
+        img.onerror = () => {
+          setIsBannerValid(prevState => ({
+            ...prevState,
+            [image]: false
           }));
         };
       });

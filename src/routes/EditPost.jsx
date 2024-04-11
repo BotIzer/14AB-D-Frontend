@@ -93,12 +93,14 @@ function EditPost() {
 
   }
   const AddImage = async () => {
-    if(document.getElementById('fileUpload').value.trim() !== ''){
+    if(document.getElementById('fileUpload').value.trim() !== '' && !imageList.includes(document.getElementById('fileUpload').value)){
       await setImageList(prevItems=>[...prevItems,document.getElementById('fileUpload').value])
       document.getElementById('fileUpload').value = ''
     }
   }
-
+  const removeImage = async (image) => {
+    setImageList(prevItems => prevItems.filter(item => item !== image));
+  }
   useEffect(()=>{
     const GetThreadData = async() => {
     try {
@@ -109,12 +111,11 @@ function EditPost() {
     },
     withCredentials: true,
     })
-    console.log(response)
     await GetCreatorName(response.data._id.creator_id)
     document.getElementById('name').value = response.data.name
     document.getElementById('content').value = response.data.content
     setImageList(response.data.image_array)
-    setPreviewData({_id: response.data._id, name: response.data.name, image_array: response.data.image_array, content: response.data.content})
+    setPreviewData(response.data)
     GetForum(response.data._id.forum_id)
     } catch (error) {
       setError('Could not get thread data')
@@ -263,7 +264,7 @@ function EditPost() {
           </Button>
         </Tab>
         <Tab eventKey='preview' title='Preview' className='tab-size'>
-            <PostCard post={preview}></PostCard>
+            <PostCard image_array={imageList} post={preview}></PostCard>
         </Tab>
       </Tabs>
     </>

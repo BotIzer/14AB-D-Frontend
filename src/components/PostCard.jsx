@@ -82,7 +82,8 @@ function PostCard(post) {
       <Card.Body className='secondary h-auto' style={{ minHeight: '200px' }}>
         <Card.Text>{post.post.content}</Card.Text>{' '}
         {/* TODO: DO SOMETHING WHEN IT'S EMPTY */}
-        <MyCarousel images={post.post.image_array ? post.post.image_array : ['Nothing']}></MyCarousel>
+        {console.log(post.image_array)}
+        <MyCarousel images={post.image_array? post.image_array : (post.post.image_array ? post.post.image_array : [])}></MyCarousel>
         {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
       </Card.Body>
       <Card.Footer>
