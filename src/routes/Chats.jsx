@@ -40,6 +40,8 @@ function Chats() {
     friendsPageCount: parseInt(new URLSearchParams(location.search).get('friendspage')) || 1,
     })
   const [activeKey, setActiveKey] = useState('chats')
+  const [showError, setShowError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handlePaginationClick = (pageNumber, pageType) =>{
     
@@ -114,7 +116,8 @@ function Chats() {
         }));
       }}
       onClick={async (e) => {
-        e.preventDefault();
+        try {
+          e.preventDefault();
         if (
           props.selectedChat === chat._id &&
           showData.lastAction === 'click'
@@ -138,6 +141,10 @@ function Chats() {
         setComments(chatData.data.comments);
         ShowChat('click');
         navigate(`/chats/${chat.friend_user_name}`);
+        } catch (error) {
+          setErrorMessage('Could not load chat')
+          setShowError(true)
+        }
       }}
     >
       {chat.friend_user_name}
@@ -169,28 +176,11 @@ function Chats() {
       }}
       onClick={async (e) => {
         e.preventDefault();
-        const response = await axios.post(
-          '/createOrRetrieveChat',
-          {
-            friend: friend.username,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            withCredentials: true,
-          }
-        );
-        if (response.data.length === 0) {
-          await axios.post(
-            '/chat',
+        try {
+          const response = await axios.post(
+            '/createOrRetrieveChat',
             {
-              name: friend.username,
-              is_ttl: false,
-              is_private: true,
-              other_user_name: friend.username,
-              usernames: [friend.username]
+              friend: friend.username,
             },
             {
               headers: {
@@ -199,24 +189,46 @@ function Chats() {
               },
               withCredentials: true,
             }
-          )
+          );
+          if (response.data.length === 0) {
+            await axios.post(
+              '/chat',
+              {
+                name: friend.username,
+                is_ttl: false,
+                is_private: true,
+                other_user_name: friend.username,
+                usernames: [friend.username]
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                withCredentials: true,
+              }
+            )
+          }
+          else{
+            setActiveKey('chats')
+          }
+          if (
+            showData.lastAction === 'click'
+          ) {
+            DoNotShow();
+            ClearProps();
+            return;
+          }
+          setProps({
+            selectedChat: null,
+            selectedFriend: friend.username,
+            selectedChatType: 'friend',
+            displayName: friend.username,
+          })
+        } catch (error) {
+          setErrorMessage('Could not load friend list')
+          setShowError(true)
         }
-        else{
-          setActiveKey('chats')
-        }
-        if (
-          showData.lastAction === 'click'
-        ) {
-          DoNotShow();
-          ClearProps();
-          return;
-        }
-        setProps({
-          selectedChat: null,
-          selectedFriend: friend.username,
-          selectedChatType: 'friend',
-          displayName: friend.username,
-        })
       }}
     >
       {friend.username}
@@ -249,31 +261,36 @@ function Chats() {
           }
         }}
         onClick={async (e) => {
-          e.preventDefault()
-          if (
-            props.selectedChat == chat._id &&
-            showData.lastAction === 'click'
-          ) {
-            DoNotShow()
-            ClearProps()
-            return
+          try {
+            e.preventDefault()
+            if (
+              props.selectedChat == chat._id &&
+              showData.lastAction === 'click'
+            ) {
+              DoNotShow()
+              ClearProps()
+              return
+            }
+            const chatData = await axios.get(`/chat/${chat._id}/comments`, {
+              headers: {
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              withCredentials: true,
+            })
+            setProps({
+              selectedFriend: null,
+              selectedChat: chat._id,
+              selectedChatType: 'group',
+              displayName: chat.name,
+            })
+            setComments(chatData.data.comments)
+            ShowChat('click')
+            navigate(`/chats/${chat.name}`)
+          } catch (error) {
+            setErrorMessage('Could not load group')
+            setShowError(true)
           }
-          const chatData = await axios.get(`/chat/${chat._id}/comments`, {
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            withCredentials: true,
-          })
-          setProps({
-            selectedFriend: null,
-            selectedChat: chat._id,
-            selectedChatType: 'group',
-            displayName: chat.name,
-          })
-          setComments(chatData.data.comments)
-          ShowChat('click')
-          navigate(`/chats/${chat.name}`)
         }}
       >
         {chat.name}
@@ -368,13 +385,18 @@ function Chats() {
       let chatOwner = {}
       let chatUsers = {}
       for (let index = 0; index < groups.length; index++) {
-        const response = await axios.get(`/chat/${groups[index]._id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        })
+        try {
+          const response = await axios.get(`/chat/${groups[index]._id}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          })
+        } catch (error) {
+          setErrorMessage(error)
+          setShowError(true)
+        }
         chatUsers = { ...users, [groups[index]._id]: response.data.chat.users }
         chatOwner = {
           ...chatOwner,

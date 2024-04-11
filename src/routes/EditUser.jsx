@@ -16,7 +16,7 @@ function EditUser() {
   });
   const PWD_REGEX =
   /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
-  const [displayError, setDisplayError] = useState(false)
+  const [showError, setShowError] = useState(false)
 
   const [oldPassword, setOldPassword] = useState("")
 
@@ -36,13 +36,18 @@ function EditUser() {
   }, [password, matchPwd])
   useEffect(()=>{
     const GetPreviewData = async () => {
-      const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        withCredentials: true,
-      });
+      try {
+        const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        })
+      } catch (error) {
+        setError('Could not get user information')
+        setShowError(true)
+      }
        setPreviewData({
         username: response.data.user.username,
         profile_image: response.data.user.profile_image,
@@ -63,48 +68,57 @@ function EditUser() {
     const email = document.getElementById("email").value.trim();
     if (username !== "" && profilePicture !== "") {
       if(email !== ""){
-        await axios.put(
-          '/user',
-          {
-            username: username,
-            profile_image: profilePicture,
-            description: description,
-            hobbies: tagList,
-            email: email,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `Bearer ${localStorage.getItem("token")}`,
+        try {
+          await axios.put(
+            '/user',
+            {
+              username: username,
+              profile_image: profilePicture,
+              description: description,
+              hobbies: tagList,
+              email: email,
             },
-            withCredentials: true,
-          }
-        )
+            {
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              withCredentials: true,
+            }
+          )
+        } catch (error) {
+          setError('Could not update user information')
+        }
       }
       else{
-        await axios.put(
-          '/user',
-          {
-            username: username,
-            profile_image: profilePicture,
-            description: description,
-            hobbies: tagList
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `Bearer ${localStorage.getItem("token")}`,
+        try {
+          await axios.put(
+            '/user',
+            {
+              username: username,
+              profile_image: profilePicture,
+              description: description,
+              hobbies: tagList
             },
-            withCredentials: true,
-          }
-        )
+            {
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              withCredentials: true,
+            }
+          )
+        } catch (error) {
+          setError('Could not update user information')
+          setShowError(true)
+        }
       }
       const prevUserInfo = localStorage.getItem('userInfo')
       localStorage.setItem('userInfo', JSON.stringify({profile_image: profilePicture, 
         custom_ui: prevUserInfo.custom_ui, roles: prevUserInfo.roles, username: username}))
       navigate(`/user/${username}`)
     } else {
-      setDisplayError(true);
+      setShowError(true);
     }
   };
   const Cancel = async () => {
@@ -118,20 +132,25 @@ function EditUser() {
       if (password === null || !password.trim()) {
         return;
       }
-      await axios.delete(
-        "/user",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-            password: password
-          },
-          withCredentials: true,
-        }
-      );
-      localStorage.clear()
-      dispatchEvent(new Event('storage'))
-      navigate('/')
+      try {
+        await axios.delete(
+          "/user",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+              password: password
+            },
+            withCredentials: true,
+          }
+        )
+        localStorage.clear()
+        dispatchEvent(new Event('storage'))
+        navigate('/')
+      } catch (error) {
+        setError('Could not delete user')
+        setShowError(true)
+      }
     }
   }
   const HandleSelect = (key) =>{
@@ -203,6 +222,7 @@ function EditUser() {
   return (
     <>
       <Navigation></Navigation>
+      {showError ? <div><span className='invalid'>{error}</span></div> : null}
       <Tabs
         defaultActiveKey="editUser"
         className="d-flex mx-auto text-nowrap mb-4 justify-content-center"
@@ -307,7 +327,6 @@ function EditUser() {
               placeholder="enter description"
               id="description"
             ></Form.Control>
-            {displayError ? <div><span className="invalid">Username or Profile picture field is empty!</span></div> : null}
           </FormGroup>
           <div
             className="d-flex justify-content-around my-3"

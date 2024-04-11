@@ -18,6 +18,7 @@ function EditPost() {
     content: '',
   })
   const [forum, setForum] = useState({forumName: '', forumId: ''})
+  const [showError, setShowError] = useState(false)
   const [error, setError] = useState('')
   const [isCreator, setIsCreator] = useState(false)
 
@@ -40,22 +41,27 @@ function EditPost() {
     const content = document.getElementById('content').value.trim()
     if (name !== '') {
       // TODO: Display error if nameis empty!
-      await axios.put(
-        `/thread/${previewData._id.thread_id}`,
-        {
-          name: name,
-          content: content,
-          image_array: image_array
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
+      try {
+        await axios.put(
+          `/thread/${previewData._id.thread_id}`,
+          {
+            name: name,
+            content: content,
+            image_array: image_array
           },
-          withCredentials: true,
-        }
-      )
-      navigate(`/forums/${forum.forumName}/${forum.forumId}`)
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+        navigate(`/forums/${forum.forumName}/${forum.forumId}`)
+      } catch (error) {
+        setError('Could not save changes!')
+        setShowError(true)
+      }
     } else {
       return
     }
@@ -67,17 +73,22 @@ function EditPost() {
   }
   const DeletePost = async() => {
     if (confirm('Are you sure you want to delete this post?')) {
-      await axios.delete(
-        `/thread/${previewData._id.thread_id}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        }
-      )
-      navigate(`/forums/${forum.forumName}/${forum.forumId}`)
+      try {
+        await axios.delete(
+          `/thread/${previewData._id.thread_id}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+        navigate(`/forums/${forum.forumName}/${forum.forumId}`)
+      } catch (error) {
+        setError('Could not delete post')
+        setShowError(true)
+      }
     }
 
   }
@@ -90,7 +101,8 @@ function EditPost() {
 
   useEffect(()=>{
     const GetThreadData = async() => {
-    const response = await axios.get(`/thread/${location.pathname.split('/')[3]}`,
+    try {
+      const response = await axios.get(`/thread/${location.pathname.split('/')[3]}`,
     { headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -103,9 +115,14 @@ function EditPost() {
     setImageList(response.data.image_array)
     setPreviewData({_id: response.data._id, name: response.data.name, image_array: response.data.image_array, content: response.data.content})
     GetForum(response.data._id.forum_id)
+    } catch (error) {
+      setError('Could not get thread data')
+      setShowError(true)
+    }
     }
     const GetCreatorName = async (creatorId) =>{
-      const response = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+      try {
+        const response = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
        {
          headers: {
            'Content-Type': 'application/json',
@@ -113,13 +130,18 @@ function EditPost() {
          },
          withCredentials: true,
        })
+      } catch (error) {
+        setError('Could not get user inforomation')
+        setShowError(true)
+      }
        if (response.data.user._id !== creatorId) {
          setError({ response: { data: { message: 'You are not authorized to view this page!!' } } })
          return
        }
      } 
     const GetForum = async(forumId) =>{
-      const response = await axios.get(`/forum/${forumId}`,
+      try {
+        const response = await axios.get(`/forum/${forumId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -128,15 +150,17 @@ function EditPost() {
         withCredentials: true,
       })
       setForum({forumName: response.data[0].forum_name, forumId: forumId})
+      } catch (error) {
+        setError('Could not get forum information')
+        setShowError(true)
+      }
     }
     GetThreadData()
   },[])
-  if (error != '') {
-    return <ErrorPage errorStatus={error} />
-  }
   return (
     <>
       <Navigation></Navigation>
+      {showError ? <div><span className='invalid'>{errorMessage}</span></div> : null}
       <Tabs
         defaultActiveKey='editPost'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'

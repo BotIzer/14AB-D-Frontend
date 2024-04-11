@@ -52,22 +52,26 @@ function CreateForum() {
     const banner = document.getElementById('banner').value.trim()
     const description = document.getElementById('description').value.trim()
     if (title !== '' && banner !== '') {
-      const response = await axios.post(
-        '/forum',
-        {
-          forum_name: title,
-          banner: banner,
-          tags: previewData.tags,
-          description: description
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
+      try {
+        const response = await axios.post(
+          '/forum',
+          {
+            forum_name: title,
+            banner: banner,
+            tags: previewData.tags,
+            description: description
           },
-          withCredentials: true,
-        }
-      )
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+      } catch (error) {
+      setDisplayError(true)
+      }
       navigate(`/forums/${title}/${response.data.forumId}`)
     }
     else{
