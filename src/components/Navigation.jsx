@@ -21,6 +21,7 @@ function Navigation(props) {
   const [timerOff, setTimerOff] = useState(false)
   const [showSearchResults, setShowSearchResults] = useState(false)
   const {forumData, setForumData} = useContext(NotificationContext)
+  //pass notifications data to notifdropdown
   const [notifications, setNotifications] = useState([])
   const [removeId, setRemoveId] = useState(props.removeId)
   
@@ -39,30 +40,36 @@ function Navigation(props) {
     RedirectToLink()
   }
   const RedirectToLink = async () => {
-    const response = await axios.post(
-      '/search',
-      {
-        keyword: inputValue,
-      },
-      {
-        params: {
-          page: pageDetails.currentPage,
-          limit: pageDetails.limit
+    try {
+      const response = await axios.post(
+        '/search',
+        {
+          keyword: inputValue,
         },
-        headers: { 'Content-Type': 'application/json' },
+        {
+          params: {
+            page: pageDetails.currentPage,
+            limit: pageDetails.limit
+          },
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      
+      for (let index = 0; index < response.data.length; index++) {
+        if (response.data[index][0] !== undefined) {
+          if(response.data[index][0].forum_name !== undefined){
+            navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
+            break
+          }
+          else if(response.data[index][0].username !== undefined){
+            navigate(`/user/${response.data[index][0].username}`)
+            break
+          }
+        }
       }
-    )
-    
-    for (let index = 0; index < response.data.length; index++) {
-      if (response.data[index][0] !== undefined) {
-        if(response.data[index][0].forum_name !== undefined){
-          navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
-          break
-        }
-        else if(response.data[index][0].username !== undefined){
-          navigate(`/user/${response.data[index][0].username}`)
-          break
-        }
+    } catch (error) {
+      if (error != '') {
+        return <ErrorPage errorStatus={error} />
       }
     }
   }
@@ -90,43 +97,44 @@ function Navigation(props) {
   useEffect(() => {
     setTimerOff(false)
     const timer = setTimeout(async () => {
-      if (inputValue.trim() !== '') {
-        const response = await axios.post(
-          '/search',
-          {
-            keyword: inputValue,
-          },
-          {
-            params: {
-              page: pageDetails.currentPage,
-              limit: pageDetails.limit
+      try {
+        if (inputValue.trim() !== '') {
+          const response = await axios.post(
+            '/search',
+            {
+              keyword: inputValue,
             },
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-        let temporaryForumArray = []
-        let temporaryUserArray = []
-        response.data[0].forEach(element => {
-          temporaryForumArray.push({
-            id: element._id.forum_id,
-            name: element.forum_name
+            {
+              params: {
+                page: pageDetails.currentPage,
+                limit: pageDetails.limit
+              },
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+          let temporaryForumArray = []
+          let temporaryUserArray = []
+          response.data[0].forEach(element => {
+            temporaryForumArray.push({
+              id: element._id.forum_id,
+              name: element.forum_name
+            })
           })
-        })
-        response.data[1].forEach(element => {
-          temporaryUserArray.push({
-            name: element.username
+          response.data[1].forEach(element => {
+            temporaryUserArray.push({
+              name: element.username
+            })
           })
-        })
-        setSearchResults({forums: temporaryForumArray, users: temporaryUserArray})
+          setSearchResults({forums: temporaryForumArray, users: temporaryUserArray})
+          setTimerOff(true)
+        }
+      } catch (error) {
         setTimerOff(true)
       }
     }, 500)
     return () => clearTimeout(timer)
   }, [inputValue])
-  //Console log
-  useEffect(()=>{
-    console.log(searchResults.users)
-  },[searchResults])
+
   const HandleSearchNavigation = (route)=>{
     navigate(route)
   }
@@ -145,15 +153,19 @@ function Navigation(props) {
       navigate('/')
     })
     const GetNotifications = async ()=>{
-      const response = await axios.get('/notification',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-      setNotifications(response.data)
+      try {
+        const response = await axios.get('/notification',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setNotifications(response.data)
+      } catch (error) {
+        setNotifications(['Could not retrieve notifications'])
+      }
     }
     if(localStorage.getItem('token') !== null){
       GetNotifications()
