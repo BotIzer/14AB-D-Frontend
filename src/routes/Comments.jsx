@@ -4,10 +4,11 @@ import Navigation from '../components/Navigation'
 import PostCard from '../components/PostCard'
 import {Container, Row, Col, Accordion, Card, ToggleButton, Form, Button, AccordionContext, useAccordionButton} from 'react-bootstrap'
 import axios from '../api/axios'
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 
 function Comments() {
   //TODO Replace dummyData
+  const location = useLocation()
   const [threadData, setThreadData] = useState()
   const dummyCreator = {
     _id: 1,
@@ -99,9 +100,22 @@ const commentList = dummyComments.map((comment) => (
   </Row>
 ))
 const sendComment = async () =>{
-    await axios.post('/thread/createComment',{
-      thread_id: 0
-    })
+  console.log(location.pathname.split('/')[4])
+  // TODO: display error if false
+  if(document.getElementById('comment').value.trim() !== ''){
+    try {
+      // TODO: display error if catch
+      await axios.post('/thread/createComment',{
+        thread_id: location.pathname.split('/')[4],
+        text: document.getElementById('comment').value.trim(),
+        is_reply: false
+      })
+    } catch (error) {
+      
+    }
+   
+  }
+    
 }
 //TODO Get replace dummy Creator
 useEffect(()=>{
@@ -120,6 +134,22 @@ useEffect(()=>{
       //TODO: error handling
     }
   }
+  const getCommentData = async() => {
+    try {
+      console.log(location.pathname.split('/')[4])
+      const response = await axios.get(`/thread/${location.pathname.split('/')[4]}/comments`,{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      console.log(response.data)
+    } catch (error) {
+      
+    }
+  }
+  getCommentData()
   GetThreadData()
 },[])
 return (
@@ -187,7 +217,7 @@ return (
             <Accordion.Collapse eventKey='0'>
               <Card.Body>
                 <Row className='justify-content-center m-0'>
-                  <Form.Control className='m-2' placeholder='Write your comment here'>
+                  <Form.Control id='comment' className='m-2' placeholder='Write your comment here'>
                   </Form.Control>
                 </Row>
                 <Row
@@ -199,9 +229,9 @@ return (
                       variant='outline-warning'
                       className='custom-button mt-3'
                       style={{ fontSize: 'small', border: 'gold solid 1px' }}
+                      onPointerDown={()=>sendComment()}
                     >
                       Add Comment
-                      {/*TODO onclick add comment*/}
                     </Button>
                   </Col>
                   {/* TODO make second button show  options, make replies open chatwindow*/}
