@@ -13,11 +13,21 @@ function PostCard(post) {
     isDisLiked: localStorage.getItem('userInfo') !== null && post.post.dislikes.users.includes(JSON.parse(localStorage.getItem('userInfo')).username)})
   const [opinionCount, setOpinionCount] = useState({likeCount: post.post.likes.count, 
     dislikeCount: post.post.dislikes.count})
+  const [showError, setShowError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
   
-  const SendOpinion = async (opinion) => await axios.post(`/thread/${post.post._id.thread_id}/likeDislike`,
-  {
-    pressedButton: opinion 
-  })
+  const SendOpinion = async (opinion) => {
+    try {
+      await axios.post(`/thread/${post.post._id.thread_id}/likeDislike`,
+      {
+        pressedButton: opinion 
+      })
+    } catch (error) {
+      setErrorMessage(error.response.message)
+      setShowError(true)
+    }
+  }
   const LikedThread = (async()=>{
     await SendOpinion('like')
     if (opinion.isLiked) {
@@ -138,6 +148,7 @@ function PostCard(post) {
       <Card.Footer className='text-muted'>
         Posted {DaysDifference(new Date(),post.post.creation_date)} days ago
       </Card.Footer>
+      {showError ? <Card.Footer className='text-muted'><Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{errorMessage}</p></Row></Card.Footer> : null}
     </Card>
   )
 }

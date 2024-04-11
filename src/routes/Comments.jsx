@@ -79,14 +79,18 @@ const commentList = dummyComments.map((comment) => (
 useEffect(()=>{
   
   const GetThreadData = async() => {
-    const response = await axios.get(`/thread/${location.pathname.split('/')[4]}`,
-    { headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-    withCredentials: true,
-    })
-    setThreadData(response.data)
+    try {
+      const response = await axios.get(`/thread/${location.pathname.split('/')[4]}`,
+      { headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+      })
+      setThreadData(response.data)
+    } catch (error) {
+      //TODO: error handling
+    }
   }
   GetThreadData()
 },[])

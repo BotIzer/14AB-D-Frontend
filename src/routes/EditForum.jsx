@@ -15,6 +15,7 @@ function EditForum() {
     description: '',
   })
   const [displayError, setDisplayError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [isBannerValid, setIsBannerValid] = useState(true)
   //TODO replace dummy data  
   const categoryPreview = [
@@ -31,25 +32,31 @@ function EditForum() {
     const tags = tagList
     if (title !== '' && banner !== '') {
       // TODO: Display error if title/banner is empty!
-      await axios.put(
-        `/forum/${forumId}`,
-        {
-          forum_name: title,
-          banner: banner,
-          description: description,
-          tags: tags
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
+      try {
+        await axios.put(
+          `/forum/${forumId}`,
+          {
+            forum_name: title,
+            banner: banner,
+            description: description,
+            tags: tags
           },
-          withCredentials: true,
-        }
-      )
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+      } catch (error) {
+        setErrorMessage('Could not save changes')
+        setDisplayError(true)
+      }
       navigate(`/forums/${encodeURIComponent(title)}/${forumId}`)
     }
     else{
+      setErrorMessage('Title and banner cannot be empty')
       setDisplayError(true)
     }
   }
@@ -60,17 +67,22 @@ function EditForum() {
   }
   const DeleteForum = async() => {
     if (confirm('Are you sure you want to delete this forum?')) {
-      await axios.delete(
-        '/forum',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-            forumname: decodeURIComponent(location.pathname.split('/')[2])
-          },
-          withCredentials: true,
-        }
-      )
+      try {
+        await axios.delete(
+          '/forum',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+              forumname: decodeURIComponent(location.pathname.split('/')[2])
+            },
+            withCredentials: true,
+          }
+        )
+      } catch (error) {
+        setErrorMessage('Could not delete forum')
+        setDisplayError(true)
+      }
       navigate('/')
     }
 
@@ -119,13 +131,18 @@ useEffect(() => {
     navigate('/')
   }
   const GetPreviewData = async () => {
-    const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      withCredentials: true,
-    })
+    try {
+      const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+    } catch (error) {
+      setErrorMessage('Could not load forum data')
+      setDisplayError(true)
+    }
     setPreviewData({
       title: response.data[0].forum_name,
       banner: response.data[0].banner,
@@ -151,15 +168,21 @@ useEffect(()=>{
 },[previewData.banner])
 useEffect(()=>{
   const GetForumData = async () =>{
-    const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `${localStorage.getItem('token') !== null ? 
-        `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
-      },
-      withCredentials: true,
-    })
-    const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+    try {
+      const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+        },
+        withCredentials: true,
+      })
+    } catch (error) {
+      setErrorMessage('Could not load forum data')
+      setDisplayError(true)
+    }
+    try {
+      const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -167,9 +190,14 @@ useEffect(()=>{
         `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
       },
     })
+    } catch (error) {
+      setErrorMessage('Could not load user data')
+      setDisplayError(true)
+    }
     // TODO: Show error if not owner
     if(response.data[0]._id.creator_id !== userResponse.data.user._id){
-      console.log("not owner")
+      setDisplayError(true)
+      setErrorMessage('You are not the owner of this forum')
     }
   }
   GetForumData()
@@ -178,6 +206,7 @@ useEffect(()=>{
   return (
     <>
       <Navigation></Navigation>
+      {displayError ? <div><span className='invalid'>{errorMessage}</span></div> : null}
       <Tabs
         defaultActiveKey='editUser'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
@@ -256,7 +285,6 @@ useEffect(()=>{
               placeholder='enter description'
               id='description'
             ></Form.Control>
-            {displayError ? <div><span className='invalid'>Title or Banner picture field is empty!</span></div> : null}
           </FormGroup>
           <div
             className='d-flex justify-content-around my-3'

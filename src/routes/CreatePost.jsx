@@ -11,26 +11,33 @@ function CreatePost() {
   const [imgList, setImgList] = useState([])
   const [isSuccess, setIsSuccess] = useState(false)
   const forumName = location.pathname.split('/')[2]
+  const [showError, setShowError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const SendPost = async () => {
     //TODO - Add error when empty
     if (document.querySelector('.title').value.trim() !== '') {
-      await axios.post(
-        '/thread',
-        {
-          forum_name: decodeURIComponent(forumName),
-          name: document.querySelector('.title').value,
-          content: document.querySelector('.ql-editor').innerText,
-          images: imgList
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
+      try {
+        await axios.post(
+          '/thread',
+          {
+            forum_name: decodeURIComponent(forumName),
+            name: document.querySelector('.title').value,
+            content: document.querySelector('.ql-editor').innerText,
+            images: imgList
           },
-          withCredentials: true,
-        }
-      )
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+      } catch (error) {
+        setErrorMessage('Could not send post')
+        setShowError(true)
+      }
     }
     const editor = document.querySelector('.ql-editor')
     editor.innerHTML = ''
@@ -64,33 +71,39 @@ function CreatePost() {
   }
   useEffect(()=>{
     const GetForumData = async () =>{
-      const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `${localStorage.getItem('token') !== null ? 
-          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
-        },
-        withCredentials: true,
-      })
-      const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `${localStorage.getItem('token') !== null ? 
-          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
-        },
-      })
-       // TODO: make it work if user is not in the user list, show error instead of navigate
-       console.log(response.data[0])
-    if(response.data[0].users.some(user=> user.user_id !== userResponse.data.user._id)){
-      
-    }
+      try {
+        const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `${localStorage.getItem('token') !== null ? 
+            `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+          },
+          withCredentials: true,
+        })
+        const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `${localStorage.getItem('token') !== null ? 
+            `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+          },
+        })
+         // TODO: make it work if user is not in the user list, show error instead of navigate
+         console.log(response.data[0])
+      if(response.data[0].users.some(user=> user.user_id !== userResponse.data.user._id)){
+        
+      }
+      } catch (error) {
+        setErrorMessage('Could not get forum data')
+        setShowError(true)
+      }
     }
       GetForumData()
   },[])
   return (
     <>
       <Navigation></Navigation>
+      {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{errorMessage}</p></Row> : null}
       <Tabs
         defaultActiveKey='post'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
