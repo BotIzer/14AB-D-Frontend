@@ -206,7 +206,7 @@ useEffect(()=>{
   return (
     <>
       <Navigation></Navigation>
-      {displayError ? <div><span className='invalid'>{errorMessage}</span></div> : null}
+      {displayError ? <div className='text-center'><span className='invalid'>{errorMessage}</span></div> : null}
       <Tabs
         defaultActiveKey='editUser'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'

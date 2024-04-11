@@ -22,42 +22,55 @@ function Notifications() {
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
   const [removeId, setRemoveId] = useState('')
   const [seenNotifications, setSeenNotifications] = useState([])
+  const [showError, setShowError] = useState(false)
+  const [error, setError] = useState("")
 
   
   const AcceptFriendRequest = async (requestCreator) => {
-    await axios.post(
-      `/acceptFriendRequest/${requestCreator}`,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
-    setFriendRequests((prevItems) =>
-      prevItems.filter((friend) => friend !== requestCreator)
-    )
+    try {
+      await axios.post(
+        `/acceptFriendRequest/${requestCreator}`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+      setFriendRequests((prevItems) =>
+        prevItems.filter((friend) => friend !== requestCreator)
+      )
+    } catch (error) {
+      setError('Could not accept friend request')
+      setShowError(true)
+    }
   }
   const DeclineFriendRequest = async (requestCreator) => {
-    await axios.post(
-      `/declineFriendRequest/${requestCreator}`,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
-    setFriendRequests((prevItems) =>
-      prevItems.filter((friend) => friend !== requestCreator)
-    )
+    try {
+      await axios.post(
+        `/declineFriendRequest/${requestCreator}`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+      setFriendRequests((prevItems) =>
+        prevItems.filter((friend) => friend !== requestCreator)
+      )
+    } catch (error) {
+      setError('Could not decline friend request')
+      setShowError(true)
+    }
   }
   const SendSeen = async (seenNotification) =>{
-    setSeenNotifications([...seenNotifications, seenNotification])
+    try {
+      setSeenNotifications([...seenNotifications, seenNotification])
     await axios.put(`/notification/${seenNotification}`,
   {
     seen: true
@@ -69,6 +82,10 @@ function Notifications() {
     },
     withCredentials: true,
   })
+    } catch (error) {
+      setError('Something went wrong')
+      setShowError(true)  
+    }
   }
   let listItems = notifications.notifications && notifications.notifications.map((notification) => (
     <div key={notification.id}>
@@ -108,23 +125,28 @@ function Notifications() {
     </div>
   ))
   const DeleteNotification = async(deletionId) =>{
-    await axios.delete(
-      `/notification/${deletionId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
-    setRemoveId(deletionId)
-    setNotifications(prevNotifications => {
-      return {
-          ...prevNotifications,
-          notifications: prevNotifications.notifications.filter(notification => notification.id !== deletionId)
-      }
-  })
+    try {
+      await axios.delete(
+        `/notification/${deletionId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+      setRemoveId(deletionId)
+      setNotifications(prevNotifications => {
+        return {
+            ...prevNotifications,
+            notifications: prevNotifications.notifications.filter(notification => notification.id !== deletionId)
+        }
+    })
+    } catch (error) {
+      setError('Could not delete notification')
+      setShowError(true)
+    }
   }
   const handlePaginationClick = (pageNumber) =>{
     setPageData(prevState => ({
@@ -155,21 +177,25 @@ function Notifications() {
     }
   useEffect(() => {
     const GetFriendRequests = async () => {
-      const response = await axios.get(`/user/friends/requests?page=${pageData.currentPage-1}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-      console.log("helllooooo")
-      console.log(response.data)
-      response.data.returnRequests.length !== 0
-        ? setFriendRequests(response.data.returnRequests)
-        : []
+      try {
+        const response = await axios.get(`/user/friends/requests?page=${pageData.currentPage-1}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        response.data.returnRequests.length !== 0
+          ? setFriendRequests(response.data.returnRequests)
+          : []
+      } catch (error) {
+        setError('Could not get friend requests')
+        setShowError(true)
+      }
     }
     const GetNotifications = async() => {
-      const response = await axios.get('/notification',
+      try {
+        const response = await axios.get('/notification',
     {
       headers: {
         'Content-Type': 'application/json',
@@ -183,6 +209,10 @@ function Notifications() {
     .filter(notification => notification.seen)
     .map(notification => notification.id)
     setSeenNotifications(seenNotifications)
+      } catch (error) {
+        setError('Could not get notifications')
+        setShowError(true)
+      }
     }
     GetFriendRequests()
     GetNotifications()
@@ -203,6 +233,7 @@ function Notifications() {
     <>
       <Navigation removeId={removeId}/>
       <Container fluid data-bs-theme='dark'>
+      {showError ? <div className='text-center'><span className='invalid'>{error}</span></div> : null}
         <Tab.Container id='left-tabs-example' defaultActiveKey='requests'>
           <Col>
             <Row>

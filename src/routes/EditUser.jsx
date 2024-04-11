@@ -222,7 +222,7 @@ function EditUser() {
   return (
     <>
       <Navigation></Navigation>
-      {showError ? <div><span className='invalid'>{error}</span></div> : null}
+      {showError ? <div className="text-center"><span className='invalid'>{error}</span></div> : null}
       <Tabs
         defaultActiveKey="editUser"
         className="d-flex mx-auto text-nowrap mb-4 justify-content-center"

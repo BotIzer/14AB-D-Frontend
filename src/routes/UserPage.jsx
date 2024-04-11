@@ -32,6 +32,7 @@ function UserPage() {
   const [isSameUser, setIsSameUser] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('userInfo') !== null)
   const [isBannerValid, setIsBannerValid] = useState(true)
+  const [showError, setShowError] = useState(false)
  
   const SendFriendRequest = async () => {
     try {
@@ -53,6 +54,7 @@ function UserPage() {
         }
       )
     } catch (err) {
+      setShowError(true)
       setError(err)
     }
   }
@@ -155,16 +157,22 @@ function UserPage() {
         }
       } catch (err) {
         setError(err)
+        setShowError(true)
       }
     }
     const InitializeUserData = async () => {
-      const userResponse = await axios.get(
-        `/user/${user}`,
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      )
-      setUserData(userResponse.data.user)
+      try {
+        const userResponse = await axios.get(
+          `/user/${user}`,
+          {
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+        setUserData(userResponse.data.user)
+      } catch (error) {
+        setError(error)
+        setShowError(true)
+      }
     }
     GetPageDetails()
   }, [user])

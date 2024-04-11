@@ -160,7 +160,7 @@ function EditPost() {
   return (
     <>
       <Navigation></Navigation>
-      {showError ? <div><span className='invalid'>{errorMessage}</span></div> : null}
+      {showError ? <div className='text-center'><span className='invalid'>{errorMessage}</span></div> : null}
       <Tabs
         defaultActiveKey='editPost'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
