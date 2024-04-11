@@ -86,7 +86,7 @@ function ForumCard(forum) {
             <i>Fix this too</i>
           </Card.Text>
           <Button 
-            onClick={() => navigate(`/forums/${encodeURIComponent(forum.forum.forum_name)}/${forum.forum._id.forum_id}`)}
+            onClick={() => navigate(`/forums/${encodeURIComponent(forum.forum.forum_name)}/${forum.forum._id.forum_id}?page=1`)}
             className='custom-button text-outline'
             variant='outline-warning'
           >

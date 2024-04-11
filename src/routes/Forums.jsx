@@ -25,18 +25,29 @@ function Forums() {
       <ForumCard forum={forum}></ForumCard>
     </Row>
   ))
-
-
+  let pages = []
+  if(pageData.currentPage-1 > 0){
+    pages.push(
+      <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
+        {pageData.currentPage-1}
+      </Pagination.Item>
+      )
+  }
+  pages.push(
+    <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage)} key={pageData.currentPage} active={true}>
+      {pageData.currentPage}
+    </Pagination.Item>
+    )
+    if (pageData.currentPage+1 <= pageData.pageCount) {
+      pages.push(
+        <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
+          {pageData.currentPage+1}
+        </Pagination.Item>
+        )
+    }
 
   //TODO connect to backend, make active page dynamic
-  let pages = []
-  for (let i = 1; i <= pageData.pageCount; i++) {
-    pages.push(
-    <Pagination.Item onClick={()=>handlePaginationClick(i)} key={i} active={i === pageData.currentPage}>
-      {i}
-    </Pagination.Item>
-    ) 
-  }
+  
   useEffect(() => {
     const GetForums = async () => {
       const response = await axios.get(`/forum?page=${pageData.currentPage-1}`, {
@@ -77,7 +88,9 @@ function Forums() {
   }, [location])
   //Console log
   useEffect(()=>{
-    console.log(pageData.currentPage)
+
+  console.log(pageData.currentPage)
+
   },[pageData])
 
   return (

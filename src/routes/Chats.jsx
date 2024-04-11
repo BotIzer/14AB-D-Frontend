@@ -299,6 +299,7 @@ function Chats() {
   ))
 
   //TODO connect to backend, make active page dynamic
+  // TODO BOTI: make pagination work here
   let dmPages = []
   for (let i = 1; i <= paginationPageData.dmPageCount; i++) {
     dmPages.push(
