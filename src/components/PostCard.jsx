@@ -54,34 +54,20 @@ function PostCard(post) {
       
     }
   })
-
-  //Console logs
-  useEffect(()=>{
-    console.log(opinionCount)
-  },[opinionCount])
-  useEffect(()=>{
-    console.log(post)
-  },[])
   return (
     <Card className='text-center p-0' data-bs-theme='dark' xs={12} md={6}>
+      
       <Card.Header className='primary d-flex justify-content-between'>
         {post.post.name}
+        {post.isCreator ?
         <DropdownButton variant='outline-warning' drop='down-centered' title={<img className='filter-gold' src='/src/assets/icons/dots.png' alt='' />}>
         <Dropdown.Item
           className='list-group-item secondary text-center'
           onClick={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
-          // TODO: make dropdown items only visible with correct authorizations
         >
         Edit
     </Dropdown.Item>
-    <DropdownDivider></DropdownDivider>
-    <Dropdown.Item
-          className='list-group-item secondary text-center'
-        >
-        Delete
-    </Dropdown.Item>
-    {/* TODO: Remove delete button from here, replace it with an icon */}
-        </DropdownButton> 
+        </DropdownButton> : null} 
       </Card.Header>
       <Card.Body className='secondary h-auto' style={{ minHeight: '200px' }}>
         <Card.Text>{post.post.content}</Card.Text>{' '}

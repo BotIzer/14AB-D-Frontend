@@ -16,6 +16,7 @@ function Forum() {
   const [isBannerValid, setIsBannerValid] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
+  const [userId, setUserId] = useState('')
 
   const categoryList = data.forumData[0] && data.forumData[0].tags.map((category)=>(
     <th
@@ -28,7 +29,7 @@ function Forum() {
   ))
   const postList = data.threads && data.threads.map((thread) => (
     <Row key={thread._id.thread_id} className='my-3 p-3'>
-      <PostCard post={thread}></PostCard>
+      <PostCard isCreator={thread._id.creator_id === userId} post={thread}></PostCard>
     </Row>
   ))
 
@@ -93,6 +94,7 @@ function Forum() {
             headers: { 'Content-Type': 'application/json' },
           }
         )
+        setUserId(userResponse.data.user._id)
         if(data.forumData[0]._id.creator_id === userResponse.data.user._id){
           setIsOwner(true)
         }
