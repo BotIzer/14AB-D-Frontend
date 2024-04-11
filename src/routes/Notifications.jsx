@@ -24,6 +24,7 @@ function Notifications() {
   const [seenNotifications, setSeenNotifications] = useState([])
   const [showError, setShowError] = useState(false)
   const [error, setError] = useState("")
+  
 
   
   const AcceptFriendRequest = async (requestCreator) => {
@@ -89,9 +90,13 @@ function Notifications() {
   }
   let listItems = notifications.notifications && notifications.notifications.map((notification) => (
     <div key={notification.id}>
-      <p>{notification.text}</p>
-      <Button disabled={seenNotifications.includes(notification.id)} onClick={() => SendSeen(notification.id)}>Seen</Button>
-      <Button onClick={() => DeleteNotification(notification.id)}>Delete</Button>
+      <Row className='mt-2'>
+        <p className={seenNotifications.includes(notification.id) ? 'text-muted' : 'secondary'} >{notification.text}</p>
+      </Row>
+      <Row className=' justify-content-around'>
+        <Button style={{ width: '40%' }} variant='outline-warning px-0' disabled={seenNotifications.includes(notification.id)} onClick={() => SendSeen(notification.id)}>Seen</Button>
+        <Button style={{ width: '40%' }} variant='outline-danger px-0' onClick={() => DeleteNotification(notification.id)}>Delete</Button>
+      </Row>
     </div>
   ))
 
@@ -116,7 +121,7 @@ function Notifications() {
             <Button style={{ width: '40%' }} variant='outline-warning px-0' onPointerDown={()=>AcceptFriendRequest(friend)}>
               Accept
             </Button>
-            <Button style={{ width: '40%' }} variant='outline-danger px-0' onPointerDown={()=>AcceptFriendRequest(friend)}>
+            <Button style={{ width: '40%' }} variant='outline-danger px-0' onPointerDown={()=>DeclineFriendRequest(friend)}>
               Decline
             </Button>
           </Row>
@@ -241,7 +246,7 @@ function Notifications() {
                 <Tab.Pane eventKey='requests'>
                   {requestsList && requestsList.length <= 0 ? 'No friend requests.' : requestsList}
                   <Row>
-                    <Pagination className='justify-content-center custom-pagination fixed-bottom mb-5'>
+                    <Pagination className='justify-content-center custom-pagination mb-5 mt-3'>
                       <Pagination.First onClick={()=>handlePaginationClick(1)}/>
                       <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
                         {pages}
@@ -253,7 +258,7 @@ function Notifications() {
                 <Tab.Pane eventKey='notifications'>
                   {listItems && listItems.length <= 0 ? 'No notifications.' : listItems}
                   <Row>
-                    <Pagination className='justify-content-center custom-pagination fixed-bottom mb-5'>
+                    <Pagination className='justify-content-center custom-pagination mb-5 mt-3'>
                       <Pagination.First onClick={()=>handlePaginationClick(1)}/>
                       <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
                         {pages}
