@@ -146,16 +146,7 @@ function CommentAccordion(props) {
                       className='custom-button'
                       style={{ fontSize: 'small', border: 'gold solid 1px' }}
                     >
-                      Replies
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button
-                      variant='outline-warning'
-                      className='custom-button'
-                      style={{ fontSize: 'small', border: 'gold solid 1px' }}
-                    >
-                      ...
+                      Edit
                     </Button>
                   </Col>
                   {/* TODO make second button show  options, make replies open chatwindow*/}

@@ -98,6 +98,11 @@ const commentList = dummyComments.map((comment) => (
     <CommentAccordion comment={comment} creator={dummyCreator}></CommentAccordion>
   </Row>
 ))
+const sendComment = async () =>{
+    await axios.post('/thread/createComment',{
+      thread_id: 0
+    })
+}
 //TODO Get replace dummy Creator
 useEffect(()=>{
   
