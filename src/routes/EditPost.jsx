@@ -160,7 +160,7 @@ function EditPost() {
   return (
     <>
       <Navigation></Navigation>
-      {showError ? <div><span className='invalid'>{errorMessage}</span></div> : null}
+      {showError ? <div className='text-center'><span className='invalid'>{error}</span></div> : null}
       <Tabs
         defaultActiveKey='editPost'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
@@ -186,17 +186,21 @@ function EditPost() {
                 <DropdownButton
                   data-bs-theme='dark'
                   drop='down-centered'
-                  title='image_array:'
+                  title='image(s):'
                   className='dropdown-button'
                 >
+                  {/*TODO create function to remove image from list*/}
                   {imageList.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                    <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onMouseEnter={() => {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
+                    <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeImage(item)} onMouseEnter={() =>            
+                     {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
+                      {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
+                      variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
                   </DropdownItem>
                   ))}
                 </DropdownButton>
                 <Form.Control
-                  className='w-auto'
+                  className='w-50'
                   placeholder='enter imgur links'
                   id='fileUpload'
                 ></Form.Control>

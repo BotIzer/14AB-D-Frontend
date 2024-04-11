@@ -11,6 +11,8 @@ function Forums() {
   const [forums, setForums] = useState([])
   const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 1, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
+  const [showError, setShowError] = useState(false)
+  const [error, setError] = useState("")
 
   const handlePaginationClick = (pageNumber) =>{
     setPageData(prevState => ({
@@ -50,6 +52,8 @@ function Forums() {
   
   useEffect(() => {
     const GetForums = async () => {
+      try {
+        
       const response = await axios.get(`/forum?page=${pageData.currentPage-1}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -83,6 +87,10 @@ function Forums() {
         }
       })
       setForums(updatedForums)
+      } catch (error) {
+        setError('Could not get forum data!')
+        setShowError(true)
+      }
     }
     GetForums()
   }, [location])
@@ -96,6 +104,7 @@ function Forums() {
   return (
     <>
       <Navigation></Navigation>
+      {showError ? <div className='text-center'><span className='invalid'>{error}</span></div> : null}
       <Container data-bs-theme='dark' fluid>
         {localStorage.getItem('token') !== null ? <Button
           className='mb-5 clear-button fixed-bottom-right'

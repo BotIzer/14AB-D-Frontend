@@ -154,8 +154,11 @@ function CreateForum() {
                   className='dropdown-button'
                 >
                   {previewData.tags.map((item,index) => (
-                    <DropdownItem key={index}>
-                      {item}
+                    <DropdownItem key={index} className='text-center' id={item}>
+                      <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                       {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
+                        {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
+                        variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
                     </DropdownItem>
                   ))}
                 </DropdownButton>
@@ -242,9 +245,17 @@ function CreateForum() {
         <Row className='no-padding-table'>
           <Table responsive className='m-0' data-bs-theme='dark'>
             <tbody>
-              <tr>{previewData.tags.map((tag, index) => (
-          <td key={index}>{tag}</td>
-        ))}</tr>
+              <tr>
+                {previewData.tags.map((tag, index) => (
+                <th
+                style={{ fontSize: 'small', borderWidth: '2px' }}
+                key={index}
+                className='text-center'
+              >
+                <i className='tertiary'>{tag}</i>
+              </th>
+                  ))}
+              </tr>
             </tbody>
           </Table>
         </Row>

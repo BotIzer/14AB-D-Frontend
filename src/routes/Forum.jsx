@@ -19,6 +19,9 @@ function Forum() {
   const [userId, setUserId] = useState('')
   const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
+
+  const [showError, setShowError] = useState(false)
+  const [error, setError] = useState("")
   
   const handlePaginationClick = (pageNumber) =>{
     setPageData(prevState => ({
@@ -65,6 +68,7 @@ function Forum() {
     }
   useEffect(()=>{
     const GetForumData = async () => {
+      try {
       const [forumData, threads] =  await Promise.all([
         axios.get(`/forum/${forum_id}`,
         {headers: {
@@ -86,6 +90,10 @@ function Forum() {
         threads: threads.data.threads
       })
       setPageData({currentPage: pageData.currentPage, pageCount: threads.data.pagesCount})
+      } catch (error) {
+        setError('Could not get forum data!')
+        setShowError(true)
+      }
   }
      GetForumData()
     //  TODO: fix this ESLint error
@@ -108,23 +116,28 @@ function Forum() {
     // TODO: Block route to create post and edit forum!
     if(data.forumData.length !== 0){
       const CheckIfIsOwner = async() =>{
-        const userResponse = await axios.get(
-          `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
-          {
-            headers: { 'Content-Type': 'application/json' },
+        try {
+          const userResponse = await axios.get(
+            `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+            {
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+          setUserId(userResponse.data.user._id)
+          if(data.forumData[0]._id.creator_id === userResponse.data.user._id){
+            setIsOwner(true)
           }
-        )
-        setUserId(userResponse.data.user._id)
-        if(data.forumData[0]._id.creator_id === userResponse.data.user._id){
-          setIsOwner(true)
+          else{
+            setIsOwner(false)
+          }
+          // TODO: IF YOU GO TO THE ROUTE, YOU SHOULD BE KICKED OFF
+          // WITH ERROR
+          setIsSubscribed(data.forumData[0].users.some(user =>  user.user_id === userResponse.data.user._id) || 
+          data.forumData[0]._id.creator_id === userResponse.data.user._id)
+        } catch (error) {
+          setError('Could not get user data!')
+          setShowError(true)
         }
-        else{
-          setIsOwner(false)
-        }
-        // TODO: IF YOU GO TO THE ROUTE, YOU SHOULD BE KICKED OFF
-        // WITH ERROR
-        setIsSubscribed(data.forumData[0].users.some(user =>  user.user_id === userResponse.data.user._id) || 
-        data.forumData[0]._id.creator_id === userResponse.data.user._id)
       }
       CheckIfIsOwner()
     }
@@ -132,6 +145,7 @@ function Forum() {
   return (
     <>
       <Navigation></Navigation>
+      {showError ? <div className='text-center'><span className='invalid'>{error}</span></div> : null}
       <Container data-bs-theme='dark' fluid>
         {localStorage.getItem('token') !== null && isSubscribed ? <Button
           className='clear-button fixed-bottom-right mb-4'

@@ -1,4 +1,4 @@
-import { Button, DropdownItem, FormGroup, Form, Tab, Tabs, DropdownButton } from 'react-bootstrap'
+import { Button, DropdownItem, FormGroup, Form, Tab, Tabs, DropdownButton, Row, Col } from 'react-bootstrap'
 import TextEditor from '../components/TextEditor'
 import Navigation from '../components/Navigation'
 import axios from '../api/axios'
@@ -156,14 +156,17 @@ function CreatePost() {
                 className='dropdown-button'
               >
                 {imgList.map((item,index) => (
-                  <DropdownItem key={index}>
-                    {item}
-                  </DropdownItem>
+                  <DropdownItem key={index} className='text-center' id={item}>
+                  <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                   {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
+                    {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
+                    variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
+                </DropdownItem>
                 ))}
               </DropdownButton>
               <Form.Control
-                className='w-100 mx-5'
-                placeholder='paste Imgur link here'
+                className='mx-2 text-center'
+                placeholder='paste link'
                 id='fileUpload'
                 onKeyDown={(event)=>handleKeyDown(event)}
               ></Form.Control>

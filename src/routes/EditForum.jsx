@@ -206,7 +206,7 @@ useEffect(()=>{
   return (
     <>
       <Navigation></Navigation>
-      {displayError ? <div><span className='invalid'>{errorMessage}</span></div> : null}
+      {displayError ? <div className='text-center'><span className='invalid'>{errorMessage}</span></div> : null}
       <Tabs
         defaultActiveKey='editUser'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
@@ -239,10 +239,10 @@ useEffect(()=>{
                 >
                   {tagList.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
-                       {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
-                        {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
-                        variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
+                    <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                     {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
+                      {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
+                      variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
                     </DropdownItem>
                   ))}
                 </DropdownButton>

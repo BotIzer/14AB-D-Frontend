@@ -74,8 +74,16 @@ function ForumCard(forum) {
             backgroundRepeat: 'no-repeat'
           }}
         >
-          {localStorage.getItem('userInfo') !== null ? !isSubscribed ?<Button onClick={()=>SubscribeToForum()}>Subscribe</Button> :
-          <Button onClick={()=>UnsubscribeFromForum()}>Unsubscribe</Button> : null}
+          {localStorage.getItem('userInfo') !== null ? !isSubscribed ?
+          <Button 
+            className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>SubscribeToForum()}>Subscribe
+          </Button>
+           :
+          <Button 
+          className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}}  onClick={()=>UnsubscribeFromForum()}>Unsubscribe
+          </Button> 
+          : 
+          null}
           {/* TODO: fix this */}
           <Card.Title className='text-outline overflow-auto' style={{maxHeight: "50px"}}>
             {/* {forum.forum.topPost.title} */}
