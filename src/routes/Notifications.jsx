@@ -134,22 +134,22 @@ function Notifications() {
     navigate(`/notifications?page=${pageNumber}`)
   } 
   let pages = []
+  if(pageData.currentPage-1 > 0){
+    pages.push(
+      <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
+        {pageData.currentPage-1}
+      </Pagination.Item>
+      )
+  }
   pages.push(
     <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage)} key={pageData.currentPage} active={true}>
       {pageData.currentPage}
     </Pagination.Item>
     )
-    if (pageData.currentPage+1 < pageData.pageCount) {
+    if (pageData.currentPage+1 <= pageData.pageCount) {
       pages.push(
         <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
           {pageData.currentPage+1}
-        </Pagination.Item>
-        )
-    }
-    else if(pageData.currentPage-1 > 0){
-      pages.push(
-        <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
-          {pageData.currentPage-1}
         </Pagination.Item>
         )
     }
