@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext} from 'react'
 import CommentAccordion from '../components/CommentAccordion'
 import Navigation from '../components/Navigation'
 import PostCard from '../components/PostCard'
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col, Accordion, Card, ToggleButton, Form, Button, AccordionContext, useAccordionButton} from 'react-bootstrap'
 import axios from '../api/axios'
+import {Link} from 'react-router-dom'
 
 function Comments() {
   //TODO Replace dummyData
@@ -70,8 +71,30 @@ function Comments() {
   image_array: [''],
 }
 
+const ContextAwareToggle = ({ children, eventKey, callback }) => {
+  const { activeEventKey } = useContext(AccordionContext)
+
+  const decoratedOnClick = useAccordionButton(
+    eventKey,
+    () => callback && callback(eventKey)
+  )
+
+  const isCurrentEventKey = activeEventKey === eventKey
+
+  return (
+    <button
+      style={{ width: '30px', height: '30px' }}
+      className='m-2'
+      type='button'
+      onClick={decoratedOnClick}
+    >
+      {isCurrentEventKey ? '-' : '+'}
+    </button>
+  )
+}
+
 const commentList = dummyComments.map((comment) => (
-  <Row key={comment._id.message_id} className='justify-content-center'>
+  <Row key={comment._id.message_id} className='justify-content-center my-3'>
     <CommentAccordion comment={comment} creator={dummyCreator}></CommentAccordion>
   </Row>
 ))
@@ -101,6 +124,87 @@ return (
      <Col xs='auto'>
        <Row className='justify-content-center m-2 mb-4'>
          <PostCard isDisabled={true} post={(threadData !== undefined ? threadData : dummyPost)}></PostCard>
+       </Row>
+       <Row>
+       <Accordion data-bs-theme='dark' defaultActiveKey='0' className='mb-2'>
+          <Card>
+            <Card.Header className='text-muted w-100 p-0 m-0' as={Row}>
+              <Col className='text-nowrap p-0'>
+                <ContextAwareToggle eventKey='0'>+</ContextAwareToggle>
+                <i style={{ fontSize: 'small' }}>
+                  <Link className='chat-name secondary' to={`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`}>
+                    {localStorage.getItem('userInfo')!== null? JSON.parse(localStorage.getItem('userInfo')).username : ''}
+                  </Link>{' '}
+                  - Now
+                </i>
+              </Col>
+              <Col className='text-end'>
+                <ToggleButton
+                  // id={post.post._id && post.post._id.thread_id + 'like'}
+                  id={1}
+                  className='image-checkbox position-relative'
+                  type='checkbox'
+                  variant='secondary'
+                  // checked={opinion.isLiked}
+                  disabled
+                  value='1'
+                >
+                  <img
+                    src='/src/assets/icons/lightning_32_up.png'
+                    alt='fist-bump'
+                    className='filter-grey'
+                  />
+                  <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
+                    0
+                  </span>{' '}
+                </ToggleButton>
+                <ToggleButton
+                  // id={post.post._id && post.post._id.thread_id + 'dislike'}
+                  id={2}
+                  className='image-checkbox position-relative'
+                  type='checkbox'
+                  variant='secondary'
+                  // checked={opinion.isDisLiked}
+                  disabled
+                  value='1'
+                >
+                  <img
+                    src='/src/assets/icons/lightning_32.png'
+                    alt='skull'
+                    className='filter-grey'
+                  />
+                  <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
+                    0
+                  </span>
+                </ToggleButton>
+              </Col>
+            </Card.Header>
+            <Accordion.Collapse eventKey='0'>
+              <Card.Body>
+                <Row className='justify-content-center m-0'>
+                  <Form.Control className='m-2' placeholder='Write your comment here'>
+                  </Form.Control>
+                </Row>
+                <Row
+                  style={{ fontSize: 'small', borderTop: '3px solid #44454c' }}
+                  className='text-center'
+                >
+                  <Col>
+                    <Button
+                      variant='outline-warning'
+                      className='custom-button mt-3'
+                      style={{ fontSize: 'small', border: 'gold solid 1px' }}
+                    >
+                      Add Comment
+                      {/*TODO onclick add comment*/}
+                    </Button>
+                  </Col>
+                  {/* TODO make second button show  options, make replies open chatwindow*/}
+                </Row>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        </Accordion>
        </Row>
        {commentList}
      </Col>
