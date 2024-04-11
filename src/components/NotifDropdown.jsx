@@ -8,6 +8,7 @@ function NotifDropdown(props) {
   const dropdownRef = useRef(null)
 
   const [notifications, setNotifications] = useState([])
+  //TODO: Make this do something or remove it
   const [singleNotif, setSingleNotif] = useState('')
   const [dropdownWidth, setDropdownWidth] = useState(250)
 
@@ -24,15 +25,19 @@ function NotifDropdown(props) {
 
   useEffect(()=>{
     const GetNotifications = async() => {
-      const response = await axios.get('/notification',
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      withCredentials: true,
-    })
-    setNotifications(response.data)
+      try {
+        const response = await axios.get('/notification',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setNotifications(response.data)
+      } catch (error) {
+        setNotifications('Could not retrieve notifications')
+      }
     }
     GetNotifications()
   },[])

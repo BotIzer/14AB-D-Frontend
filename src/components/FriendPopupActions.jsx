@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap'
+import { Button, Row } from 'react-bootstrap'
 import axios from '../api/axios'
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
@@ -6,21 +6,28 @@ import React, { useEffect, useState } from 'react'
 function FriendPopupActions(props) {
   const navigate = useNavigate()
   const [isOwner, setIsOwner] = useState(false)
+  const [showError, setShowError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const RemoveFriend = async () =>{
-    await axios.delete(
-      `/friend/${props.friend}`,
-      {
-        friendName: props.friend,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
+    try {
+      await axios.delete(
+        `/friend/${props.friend}`,
+        {
+          friendName: props.friend,
         },
-        withCredentials: true,
-      }
-    )
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const GoToProfile = async () => {
     navigate(`/user/${props.friend}`)
@@ -30,45 +37,62 @@ function FriendPopupActions(props) {
     console.log(props.users[props.selectedChat])
   }
   const LeaveChat = async () =>{
-    await axios.post(
-      '/chat/leaveChat',
-      {
-        chat_id: props.selectedChat
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
+    try {
+      await axios.post(
+        '/chat/leaveChat',
+        {
+          chat_id: props.selectedChat
         },
-        withCredentials: true,
-      }
-    )
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const DeleteChat = async () => {
-    await axios.delete(
-      `/chat/${props.selectedChat}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      }
-    )
+    try {
+      await axios.delete(
+        `/chat/${props.selectedChat}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        }
+      )
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   useEffect(()=>{
-    const GetSelfId = async ()=>{
-      const userId = await axios.get(`/username/${JSON.parse(localStorage.getItem('userInfo')).username}`,
-    {
-      headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-    withCredentials: true})
-    if(props.owners[props.selectedChat] === userId.data._id){
-      setIsOwner(true)
+
+    try {
+      const GetSelfId = async ()=>{
+        const userId = await axios.get(`/username/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+      {
+        headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true})
+      if(props.owners[props.selectedChat] === userId.data._id){
+        setIsOwner(true)
+      }
+      }
+    } catch (error) {
+      setShowError(true)
+      setErrorMessage(error.response.message)
     }
-    }
+
   },[])
   //Console log
   useEffect(()=>{
@@ -120,6 +144,8 @@ function FriendPopupActions(props) {
     </Button> : null}
     </React.Fragment>
     }
+    {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{errorMessage}</p></Row> : null}
+
     </div>
   )
 }
