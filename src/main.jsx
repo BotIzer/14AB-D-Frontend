@@ -110,7 +110,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
   },
   {
-    path: "/forums/:forumName/createpost",
+    path: "/forums/:forumName/:forumId/createpost",
     element: isLoggedIn ? <CreatePost></CreatePost> : <Navigate to="/" />,
     errorElement: <ErrorPage></ErrorPage>,
   },

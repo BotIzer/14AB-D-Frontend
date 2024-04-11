@@ -62,10 +62,6 @@ function CreatePost() {
     await setImgList(prevItems=>[...prevItems,document.getElementById('fileUpload').value])
     document.getElementById('fileUpload').value = ''
   }
-  //Does this even do anything?
-  useEffect(()=>{
-    console.log(imgList)
-  },[imgList])
   useEffect(()=>{
     const GetForumData = async () =>{
       const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
@@ -84,10 +80,10 @@ function CreatePost() {
           `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
         },
       })
-       // TODO: Show error if not owner
-       // TODO: make it work if user is not in the user list
-    if(response.data[0]._id.creator_id !== userResponse.data.user._id){
-      console.log("not owner")
+       // TODO: make it work if user is not in the user list, show error instead of navigate
+       console.log(response.data[0])
+    if(response.data[0].users.some(user=> user.user_id !== userResponse.data.user._id)){
+      
     }
     }
       GetForumData()
