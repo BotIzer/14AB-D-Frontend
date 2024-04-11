@@ -18,7 +18,7 @@ function Notifications() {
   const [friendRequests, setFriendRequests] = useState([])
   const [toggleTab, setToggleTab] = useState('requests')
   const [notifications,setNotifications] = useState({})
-  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
+  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 1, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
   const [removeId, setRemoveId] = useState('')
   const [seenNotifications, setSeenNotifications] = useState([])
@@ -187,16 +187,17 @@ function Notifications() {
     GetFriendRequests()
     GetNotifications()
   }, [location])
-  useEffect(()=>{
-    if(notifications.notifications && notifications.notifications.length <= 0 && pageData.pageCount != 0){
-      setPageData({
-        currentPage: pageData.currentPage-1 <= 0 ? 0 : pageData.currentPage,
-        pageCount: pageData.pageCount - 1 <= 0 ? 0 : pageData.pageCount
-        
-      })
-      navigate(`/notifications?page=${pageData.currentPage-1 <= 0 ? 0 : pageData.currentPage-1}`)
+  useEffect(() => {
+    if (notifications.notifications && notifications.notifications.length <= 0 && pageData.pageCount !== 0) {
+      const newPage = pageData.currentPage - 1 <= 0 ? 0 : pageData.currentPage - 1;
+      setPageData(prevPageData => ({
+        ...prevPageData,
+        currentPage: newPage,
+        pageCount: prevPageData.pageCount - 1 <= 0 ? 0 : prevPageData.pageCount
+      }));
+      navigate(`/notifications?page=${newPage}`);
     }
-  },[notifications])
+  }, [notifications]);
   
   return (
     <>
