@@ -114,7 +114,7 @@ function Forum() {
         {localStorage.getItem('token') !== null && isSubscribed ? <Button
           className='clear-button fixed-bottom-right mb-4'
           style={{ backgroundColor: '#343a40' }}
-          onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/createpost/`)}
+          onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/${forum_id}/createpost/`)}
         >
           <img
             className='hover-filter-gold'
