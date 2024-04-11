@@ -11,11 +11,13 @@ import {
 } from 'react-bootstrap'
 import { DaysDifference } from './ForumCard'
 import { Link } from 'react-router-dom'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 function CommentAccordion(props) {
   
   const [isLiked, setIsLiked] = useState(false)
+  const [creatorName, setCreatorName] = useState('')
+
   const ContextAwareToggle = ({ children, eventKey, callback }) => {
     const { activeEventKey } = useContext(AccordionContext)
 
@@ -73,10 +75,14 @@ function CommentAccordion(props) {
       })
     }
   }
+  useEffect(()=>{
+    console.log(props)
+  },[])
   //TODO make togglebuttons work plz :)
   return (
     <>
-      <Container className={props.className} style={props.style} fluid>
+    {/*TODO:  Add style style={props.style} className={props.className}*/}
+      <Container fluid>
         <Accordion data-bs-theme='dark' defaultActiveKey='0'>
           <Card>
             <Card.Header className='text-muted w-100 p-0 m-0' as={Row}>

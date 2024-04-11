@@ -10,6 +10,7 @@ function Comments() {
   //TODO Replace dummyData
   const location = useLocation()
   const [threadData, setThreadData] = useState()
+  const [comments, setComments] = useState([])
   const dummyCreator = {
     _id: 1,
     name: 'Béla',
@@ -94,7 +95,7 @@ const ContextAwareToggle = ({ children, eventKey, callback }) => {
   )
 }
 
-const commentList = dummyComments.map((comment) => (
+const commentList = comments && comments.map((comment) => (
   <Row key={comment._id.message_id} className='justify-content-center my-3'>
     <CommentAccordion comment={comment} creator={dummyCreator}></CommentAccordion>
   </Row>
@@ -136,7 +137,6 @@ useEffect(()=>{
   }
   const getCommentData = async() => {
     try {
-      console.log(location.pathname.split('/')[4])
       const response = await axios.get(`/thread/${location.pathname.split('/')[4]}/comments`,{
         headers: {
           'Content-Type': 'application/json',
@@ -144,9 +144,9 @@ useEffect(()=>{
         },
         withCredentials: true,
       })
-      console.log(response.data)
+      setComments(response.data)
     } catch (error) {
-      
+      // TODO: error handling
     }
   }
   getCommentData()
