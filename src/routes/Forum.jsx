@@ -17,6 +17,16 @@ function Forum() {
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [userId, setUserId] = useState('')
+  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
+  pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
+  
+  const handlePaginationClick = (pageNumber) =>{
+    setPageData(prevState => ({
+      ...prevState,
+      currentPage: pageNumber
+    }))
+    navigate(`${location.pathname}?page=${pageNumber}`)
+  } 
 
   const categoryList = data.forumData[0] && data.forumData[0].tags.map((category)=>(
     <th
@@ -34,11 +44,9 @@ function Forum() {
   ))
 
   let pages = []
-  let pagesCount = 20
-  let active = 20 
-  for (let i = 1; i <= pagesCount; i++) {
+  for (let i = 1; i <= pageData.pageCount; i++) {
     pages.push(
-    <Pagination.Item key={i} active={i === active}>
+    <Pagination.Item onClick={()=>handlePaginationClick(i)} key={i} active={i === pageData.currentPage}>
       {i}
     </Pagination.Item>
     ) 
@@ -74,6 +82,7 @@ function Forum() {
 
   useEffect(()=>{
     if(data.forumData.length !== 0){
+      console.log(data.threads)
       const img = new Image();
       img.src = data.forumData[0].banner
       img.onload = ()=>{
@@ -158,14 +167,12 @@ function Forum() {
           {postList}
         </Col>
         <Pagination className='justify-content-center custom-pagination'>
-            <Pagination.First/>
-            <Pagination.Prev/>
-            {pages[active - 2]}
-            {pages[active - 1]}
-            {pages[active]}
-            <Pagination.Next/>
-            <Pagination.Last/>
-          </Pagination> {/* TODO: Connect pagination to backend*/}
+        <Pagination.First onClick={()=>handlePaginationClick(1)}/>
+        <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
+        {pages}
+        <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+        <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
+        </Pagination> {/* TODO: Connect pagination to backend*/}
       </Container>
     </>
   )

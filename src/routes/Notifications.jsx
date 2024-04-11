@@ -133,7 +133,6 @@ function Notifications() {
     }))
     navigate(`/notifications?page=${pageNumber}`)
   } 
-  //TODO connect to backend, make active page dynamic
   let pages = []
   for (let i = 1; i <= pageData.pageCount; i++) {
     pages.push(
