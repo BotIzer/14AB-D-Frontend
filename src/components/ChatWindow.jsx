@@ -4,7 +4,6 @@ import { Form, FormGroup, Button, Container, DropdownButton, Dropdown, Col, Row 
 import axios from '../api/axios'
 import { useLocation, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
-import FriendMenu from './FriendMenu'
 import Navbar from 'react-bootstrap/Navbar'
 import Ably from 'ably'
 
@@ -203,7 +202,6 @@ useEffect(() => {
           </Col>
       </Navbar>
       <MessageList messages={messages}></MessageList>
-      {showFriends ? <FriendMenu chat={currentChatData.selectedChat}></FriendMenu> : null}
       <Navbar sticky='bottom' style={{backgroundColor: '#343a40', zIndex: '1000'}}>
       <Container fluid className='justify-content-center w-100 p-0'>
         <Navbar.Toggle aria-controls='navbarScroll' />
