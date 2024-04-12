@@ -7,71 +7,9 @@ import axios from '../api/axios'
 import {Link, useLocation} from 'react-router-dom'
 
 function Comments() {
-  //TODO Replace dummyData
   const location = useLocation()
   const [threadData, setThreadData] = useState()
   const [comments, setComments] = useState([])
-  const dummyCreator = {
-    _id: 1,
-    name: 'Béla',
-  }
-  const dummyComments = [
-    {
-      _id: {
-        room_id: 1,
-        creator_id: 1,
-        message_id: 1,
-      },
-      text: 'Nem dolgozol eleget',
-      reply: {
-        is_reply: false,
-        parent_comment_id: null,
-        sequential_number: 0,
-      },
-      creation_date: Date.now(),
-      likes: 10,
-      dislikes: 2,
-      emoticons: [],
-    },
-    {
-      _id: {
-        room_id: 2,
-        creator_id: 2,
-        message_id: 2,
-      },
-      text: 'Mé nem',
-      reply: {
-        is_reply: false,
-        parent_comment_id: null,
-        sequential_number: 0,
-      },
-      creation_date: Date.now(),
-      likes: 10,
-      dislikes: 2,
-      emoticons: [],
-    }
-  ]
-  const dummyPost = {
-    _id: {
-      forum_id: 1,
-      creator_id: 1,
-      thread_id: 1,
-  },
-  name: 'title',
-  likes: {
-      count: 2,
-      users: ['MN', 'Béla'],
-  },
-  dislikes: {
-      count: 1,
-      users: ['BotIzer'],
-  },
-  editors: ['Béla'],
-  emoticons: [''],
-  creation_date:  Date.now,
-  content: 'Béla munkaideje',
-  image_array: [''],
-}
 
 const ContextAwareToggle = ({ children, eventKey, callback }) => {
   const { activeEventKey } = useContext(AccordionContext)
@@ -118,7 +56,6 @@ const sendComment = async () =>{
   }
     
 }
-//TODO Get replace dummy Creator
 useEffect(()=>{
   
   const GetThreadData = async() => {
@@ -158,7 +95,7 @@ return (
    <Container fluid>
      <Col xs='auto'>
        <Row className='justify-content-center m-2 mb-4'>
-         <PostCard isDisabled={true} post={(threadData !== undefined ? threadData : dummyPost)}></PostCard>
+         {threadData ? <PostCard isDisabled={true} post={threadData}></PostCard> : null}
        </Row>
        <Row>
        <Accordion data-bs-theme='dark' defaultActiveKey='0' className='mb-2'>
@@ -172,46 +109,6 @@ return (
                   </Link>{' '}
                   - Now
                 </i>
-              </Col>
-              <Col className='text-end'>
-                <ToggleButton
-                  // id={post.post._id && post.post._id.thread_id + 'like'}
-                  id={1}
-                  className='image-checkbox position-relative'
-                  type='checkbox'
-                  variant='secondary'
-                  // checked={opinion.isLiked}
-                  disabled
-                  value='1'
-                >
-                  <img
-                    src='/src/assets/icons/lightning_32_up.png'
-                    alt='fist-bump'
-                    className='filter-grey'
-                  />
-                  <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
-                    0
-                  </span>{' '}
-                </ToggleButton>
-                <ToggleButton
-                  // id={post.post._id && post.post._id.thread_id + 'dislike'}
-                  id={2}
-                  className='image-checkbox position-relative'
-                  type='checkbox'
-                  variant='secondary'
-                  // checked={opinion.isDisLiked}
-                  disabled
-                  value='1'
-                >
-                  <img
-                    src='/src/assets/icons/lightning_32.png'
-                    alt='skull'
-                    className='filter-grey'
-                  />
-                  <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
-                    0
-                  </span>
-                </ToggleButton>
               </Col>
             </Card.Header>
             <Accordion.Collapse eventKey='0'>
@@ -234,7 +131,6 @@ return (
                       Add Comment
                     </Button>
                   </Col>
-                  {/* TODO make second button show  options, make replies open chatwindow*/}
                 </Row>
               </Card.Body>
             </Accordion.Collapse>
