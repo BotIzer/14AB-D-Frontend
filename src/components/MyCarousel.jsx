@@ -33,7 +33,7 @@ function MyCarousel(forums) {
     </Carousel.Item>
   ));
   const goToForum = async (forum_name, id)=>{
-    navigate(`/forums/${decodeURIComponent(forum_name)}/${id}`)
+    navigate(`/forums/${decodeURIComponent(forum_name)}/${id}?page=1`)
   }
   useEffect(()=>{
     if(forums.forums){
