@@ -44,6 +44,9 @@ function CommentAccordion(props) {
   const editComment = async () =>{
     await axios.patch(`/comment/${props.comment._id.message_id}`,
     {
+      text: document.getElementById('commentForm').value,
+    },
+    {
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('token')}`,
