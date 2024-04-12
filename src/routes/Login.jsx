@@ -123,6 +123,7 @@ function Login() {
                 <button
                   type='submit'
                   className='btn btn-warning mb-2'
+                  id='loginBtn'
                 >
                   Login
                 </button>
@@ -139,7 +140,7 @@ function Login() {
       </Container>
 
         <span style={{width: '100%', textAlign: 'center', display: 'block', fontSize: '30px', 
-        fontWeight: 'bold', color: errMsg ? 'red' : 'green'}}>
+        fontWeight: 'bold', color: errMsg ? 'red' : 'green'}} id='errMsg'>
         {errMsg !== null ? errMsg : success !== null ? success : null}</span>
 
     </>
