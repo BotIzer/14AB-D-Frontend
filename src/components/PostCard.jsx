@@ -64,6 +64,9 @@ function PostCard(post) {
       
     }
   })
+  useEffect(() => {
+    console.log(post.post.image_array);
+  })
   return (
     <Card className='text-center p-0' data-bs-theme='dark' xs={12} md={6}>
       
@@ -79,11 +82,9 @@ function PostCard(post) {
     </Dropdown.Item>
         </DropdownButton> : null} 
       </Card.Header>
-      <Card.Body className='secondary h-auto' style={{ minHeight: '200px' }}>
+      <Card.Body className='secondary h-auto overflow-auto' style={{ minHeight: '200px' , maxHeight: '400px'}}>
         <Card.Text>{post.post.content}</Card.Text>{' '}
-        {/* TODO: DO SOMETHING WHEN IT'S EMPTY */}
-        <MyCarousel images={post.image_array? post.image_array : (post.post.image_array ? post.post.image_array : [])}></MyCarousel>
-        {/*TODO make text cut out if longer than space provided or make it scrollable?*/}
+        {post.post.image_array && post.post.image_array.length !== 0 ? <MyCarousel images={post.post.image_array? post.post.image_array : (post.post.image_array ? post.post.image_array : [])}></MyCarousel> : <img src={post.post.image_array[0]}></img>}
       </Card.Body>
       <Card.Footer>
         <Row>
