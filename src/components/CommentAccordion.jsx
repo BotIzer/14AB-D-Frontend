@@ -90,7 +90,7 @@ function CommentAccordion(props) {
                 <ContextAwareToggle eventKey='0'>+</ContextAwareToggle>
                 <i style={{ fontSize: 'small' }}>
                   <Link className='chat-name secondary'>
-                    {props.creator.name}
+                    {props.comment.creator}
                   </Link>{' '}
                   - {DaysDifference(props.comment.creation_date, Date.now())}{' '}
                   days ago
@@ -114,7 +114,7 @@ function CommentAccordion(props) {
                     className={isLiked ? 'filter-gold' : 'filter-grey'}
                   />
                   <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
-                    {props.comment.likes}
+                    {props.comment.likes.count}
                   </span>{' '}
                 </ToggleButton>
                 <ToggleButton
@@ -134,7 +134,7 @@ function CommentAccordion(props) {
                     className={!isLiked ? 'filter-red' : 'filter-grey'}
                   />
                   <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
-                    {props.comment.dislikes}
+                    {props.comment.dislikes.count}
                   </span>
                 </ToggleButton>
               </Col>

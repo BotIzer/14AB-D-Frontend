@@ -97,7 +97,7 @@ const ContextAwareToggle = ({ children, eventKey, callback }) => {
 
 const commentList = comments && comments.map((comment) => (
   <Row key={comment._id.message_id} className='justify-content-center my-3'>
-    <CommentAccordion comment={comment} creator={dummyCreator}></CommentAccordion>
+    <CommentAccordion comment={comment}></CommentAccordion>
   </Row>
 ))
 const sendComment = async () =>{
