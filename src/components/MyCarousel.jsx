@@ -14,11 +14,12 @@ function MyCarousel(forums) {
         alt={forum.banner.slice(0, forum.banner.lastIndexOf('.'))}
         style={{ float: 'center' }}
       />
-      <Carousel.Caption>
-        {/* TODO: ADD BFF STYLING ALSO ADD RECOMMENDED FORUMS HEADER */}
-        <h3>{forum.forum_name}</h3>
-        <h3><Button onPointerDown={()=>goToForum(forum.forum_name, forum._id.forum_id)}>Visit Forum</Button></h3>
-        <p>{forum.description && forum.description}</p>
+      <Carousel.Caption className='primary'>
+        <h3 className='text-outline'>{forum.forum_name}</h3>
+        <div className='secondary'>
+          <p className='text-outline'>{forum.description && forum.description}</p>
+        </div>
+        <Button className='custom-button primary' style={{border: 'solid 1px gold'}} onPointerDown={()=>goToForum(forum.forum_name, forum._id.forum_id)}>Visit Forum</Button>
       </Carousel.Caption>
     </Carousel.Item>
   )) : forums.images && forums.images.map((image) => (

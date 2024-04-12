@@ -1,4 +1,4 @@
-import { Col, Row } from 'react-bootstrap/';
+import { Col, Row, Container } from 'react-bootstrap/';
 import MyCarousel from '../components/MyCarousel';
 import { useEffect, useState } from 'react';
 import axios from '../api/axios';
@@ -26,11 +26,15 @@ function DesktopLayout() {
 
   return (
     <>
-      <Row className='border h-100 m-5 p-0'>
-        <Col className='d-flex justify-content-center border p-0' style={{ height: '180px' }}>
-          <MyCarousel forums={carouselSource} />
-        </Col>
-      </Row>
+      <Container>
+        <Row className='justify-content-center'><h1 className='text-center'>Recommended forums</h1></Row>
+        <Row className='border border-warning h-100 m-5 p-0'>
+          <Col className='d-flex justify-content-center p-0' style={{ height: '180px' }}>
+        
+            <MyCarousel forums={carouselSource} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

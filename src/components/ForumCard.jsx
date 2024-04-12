@@ -67,9 +67,8 @@ function ForumCard(forum) {
         <Card.Body
           className='secondary'
           style={{
-            // TODO: ADD DEFAULT LINK
             backgroundImage: `url(${isBannerValid? 
-              forum.forum.banner : 'https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile?$pjpeg$&jpegSize=200&wid=720'})`,
+              forum.forum.banner : import.meta.env.VITE_BFF_DEFAULT})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat'
           }}
@@ -84,15 +83,9 @@ function ForumCard(forum) {
           </Button> 
           : 
           null}
-          {/* TODO: fix this */}
           <Card.Title className='text-outline overflow-auto' style={{maxHeight: "50px"}}>
-            {/* {forum.forum.topPost.title} */}
             {forum.forum.description}
           </Card.Title>
-          <Card.Text className='text-outline'>
-            {/* <i>{forum.forum.topPost.content}</i> TODO ezek miért commentelve vannak?*/}
-            <i>Fix this too</i>
-          </Card.Text>
           <Button 
             onClick={() => navigate(`/forums/${encodeURIComponent(forum.forum.forum_name)}/${forum.forum._id.forum_id}?page=1`)}
             className='custom-button text-outline'
@@ -100,6 +93,9 @@ function ForumCard(forum) {
           >
             Visit forum
           </Button>
+          <Card.Text className='text-outline text-muted'>
+            <i>Created at: {forum.forum.creation_date.toString().split('T')[0]}</i>
+          </Card.Text>
         </Card.Body>
         <Card.Header className='p-0'>
           <Table responsive className='m-0'>
