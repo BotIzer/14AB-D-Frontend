@@ -92,16 +92,17 @@ useEffect(()=>{
 return (
   <>
   <Navigation/>
+  
    <Container fluid>
      <Col xs='auto'>
        <Row className='justify-content-center m-2 mb-4'>
          {threadData ? <PostCard isDisabled={true} post={threadData}></PostCard> : null}
        </Row>
-       <Row>
+       {localStorage.getItem('userInfo') !== null ? <Row>
        <Accordion data-bs-theme='dark' defaultActiveKey='0' className='mb-2'>
           <Card>
             <Card.Header className='text-muted w-100 p-0 m-0' as={Row}>
-              <Col className='text-nowrap p-0'>
+                <Col className='text-nowrap p-0'>
                 <ContextAwareToggle eventKey='0'>+</ContextAwareToggle>
                 <i style={{ fontSize: 'small' }}>
                   <Link className='chat-name secondary' to={`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`}>
@@ -109,7 +110,7 @@ return (
                   </Link>{' '}
                   - Now
                 </i>
-              </Col>
+              </Col> 
             </Card.Header>
             <Accordion.Collapse eventKey='0'>
               <Card.Body>
@@ -136,7 +137,7 @@ return (
             </Accordion.Collapse>
           </Card>
         </Accordion>
-       </Row>
+       </Row> : null}
        {commentList}
      </Col>
 

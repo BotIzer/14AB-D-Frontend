@@ -19,6 +19,7 @@ function CommentAccordion(props) {
   
   const [isLiked, setIsLiked] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
 
   const ContextAwareToggle = ({ children, eventKey, callback }) => {
     const { activeEventKey } = useContext(AccordionContext)
@@ -56,7 +57,27 @@ function CommentAccordion(props) {
     props.comment.text = document.getElementById('commentForm').value
     setIsEditing(false)
   }
-
+  useEffect(()=>{
+    const getOwner = async() => {
+      if(JSON.parse(localStorage.getItem('userInfo')).username === null){
+        setIsOwner(false)
+        return;
+      }
+      const userResponse = await axios.get(
+        `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      if(props.comment._id.creator_id !== userResponse.data.user._id){
+        setIsOwner(false)
+      }
+      else{
+        setIsOwner(true)
+      }
+    }
+    getOwner()
+  },[])
   return (
     <>
     {/*TODO:  Add style style={props.style} className={props.className}*/}
@@ -84,7 +105,7 @@ function CommentAccordion(props) {
                   className='text-center p-2'
                 >
                   <Col>
-                    {!isEditing ? 
+                    {isOwner ? (!isEditing ? 
                     <Button
                       variant='outline-warning'
                       className='custom-button'
@@ -111,8 +132,7 @@ function CommentAccordion(props) {
                 >
                   Close Editing
                 </Button>
-                    </React.Fragment>
-                    }
+                    </React.Fragment>) : null}
                   </Col>
                   {/* TODO make second button show  options, make replies open chatwindow*/}
                 </Row>
