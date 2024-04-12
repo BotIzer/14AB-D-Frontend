@@ -1,5 +1,6 @@
 import { Button, FormGroup, Row, Image as ReactImage, DropdownButton, DropdownItem, Container, Table, Col, OverlayTrigger, Tooltip, Form, Tab, Tabs } from 'react-bootstrap'
 import Navigation from '../components/Navigation'
+import Blacklist from '../components/Blacklist'
 import axios from '../api/axios'
 import { useLocation, useNavigate, } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -17,13 +18,7 @@ function EditForum() {
   const [displayError, setDisplayError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isBannerValid, setIsBannerValid] = useState(true)
-  //TODO replace dummy data  
-  const categoryPreview = [
-    'gaming',
-    'test',
-    'e-sports',
-    'question'
-  ]
+
   const SaveChanges = async () => {
     const title = document.getElementById('title').value.trim()
     const banner = document.getElementById('banner').value.trim()
@@ -210,11 +205,11 @@ useEffect(()=>{
       <Tabs
         defaultActiveKey='editUser'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
-        style={{ width: '40vw', borderBottom: 'none' }}
+        style={{ width: '60vw', borderBottom: 'none' }}
         onSelect={HandleSelect}
         justify
       >
-        <Tab eventKey='editUser' title='Edit' className='border tab-size p-2'>
+        <Tab eventKey='editUser' title='Edit' className='tab-size p-2'>
           <FormGroup
             className='p-2 w-100 h-100 text-center'
             data-bs-theme='dark'
@@ -309,6 +304,9 @@ useEffect(()=>{
               Cancel
             </Button>
           </div>
+        </Tab>
+        <Tab eventKey='blackList' title='Blacklist' className='tab-size p-2'>
+              <Blacklist></Blacklist>
         </Tab>
         <Tab
           eventKey='deleteForum'

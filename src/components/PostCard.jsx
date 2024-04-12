@@ -65,7 +65,7 @@ function PostCard(post) {
     }
   })
   useEffect(() => {
-    console.log(post.post.image_array);
+    console.log(post.post);
   })
   return (
     <Card className='text-center p-0' data-bs-theme='dark' xs={12} md={6}>
@@ -138,10 +138,6 @@ function PostCard(post) {
                 `/forums/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}/${post.post._id.thread_id}/comments`)}
             >
               Comments
-              <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary'>
-                {/* TODO: ADD THIS TO DATABASE */}
-                {post.post.comment_count}
-              </span>
             </Button>
           </Col>}
         </Row>

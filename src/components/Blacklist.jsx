@@ -1,4 +1,4 @@
-import Navigation from '../components/Navigation'
+
 import { useState } from 'react'
 import { Col, Row, Container, Button, FormGroup, FormSelect, Form, Image } from 'react-bootstrap'
 
@@ -40,7 +40,6 @@ function Blacklist() {
 
   return(
     <>
-    <Navigation></Navigation>
     <Container fluid data-bs-theme='dark'>
       <Col>
         <Row className='justify-content-center mb-4'><h1 className='text-center'>Blacklist of TestForum</h1></Row>
@@ -53,10 +52,10 @@ function Blacklist() {
             <Button className='m-2' variant='outline-danger'>Ban</Button>
           </FormGroup>
         </Row>
-        <Row className='justify-content-center p-2'><Col md={{span:6, offset: 3}} style={{maxHeight: '50vh'}} className='overflow-auto border border-danger p-2'>{blackList}</Col></Row>
+        <Row className='justify-content-center p-2'><div style={{maxHeight: '50vh'}} className='overflow-auto border border-danger p-2'>{blackList}</div></Row>
       </Col>
       <Row className='justify-content-center m-5'>
-        <div style={{width: 'auto'}}>
+        <div style={{width: 'auto'}} className='text-center'>
         <Button className='m-2' variant='outline-warning'>Save changes</Button>
         <Button className='m-2' variant='outline-danger'>Cancel</Button>
         </div>

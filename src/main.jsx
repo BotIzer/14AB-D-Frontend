@@ -26,7 +26,7 @@ import CreateChatPopup from "./components/CreateChatPopup.jsx";
 import VerifyEmail from "./routes/VerifyEmail.jsx";
 import CommentAccordion from "./components/CommentAccordion.jsx";
 import Comments from "./routes/Comments.jsx";
-import Blacklist from "./routes/Blacklist.jsx";
+import Blacklist from "./components/Blacklist.jsx";
 import FrontPage from "./routes/FrontPage.jsx";
 import Navigation from "./components/Navigation.jsx";
 import Ably from 'ably';
@@ -172,11 +172,6 @@ const router = createBrowserRouter([
   {
     path: "/forums/:forum/:forumId/:postId/comments",
     element: <Comments></Comments>,
-    errorElement: <ErrorPage></ErrorPage>,
-  },
-  {
-    path: "/forums/:forum/:forumId/blacklist",
-    element: <Blacklist></Blacklist>,
     errorElement: <ErrorPage></ErrorPage>,
   },
 ]);
