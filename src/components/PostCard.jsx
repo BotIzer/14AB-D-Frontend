@@ -133,7 +133,7 @@ function PostCard(post) {
             </Col>
           {post.isDisabled ? null : <Col xs={6} className='text-end'>
             <Button
-              className='comments-button tertiary position-relative h-100' /*onClick={() => navigate('/post/comments')} TODO make this navigate to comment section*/
+              className='comments-button tertiary position-relative h-100'
               onPointerDown={()=>navigate(
                 `/forums/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}/${post.post._id.thread_id}/comments`)}
             >
