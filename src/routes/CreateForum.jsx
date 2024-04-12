@@ -15,7 +15,7 @@ function CreateForum() {
     description: '',
   })
   const [displayError, setDisplayError] = useState(false)
-
+  const [tagError, setTagError] = useState(false)
   const postsPreview = [
     {
       _id: {forum_id: 1,
@@ -102,6 +102,10 @@ function CreateForum() {
       document.getElementById('tagUpload').value = ''
       return
     }
+    if(document.getElementById('tagUpload').value.length > 15){
+      setTagError(true)
+      return;
+    }
     setPreviewData(prevState => ({
       ...prevState,
       tags: [...prevState.tags, document.getElementById('tagUpload').value]
@@ -121,6 +125,14 @@ function CreateForum() {
       navigate('/')
     }
   },[])
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+      setTagError(false);
+      setDisplayError(false);
+    }, 500);
+  
+    return () => clearTimeout(timer);
+  },[tagError, displayError])
   return (
     <>
       <Navigation></Navigation>
@@ -182,6 +194,7 @@ function CreateForum() {
             className='p-2 w-100 h-100 text-center'
             data-bs-theme='dark'
           >
+            {tagError ? <div><span className='invalid'>Tags cannot be longer than 15 characters!</span></div> : null}
             <Form.Label className='secondary'>Banner</Form.Label>
             <Form.Control
               className='text-center mb-3'

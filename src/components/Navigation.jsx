@@ -219,8 +219,7 @@ function Navigation(props) {
       {searchResults.forums.length > 0 && searchResults.forums.map((item) => (
         <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
       ))}
-      {/* TODO: WHAT IS THIS */}
-          {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item onClick={()=>console.log('Hello?')} className='d-flex justify-content-center'  key='noResults'>No search results</Dropdown.Item>}
+          {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item className='d-flex justify-content-center'  key='noResults'>No search results</Dropdown.Item>}
            </Dropdown.Menu>
             </Dropdown>
             </Form>
