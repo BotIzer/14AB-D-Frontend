@@ -22,19 +22,6 @@ function EditPost() {
   const [error, setError] = useState('')
   const [isCreator, setIsCreator] = useState(false)
 
-  const preview = 
-    {
-      _id: {forum_id: 1,
-         creator_id: 1,thread_id: 1},
-      name: 'Peview Post 1',
-      content: 'Content of Post 1',
-      image_array: ['/src/assets/banner_test.jpg', '/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png'],
-      likes: {users: [], count: 0},
-      dislikes: {users: [], count: 0},
-      comment_count: 4,
-      postDate: new Date(),
-    }//TODO: Make previews dynamic
-
   const SaveChanges = async () => {
     const name = document.getElementById('name').value.trim()
     const image_array = document.getElementById('fileUpload').value.trim()
@@ -184,12 +171,12 @@ function EditPost() {
             />
           </FormGroup>
           <FormGroup data-bs-theme='dark' className='text-center'>
-            <Form.Label className='secondary'>Image(es)</Form.Label>
+            <Form.Label className='secondary'>Image(s)</Form.Label>
             <div className='d-flex justify-content-around m-2 secondary'>
                 <DropdownButton
                   data-bs-theme='dark'
                   drop='down-centered'
-                  title='image(s):'
+                  title='Image(s):'
                   className='dropdown-button'
                 >
                   {/*TODO create function to remove image from list*/}
@@ -265,7 +252,7 @@ function EditPost() {
           </Button>
         </Tab>
         <Tab eventKey='preview' title='Preview' className='tab-size'>
-            <PostCard image_array={imageList} post={preview}></PostCard>
+            <PostCard image_array={imageList} post={previewData}></PostCard>
         </Tab>
       </Tabs>
     </>
