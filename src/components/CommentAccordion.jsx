@@ -43,7 +43,6 @@ function CommentAccordion(props) {
     )
   }
   const editComment = async () =>{
-    return
     await axios.patch(`/comment/${props.comment._id.message_id}`,
     {
       text: document.getElementById('commentForm').value,
