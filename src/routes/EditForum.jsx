@@ -26,7 +26,6 @@ function EditForum() {
     const forumId = location.pathname.split('/')[3]
     const tags = tagList
     if (title !== '' && banner !== '') {
-      // TODO: Display error if title/banner is empty!
       try {
         await axios.put(
           `/forum/${forumId}`,
@@ -189,7 +188,6 @@ useEffect(()=>{
       setErrorMessage('Could not load user data')
       setDisplayError(true)
     }
-    // TODO: Show error if not owner
     if(response.data[0]._id.creator_id !== userResponse.data.user._id){
       setDisplayError(true)
       setErrorMessage('You are not the owner of this forum')
@@ -225,7 +223,6 @@ useEffect(()=>{
           </FormGroup>
           <FormGroup data-bs-theme='dark' className='w-100'>
             <div className='d-flex justify-content-around m-2 secondary'>
-              {/* TODO: fill it with tags dynamically */}
                 <DropdownButton
                   data-bs-theme='dark'
                   drop='down-centered'
@@ -316,7 +313,7 @@ useEffect(()=>{
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => DeleteForum()} //TODO rename function
+            onClick={() => DeleteForum()}
             className='mt-3'
           >
             Delete Forum

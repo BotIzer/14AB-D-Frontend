@@ -298,8 +298,6 @@ function Chats() {
     </Row>
   ))
 
-  //TODO connect to backend, make active page dynamic
-  // TODO BOTI: make pagination work here
   let dmPages = []
   for (let i = 1; i <= paginationPageData.dmPageCount; i++) {
     dmPages.push(
@@ -434,13 +432,11 @@ function Chats() {
                   {friends.length == 0 ? <i>No friends?</i> : null}
                   <Col className='overflow-auto'>
                     {directMessageList}
-                    {/*TODO create seperate variable for dms*/}
                     <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
                       <Pagination.Prev onPointerDown={()=>handlePaginationClick(paginationPageData.dmCurrentPage -1 <= 0 ? paginationPageData.dmPageCount : paginationPageData.dmCurrentPage - 1, 'dm')}/>
                       {dmPages}
                       <Pagination.Next onPointerDown={()=>handlePaginationClick(paginationPageData.dmCurrentPage +1 > paginationPageData.dmPageCount ? 1 : paginationPageData.dmCurrentPage + 1, 'dm')}/>
                     </Pagination>{' '}
-                    {/* TODO: Connect pagination to backend*/}
                   </Col>
                 </Row>
                 <div className='border'></div>
@@ -456,7 +452,6 @@ function Chats() {
                         {groupPages}
                         <Pagination.Next onPointerDown={()=>handlePaginationClick(paginationPageData.groupCurrentPage +1 > paginationPageData.groupPageCount ? 1 : paginationPageData.groupCurrentPage + 1, 'group')}/>
                       </Pagination>{' '}
-                      {/* TODO: Connect pagination to backend*/}
                     </Row>
                   </Col>
                   <Button
@@ -522,13 +517,11 @@ function Chats() {
                   {friends.length == 0 ? <i>No friends?</i> : null}
                   <Col className='overflow-auto'>
                     {friendList}
-                    {/* TODO create seperate variable for all friends and dms */}
                     <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
                       <Pagination.Prev onPointerDown={()=>handlePaginationClick(paginationPageData.friendsCurrentPage -1 <= 0 ? paginationPageData.friendsPageCount : paginationPageData.friendsCurrentPage - 1, 'friends')}/>
                       {friendsPages}
                       <Pagination.Next onPointerDown={()=>handlePaginationClick(paginationPageData.friendsCurrentPage +1 > paginationPageData.friendsPageCount ? 1 : paginationPageData.friendsCurrentPage + 1, 'friends')}/>
                     </Pagination>{' '}
-                    {/* TODO: Connect pagination to backend*/}
                   </Col>
                 </Row>
                 <div className='border'></div>

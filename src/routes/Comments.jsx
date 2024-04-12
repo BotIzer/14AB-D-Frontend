@@ -2,7 +2,7 @@ import { useEffect, useState, useContext} from 'react'
 import CommentAccordion from '../components/CommentAccordion'
 import Navigation from '../components/Navigation'
 import PostCard from '../components/PostCard'
-import {Container, Row, Col, Accordion, Card, ToggleButton, Form, Button, AccordionContext, useAccordionButton} from 'react-bootstrap'
+import {Container, Row, Col, Accordion, Card, Form, Button, AccordionContext, useAccordionButton} from 'react-bootstrap'
 import axios from '../api/axios'
 import {Link, useLocation} from 'react-router-dom'
 
@@ -10,6 +10,8 @@ function Comments() {
   const location = useLocation()
   const [threadData, setThreadData] = useState()
   const [comments, setComments] = useState([])
+  const [error, setError] = useState('')
+  const [showError, setShowError] = useState(false)
 
 const ContextAwareToggle = ({ children, eventKey, callback }) => {
   const { activeEventKey } = useContext(AccordionContext)
@@ -40,19 +42,21 @@ const commentList = comments && comments.map((comment) => (
 ))
 const sendComment = async () =>{
   console.log(location.pathname.split('/')[4])
-  // TODO: display error if false
   if(document.getElementById('comment').value.trim() !== ''){
     try {
-      // TODO: display error if catch
       await axios.post('/thread/createComment',{
         thread_id: location.pathname.split('/')[4],
         text: document.getElementById('comment').value.trim(),
         is_reply: false
       })
     } catch (error) {
-      
+      setError('Couldnt post comment!')
+      setShowError(true)
     }
    
+  }else{
+    setError('Cant post empty comment!')
+    setShowError(true)
   }
     
 }
@@ -69,7 +73,8 @@ useEffect(()=>{
       })
       setThreadData(response.data)
     } catch (error) {
-      //TODO: error handling
+      setError('Couldnt load thread information!')
+      setShowError(true)
     }
   }
   const getCommentData = async() => {
@@ -83,7 +88,8 @@ useEffect(()=>{
       })
       setComments(response.data)
     } catch (error) {
-      // TODO: error handling
+      setError('Couldnt load comments!')
+      setShowError(true)
     }
   }
   getCommentData()
@@ -92,7 +98,7 @@ useEffect(()=>{
 return (
   <>
   <Navigation/>
-  
+  {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{error}</p></Row> : null}
    <Container fluid>
      <Col xs='auto'>
        <Row className='justify-content-center m-2 mb-4'>

@@ -15,9 +15,13 @@ function CreatePost() {
   const [errorMessage, setErrorMessage] = useState('')
 
   const SendPost = async () => {
-    //TODO - Add error when empty
     if (document.querySelector('.title').value.trim() !== '') {
       try {
+        if (document.querySelector('.title').value == '' || document.querySelector('.ql-editor').innerText == '') {
+          setErrorMessage('Please fill both title and content fields!')
+          setShowError(true)
+          return
+        }
         await axios.post(
           '/thread',
           {
@@ -38,6 +42,9 @@ function CreatePost() {
         setErrorMessage('Could not send post')
         setShowError(true)
       }
+    }else{
+      setErrorMessage('Cant post empty thread!')
+      setShowError(true)
     }
     const editor = document.querySelector('.ql-editor')
     editor.innerHTML = ''
@@ -88,10 +95,9 @@ function CreatePost() {
             `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
           },
         })
-         // TODO: make it work if user is not in the user list, show error instead of navigate
-         console.log(response.data[0])
       if(response.data[0].users.some(user=> user.user_id !== userResponse.data.user._id)){
-        
+        setErrorMessage('User is not subscribed to thread!')
+        setShowError(true)
       }
       } catch (error) {
         setErrorMessage('Could not get forum data')
@@ -119,10 +125,8 @@ function CreatePost() {
               placeholder='Title'
               className='mb-3 title'
             />
-            <Form.Label className='secondary'>Body</Form.Label>
+            <Form.Label className='secondary'>Content</Form.Label>
             <TextEditor className='h-100'></TextEditor>
-            {/* TODO: Style this */}
-            {isSuccess? <p style={{fontSize: '40'}}>Congratulations! Your post was succesful!</p> :null}
             <div className='d-flex justify-content-around my-3'>
               <Button
                 variant='outline-warning'
@@ -140,6 +144,7 @@ function CreatePost() {
               </Button>
             </div>
           </FormGroup>
+          {isSuccess? <b><p className='text-success text-center' style={{fontSize: 'medium', backgroundColor: 'rgba(25,135,84, 0.2)'}}>Congratulations! Your post was succesful!</p></b> :null}
         </Tab>
         <Tab
           eventKey='media'
