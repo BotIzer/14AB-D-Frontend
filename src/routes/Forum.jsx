@@ -96,7 +96,6 @@ function Forum() {
       }
   }
      GetForumData()
-    //  TODO: fix this ESLint error
   },[])
 
   useEffect(()=>{

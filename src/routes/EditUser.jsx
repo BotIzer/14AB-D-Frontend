@@ -411,7 +411,6 @@ function EditUser() {
               id="confirmPass"
               onChange={(e) => setMatchPwd(e.target.value)}
             />
-            {/* TODO checks for password validity and error messages*/}
             <p
                     id="confirmnote"
                     className={!validMatch ? 'invalid' : 'offcanvas'}

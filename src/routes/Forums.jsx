@@ -47,8 +47,6 @@ function Forums() {
         </Pagination.Item>
         )
     }
-
-  //TODO connect to backend, make active page dynamic
   
   useEffect(() => {
     const GetForums = async () => {
@@ -63,7 +61,6 @@ function Forums() {
       })
       setPageData({currentPage: pageData.currentPage, pageCount: response.data.pagesCount})
       if(localStorage.getItem('userInfo') === null){
-        // TODO: DO NOT SHOW SUBSCRIBE BUTTON
         const updatedForums = response.data.forums.map(forum => {
           return {
             ...forum,
@@ -131,7 +128,7 @@ function Forums() {
             {pages}
             <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
             <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-          </Pagination> {/* TODO: Connect pagination to backend*/}
+          </Pagination>
       </Container>
     </>
   )

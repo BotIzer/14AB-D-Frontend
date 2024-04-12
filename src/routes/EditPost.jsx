@@ -39,8 +39,7 @@ function EditPost() {
     const name = document.getElementById('name').value.trim()
     const image_array = document.getElementById('fileUpload').value.trim()
     const content = document.getElementById('content').value.trim()
-    if (name !== '') {
-      // TODO: Display error if nameis empty!
+    if (name !== '' || content !== '') {
       try {
         await axios.put(
           `/thread/${previewData._id.thread_id}`,
@@ -63,6 +62,8 @@ function EditPost() {
         setShowError(true)
       }
     } else {
+      setError('Please fill both name and content field!')
+      setShowError(true)
       return
     }
   }
