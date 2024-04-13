@@ -64,9 +64,6 @@ function PostCard(post) {
       
     }
   })
-  useEffect(() => {
-    console.log(post.post);
-  })
   return (
     <Card className='text-center p-0' data-bs-theme='dark' xs={12} md={6}>
       

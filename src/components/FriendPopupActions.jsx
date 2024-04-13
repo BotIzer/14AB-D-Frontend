@@ -34,7 +34,6 @@ function FriendPopupActions(props) {
   }
   const ListMembers = async () =>{
     //TODO: finish this
-    console.log(props.users[props.selectedChat])
   }
   const LeaveChat = async () =>{
     try {
@@ -94,10 +93,6 @@ function FriendPopupActions(props) {
     }
 
   },[])
-  //Console log
-  useEffect(()=>{
-    console.log(isOwner)
-  },[isOwner])
   return (
     <div data-bs-theme='dark' className='list-group list-group-flush h-100'>
       <p className='list-group-item secondary w-100 p-2 text-center mb-0' style={{borderBottom: '1px solid #e8cc80'}}>{props.name}</p>

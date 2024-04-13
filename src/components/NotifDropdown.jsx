@@ -8,8 +8,6 @@ function NotifDropdown(props) {
   const dropdownRef = useRef(null)
 
   const [notifications, setNotifications] = useState([])
-  //TODO: Make this do something or remove it
-  const [singleNotif, setSingleNotif] = useState('')
   const [dropdownWidth, setDropdownWidth] = useState(250)
 
 
@@ -70,7 +68,7 @@ function NotifDropdown(props) {
         style={{ maxWidth: '35vw' }}
         data-bs-theme='dark'
         title='Notifications'
-        className='dropdown-button dropdown-button-size my-2 mx-2' /*onSelect={(eventKey) => console.log(eventKey)} use eventkey to set function*/
+        className='dropdown-button dropdown-button-size my-2 mx-2'
         ref={dropdownRef}
       >
         {notifs}

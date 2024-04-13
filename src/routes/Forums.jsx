@@ -91,12 +91,6 @@ function Forums() {
     }
     GetForums()
   }, [location])
-  //Console log
-  useEffect(()=>{
-
-  console.log(pageData.currentPage)
-
-  },[pageData])
 
   return (
     <>

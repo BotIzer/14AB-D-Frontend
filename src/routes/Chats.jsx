@@ -407,9 +407,6 @@ function Chats() {
     }
     SetOwner()
   }, [groups])
-  useEffect(()=>{
-    console.log(directMessages)
-  },[directMessages])
   if (error != '') {
     return <ErrorPage errorStatus={error} />
   }

@@ -80,8 +80,7 @@ function CommentAccordion(props) {
   },[])
   return (
     <>
-    {/*TODO:  Add style style={props.style} className={props.className}*/}
-      <Container fluid>
+      <Container style={props.style} className={props.className} fluid>
         <Accordion data-bs-theme='dark' defaultActiveKey='0'>
           <Card>
             <Card.Header className='text-muted w-100 p-0 m-0' as={Row}>
@@ -114,7 +113,6 @@ function CommentAccordion(props) {
                     >
                       Edit
                     </Button> :
-                    // TODO: Format this
                     <React.Fragment>
                       <Button
                     variant='outline-warning'
@@ -134,7 +132,6 @@ function CommentAccordion(props) {
                 </Button>
                     </React.Fragment>) : null}
                   </Col>
-                  {/* TODO make second button show  options, make replies open chatwindow*/}
                 </Row>
               </Card.Body>
             </Accordion.Collapse>

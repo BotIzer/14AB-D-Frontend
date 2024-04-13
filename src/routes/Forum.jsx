@@ -100,7 +100,6 @@ function Forum() {
 
   useEffect(()=>{
     if(data.forumData.length !== 0){
-      console.log(data.threads)
       const img = new Image();
       img.src = data.forumData[0].banner
       img.onload = ()=>{

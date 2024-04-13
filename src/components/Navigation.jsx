@@ -83,8 +83,6 @@ function Navigation(props) {
     const updateDropdownWidth = () => {
       if (dropdownRef.current) {
         const width = dropdownRef.current.offsetWidth
-        console.log('hello')
-        console.log(width)
         setDropdownWidth(width)
       }
     }

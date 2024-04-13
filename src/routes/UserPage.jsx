@@ -110,8 +110,6 @@ function UserPage() {
             setMessages(chatData.data.comments)
             setChatId(response.data.returnArray[0]._id)
           }
-          // if we aren't the user
-          console.log(localStorage.getItem('token'))
           const friendRequests = await axios.get(
             '/user/friends/requests',
             {
@@ -186,7 +184,6 @@ function UserPage() {
     img.onerror = () => {
       setIsBannerValid(false);
     };
-    console.log(userData.profile_image)
     }
   },[userData])
 

@@ -41,7 +41,6 @@ const commentList = comments && comments.map((comment) => (
   </Row>
 ))
 const sendComment = async () =>{
-  console.log(location.pathname.split('/')[4])
   if(document.getElementById('comment').value.trim() !== ''){
     try {
       await axios.post('/thread/createComment',{
