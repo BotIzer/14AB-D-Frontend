@@ -252,7 +252,7 @@ function EditPost() {
           </Button>
         </Tab>
         <Tab eventKey='preview' title='Preview' className='tab-size'>
-            <PostCard image_array={imageList} post={previewData}></PostCard>
+            {previewData._id !== '' ?<PostCard image_array={imageList} post={previewData}></PostCard> : null}
         </Tab>
       </Tabs>
     </>
