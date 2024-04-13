@@ -23,7 +23,7 @@ function Notifications() {
   const [removeId, setRemoveId] = useState('')
   const [seenNotifications, setSeenNotifications] = useState([])
   const [showError, setShowError] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
   
 
   
@@ -224,15 +224,15 @@ function Notifications() {
   }, [location])
   useEffect(() => {
     if (notifications.notifications && notifications.notifications.length <= 0 && pageData.pageCount !== 0) {
-      const newPage = pageData.currentPage - 1 <= 0 ? 0 : pageData.currentPage - 1;
+      const newPage = pageData.currentPage - 1 <= 0 ? 0 : pageData.currentPage - 1
       setPageData(prevPageData => ({
         ...prevPageData,
         currentPage: newPage,
         pageCount: prevPageData.pageCount - 1 <= 0 ? 0 : prevPageData.pageCount
-      }));
-      navigate(`/notifications?page=${newPage}`);
+      }))
+      navigate(`/notifications?page=${newPage}`)
     }
-  }, [notifications]);
+  }, [notifications])
   
   return (
     <>

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
 import Carousel from 'react-bootstrap/Carousel'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function MyCarousel(forums) {
   const navigate = useNavigate()
@@ -31,46 +31,46 @@ function MyCarousel(forums) {
         style={{ float: 'center' }}
       />
     </Carousel.Item>
-  ));
+  ))
   const goToForum = async (forum_name, id)=>{
     navigate(`/forums/${decodeURIComponent(forum_name)}/${id}?page=1`)
   }
   useEffect(()=>{
     if(forums.forums){
       forums.forums.forEach(forum => {
-        const img = new Image();
-        img.src = forum.banner;
+        const img = new Image()
+        img.src = forum.banner
         img.onload = () => {
           setIsBannerValid(prevState => ({
             ...prevState,
             [forum.banner]: true
-          }));
-        };
+          }))
+        }
         img.onerror = () => {
           setIsBannerValid(prevState => ({
             ...prevState,
             [forum.banner]: false
-          }));
-        };
-      });
+          }))
+        }
+      })
     }
     else if(forums.images){
       forums.images.forEach(image => {
-        const img = new Image();
-        img.src = image;
+        const img = new Image()
+        img.src = image
         img.onload = () => {
           setIsBannerValid(prevState => ({
             ...prevState,
             [image]: true
-          }));
-        };
+          }))
+        }
         img.onerror = () => {
           setIsBannerValid(prevState => ({
             ...prevState,
             [image]: false
-          }));
-        };
-      });
+          }))
+        }
+      })
     }
   },[forums])
   return (

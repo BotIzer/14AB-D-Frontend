@@ -21,7 +21,7 @@ function Forum() {
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
 
   const [showError, setShowError] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
   
   const handlePaginationClick = (pageNumber) =>{
     setPageData(prevState => ({
@@ -100,7 +100,7 @@ function Forum() {
 
   useEffect(()=>{
     if(data.forumData.length !== 0){
-      const img = new Image();
+      const img = new Image()
       img.src = data.forumData[0].banner
       img.onload = ()=>{
         setIsBannerValid(true)

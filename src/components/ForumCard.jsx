@@ -54,7 +54,7 @@ function ForumCard(forum) {
     </th>
   ))
   useEffect(()=>{
-    const img = new Image();
+    const img = new Image()
     img.src = forum.forum.banner
     img.onerror = ()=>{
       setIsBannerValid(false)
@@ -83,7 +83,7 @@ function ForumCard(forum) {
           </Button> 
           : 
           null}
-          <Card.Title className='text-outline overflow-auto' style={{maxHeight: "50px"}}>
+          <Card.Title className='text-outline overflow-auto' style={{maxHeight: '50px'}}>
             {forum.forum.description}
           </Card.Title>
           <Button 

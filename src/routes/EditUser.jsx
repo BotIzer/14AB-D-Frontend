@@ -1,19 +1,19 @@
-import { Button, FormGroup, Row, Col, Image as ReactImage, Form, Tab, Tabs, DropdownButton, DropdownItem, Table } from 'react-bootstrap';
-import Navigation from '../components/Navigation';
-import axios from '../api/axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Button, FormGroup, Row, Col, Image as ReactImage, Form, Tab, Tabs, DropdownButton, DropdownItem, Table } from 'react-bootstrap'
+import Navigation from '../components/Navigation'
+import axios from '../api/axios'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 function EditUser() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
   
-  const [tagList, setTagList] = useState([]);
+  const [tagList, setTagList] = useState([])
   const [previewData, setPreviewData] = useState({
     username: '',
     profile_image: '',
     description: '',
-  });
+  })
   const PWD_REGEX =
   /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
   const [showError, setShowError] = useState(false)
@@ -52,20 +52,20 @@ function EditUser() {
         username: response.data.user.username,
         profile_image: response.data.user.profile_image,
         description: response.data.user.description,
-      });
+      })
       setTagList(response.data.user.hobbies)
-      document.getElementById('username').value = response.data.user.username;
-      document.getElementById('fileUpload').value = response.data.user.profile_image;
-      document.getElementById('description').value = response.data.user.description;
-    };
-    GetPreviewData();
+      document.getElementById('username').value = response.data.user.username
+      document.getElementById('fileUpload').value = response.data.user.profile_image
+      document.getElementById('description').value = response.data.user.description
+    }
+    GetPreviewData()
   },[location.pathname])
   // TODO: check if data hasn't changed
   const SaveChanges = async () => {
-    const username = document.getElementById('username').value.trim();
-    const profilePicture = document.getElementById('fileUpload').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const email = document.getElementById('email').value.trim();
+    const username = document.getElementById('username').value.trim()
+    const profilePicture = document.getElementById('fileUpload').value.trim()
+    const description = document.getElementById('description').value.trim()
+    const email = document.getElementById('email').value.trim()
     if (username !== '' && profilePicture !== '') {
       if(email !== ''){
         try {
@@ -118,19 +118,19 @@ function EditUser() {
         custom_ui: prevUserInfo.custom_ui, roles: prevUserInfo.roles, username: username}))
       navigate(`/user/${username}`)
     } else {
-      setShowError(true);
+      setShowError(true)
     }
-  };
+  }
   const Cancel = async () => {
     if (confirm('Are you sure you want to cancel editing?')) {
       navigate(`/user/${location.pathname.split('/')[2]}`)
     }
-  };
+  }
   const DeleteProfile = async() => {
     if (confirm('Are you sure you want to delete your account?')) {
       const password = prompt('Please enter your password to confirm deletion')
       if (password === null || !password.trim()) {
-        return;
+        return
       }
       try {
         await axios.delete(
@@ -191,18 +191,18 @@ function EditUser() {
 
   const AddTag = async () => {
     if(document.getElementById('tagUpload').value.trim() !== '' && !tagList.includes(document.getElementById('tagUpload').value.trim())){
-      await setTagList(prevItems=>[...prevItems,document.getElementById('tagUpload').value]);
+      await setTagList(prevItems=>[...prevItems,document.getElementById('tagUpload').value])
       document.getElementById('tagUpload').value = ''
     }
   }
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault();
+      event.preventDefault()
       AddTag()
     }
-  };
+  }
   const removeTag = (tag) =>{
-    setTagList(prevTags => prevTags.filter(item => item !== tag));
+    setTagList(prevTags => prevTags.filter(item => item !== tag))
   }
   const hobbyList = tagList.map((hobby,index) => (
     <th style={{ fontSize: 'small' }} key={index}>
@@ -210,15 +210,15 @@ function EditUser() {
     </th>
   ))
   useEffect(() => {
-    const img = new Image();
-    img.src = previewData.profile_image;
+    const img = new Image()
+    img.src = previewData.profile_image
     img.onload = ()=>{
       setIsBannerValid(true)
     }
     img.onerror = () => {
-      setIsBannerValid(false);
-    };
-  }, [previewData.profile_image,HandleSelect]);
+      setIsBannerValid(false)
+    }
+  }, [previewData.profile_image,HandleSelect])
   return (
     <>
       <Navigation></Navigation>
@@ -483,7 +483,7 @@ function EditUser() {
         </Tab>
       </Tabs>
     </>
-  );
+  )
 }
 
-export default EditUser;
+export default EditUser

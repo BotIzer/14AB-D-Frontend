@@ -6,7 +6,7 @@ import {  useState } from 'react'
 
 function FrontPage(params) {
 
-  const friendList = ["Friend 1", "Friend 2", "Friend 3", "Friend 4"]
+  const friendList = ['Friend 1', 'Friend 2', 'Friend 3', 'Friend 4']
   const chatId = 1
   const messages = [
     {

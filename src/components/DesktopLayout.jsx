@@ -1,10 +1,10 @@
-import { Col, Row, Container } from 'react-bootstrap/';
-import MyCarousel from '../components/MyCarousel';
-import { useEffect, useState } from 'react';
-import axios from '../api/axios';
+import { Col, Row, Container } from 'react-bootstrap/'
+import MyCarousel from '../components/MyCarousel'
+import { useEffect, useState } from 'react'
+import axios from '../api/axios'
 
 function DesktopLayout() {
-  const [carouselSource, setCarouselSource] = useState([]);
+  const [carouselSource, setCarouselSource] = useState([])
   useEffect(() => {
     const getRecommendedForums = async () => {
       try {
@@ -14,14 +14,14 @@ function DesktopLayout() {
             authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           withCredentials: true,
-        });
-        setCarouselSource(response.data);
+        })
+        setCarouselSource(response.data)
       } catch (error) {
-        console.error('Error fetching recommended forums:', error);
+        console.error('Error fetching recommended forums:', error)
       }
-    };
-    getRecommendedForums();
-  }, []);
+    }
+    getRecommendedForums()
+  }, [])
 
   return (
     <>
@@ -35,7 +35,7 @@ function DesktopLayout() {
         </Row>
       </Container>
     </>
-  );
+  )
 }
 
-export default DesktopLayout;
+export default DesktopLayout

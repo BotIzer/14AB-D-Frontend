@@ -1,10 +1,10 @@
 import { Row } from 'react-bootstrap'
 import MyCarousel from './MyCarousel'
-import { useEffect, useState } from 'react';
-import axios from '../api/axios';
+import { useEffect, useState } from 'react'
+import axios from '../api/axios'
 
 function MobileLayout() {
-    const [carouselSource, setCarouselSource] = useState([]);
+    const [carouselSource, setCarouselSource] = useState([])
   useEffect(() => {
     const getRecommendedForums = async () => {
       try {
@@ -14,14 +14,14 @@ function MobileLayout() {
             authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           withCredentials: true,
-        });
-        setCarouselSource(response.data);
+        })
+        setCarouselSource(response.data)
       } catch (error) {
-        console.error('Error fetching recommended forums:', error);
+        console.error('Error fetching recommended forums:', error)
       }
-    };
-    getRecommendedForums();
-  }, []);
+    }
+    getRecommendedForums()
+  }, [])
     return(
         <>
         <Row><MyCarousel forums={carouselSource}/></Row>

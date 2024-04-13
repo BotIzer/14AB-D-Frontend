@@ -21,7 +21,7 @@ function CreateChatPopup(props) {
       <Col className='p-2 text-start'>
       <Button variant='outline-warning' onPointerDown={()=>groupMembers.includes(friend.username) ? setGroupMembers(groupMembers.filter(member => member !== friend.username))
       : setGroupMembers([...groupMembers, friend.username])}>
-        {groupMembers.includes(friend.username) ? "-" : "+"}</Button>{friend.username}
+        {groupMembers.includes(friend.username) ? '-' : '+'}</Button>{friend.username}
       </Col>
     </Row>
   ))

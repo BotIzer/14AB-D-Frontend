@@ -104,7 +104,7 @@ function CreateForum() {
     }
     if(document.getElementById('tagUpload').value.length > 15){
       setTagError(true)
-      return;
+      return
     }
     setPreviewData(prevState => ({
       ...prevState,
@@ -114,11 +114,11 @@ function CreateForum() {
   }
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
+    if (event.key === 'Enter') {
+      event.preventDefault()
       AddTag()
     }
-  };
+  }
 
   useEffect(()=>{
     if(localStorage.getItem('token') === null){
@@ -127,11 +127,11 @@ function CreateForum() {
   },[])
   useEffect(()=>{
     const timer = setTimeout(() => {
-      setTagError(false);
-      setDisplayError(false);
-    }, 500);
+      setTagError(false)
+      setDisplayError(false)
+    }, 500)
   
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer)
   },[tagError, displayError])
   return (
     <>
