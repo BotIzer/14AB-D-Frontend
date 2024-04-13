@@ -470,7 +470,7 @@ function Chats() {
                       <Image
                         id='addGroup'
                         className='filter-gold'
-                        src='/src/assets/icons/group.png'
+                        src={import.meta.env.VITE_CREATE_GROUP_BUTTON}
                       />
                     </div>
                   </Button>

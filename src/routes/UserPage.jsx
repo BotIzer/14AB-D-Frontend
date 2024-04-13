@@ -252,7 +252,7 @@ function UserPage() {
                   onClick={() => SendFriendRequest()}
                 >
                   <ReactImage
-                    src='/src/assets/icons/add_user_64.png'
+                    src={import.meta.env.VITE_ADD_FRIEND_BUTTON}
                     style={{ width: '32px', height: '32px' }}
                     className='hover-filter-gold'
                   />
@@ -266,7 +266,7 @@ function UserPage() {
                   onClick={() => navigate(`/edituser/${user}`)}
                 >
                   <ReactImage
-                    src='/src/assets/icons/edit.png'
+                    src={import.meta.env.VITE_EDIT_BUTTON}
                     style={{ width: '32px', height: '32px' }}
                     className='hover-filter-gold'
                   />

@@ -93,7 +93,7 @@ function NotifDropdown(props) {
           See more ({(notifications.notifications && notifications.notifications.length) || 0}){' '}
           <img
             id='notification'
-            src='/src/assets/icons/envelope_16.png'
+            src={import.meta.env.VITE_NOTIFS}
             alt='notifications'
             className='my-auto filter-gold'
           />
