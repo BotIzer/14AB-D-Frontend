@@ -83,8 +83,6 @@ function Navigation(props) {
     const updateDropdownWidth = () => {
       if (dropdownRef.current) {
         const width = dropdownRef.current.offsetWidth
-        console.log('hello')
-        console.log(width)
         setDropdownWidth(width)
       }
     }
@@ -182,7 +180,7 @@ function Navigation(props) {
     >
       <Container fluid>
         <Nav.Link style={textStyle} onClick={() => navigate('/')}>
-          BlitzForFriends <Image src='/src/assets/icons/BFF_Outline_128.png' style={{width: '64px', height: '64px'}}></Image>
+          BlitzForFriends <Image src={import.meta.env.VITE_LOGO} style={{width: '64px', height: '64px'}}></Image>
         </Nav.Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>

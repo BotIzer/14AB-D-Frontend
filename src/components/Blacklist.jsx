@@ -27,7 +27,7 @@ function Blacklist() {
         <b>{banned.name}</b>
       </Col>
       <Col className='text-end p-0'>
-        <Button variant={isBanned? 'outline-danger' : 'outline-success'}><Image className={isBanned? 'filter-red' : 'filter-green'} src={isBanned ? '/src/assets/icons/block.png' : '/src/assets/icons/check.png'}></Image></Button>
+        <Button variant={isBanned? 'outline-danger' : 'outline-success'}><Image className={isBanned? 'filter-red' : 'filter-green'} src={isBanned ? import.meta.env.VITE_BAN : import.meta.env.VITE_PARDON}></Image></Button>
       </Col>
       <div style={{border: '2px solid #44454c'}}></div>
     </Row>

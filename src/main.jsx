@@ -51,16 +51,9 @@ if(process.env.NODE_ENV === "development"){
     username: localStorage.getItem("userInfo") === undefined || localStorage.getItem("userInfo") === null ? null : localStorage.getItem("userInfo")
   }
 });
-socket.on("connect", () => {
-  console.log("Connected to SOCKET.IO")
-});
-socket.on("disconnect", () => {
-  console.log("Disconnected from SOCKET.IO")
-});
 socket.on('forumUpdate',(changes)=>{
   setForumData({updateMessage: changes.updateMessage, hasSent: false})
 })
-console.log("It is in development mode")
     return () => {
   socket.disconnect();
 };
@@ -70,18 +63,12 @@ else {
   const channel = ably.channels.get(`${(localStorage.getItem("userInfo") !== undefined && 
   localStorage.getItem("userInfo") !== null) ? JSON.parse(localStorage.getItem('userInfo')).username: ""}forumUpdate`);
   // ably.connection.on('connected',()=>{
-  //   console.log('Connected to Ably')
   // })
-  console.log(channel)
   const connect = ably.channels.get('connect');
   connect.publish('connect', { username: localStorage.getItem("userInfo") === undefined || 
   localStorage.getItem("userInfo") === null ? null : localStorage.getItem("userInfo") });
   if(localStorage.getItem('userInfo') !== undefined && localStorage.getItem('userInfo') !== null){
-    console.log("Entered change channel")
-    console.log(`${JSON.parse(localStorage.getItem('userInfo')).username}forumUpdate`)
     channel.subscribe(`${JSON.parse(localStorage.getItem('userInfo')).username}forumUpdate`, (changes) => {
-      console.log("Uh oh something changed")
-      console.log(changes.data.updateMessage)
       setForumData({ updateMessage: changes.data.updateMessage, hasSent: false });
     });
   }

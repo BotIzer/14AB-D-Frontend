@@ -110,8 +110,6 @@ function UserPage() {
             setMessages(chatData.data.comments)
             setChatId(response.data.returnArray[0]._id)
           }
-          // if we aren't the user
-          console.log(localStorage.getItem('token'))
           const friendRequests = await axios.get(
             '/user/friends/requests',
             {
@@ -186,7 +184,6 @@ function UserPage() {
     img.onerror = () => {
       setIsBannerValid(false);
     };
-    console.log(userData.profile_image)
     }
   },[userData])
 
@@ -252,7 +249,7 @@ function UserPage() {
                   onClick={() => SendFriendRequest()}
                 >
                   <ReactImage
-                    src='/src/assets/icons/add_user_64.png'
+                    src={import.meta.env.VITE_ADD_FRIEND_BUTTON}
                     style={{ width: '32px', height: '32px' }}
                     className='hover-filter-gold'
                   />
@@ -266,7 +263,7 @@ function UserPage() {
                   onClick={() => navigate(`/edituser/${user}`)}
                 >
                   <ReactImage
-                    src='/src/assets/icons/edit.png'
+                    src={import.meta.env.VITE_EDIT_BUTTON}
                     style={{ width: '32px', height: '32px' }}
                     className='hover-filter-gold'
                   />

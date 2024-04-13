@@ -91,12 +91,6 @@ function Forums() {
     }
     GetForums()
   }, [location])
-  //Console log
-  useEffect(()=>{
-
-  console.log(pageData.currentPage)
-
-  },[pageData])
 
   return (
     <>
@@ -110,7 +104,7 @@ function Forums() {
         >
           <img
             className='hover-filter-gold'
-            src='/src/assets/icons/add_forum.png'
+            src={import.meta.env.VITE_CREATE_BUTTON}
             alt='add forum'
           />
         </Button> : null}

@@ -64,16 +64,13 @@ function PostCard(post) {
       
     }
   })
-  useEffect(() => {
-    console.log(post.post);
-  })
   return (
     <Card className='text-center p-0' data-bs-theme='dark' xs={12} md={6}>
       
       <Card.Header className='primary d-flex justify-content-between'>
         {post.post.name}
         {post.isCreator ?
-        <DropdownButton variant='outline-warning' drop='down-centered' title={<img className='filter-gold' src='/src/assets/icons/dots.png' alt='' />}>
+        <DropdownButton variant='outline-warning' drop='down-centered' title={<img className='filter-gold' src={import.meta.env.VITE_OPTIONS} alt='' />}>
         <Dropdown.Item
           className='list-group-item secondary text-center'
           onClick={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
@@ -100,7 +97,7 @@ function PostCard(post) {
               disabled={localStorage.getItem('token') === null}
             >
               <img
-                src='/src/assets/icons/fist_bump_64.png'
+                src={import.meta.env.VITE_LIKE_BUTTON}
                 alt='fist-bump'
                 className={opinion.isLiked ? 'filter-gold' : 'filter-grey'}
               />
@@ -122,7 +119,7 @@ function PostCard(post) {
                 disabled={localStorage.getItem('token') === null}
               >
                 <img
-                  src='/src/assets/icons/lightning_64.png'
+                  src={import.meta.env.VITE_DISLIKE_BUTTON}
                   alt='skull'
                   className={opinion.isDisLiked ? 'filter-red' : 'filter-grey'}
                 />

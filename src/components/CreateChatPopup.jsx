@@ -78,7 +78,6 @@ function CreateChatPopup(props) {
           withCredentials: true,
         })
         setFriendList(response.data.returnFriends)
-        console.log(response.data.returnFriends)
       } catch (error) {
         setShowError(true)
         setErrorMessage(error.response.message)

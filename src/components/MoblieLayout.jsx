@@ -16,7 +16,6 @@ function MobileLayout() {
           withCredentials: true,
         });
         setCarouselSource(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error('Error fetching recommended forums:', error);
       }

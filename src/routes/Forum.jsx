@@ -100,7 +100,6 @@ function Forum() {
 
   useEffect(()=>{
     if(data.forumData.length !== 0){
-      console.log(data.threads)
       const img = new Image();
       img.src = data.forumData[0].banner
       img.onload = ()=>{
@@ -153,7 +152,7 @@ function Forum() {
         >
           <img
             className='hover-filter-gold'
-            src='/src/assets/icons/add_forum.png'
+            src={import.meta.env.VITE_CREATE_BUTTON}
             alt='add forum'
           />
         </Button> : null}
@@ -172,7 +171,7 @@ function Forum() {
           {localStorage.getItem('token') !== null && isOwner ? <Button className='position-absolute end-0 rounded-pill clear-button' 
                 style={{width: 'auto', height: 'auto'}} 
                 onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
-                  <ReactImage src='/src/assets/icons/edit.png' className='hover-filter-gold'/>
+                  <ReactImage src={import.meta.env.VITE_EDIT_BUTTON} className='hover-filter-gold'/>
           </Button> : null}
         </Row>
         <Row className='no-padding-table'>

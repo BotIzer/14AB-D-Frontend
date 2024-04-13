@@ -87,13 +87,13 @@ function FrontPage(params) {
           <Col>
             <Row className='w-100 mx-auto' style={{backgroundColor: '#212529'}}>
               <Col className='text-start p-0'>
-                <DropdownButton title={<img style={{width: '32px', height: '32px'}} src='/src/assets/icons/add_user_64.png' className='filter-gold'></img>} className='dropdown-button  m-0'>
+                <DropdownButton title={<img style={{width: '32px', height: '32px'}} src={import.meta.env.VITE_ADD_FRIEND_BUTTON} className='filter-gold'></img>} className='dropdown-button  m-0'>
                 <div className='overflow-auto' style={{maxHeight: '200px'}}>{friendList}</div>
                 </DropdownButton>
               </Col>
               <Col className='text-end p-0'>
                 <Button className='close-button ms-auto'>
-                  <img className='hover-filter-red' src='/src/assets/icons/close.png' alt='' />
+                  <img className='hover-filter-red' src={import.meta.env.VITE_CANCEL} alt='' />
                 </Button>
               </Col>
             </Row>

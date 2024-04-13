@@ -185,7 +185,7 @@ function EditPost() {
                     <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeImage(item)} onMouseEnter={() =>            
                      {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
                       {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
-                      variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src='/src/assets/icons/trash.png' alt='trash' /></Button></Col></Row>
+                      variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src={import.meta.env.VITE_TRASH} alt='trash' /></Button></Col></Row>
                   </DropdownItem>
                   ))}
                 </DropdownButton>
