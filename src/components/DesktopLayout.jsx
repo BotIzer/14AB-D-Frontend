@@ -27,9 +27,8 @@ function DesktopLayout() {
     <>
       <Container>
         <Row className='justify-content-center'><h1 className='text-center'>Recommended forums</h1></Row>
-        <Row className='border border-warning h-100 m-5 p-0'>
+        <Row className='border border-warning h-100'>
           <Col className='d-flex justify-content-center p-0' style={{ height: '180px' }}>
-        
             <MyCarousel forums={carouselSource} />
           </Col>
         </Row>
