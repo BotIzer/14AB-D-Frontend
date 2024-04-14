@@ -34,10 +34,24 @@ const ContextAwareToggle = ({ children, eventKey, callback }) => {
     </button>
   )
 }
-
+const getCommentData = async() => {
+  try {
+    const response = await axios.get(`/thread/${location.pathname.split('/')[4]}/comments`,{
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+    })
+    setComments(response.data)
+  } catch (error) {
+    setError('Couldnt load comments!')
+    setShowError(true)
+  }
+}
 const commentList = comments && comments.map((comment) => (
   <Row key={comment._id.message_id} className='justify-content-center my-3'>
-    <CommentAccordion comment={comment}></CommentAccordion>
+    <CommentAccordion delete={()=>getCommentData()} comment={comment}></CommentAccordion>
   </Row>
 ))
 const sendComment = async () =>{
@@ -53,21 +67,6 @@ const sendComment = async () =>{
       setShowError(true)
     }
   document.getElementById('comment').value = ''
-  const getCommentData = async() => {
-    try {
-      const response = await axios.get(`/thread/${location.pathname.split('/')[4]}/comments`,{
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-      setComments(response.data)
-    } catch (error) {
-      setError('Couldnt load comments!')
-      setShowError(true)
-    }
-  }
   getCommentData()
   }else{
     setError('Cant post empty comment!')
@@ -89,21 +88,6 @@ useEffect(()=>{
       setThreadData(response.data)
     } catch (error) {
       setError('Couldnt load thread information!')
-      setShowError(true)
-    }
-  }
-  const getCommentData = async() => {
-    try {
-      const response = await axios.get(`/thread/${location.pathname.split('/')[4]}/comments`,{
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        withCredentials: true,
-      })
-      setComments(response.data)
-    } catch (error) {
-      setError('Couldnt load comments!')
       setShowError(true)
     }
   }

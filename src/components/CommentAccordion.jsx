@@ -57,6 +57,17 @@ function CommentAccordion(props) {
     props.comment.text = document.getElementById('commentForm').value
     setIsEditing(false)
   }
+  const deleteComment = async () =>{
+    await axios.delete(`/comment/${props.comment._id.message_id}`,
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    withCredentials: true,
+  })
+  props.delete()
+  }
   useEffect(()=>{
     const getOwner = async() => {
       if(JSON.parse(localStorage.getItem('userInfo')).username === null){
@@ -105,14 +116,25 @@ function CommentAccordion(props) {
                 >
                   <Col>
                     {isOwner ? (!isEditing ? 
-                    <Button
+                    <React.Fragment>
+                      <Button
                       variant='outline-warning'
                       className='custom-button'
                       style={{ fontSize: 'small', border: 'gold solid 1px' }}
                       onPointerDown={()=>setIsEditing(true)}
                     >
                       Edit
-                    </Button> :
+                    </Button>
+                    <Button
+                      variant='outline-warning'
+                      className='custom-button'
+                      style={{ fontSize: 'small', border: 'gold solid 1px', color: 'red'}}
+                      onPointerDown={()=>deleteComment()}
+                    >
+                      Delete
+                    </Button> 
+                    </React.Fragment>
+                    :
                     <React.Fragment>
                       <Button
                     variant='outline-warning'
