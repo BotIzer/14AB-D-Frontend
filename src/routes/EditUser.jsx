@@ -44,19 +44,19 @@ function EditUser() {
           },
           withCredentials: true,
         })
+        setPreviewData({
+          username: response.data.user.username,
+          profile_image: response.data.user.profile_image,
+          description: response.data.user.description,
+        })
+        setTagList(response.data.user.hobbies)
+        document.getElementById('username').value = response.data.user.username
+        document.getElementById('fileUpload').value = response.data.user.profile_image
+        document.getElementById('description').value = response.data.user.description
       } catch (error) {
         setError('Could not get user information')
         setShowError(true)
       }
-       setPreviewData({
-        username: response.data.user.username,
-        profile_image: response.data.user.profile_image,
-        description: response.data.user.description,
-      })
-      setTagList(response.data.user.hobbies)
-      document.getElementById('username').value = response.data.user.username
-      document.getElementById('fileUpload').value = response.data.user.profile_image
-      document.getElementById('description').value = response.data.user.description
     }
     GetPreviewData()
   },[location.pathname])
