@@ -55,12 +55,16 @@ function Login() {
       } else {
         setErrMsg('Login failed')
       }
-      errRef.current.focus()
+      if(errRef.current){
+        errRef.current.focus()
+      }
     }
   }
 
   useEffect(() => {
-    emailRef.current.focus()
+    if(emailRef.current){
+      emailRef.current.focus()
+    } 
   }, [])
 
   useEffect(() => {

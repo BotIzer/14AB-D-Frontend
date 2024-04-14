@@ -252,11 +252,11 @@ function Navigation(props) {
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
+                  id='logoutBtn'
                   onClick={() =>
                     window.confirm('Are you sure you want to log out?')
                       ? HandleLogout()
-                      : null
-                      
+                      : null 
                   }
                 >
                   Logout

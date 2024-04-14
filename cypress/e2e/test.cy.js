@@ -1,4 +1,6 @@
 /* eslint no-use-before-define: 0 */
+import { slowCypressDown } from "cypress-slow-down"
+slowCypressDown(400)
 describe('Login', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/login')
@@ -13,11 +15,24 @@ describe('Login', () => {
     cy.contains('Register').click()
     cy.url().should('include', '/register')
   })
-
+  it('should fail login with Unauthorized message', ()=>{
+    cy.get('#email').type('notvalid@mail.com')
+    cy.get('#password').type('noPass')
+    cy.get('#loginBtn').click()
+    cy.contains('Unauthorized')
+  })
   it('should successfully login with valid credentials', () => {
-    cy.get('#email').type('validemail@example.com')
-    cy.get('#password').type('validpassword')
-    cy.get('form').submit()
+    cy.get('#email').type('markneu22@gmail.com')
+    cy.get('#password').type('RandomPass1234!!')
+    cy.get('#loginBtn').click()
     cy.url().should('eq', 'http://localhost:5173/')
+  })
+  it('should successfully login then logout', ()=> {
+    cy.get('#email').type('markneu22@gmail.com')
+    cy.get('#password').type('RandomPass1234!!')
+    cy.get('#loginBtn').click()
+    cy.url().should('eq', 'http://localhost:5173/')
+    cy.get('#logoutBtn').click()
+    cy.contains('Chat with your friends in real time!')
   })
 })

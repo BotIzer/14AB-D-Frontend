@@ -22,6 +22,13 @@ function PostCard(post) {
       await axios.post(`/thread/${post.post._id.thread_id}/likeDislike`,
       {
         pressedButton: opinion 
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
       })
     } catch (error) {
       setErrorMessage(error.response.message)
