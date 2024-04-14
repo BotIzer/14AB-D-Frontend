@@ -52,7 +52,23 @@ const sendComment = async () =>{
       setError('Couldnt post comment!')
       setShowError(true)
     }
-   
+  document.getElementById('comment').value = ''
+  const getCommentData = async() => {
+    try {
+      const response = await axios.get(`/thread/${location.pathname.split('/')[4]}/comments`,{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      setComments(response.data)
+    } catch (error) {
+      setError('Couldnt load comments!')
+      setShowError(true)
+    }
+  }
+  getCommentData()
   }else{
     setError('Cant post empty comment!')
     setShowError(true)
