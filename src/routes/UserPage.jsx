@@ -37,8 +37,8 @@ function UserPage() {
   const SendFriendRequest = async () => {
     try {
       if(!isLoggedIn){
-        setError("Log in to send a friend request!")
-        return;
+        setError('Log in to send a friend request!')
+        return
       }
       await axios.post(
         `/friend/${user}`,
@@ -176,14 +176,14 @@ function UserPage() {
   }, [user])
   useEffect(()=>{
     if(userData !== null){
-    const img = new Image();
-    img.src = userData.profile_image;
+    const img = new Image()
+    img.src = userData.profile_image
     img.onload = ()=>{
       setIsBannerValid(true)
     }
     img.onerror = () => {
-      setIsBannerValid(false);
-    };
+      setIsBannerValid(false)
+    }
     }
   },[userData])
 
@@ -225,7 +225,7 @@ function UserPage() {
                 placement='right'
                 overlay={
                   <Tooltip>
-                    {localStorage.getItem('userInfo') === null ? "Log in to message" : (user !==
+                    {localStorage.getItem('userInfo') === null ? 'Log in to message' : (user !==
                     JSON.parse(localStorage.getItem('userInfo')).username
                       ? 'Message'
                       : 'This is you')}

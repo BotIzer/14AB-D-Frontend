@@ -83,11 +83,11 @@ function EditForum() {
   }
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
+    if (event.key === 'Enter') {
+      event.preventDefault()
       AddTag()
     }
-  };
+  }
 
   const AddTag = async () => {
     if(document.getElementById('tagUpload').value.trim() !== ''){
@@ -118,7 +118,7 @@ function EditForum() {
         </th>
   ))
   const removeTag = (tag) =>{
-    setTagList(prevTags => prevTags.filter(item => item !== tag));
+    setTagList(prevTags => prevTags.filter(item => item !== tag))
   }
 useEffect(() => {
   if(localStorage.getItem('token') === null){
@@ -151,14 +151,14 @@ useEffect(() => {
 },[location.pathname])
 
 useEffect(()=>{
-  const img = new Image();
-    img.src = previewData.profile_image;
+  const img = new Image()
+    img.src = previewData.profile_image
     img.onload = ()=>{
       setIsBannerValid(true)
     }
     img.onerror = () => {
-      setIsBannerValid(false);
-    };
+      setIsBannerValid(false)
+    }
 },[previewData.banner])
 useEffect(()=>{
   const GetForumData = async () =>{

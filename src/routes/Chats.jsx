@@ -95,36 +95,36 @@ function Chats() {
     <Button
       className={`secondary clear-button m-0`}
       onContextMenu={(e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (
           props.selectedChat === chat._id &&
           showData.lastAction === 'context'
         ) {
-          DoNotShow();
-          ClearProps();
+          DoNotShow()
+          ClearProps()
         } else {
-          ShowPopup('context');
+          ShowPopup('context')
           setProps({
             selectedChat: chat._id,
             selectedChatType: 'friend',
             displayName: chat.friend_user_name,
-          });
+          })
         }
         setProps((prevProps) => ({
           ...prevProps,
           selectedFriend: chat.friend_user_name,
-        }));
+        }))
       }}
       onClick={async (e) => {
         try {
-          e.preventDefault();
+          e.preventDefault()
         if (
           props.selectedChat === chat._id &&
           showData.lastAction === 'click'
         ) {
-          DoNotShow();
-          ClearProps();
-          return;
+          DoNotShow()
+          ClearProps()
+          return
         }
         const chatData = await axios.get(`/chat/${chat._id}/comments`, {
           headers: {
@@ -132,15 +132,15 @@ function Chats() {
             authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           withCredentials: true,
-        });
+        })
         setProps((prevProps) => ({
           ...prevProps,
           selectedChat: chat._id,
           selectedChatType: 'friend',
-        }));
-        setComments(chatData.data.comments);
-        ShowChat('click');
-        navigate(`/chats/${chat.friend_user_name}`);
+        }))
+        setComments(chatData.data.comments)
+        ShowChat('click')
+        navigate(`/chats/${chat.friend_user_name}`)
         } catch (error) {
           setErrorMessage('Could not load chat')
           setShowError(true)
@@ -150,7 +150,7 @@ function Chats() {
       {chat.friend_user_name}
     </Button>
   </Row>
-));
+))
   const friendList = friends.map((friend)=>{
     return (
       <Row key={friend.username} className='m-0'>
@@ -158,14 +158,14 @@ function Chats() {
       <Button
       className={`secondary clear-button m-0`}
       onContextMenu={(e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (
           showData.lastAction === 'context'
         ) {
-          DoNotShow();
-          ClearProps();
+          DoNotShow()
+          ClearProps()
         } else {
-          ShowPopup('context');
+          ShowPopup('context')
         }
         setProps({
           selectedChat: null,
@@ -175,7 +175,7 @@ function Chats() {
         })
       }}
       onClick={async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
           const response = await axios.post(
             '/createOrRetrieveChat',
@@ -189,7 +189,7 @@ function Chats() {
               },
               withCredentials: true,
             }
-          );
+          )
           if (response.data.length === 0) {
             await axios.post(
               '/chat',
@@ -215,9 +215,9 @@ function Chats() {
           if (
             showData.lastAction === 'click'
           ) {
-            DoNotShow();
-            ClearProps();
-            return;
+            DoNotShow()
+            ClearProps()
+            return
           }
           setProps({
             selectedChat: null,
@@ -236,8 +236,8 @@ function Chats() {
     </OverlayTrigger>
 
   </Row>
-    );
-  });
+    )
+  })
   const groupList = groups.map((chat) => (
     <Row key={chat._id} className='m-0'>
       <Button

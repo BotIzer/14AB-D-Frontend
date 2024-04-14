@@ -1,7 +1,6 @@
 import Navigation from '../components/Navigation'
 import Container from 'react-bootstrap/Container'
 import DesktopLayout from '../components/DesktopLayout'
-import MobileLayout from '../components/MoblieLayout'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function Home() {
@@ -9,11 +8,8 @@ export default function Home() {
     <>
       <Navigation />
       <Container fluid style={{ height: '800px' }}>
-        <div className='sm-hidden'>
+        <div>
           <DesktopLayout></DesktopLayout>
-        </div>
-        <div className='lg-hidden'>
-          <MobileLayout></MobileLayout>
         </div>
       </Container>
     </>

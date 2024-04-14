@@ -87,7 +87,7 @@ function EditPost() {
     }
   }
   const removeImage = async (image) => {
-    setImageList(prevItems => prevItems.filter(item => item !== image));
+    setImageList(prevItems => prevItems.filter(item => item !== image))
   }
   useEffect(()=>{
     const GetThreadData = async() => {

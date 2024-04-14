@@ -61,7 +61,7 @@ function CommentAccordion(props) {
     const getOwner = async() => {
       if(JSON.parse(localStorage.getItem('userInfo')).username === null){
         setIsOwner(false)
-        return;
+        return
       }
       const userResponse = await axios.get(
         `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,

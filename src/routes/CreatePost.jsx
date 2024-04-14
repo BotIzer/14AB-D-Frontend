@@ -66,11 +66,11 @@ function CreatePost() {
   }
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
+    if (event.key === 'Enter') {
+      event.preventDefault()
       AddTag()
     }
-  };
+  }
 
   const AddImage = async () => {
     await setImgList(prevItems=>[...prevItems,document.getElementById('fileUpload').value])

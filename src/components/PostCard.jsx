@@ -88,7 +88,7 @@ function PostCard(post) {
       </Card.Header>
       <Card.Body className='secondary h-auto overflow-auto' style={{ minHeight: '200px' , maxHeight: '400px'}}>
         <Card.Text>{post.post.content}</Card.Text>{' '}
-        {post.post.image_array && post.post.image_array.length !== 0 ? <MyCarousel images={post.post.image_array? post.post.image_array : (post.post.image_array ? post.post.image_array : [])}></MyCarousel> : <img src={post.post.image_array[0]}></img>}
+        {post.post.image_array && post.post.image_array.length !== 0 ? <MyCarousel images={post.post.image_array? post.post.image_array : (post.post.image_array ? post.post.image_array : [])}></MyCarousel> : <img src={post.post.image_array[0]} alt={post.post.image_array[0]}></img>}
       </Card.Body>
       <Card.Footer>
         <Row>

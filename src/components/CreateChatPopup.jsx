@@ -21,39 +21,52 @@ function CreateChatPopup(props) {
       <Col className='p-2 text-start'>
       <Button variant='outline-warning' onPointerDown={()=>groupMembers.includes(friend.username) ? setGroupMembers(groupMembers.filter(member => member !== friend.username))
       : setGroupMembers([...groupMembers, friend.username])}>
-        {groupMembers.includes(friend.username) ? "-" : "+"}</Button>{friend.username}
+        {groupMembers.includes(friend.username) ? '-' : '+'}</Button>{friend.username}
       </Col>
     </Row>
   ))
   const CreateGroupChat = async () => {
     if (document.getElementById('groupName').value.trim() === '') {
+      setErrorMessage('Please give the group a name')
+      setShowError(true)
+      return
+    }
+    if (groupMembers.length === 0) {
+      setErrorMessage('Please select at least one(1) member')
       setShowError(true)
       return
     }
     try {
       const groupName = document.getElementById('groupName').value.trim()
       const daysToDie = document.getElementById('daysToLive').value
-      await axios.post(
-        '/chat',
-        {
-          name: groupName,
-          is_ttl: isTemporary,
-          days_to_die: daysToDie,
-          is_private: false,
-          usernames: groupMembers,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
+      if (isNaN(daysToDie)) {
+        await axios.post(
+          '/chat',
+          {
+            name: groupName,
+            is_ttl: isTemporary,
+            days_to_die: daysToDie,
+            is_private: false,
+            usernames: groupMembers,
           },
-          withCredentials: true,
-        }
-      )
-      props.close()
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true,
+          }
+        )
+        props.close()
+      }else {
+        setErrorMessage('TTL field only accepts numbers(days)')
+        setShowError(true)
+        return
+      }
+      
     } catch (error) {
       setShowError(true)
-      setErrorMessage(error.response.message)
+      setErrorMessage('Could not post group')
     }
   }
   const CloseChat = () => {
@@ -80,7 +93,7 @@ function CreateChatPopup(props) {
         setFriendList(response.data.returnFriends)
       } catch (error) {
         setShowError(true)
-        setErrorMessage(error.response.message)
+        setErrorMessage('Could not load friends')
       }
     }
     GetFriends()

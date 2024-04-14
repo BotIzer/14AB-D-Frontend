@@ -12,7 +12,7 @@ function Forums() {
   const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 1, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
   const [showError, setShowError] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
 
   const handlePaginationClick = (pageNumber) =>{
     setPageData(prevState => ({
@@ -68,7 +68,7 @@ function Forums() {
           }
         })
         setForums(updatedForums)
-        return;
+        return
       }
       const userResponse = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,{
         headers: {
