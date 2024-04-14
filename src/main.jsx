@@ -29,6 +29,7 @@ import Comments from './routes/Comments.jsx'
 import Blacklist from './components/Blacklist.jsx'
 import FrontPage from './routes/FrontPage.jsx'
 import Navigation from './components/Navigation.jsx'
+import ChangePassword from './routes/ChangePassword.jsx'
 import Ably from 'ably'
 
 export const NotificationContext = createContext()
@@ -155,6 +156,11 @@ const router = createBrowserRouter([
     path: '/verifyemail/:emailToken',
     element: !isLoggedIn ? <VerifyEmail></VerifyEmail> : <Navigate to='/'/>,
     errorElement: <ErrorPage></ErrorPage>,
+  },
+  {
+    path: '/changepassword/:passwordToken',
+    element: <ChangePassword></ChangePassword>,
+    errorElement: <ErrorPage></ErrorPage>
   },
   {
     path: '/forums/:forum/:forumId/:postId/comments',
