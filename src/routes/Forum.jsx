@@ -67,39 +67,6 @@ function Forum() {
         )
     }
   useEffect(()=>{
-    const GetForumData = async () => {
-      try {
-      const [forumData, threads] =  await Promise.all([
-        axios.get(`/forum/${forum_id}`,
-        {headers: {
-          'Content-Type': 'application/json',
-          authorization: `${localStorage.getItem('token') !== null ? 
-          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
-        },
-        withCredentials: true,
-      }),
-      axios.get(`/forum/getAllThreads/${forum_id}`,
-        {headers: {
-          'Content-Type': 'application/json',
-          authorization: `${localStorage.getItem('token') !== null ? 
-          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
-        },
-      })])
-      setData({
-        forumData: forumData.data,
-        threads: threads.data.threads
-      })
-      console.log(threads.data.pagesCount)
-      setPageData({currentPage: pageData.currentPage, pageCount: threads.data.pagesCount})
-      } catch (error) {
-        setError('Could not get forum data!')
-        setShowError(true)
-      }
-  }
-     GetForumData()
-  },[])
-
-  useEffect(()=>{
     if(data.forumData.length !== 0){
       const img = new Image()
       img.src = data.forumData[0].banner
@@ -141,6 +108,38 @@ function Forum() {
       CheckIfIsOwner()
     }
   },[data])
+  useEffect(()=>{
+    const GetForumData = async () => {
+      try {
+      const [forumData, threads] =  await Promise.all([
+        axios.get(`/forum/${forum_id}`,
+        {headers: {
+          'Content-Type': 'application/json',
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+        },
+        withCredentials: true,
+      }),
+      axios.get(`/forum/getAllThreads/${forum_id}?page=${pageData.currentPage-1}`,
+        {headers: {
+          'Content-Type': 'application/json',
+          authorization: `${localStorage.getItem('token') !== null ? 
+          `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
+        },
+      })])
+      setData({
+        forumData: forumData.data,
+        threads: threads.data.threads
+      })
+      console.log(threads.data.pagesCount)
+      setPageData({currentPage: pageData.currentPage, pageCount: threads.data.pagesCount})
+      } catch (error) {
+        setError('Could not get forum data!')
+        setShowError(true)
+      }
+  }
+     GetForumData()
+  },[location])
   return (
     <>
       <Navigation></Navigation>
