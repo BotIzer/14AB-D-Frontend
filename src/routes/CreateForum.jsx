@@ -16,6 +16,8 @@ function CreateForum() {
   })
   const [displayError, setDisplayError] = useState(false)
   const [tagError, setTagError] = useState(false)
+  const [tooLongError, setTooLongError] = useState('')
+  const [showTooLongError, setShowTooLongError] = useState(false)
   const postsPreview = [
     {
       _id: {forum_id: 1,
@@ -40,7 +42,6 @@ function CreateForum() {
       postDate: new Date(),
     },
   ]
-
   const postList = postsPreview.map((thread) => (
     <Row key={thread._id} className='w-100'>
       <PostCard post={thread}></PostCard>
@@ -51,6 +52,18 @@ function CreateForum() {
     const title = document.getElementById('title').value.trim()
     const banner = document.getElementById('banner').value.trim()
     const description = document.getElementById('description').value.trim()
+    let error = ''
+    if(description.length > 5000){
+      setShowTooLongError(true)
+      error += 'The description can only be 5000 characters long!\n'
+    }
+    if(title.length > 40){
+      setShowTooLongError(true)
+      error += 'The title can only be 40 characters long!'
+    }
+    if(error != ''){
+      return
+    }
     if (title !== '' && banner !== '') {
       try {
         const response = await axios.post(
@@ -216,6 +229,7 @@ function CreateForum() {
               id='description'
             ></Form.Control>
             {displayError ? <div><span className='invalid'>Title or Banner field is empty!</span></div> : null}
+            {showTooLongError ?  <div><span className='invalid'>{tooLongError}</span></div> : null}
           </FormGroup>
           <div
             className='d-flex justify-content-around my-3'
