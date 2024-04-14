@@ -322,46 +322,46 @@ function Chats() {
       </Pagination.Item>
     )
   }
-
-  useEffect(() => {
-    const GetDirectMessages = async () => {
-      if (!localStorage.getItem('token')) {
-        setError({
-          response: {
-            data: { message: 'You need to login to access this page!' },
-          },
-        })
-        return
-      }
-      try {
-        const response = await axios.get('/chats', {
-          params: {
-            page: paginationPageData.dmCurrentPage
-          },
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          withCredentials: true,
-        })
-        if (response.data.returnArray) {
-          if (response.data.returnArray) {
-            setDirectMessages(
-              [...Object.values(response.data.returnArray)].filter(
-                (x) => x.is_private
-              )
-            )
-            setGroups(
-              [...Object.values(response.data.returnArray)].filter(
-                (x) => !x.is_private
-              )
-            )
-          }
-        }
-      } catch (err) {
-        setError(err)
-      }
+  const GetDirectMessages = async () => {
+    if (!localStorage.getItem('token')) {
+      setError({
+        response: {
+          data: { message: 'You need to login to access this page!' },
+        },
+      })
+      return
     }
+    try {
+      const response = await axios.get('/chats', {
+        params: {
+          page: paginationPageData.dmCurrentPage
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      })
+      if (response.data.returnArray) {
+        if (response.data.returnArray) {
+          setDirectMessages(
+            [...Object.values(response.data.returnArray)].filter(
+              (x) => x.is_private
+            )
+          )
+          setGroups(
+            [...Object.values(response.data.returnArray)].filter(
+              (x) => !x.is_private
+            )
+          )
+        }
+      }
+    } catch (err) {
+      setError(err)
+    }
+  }
+  useEffect(() => {
+    
     const GetFriends = async () =>{
       try {
         const response = await axios.get('friends',{
@@ -392,14 +392,14 @@ function Chats() {
             },
             withCredentials: true,
           })
-        } catch (error) {
-          setErrorMessage(error)
-          setShowError(true)
-        }
-        chatUsers = { ...users, [groups[index]._id]: response.data.chat.users }
+          chatUsers = { ...users, [groups[index]._id]: response.data.chat.users }
         chatOwner = {
           ...chatOwner,
           [groups[index]._id]: response.data.chat.owner,
+        }
+        } catch (error) {
+          setErrorMessage(error)
+          setShowError(true)
         }
       }
       setOwners(chatOwner)
@@ -407,6 +407,9 @@ function Chats() {
     }
     SetOwner()
   }, [groups])
+  useEffect(()=>{
+    DoNotShow()
+  },[activeKey])
   if (error != '') {
     return <ErrorPage errorStatus={error} />
   }
@@ -495,6 +498,7 @@ function Chats() {
                 {showData.showCreateChat ? (
                   <CreateChatPopup
                     close={() => DoNotShow()}
+                    getchats={()=>GetDirectMessages()}
                     friends={friends}
                   />
                 ) : null}

@@ -39,7 +39,15 @@ function CreateChatPopup(props) {
     try {
       const groupName = document.getElementById('groupName').value.trim()
       const daysToDie = document.getElementById('daysToLive').value
-      if (isNaN(daysToDie)) {
+      
+      if(isTemporary){
+        const NUMBER_REGEX = /^[0-9\b]+$/
+        if (!NUMBER_REGEX.test(daysToDie)) {
+          setErrorMessage('TTL field only accepts numbers(days)')
+            setShowError(true)
+            return
+        }
+      }
         await axios.post(
           '/chat',
           {
@@ -57,12 +65,8 @@ function CreateChatPopup(props) {
             withCredentials: true,
           }
         )
+        props.getchats()
         props.close()
-      }else {
-        setErrorMessage('TTL field only accepts numbers(days)')
-        setShowError(true)
-        return
-      }
       
     } catch (error) {
       setShowError(true)
@@ -101,7 +105,7 @@ function CreateChatPopup(props) {
   return (
     <>
       <Row className='mx-auto text-center'>
-        {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR:{errorMessage}</p></Row> : null}
+        {showError ? <Row className='w-100 mx-auto justify-content-center text-center text-danger fw-bold' style={{backgroundColor: 'rgba(220,53,69, 0.5)'}}><p className='w-auto' autoFocus>ERROR: {errorMessage}</p></Row> : null}
         <FormGroup data-bs-theme='dark'>
           <Form.Label className='secondary'>Group Name</Form.Label>
           <Form.Control
