@@ -14,7 +14,7 @@ function MyCarousel(forums) {
         alt={forum.banner.slice(0, forum.banner.lastIndexOf('.'))}
         style={{ float: 'center' }}
       />
-      <Carousel.Caption className='primary'>
+      <Carousel.Caption className='primary' style={{bottom: '0'}}>
         <h3 className='text-outline'>{forum.forum_name}</h3>
         <div className='secondary'>
           <p className='text-outline'>{forum.description && forum.description}</p>

@@ -210,7 +210,7 @@ function UserPage() {
                 className='profileSize img-fluid'
                 src={userData !== null && isBannerValid ? userData.profile_image : import.meta.env.VITE_BFF_DEFAULT}
                 roundedCircle
-                style={{ float: 'center' }}
+                style={{ float: 'center', maxHeight: '200px', maxWidth: '200px' }}
               ></ReactImage>
             </Row>
             <Row className='justify-content-center'>
