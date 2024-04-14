@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MessageList from './chat-components/MessageList'
 import { Form, FormGroup, Button, Container, DropdownButton, Dropdown, Col, Row } from 'react-bootstrap'
 import axios from '../api/axios'
@@ -16,7 +16,7 @@ function ChatWindow(currentChatData) {
   const [friends, setFriends] = useState([])
   const [showError, setShowError] =  useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  
+
   const SendMsg = async () => {
     event.preventDefault()
     const message = document.getElementById('sendMsg').value
@@ -182,7 +182,7 @@ useEffect(() => {
 }, [])
 
   return (
-    <div data-bs-theme='dark' className='p-0 h-100 w-100 border overflow-auto'>
+    <div data-bs-theme='dark' style={{maxHeight: "500px"}} className='p-0 h-100 w-100 border overflow-auto'>
       <Navbar className='justify-content-start pt-0' sticky='top' style={{zIndex: '1000'}}>
        
           <Col>
