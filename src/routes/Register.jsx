@@ -27,7 +27,7 @@ function Register() {
   const [success, setSuccess] = useState(false)
   const [succMessage, setSuccMessage] = useState('')
 
-  const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
+  const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,20}$/
   const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   const PWD_REGEX =
   /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/
