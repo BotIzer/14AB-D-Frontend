@@ -1,27 +1,40 @@
-import FriendList from "../components/FriendList";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import MyCarousel from "../components/MyCarousel";
-import RecentList from "./RecentList";
+import { Col, Row, Container } from 'react-bootstrap/'
+import MyCarousel from '../components/MyCarousel'
+import { useEffect, useState } from 'react'
+import axios from '../api/axios'
 
 function DesktopLayout() {
+  const [carouselSource, setCarouselSource] = useState([])
+  useEffect(() => {
+    const getRecommendedForums = async () => {
+      try {
+        const response = await axios.get('/forum/recommendForums', {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setCarouselSource(response.data)
+      } catch (error) {
+        console.error('Error fetching recommended forums:', error)
+      }
+    }
+    getRecommendedForums()
+  }, [])
+
   return (
     <>
-        <Row className="border h-100 m-5 p-0">
-          <Col className="border p-0 h-100" sm={3} md={2}>
-            <FriendList/>
-          </Col>
-          <Col className="d-flex justify-content-center border p-0" style={{ height: "180px" }}>
-            <MyCarousel images={["/src/assets/react.svg",
-     "/src/assets/banner_test.jpg",
-     "/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png"]}/>
-          </Col>
-          <Col className="border h-100 p-0" sm={3} md={2}>
-            <RecentList/>
+      <Container>
+        <Row className='justify-content-center'><h1 className='text-center'>Recommended forums</h1></Row>
+        <Row className='border border-warning h-100'>
+          <Col className='d-flex justify-content-center p-0' style={{ height: '180px' }}>
+            <MyCarousel forums={carouselSource} />
           </Col>
         </Row>
+      </Container>
     </>
-  );
+  )
 }
 
-export default DesktopLayout;
+export default DesktopLayout

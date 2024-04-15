@@ -116,19 +116,6 @@ a:hover {
   }
 }
 
-.lg-hidden {
-  display: none;
-  @media (max-width: 992px) {
-    display: block;
-  }
-}
-
-.sm-hidden {
-  display: block;
-  @media (max-width: 992px) {
-    display: none;
-  }
-}
 
 /* Setting max size on different screen sizes
    used for Form in Navigation */
@@ -368,7 +355,8 @@ a:hover {
   color: #e8cc80;
 }
 .custom-tab:hover,
-.custom-tab:focus {
+.custom-tab:focus,
+.custom-tab.active {
   color: gold;
 }
 

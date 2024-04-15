@@ -1,19 +1,32 @@
-import { Row, Col } from "react-bootstrap";
-import MyCarousel from "./MyCarousel";
-import FriendList from "./FriendList";
-import RecentList from "./RecentList";
+import { Row } from 'react-bootstrap'
+import MyCarousel from './MyCarousel'
+import { useEffect, useState } from 'react'
+import axios from '../api/axios'
 
 function MobileLayout() {
+    const [carouselSource, setCarouselSource] = useState([])
+  useEffect(() => {
+    const getRecommendedForums = async () => {
+      try {
+        const response = await axios.get('/forum/recommendForums', {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setCarouselSource(response.data)
+      } catch (error) {
+        console.error('Error fetching recommended forums:', error)
+      }
+    }
+    getRecommendedForums()
+  }, [])
     return(
         <>
-        <Row><MyCarousel images= {["/src/assets/react.svg","/src/assets/banner_test.jpg",
-   "/src/assets/night-starry-sky-blue-shining-260nw-1585980592.png"]}/></Row>
-        <Row className="m-2">
-            <Col className="m-2 p-0"><FriendList friends={["Sajtostaller"]}/></Col>
-            <Col className="m-2 border"><RecentList/></Col>
-        </Row>
+        <Row><MyCarousel forums={carouselSource}/></Row>
         </>
     )
 }
 
-export default MobileLayout;
+export default MobileLayout

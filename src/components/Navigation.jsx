@@ -1,212 +1,223 @@
 
-import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import React from "react";
-import axios from "../api/axios";
-import NotifDropdown from "./NotifDropdown";
-import { Dropdown, Image, Container, Nav, Navbar, Form } from "react-bootstrap";
-import {NotificationContext} from "../main"
+import { useContext, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import React from 'react'
+import axios from '../api/axios'
+import NotifDropdown from './NotifDropdown'
+import { Dropdown, Image, Container, Nav, Navbar, Form } from 'react-bootstrap'
+import {NotificationContext} from '../main'
 function Navigation(props) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const dropdownRef = useRef(null)
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [dropdownWidth, setDropdownWidth] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const [dropdownWidth, setDropdownWidth] = useState(0)
   const [pageDetails, setPageDetails] = useState({
     currentPage: parseInt(location.search.split('page=')[1]) || 0,
     limit: parseInt(location.search.split('limit=')[1]) || 10
-  });
-  const [searchResults, setSearchResults] = useState({forums: [], users: []});
-  const [timerOff, setTimerOff] = useState(false);
-  const [showSearchResults, setShowSearchResults] = useState(false);
+  })
+  const [searchResults, setSearchResults] = useState({forums: [], users: []})
+  const [timerOff, setTimerOff] = useState(false)
+  const [showSearchResults, setShowSearchResults] = useState(false)
   const {forumData, setForumData} = useContext(NotificationContext)
+  //pass notifications data to notifdropdown
   const [notifications, setNotifications] = useState([])
   const [removeId, setRemoveId] = useState(props.removeId)
-  useEffect(() => {
-    setIsLoggedIn(
-      localStorage.getItem("token") && localStorage.getItem("userInfo")
-    );
-    addEventListener("storage", () => {
-      setIsLoggedIn(
-        localStorage.getItem("token") && localStorage.getItem("userInfo")
-      );
-      navigate('/')
-    });
-    const GetNotifications = async ()=>{
-      const response = await axios.get('/notification',
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        withCredentials: true,
-      })
-      setNotifications(response.data)
-    }
-    GetNotifications()
-  }, []);
-  const dropdownRef = useRef(null);
+  
+
   const textStyle = {
-    color: "gold",
-    fontSize: "20px",
-  };
+    color: 'gold',
+    fontSize: '20px',
+  }
   
 
   const HandleKeyDown = (event) => {
     event.preventDefault()
-    if(inputValue.trim() === ""){
-      return;
+    if(inputValue.trim() === ''){
+      return
     }
-    RedirectToLink();
-  };
+    RedirectToLink()
+  }
   const RedirectToLink = async () => {
-    const response = await axios.post(
-      "/search",
-      {
-        keyword: inputValue,
-      },
-      {
-        params: {
-          page: pageDetails.currentPage,
-          limit: pageDetails.limit
+    try {
+      const response = await axios.post(
+        '/search',
+        {
+          keyword: inputValue,
         },
-        headers: { "Content-Type": "application/json" },
+        {
+          params: {
+            page: pageDetails.currentPage,
+            limit: pageDetails.limit
+          },
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      
+      for (let index = 0; index < response.data.length; index++) {
+        if (response.data[index][0] !== undefined) {
+          if(response.data[index][0].forum_name !== undefined){
+            navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
+            break
+          }
+          else if(response.data[index][0].username !== undefined){
+            navigate(`/user/${response.data[index][0].username}`)
+            break
+          }
+        }
       }
-    );
-    for (let index = 0; index < response.data.length; index++) {
-      if (response.data[index][0] !== undefined) {
-        if(response.data[index][0].forum_name !== undefined){
-          navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
-          break;
-        }
-        else if(response.data[index][0].username !== undefined){
-          navigate(`/user/${response.data[index][0].username}`)
-          break;
-        }
+    } catch (error) {
+      if (error != '') {
+        return <ErrorPage errorStatus={error} />
       }
     }
-  };
+  }
   const HandleLogout = async () => {
-    setIsLoggedIn(false);
-    localStorage.clear();
+    setIsLoggedIn(false)
+    localStorage.clear()
     dispatchEvent(new Event('storage'))
-  };
-  const dummyItems = [
-    { id: 1, name: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
-    { id: 2, name: 'Item 2' },
-    { id: 3, name: 'Item 3' },
-    { id: 4, name: 'Item 4' },
-    { id: 5, name: 'Item 5' },
-  ];
+  }
+
   useEffect(()=>{
     const updateDropdownWidth = () => {
       if (dropdownRef.current) {
-        const width = dropdownRef.current.offsetWidth;
-        console.log("hello")
-        console.log(width)
-        setDropdownWidth(width);
+        const width = dropdownRef.current.offsetWidth
+        setDropdownWidth(width)
       }
-    };
+    }
     updateDropdownWidth()
-  window.addEventListener("resize", updateDropdownWidth);
+  window.addEventListener('resize', updateDropdownWidth)
   return () => {
-    window.removeEventListener("resize", updateDropdownWidth);
-  };
+    window.removeEventListener('resize', updateDropdownWidth)
+  }
   },[dropdownRef.current])
   useEffect(() => {
     setTimerOff(false)
     const timer = setTimeout(async () => {
-      if (inputValue.trim() !== "") {
-        const response = await axios.post(
-          "/search",
-          {
-            keyword: inputValue,
-          },
-          {
-            params: {
-              page: pageDetails.currentPage,
-              limit: pageDetails.limit
+      try {
+        if (inputValue.trim() !== '') {
+          const response = await axios.post(
+            '/search',
+            {
+              keyword: inputValue,
             },
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        let temporaryForumArray = [];
-        let temporaryUserArray = [];
-        response.data[0].forEach(element => {
-          temporaryForumArray.push({
-            id: element._id.forum_id,
-            name: element.forum_name
-          });
-        })
-        response.data[1].forEach(element => {
-          temporaryUserArray.push({
-            name: element.username
-          });
-        })
-        setSearchResults({forums: temporaryForumArray, users: temporaryUserArray})
+            {
+              params: {
+                page: pageDetails.currentPage,
+                limit: pageDetails.limit
+              },
+              headers: { 'Content-Type': 'application/json' },
+            }
+          )
+          let temporaryForumArray = []
+          let temporaryUserArray = []
+          response.data[0].forEach(element => {
+            temporaryForumArray.push({
+              id: element._id.forum_id,
+              name: element.forum_name
+            })
+          })
+          response.data[1].forEach(element => {
+            temporaryUserArray.push({
+              name: element.username
+            })
+          })
+          setSearchResults({forums: temporaryForumArray, users: temporaryUserArray})
+          setTimerOff(true)
+        }
+      } catch (error) {
         setTimerOff(true)
       }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [inputValue]);
-  useEffect(()=>{
-    console.log(searchResults.users)
-  },[searchResults])
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [inputValue])
+
   const HandleSearchNavigation = (route)=>{
     navigate(route)
   }
   useEffect(()=>{
     setRemoveId(props.removeId)
   },[props])
+
+  useEffect(() => {
+    setIsLoggedIn(
+      localStorage.getItem('token') !== null && localStorage.getItem('userInfo') !== null
+    )
+    addEventListener('storage', () => {
+      setIsLoggedIn(
+        localStorage.getItem('token') !== null && localStorage.getItem('userInfo') !== null
+      )
+      navigate('/')
+    })
+    const GetNotifications = async ()=>{
+      try {
+        const response = await axios.get('/notification',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          withCredentials: true,
+        })
+        setNotifications(response.data)
+      } catch (error) {
+        setNotifications(['Could not retrieve notifications'])
+      }
+    }
+    if(localStorage.getItem('token') !== null){
+      GetNotifications()
+    }
+  }, [])
+
   return (
     <Navbar
-      expand="lg"
-      className="bg-body-tertiary sticky overflow-responsive"
-      bg="dark"
-      data-bs-theme="dark"
-      sticky="top"
+      expand='lg'
+      className='bg-body-tertiary sticky overflow-responsive'
+      bg='dark'
+      data-bs-theme='dark'
+      sticky='top'
     >
       <Container fluid>
-        <Nav.Link style={textStyle} onClick={() => navigate("/")}>
-          BlitzForFriends <Image src="/src/assets/icons/BFF_Outline_128.png" style={{width: "64px", height: "64px"}}></Image>
+        <Nav.Link style={textStyle} onClick={() => navigate('/')}>
+          BlitzForFriends <Image src={import.meta.env.VITE_LOGO} style={{width: '64px', height: '64px'}}></Image>
         </Nav.Link>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='me-auto'>
             {isLoggedIn ? <Nav.Link
               style={textStyle}
-              className="mx-2 my-auto"
-              onClick={() => navigate("/chats")}
+              className='mx-2 my-auto'
+              onClick={() => navigate('/chats')}
             >
               Chats
             </Nav.Link> : null}
               {isLoggedIn ? <NotifDropdown removeId={removeId} setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
-            style={{ width: "100%" }}
-            className="mx-auto justify-content-center"
+            style={{ width: '100%' }}
+            className='mx-auto justify-content-center'
           >
-            <Form className="custom-mw mx-2" onSubmit={HandleKeyDown}>
+            <Form className='custom-mw mx-2' onSubmit={HandleKeyDown}>
               <Form.Control
-                type="text"
-                placeholder="Search"
-                className="mt-2 mt-md-0"
+                type='text'
+                placeholder='Search'
+                className='mt-2 mt-md-0'
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                style={{ fontSize: "16px" }}
+                style={{ fontSize: '16px' }}
                 onFocus={()=>setShowSearchResults(true)} 
                 onBlur={()=>setShowSearchResults(false)}
               />
-            <Dropdown show={inputValue.trim() !== "" && showSearchResults}>
-            <Dropdown.Menu className="custom-mw" ref={dropdownRef}>
+            <Dropdown show={inputValue.trim() !== '' && showSearchResults}>
+            <Dropdown.Menu className='custom-mw' ref={dropdownRef}>
       {searchResults.users.length > 0 && searchResults.users.map((item) => (
-        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/user/${item.name}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (user)` : `${item.name} (user)`}</Dropdown.Item>
+        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/user/${item.name}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (user)` : `${item.name} (user)`}</Dropdown.Item>
       ))}
       {searchResults.forums.length > 0 && searchResults.forums.map((item) => (
-        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className="d-flex justify-content-center"  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
+        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
       ))}
-      {/* TODO: WHAT IS THIS */}
-          {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item onClick={()=>console.log("Hello?")} className="d-flex justify-content-center"  key="noResults">No search results</Dropdown.Item>}
+          {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item className='d-flex justify-content-center'  key='noResults'>No search results</Dropdown.Item>}
            </Dropdown.Menu>
             </Dropdown>
             </Form>
@@ -214,8 +225,8 @@ function Navigation(props) {
           <Nav>
             <Nav.Link
               style={textStyle}
-              className="mx-2 my-2"
-              onClick={() => navigate("/forums?page=0")}
+              className='mx-2 my-2'
+              onClick={() => navigate('/forums?page=1')}
             >
               Forums
             </Nav.Link>
@@ -223,16 +234,16 @@ function Navigation(props) {
               <React.Fragment>
                 <Nav.Link
                   style={textStyle}
-                  className="mx-2 my-2"
+                  className='mx-2 my-2'
                   onClick={() =>
                     navigate(
                       `/user/${
-                        JSON.parse(localStorage.getItem("userInfo")).username
+                        JSON.parse(localStorage.getItem('userInfo')).username
                       }`
                     )
                   }
                 >
-                  {JSON.parse(localStorage.getItem("userInfo")).username}
+                  {JSON.parse(localStorage.getItem('userInfo')).username}
                 </Nav.Link>
               </React.Fragment>
             ) : null}
@@ -240,12 +251,12 @@ function Navigation(props) {
               <React.Fragment>
                 <Nav.Link
                   style={textStyle}
-                  className="mx-2 my-2"
+                  className='mx-2 my-2'
+                  id='logoutBtn'
                   onClick={() =>
-                    window.confirm("Are you sure you want to log out?")
+                    window.confirm('Are you sure you want to log out?')
                       ? HandleLogout()
-                      : null
-                      
+                      : null 
                   }
                 >
                   Logout
@@ -255,15 +266,15 @@ function Navigation(props) {
               <React.Fragment>
                 <Nav.Link
                   style={textStyle}
-                  className="mx-2 my-2"
-                  onClick={() => navigate("/login")}
+                  className='mx-2 my-2'
+                  onClick={() => navigate('/login')}
                 >
                   Login
                 </Nav.Link>
                 <Nav.Link
                   style={textStyle}
-                  className="mx-2 my-2"
-                  onClick={() => navigate("/register")}
+                  className='mx-2 my-2'
+                  onClick={() => navigate('/register')}
                 >
                   Register
                 </Nav.Link>
@@ -273,7 +284,7 @@ function Navigation(props) {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default Navigation;
+export default Navigation

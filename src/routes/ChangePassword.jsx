@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import axios from '../api/axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function VerifyEmail() {
+function ChangePassword() {
     const location = useLocation()
     const navigate = useNavigate() 
 
@@ -12,8 +12,9 @@ function VerifyEmail() {
     const [isVerified, setIsVerified] = useState(true)
 
     useEffect(() => {
-        const path = `${import.meta.env.VITE_EMAIL_VERIFICATION}/${location.pathname.split('/')[2]}`
-        const VerifyEmail = async () => {
+        const path = `${import.meta.env.VITE_PASSWORD_VERIFICATION}/${location.pathname.split('/')[2]}`
+        console.log(path)
+        const VerifyChangePassword = async () => {
            const response = await axios.get(path, {
                     headers: {
                       'Content-Type': 'application/json',
@@ -23,19 +24,19 @@ function VerifyEmail() {
                   })
                   setResponse(response.data)
         }
-        VerifyEmail()
+        VerifyChangePassword()
     },[])
   return (
     <>
       <Navigation />
       <Container className='text-center' fluid>
         {isVerified? <Row className='m-5 p-2 border border-success text-success' style={{ backgroundColor: '#4a4b4f' }}>
-          <h1>Verification successful!</h1> <p>You will be rerouted shortly!</p><Button onClick={() => navigate('/login')}>Login</Button>
+          <h1>Verification successful!</h1> <p>You will be rerouted shortly!</p><Button onClick={() => navigate('/')}>Home</Button>
         </Row>: <Row className='mt-5 p-2 border border-danger text-danger' style={{ backgroundColor: '#4a4b4f' }}>
-          <h1>Verification failed!</h1><p>Something went wrong! Try verifying again.</p> <Button onClick={() => navigate('/login')}>Login</Button>
+          <h1>Verification failed!</h1><p>Something went wrong! Try verifying again.</p> <Button onClick={() => navigate('/')}>Home</Button>
         </Row>}
       </Container>
     </>
   )
 }
-export default VerifyEmail
+export default ChangePassword

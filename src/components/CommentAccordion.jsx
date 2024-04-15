@@ -8,176 +8,152 @@ import {
   Col,
   Button,
   Container,
-} from "react-bootstrap";
-import { DaysDifference } from "./ForumCard";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+  Form
+} from 'react-bootstrap'
+import { DaysDifference } from './ForumCard'
+import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import axios from '../api/axios'
 
-function ContextAwareToggle({ children, eventKey, callback }) {
-  const { activeEventKey } = useContext(AccordionContext);
+function CommentAccordion(props) {
+  
+  const [isLiked, setIsLiked] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
 
-  const decoratedOnClick = useAccordionButton(
-    eventKey,
-    () => callback && callback(eventKey)
-  );
+  const ContextAwareToggle = ({ children, eventKey, callback }) => {
+    const { activeEventKey } = useContext(AccordionContext)
 
-  const isCurrentEventKey = activeEventKey === eventKey;
+    const decoratedOnClick = useAccordionButton(
+      eventKey,
+      () => callback && callback(eventKey)
+    )
 
-  return (
-    <button
-      style={{ width: "30px", height: "30px" }}
-      className="m-2"
-      type="button"
-      onClick={decoratedOnClick}
-    >
-      {isCurrentEventKey ? "-" : "+"}
-    </button>
-  );
-}
+    const isCurrentEventKey = activeEventKey === eventKey
 
-export default function CommentAccordion(props) {
-  const [isLiked, setIsLiked] = useState(false);
-
-  const dummyCreator = {
-    _id: 1,
-    name: "Béla",
-  };
-  const dummyComment = {
-    _id: {
-      room_id: 1,
-      creator_id: 1,
-      message_id: 1,
+    return (
+      <button
+        style={{ width: '30px', height: '30px' }}
+        className='m-2'
+        type='button'
+        onClick={decoratedOnClick}
+      >
+        {isCurrentEventKey ? '-' : '+'}
+      </button>
+    )
+  }
+  const editComment = async () =>{
+    await axios.patch(`/comment/${props.comment._id.message_id}`,
+    {
+      text: document.getElementById('commentForm').value,
     },
-    text: "Nem dolgozol eleget",
-    reply: {
-      is_reply: false,
-      parent_comment_id: null,
-      sequential_number: 0,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      withCredentials: true,
+    })
+    props.comment.text = document.getElementById('commentForm').value
+    setIsEditing(false)
+  }
+  const deleteComment = async () =>{
+    await axios.delete(`/comment/${props.comment._id.message_id}`,
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem('token')}`,
     },
-    creation_date: Date.now(),
-    likes: 10,
-    dislikes: 2,
-    emoticons: [],
-  };
-
-  const LikedThread = () => {
-    if (opinion.isLiked) {
-      setOpinion({
-        threadId: post.post._id.thread_id,
-        isLiked: false,
-        isDisLiked: false,
-        userToken: localStorage.getItem("token"),
-      });
-    } else {
-      setOpinion({
-        threadId: post.post._id.thread_id,
-        isLiked: true,
-        isDisLiked: false,
-        userToken: localStorage.getItem("token"),
-      });
+    withCredentials: true,
+  })
+  props.delete()
+  }
+  useEffect(()=>{
+    const getOwner = async() => {
+      if(JSON.parse(localStorage.getItem('userInfo')).username === null){
+        setIsOwner(false)
+        return
+      }
+      const userResponse = await axios.get(
+        `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      if(props.comment._id.creator_id !== userResponse.data.user._id){
+        setIsOwner(false)
+      }
+      else{
+        setIsOwner(true)
+      }
     }
-  };
-
-  const DislikedThread = () => {
-    if (opinion.isDisLiked) {
-      setOpinion({
-        threadId: post.post._id.thread_id,
-        isLiked: false,
-        isDisLiked: false,
-        userToken: localStorage.getItem("token"),
-      });
-    } else {
-      setOpinion({
-        threadId: post.post._id.thread_id,
-        isLiked: false,
-        isDisLiked: true,
-        userToken: localStorage.getItem("token"),
-      });
-    }
-  };
-  //TODO make togglebuttons work plz :)
+    getOwner()
+  },[])
   return (
     <>
-      <Container className={props.className} style={props.style} fluid>
-        <Accordion data-bs-theme="dark" defaultActiveKey="0">
+      <Container style={props.style} className={props.className} fluid>
+        <Accordion data-bs-theme='dark' defaultActiveKey='0'>
           <Card>
-            <Card.Header className="text-muted w-100 p-0 m-0" as={Row}>
-              <Col className="text-nowrap p-0">
-                <ContextAwareToggle eventKey="0">+</ContextAwareToggle>
-                <i style={{ fontSize: "small" }}>
-                  <Link className="chat-name secondary">
-                    {props.creator.name}
-                  </Link>{" "}
-                  - {DaysDifference(props.comment.creation_date, Date.now())}{" "}
+            <Card.Header className='text-muted w-100 p-0 m-0' as={Row}>
+              <Col className='text-nowrap p-0'>
+                <ContextAwareToggle eventKey='0'>+</ContextAwareToggle>
+                <i style={{ fontSize: 'small' }}>
+                  <Link className='chat-name secondary'>
+                    {props.comment.creator}
+                  </Link>{' '}
+                  - {DaysDifference(props.comment.creation_date, Date.now())}{' '}
                   days ago
                 </i>
               </Col>
-              <Col className="text-end">
-                <ToggleButton
-                  // id={post.post._id && post.post._id.thread_id + "like"}
-                  id={1}
-                  className="image-checkbox position-relative"
-                  type="checkbox"
-                  variant="secondary"
-                  // checked={opinion.isLiked}
-                  checked={isLiked}
-                  value="1"
-                  onChange={() => LikedThread()}
-                >
-                  <img
-                    src="/src/assets/icons/lightning_32_up.png"
-                    alt="fist-bump"
-                    className={isLiked ? "filter-gold" : "filter-grey"}
-                  />
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                    {props.comment.likes}
-                  </span>{" "}
-                </ToggleButton>
-                <ToggleButton
-                  // id={post.post._id && post.post._id.thread_id + "dislike"}
-                  id={2}
-                  className="image-checkbox position-relative"
-                  type="checkbox"
-                  variant="secondary"
-                  // checked={opinion.isDisLiked}
-                  checked={!isLiked}
-                  value="1"
-                  onChange={() => DislikedThread()}
-                >
-                  <img
-                    src="/src/assets/icons/lightning_32.png"
-                    alt="skull"
-                    className={!isLiked ? "filter-red" : "filter-grey"}
-                  />
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
-                    {props.comment.dislikes}
-                  </span>
-                </ToggleButton>
-              </Col>
             </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body className="text-wrap" style={{paddingBottom: '0px'}}>
-                {props.comment.text}
-                <Row style={{ fontSize: "small", borderTop: "3px solid #44454c" }} className="text-center p-2">
+            <Accordion.Collapse eventKey='0'>
+              <Card.Body className='text-wrap' style={{ paddingBottom: '0px' }}>
+                { !isEditing ? props.comment.text :
+                <Form.Control defaultValue={props.comment.text} id='commentForm'></Form.Control>}
+                <Row
+                  style={{ fontSize: 'small', borderTop: '3px solid #44454c' }}
+                  className='text-center p-2'
+                >
                   <Col>
-                    <Button
-                      variant="outline-warning"
-                      className="custom-button"
-                      style={{ fontSize: "small", border: "gold solid 1px" }}
+                    {isOwner ? (!isEditing ? 
+                    <React.Fragment>
+                      <Button
+                      variant='outline-warning'
+                      className='custom-button'
+                      style={{ fontSize: 'small', border: 'gold solid 1px' }}
+                      onPointerDown={()=>setIsEditing(true)}
                     >
-                      Replies
+                      Edit
                     </Button>
-                  </Col>
-                  <Col>
                     <Button
-                      variant="outline-warning"
-                      className="custom-button"
-                      style={{ fontSize: "small", border: "gold solid 1px" }}
+                      variant='outline-warning'
+                      className='custom-button'
+                      style={{ fontSize: 'small', border: 'gold solid 1px', color: 'red'}}
+                      onPointerDown={()=>deleteComment()}
                     >
-                      ...
-                    </Button>
+                      Delete
+                    </Button> 
+                    </React.Fragment>
+                    :
+                    <React.Fragment>
+                      <Button
+                    variant='outline-warning'
+                    className='custom-button'
+                    style={{ fontSize: 'small', border: 'gold solid 1px' }}
+                    onPointerDown={()=>editComment()}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                  variant='outline-warning'
+                  className='custom-button'
+                  style={{ fontSize: 'small', border: 'gold solid 1px' }}
+                  onPointerDown={()=>setIsEditing(false)}
+                >
+                  Close Editing
+                </Button>
+                    </React.Fragment>) : null}
                   </Col>
-                  {/* TODO make second button show  options, make replies open chatwindow*/}
                 </Row>
               </Card.Body>
             </Accordion.Collapse>
@@ -185,5 +161,6 @@ export default function CommentAccordion(props) {
         </Accordion>
       </Container>
     </>
-  );
+  )
 }
+export default CommentAccordion
