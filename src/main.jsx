@@ -31,6 +31,7 @@ import FrontPage from './routes/FrontPage.jsx'
 import Navigation from './components/Navigation.jsx'
 import ChangePassword from './routes/ChangePassword.jsx'
 import Ably from 'ably'
+import Credits from './routes/Credits.jsx'
 
 export const NotificationContext = createContext()
 export default function App(){
@@ -167,6 +168,11 @@ const router = createBrowserRouter([
     element: <Comments></Comments>,
     errorElement: <ErrorPage></ErrorPage>,
   },
+  {
+    path: '/credits',
+    element: <Credits></Credits>,
+    errorElement: <ErrorPage></ErrorPage>
+  }
 ])
 return(
   // THIS CAUSES RERENDERING TWICE
