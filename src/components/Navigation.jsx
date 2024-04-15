@@ -191,7 +191,7 @@ function Navigation(props) {
               onClick={() => navigate('/chats')}
             >
               Chats
-            </Nav.Link> : null}
+            </Nav.Link> : <Nav.Link style={textStyle} className='mx-2 my-auto' onPointerDown={() =>navigate('/credits')}>Credits</Nav.Link>}
               {isLoggedIn ? <NotifDropdown removeId={removeId} setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
