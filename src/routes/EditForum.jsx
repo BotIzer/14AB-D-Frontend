@@ -25,6 +25,7 @@ function EditForum() {
     const description = document.getElementById('description').value.trim()
     const forumId = location.pathname.split('/')[3]
     const tags = tagList
+    console.log(tagList)
     if (title !== '' && banner !== '') {
       try {
         await axios.put(
@@ -133,26 +134,26 @@ useEffect(() => {
         },
         withCredentials: true,
       })
+      setPreviewData({
+        title: response.data[0].forum_name,
+        banner: response.data[0].banner,
+        description: response.data[0].description,
+      })
+      setTagList(response.data[0].tags)
+      document.getElementById('title').value = response.data[0].forum_name
+      document.getElementById('banner').value = response.data[0].banner
+      document.getElementById('description').value = response.data[0].description
     } catch (error) {
       setErrorMessage('Could not load forum data')
       setDisplayError(true)
     }
-    setPreviewData({
-      title: response.data[0].forum_name,
-      banner: response.data[0].banner,
-      description: response.data[0].description,
-    })
-    setTagList(response.data[0].tags)
-    document.getElementById('title').value = response.data[0].forum_name
-    document.getElementById('banner').value = response.data[0].banner
-    document.getElementById('description').value = response.data[0].description
   }
   GetPreviewData()
 },[location.pathname])
 
 useEffect(()=>{
   const img = new Image()
-    img.src = previewData.profile_image
+    img.src = previewData.banner
     img.onload = ()=>{
       setIsBannerValid(true)
     }
@@ -162,6 +163,8 @@ useEffect(()=>{
 },[previewData.banner])
 useEffect(()=>{
   const GetForumData = async () =>{
+    let creator_id = ''
+    let user_id = ''
     try {
       const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
         headers: {
@@ -171,6 +174,7 @@ useEffect(()=>{
         },
         withCredentials: true,
       })
+      creator_id = response.data[0]._id.creator_id
     } catch (error) {
       setErrorMessage('Could not load forum data')
       setDisplayError(true)
@@ -184,11 +188,13 @@ useEffect(()=>{
         `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
       },
     })
+    user_id = userResponse.data.user._id
     } catch (error) {
       setErrorMessage('Could not load user data')
       setDisplayError(true)
     }
-    if(response.data[0]._id.creator_id !== userResponse.data.user._id){
+    console.log(creator_id)
+    if(creator_id !== user_id){
       setDisplayError(true)
       setErrorMessage('You are not the owner of this forum')
     }
