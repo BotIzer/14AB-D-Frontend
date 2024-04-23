@@ -58,7 +58,7 @@ function Navigation(props) {
       for (let index = 0; index < response.data.length; index++) {
         if (response.data[index][0] !== undefined) {
           if(response.data[index][0].forum_name !== undefined){
-            navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
+            navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}?page=1`)
             break
           }
           else if(response.data[index][0].username !== undefined){
@@ -134,7 +134,7 @@ function Navigation(props) {
   }, [inputValue])
 
   const HandleSearchNavigation = (route)=>{
-    navigate(route)
+    navigate(route + '?page=1')
   }
   useEffect(()=>{
     setRemoveId(props.removeId)

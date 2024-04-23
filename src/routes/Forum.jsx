@@ -17,7 +17,7 @@ function Forum() {
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [userId, setUserId] = useState('')
-  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
+  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 1, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
 
   const [showError, setShowError] = useState(false)
