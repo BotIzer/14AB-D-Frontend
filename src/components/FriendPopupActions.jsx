@@ -24,10 +24,8 @@ function FriendPopupActions(props) {
           withCredentials: true,
         }
       )
-      console.log(props)
       props.remove()
     } catch (error) {
-      console.log(error)
       setShowError(true)
       setErrorMessage(error.response.message)
     }
@@ -55,7 +53,6 @@ function FriendPopupActions(props) {
           setErrorMessage(error.response.message)
         }
       }
-      console.log(response.data.chat.users.user_id)
     }
     catch(error){
       setShowError(true)

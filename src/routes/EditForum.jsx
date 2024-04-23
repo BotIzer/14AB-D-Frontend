@@ -25,7 +25,6 @@ function EditForum() {
     const description = document.getElementById('description').value.trim()
     const forumId = location.pathname.split('/')[3]
     const tags = tagList
-    console.log(tagList)
     if (title !== '' && banner !== '') {
       try {
         await axios.put(
@@ -193,7 +192,6 @@ useEffect(()=>{
       setErrorMessage('Could not load user data')
       setDisplayError(true)
     }
-    console.log(creator_id)
     if(creator_id !== user_id){
       setDisplayError(true)
       setErrorMessage('You are not the owner of this forum')

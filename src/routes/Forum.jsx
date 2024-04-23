@@ -131,7 +131,6 @@ function Forum() {
         forumData: forumData.data,
         threads: threads.data.threads
       })
-      console.log(threads.data.pagesCount)
       setPageData({currentPage: pageData.currentPage, pageCount: threads.data.pagesCount})
       } catch (error) {
         setError('Could not get forum data!')

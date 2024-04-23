@@ -419,7 +419,6 @@
               withCredentials: true,
             })
             chatUsers = { ...users, [groups[index]._id]: response.data.chat.users }
-            console.log(chatUsers)
           chatOwner = {
             ...chatOwner,
             [groups[index]._id]: response.data.chat.owner,
