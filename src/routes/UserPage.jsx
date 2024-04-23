@@ -53,6 +53,7 @@ function UserPage() {
           withCredentials: true,
         }
       )
+      setHasFriendRequest(true)
     } catch (err) {
       setShowError(true)
       setError(err)

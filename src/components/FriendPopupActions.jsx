@@ -24,7 +24,10 @@ function FriendPopupActions(props) {
           withCredentials: true,
         }
       )
+      console.log(props)
+      props.remove()
     } catch (error) {
+      console.log(error)
       setShowError(true)
       setErrorMessage(error.response.message)
     }
@@ -33,7 +36,31 @@ function FriendPopupActions(props) {
     navigate(`/user/${props.friend}`)
   }
   const ListMembers = async () =>{
-    //TODO: finish this
+    // TODO: finish this...
+    try{
+      const response = await axios.get(`/chat/${props.selectedChat}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true
+      })
+      for (let index = 0; index < response.data.chat.users.length; index++) {
+        const element = response.data.chat.users[index].user_id;
+        try{
+          await axios.get(`/user/null`)
+        } catch(error){
+          setShowError(true)
+          setErrorMessage(error.response.message)
+        }
+      }
+      console.log(response.data.chat.users.user_id)
+    }
+    catch(error){
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const LeaveChat = async () =>{
     try {
@@ -50,6 +77,7 @@ function FriendPopupActions(props) {
           withCredentials: true,
         }
       )
+      props.remove()
     } catch (error) {
       setShowError(true)
       setErrorMessage(error.response.message)
