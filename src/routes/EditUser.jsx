@@ -60,7 +60,6 @@ function EditUser() {
     }
     GetPreviewData()
   },[location.pathname])
-  // TODO: check if data hasn't changed
   const SaveChanges = async () => {
     const username = document.getElementById('username').value.trim()
     const profilePicture = document.getElementById('fileUpload').value.trim()

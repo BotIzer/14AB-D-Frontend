@@ -252,7 +252,7 @@ function Notifications() {
                         {pages}
                       <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
                       <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-                    </Pagination> {/* TODO: Connect pagination to backend*/}
+                    </Pagination>
                   </Row>
                 </Tab.Pane>
                 <Tab.Pane eventKey='notifications'>
@@ -264,7 +264,7 @@ function Notifications() {
                         {pages}
                       <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
                       <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-                    </Pagination> {/* TODO: Connect pagination to backend*/}
+                    </Pagination>
                   </Row>
                 </Tab.Pane>
               </Tab.Content>

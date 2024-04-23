@@ -79,7 +79,6 @@ function Forum() {
     }
   },[data.forumData])
   useEffect(()=>{
-    // TODO: Block route to create post and edit forum!
     if(data.forumData.length !== 0){
       const CheckIfIsOwner = async() =>{
         try {
@@ -96,8 +95,6 @@ function Forum() {
           else{
             setIsOwner(false)
           }
-          // TODO: IF YOU GO TO THE ROUTE, YOU SHOULD BE KICKED OFF
-          // WITH ERROR
           setIsSubscribed(data.forumData[0].users.some(user =>  user.user_id === userResponse.data.user._id) || 
           data.forumData[0]._id.creator_id === userResponse.data.user._id)
         } catch (error) {
@@ -194,7 +191,7 @@ function Forum() {
         {pages}
         <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
         <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-        </Pagination> {/* TODO: Connect pagination to backend*/}
+        </Pagination>
       </Container>
     </>
   )

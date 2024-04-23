@@ -5,8 +5,6 @@ import { Col, Row, Container, Button, FormGroup, FormSelect, Form, Image } from 
 function Blacklist() {
 
   const [isBanned, setisBanned] = useState(true)
-  //TODO Make this an individual field per person
-//TODO Replace dummy data
   const dummyMembers = [
     {_id: 1,
     name: 'Markneu22'},
