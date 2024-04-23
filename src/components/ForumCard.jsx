@@ -73,7 +73,7 @@ function ForumCard(forum) {
             backgroundRepeat: 'no-repeat'
           }}
         >
-          {localStorage.getItem('userInfo') !== null ? !isSubscribed ?
+          {localStorage.getItem('userInfo') !== null && !forum.forum.isOwner ? !isSubscribed ?
           <Button 
             className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>subscribeToForum()}>Subscribe
           </Button>

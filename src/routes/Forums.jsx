@@ -64,7 +64,8 @@ function Forums() {
         const updatedForums = response.data.forums.map(forum => {
           return {
             ...forum,
-            isSubscribed: false
+            isSubscribed: false,
+            isOwner: false
           }
         })
         setForums(updatedForums)
@@ -80,7 +81,8 @@ function Forums() {
       const updatedForums = response.data.forums.map(forum => {
         return {
           ...forum,
-          isSubscribed: Object.values(forum.users).some(user => user.user_id === userResponse.data.user._id)
+          isSubscribed: (Object.values(forum.users).some(user => user.user_id === userResponse.data.user._id) || userResponse.data.user._id === forum._id.creator_id),
+          isOwner: userResponse.data.user._id === forum._id.creator_id
         }
       })
       setForums(updatedForums)
