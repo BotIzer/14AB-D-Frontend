@@ -27,7 +27,7 @@ function Notifications() {
   
 
   
-  const AcceptFriendRequest = async (requestCreator) => {
+  const acceptFriendRequest = async (requestCreator) => {
     try {
       await axios.post(
         `/acceptFriendRequest/${requestCreator}`,
@@ -48,7 +48,7 @@ function Notifications() {
       setShowError(true)
     }
   }
-  const DeclineFriendRequest = async (requestCreator) => {
+  const declineFriendRequest = async (requestCreator) => {
     try {
       await axios.post(
         `/declineFriendRequest/${requestCreator}`,
@@ -69,7 +69,7 @@ function Notifications() {
       setShowError(true)
     }
   }
-  const SendSeen = async (seenNotification) =>{
+  const sendSeen = async (seenNotification) =>{
     try {
       setSeenNotifications([...seenNotifications, seenNotification])
     await axios.put(`/notification/${seenNotification}`,
@@ -94,8 +94,8 @@ function Notifications() {
         <p className={seenNotifications.includes(notification.id) ? 'text-muted' : 'secondary'} >{notification.text}</p>
       </Row>
       <Row className=' justify-content-around'>
-        <Button style={{ width: '40%' }} variant='outline-warning px-0' disabled={seenNotifications.includes(notification.id)} onClick={() => SendSeen(notification.id)}>Seen</Button>
-        <Button style={{ width: '40%' }} variant='outline-danger px-0' onClick={() => DeleteNotification(notification.id)}>Delete</Button>
+        <Button style={{ width: '40%' }} variant='outline-warning px-0' disabled={seenNotifications.includes(notification.id)} onClick={() => sendSeen(notification.id)}>Seen</Button>
+        <Button style={{ width: '40%' }} variant='outline-danger px-0' onClick={() => deleteNotification(notification.id)}>Delete</Button>
       </Row>
     </div>
   ))
@@ -118,10 +118,10 @@ function Notifications() {
         <Col className='tertiary'>wants to be your friend!</Col>
         <Col>
           <Row className='px-2 justify-content-around'>
-            <Button style={{ width: '40%' }} variant='outline-warning px-0' onClick={()=>AcceptFriendRequest(friend)}>
+            <Button style={{ width: '40%' }} variant='outline-warning px-0' onClick={()=>acceptFriendRequest(friend)}>
               Accept
             </Button>
-            <Button style={{ width: '40%' }} variant='outline-danger px-0' onClick={()=>DeclineFriendRequest(friend)}>
+            <Button style={{ width: '40%' }} variant='outline-danger px-0' onClick={()=>declineFriendRequest(friend)}>
               Decline
             </Button>
           </Row>
@@ -129,7 +129,7 @@ function Notifications() {
       </Row>
     </div>
   ))
-  const DeleteNotification = async(deletionId) =>{
+  const deleteNotification = async(deletionId) =>{
     try {
       await axios.delete(
         `/notification/${deletionId}`,

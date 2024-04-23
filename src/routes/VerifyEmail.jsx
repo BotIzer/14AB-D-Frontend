@@ -13,7 +13,7 @@ function VerifyEmail() {
 
     useEffect(() => {
         const path = `${import.meta.env.VITE_EMAIL_VERIFICATION}/${location.pathname.split('/')[2]}`
-        const VerifyEmail = async () => {
+        const verifyEmail = async () => {
            const response = await axios.get(path, {
                     headers: {
                       'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ function VerifyEmail() {
                   })
                   setResponse(response.data)
         }
-        VerifyEmail()
+        verifyEmail()
     },[])
   return (
     <>

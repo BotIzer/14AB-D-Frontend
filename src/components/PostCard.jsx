@@ -17,7 +17,7 @@ function PostCard(post) {
   const [errorMessage, setErrorMessage] = useState('')
 
   
-  const SendOpinion = async (opinion) => {
+  const sendOpinion = async (opinion) => {
     try {
       await axios.post(`/thread/${post.post._id.thread_id}/likeDislike`,
       {
@@ -36,7 +36,7 @@ function PostCard(post) {
     }
   }
   const LikedThread = (async()=>{
-    await SendOpinion('like')
+    await sendOpinion('like')
     if (opinion.isLiked) {
       setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: false, userToken: localStorage.getItem('token')})
       setOpinionCount({likeCount: opinionCount.likeCount-1, dislikeCount: opinionCount.dislikeCount})
@@ -55,7 +55,7 @@ function PostCard(post) {
   })
 
   const DislikedThread = (()=>{
-    SendOpinion('dislike')
+    sendOpinion('dislike')
     if (opinion.isDisLiked) {
       setOpinion({threadId: post.post._id.thread_id, isLiked: false, isDisLiked: false, userToken: localStorage.getItem('token')})
       setOpinionCount({likeCount: opinionCount.likeCount, dislikeCount: opinionCount.dislikeCount-1})

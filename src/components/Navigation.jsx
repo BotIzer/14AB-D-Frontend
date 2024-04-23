@@ -21,7 +21,7 @@ function Navigation(props) {
   const [timerOff, setTimerOff] = useState(false)
   const [showSearchResults, setShowSearchResults] = useState(false)
   const {forumData, setForumData} = useContext(NotificationContext)
-  //pass notifications data to notifdropdown
+
   const [notifications, setNotifications] = useState([])
   const [removeId, setRemoveId] = useState(props.removeId)
   
@@ -32,7 +32,7 @@ function Navigation(props) {
   }
   
 
-  const HandleKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     event.preventDefault()
     if(inputValue.trim() === ''){
       return
@@ -197,7 +197,7 @@ function Navigation(props) {
             style={{ width: '100%' }}
             className='mx-auto justify-content-center'
           >
-            <Form className='custom-mw mx-2' onSubmit={HandleKeyDown}>
+            <Form className='custom-mw mx-2' onSubmit={handleKeyDown}>
               <Form.Control
                 type='text'
                 placeholder='Search'

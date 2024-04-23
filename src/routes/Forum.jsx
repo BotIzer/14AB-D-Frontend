@@ -80,7 +80,7 @@ function Forum() {
   },[data.forumData])
   useEffect(()=>{
     if(data.forumData.length !== 0){
-      const CheckIfIsOwner = async() =>{
+      const checkIfIsOwner = async() =>{
         try {
           const userResponse = await axios.get(
             `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
@@ -102,11 +102,11 @@ function Forum() {
           setShowError(true)
         }
       }
-      CheckIfIsOwner()
+      checkIfIsOwner()
     }
   },[data])
   useEffect(()=>{
-    const GetForumData = async () => {
+    const getForumData = async () => {
       try {
       const [forumData, threads] =  await Promise.all([
         axios.get(`/forum/${forum_id}`,
@@ -134,7 +134,7 @@ function Forum() {
         setShowError(true)
       }
   }
-     GetForumData()
+     getForumData()
   },[location])
   return (
     <>

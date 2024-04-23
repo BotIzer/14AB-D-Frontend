@@ -9,7 +9,7 @@ function FriendPopupActions(props) {
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const RemoveFriend = async () =>{
+  const removeFriend = async () =>{
     try {
       await axios.delete(
         `/friend/${props.friend}`,
@@ -34,7 +34,6 @@ function FriendPopupActions(props) {
     navigate(`/user/${props.friend}`)
   }
   const ListMembers = async () =>{
-    // TODO: finish this...
     try{
       const response = await axios.get(`/chat/${props.selectedChat}`,
       {
@@ -162,8 +161,8 @@ function FriendPopupActions(props) {
     </Button>
     <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
-      key='RemoveFriend'
-      onClick={()=> RemoveFriend()}
+      key='removeFriend'
+      onClick={()=> removeFriend()}
     >
       Remove Friend
     </Button>

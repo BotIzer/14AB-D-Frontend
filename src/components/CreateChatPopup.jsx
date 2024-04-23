@@ -25,7 +25,7 @@ function CreateChatPopup(props) {
       </Col>
     </Row>
   ))
-  const CreateGroupChat = async () => {
+  const createGroupChat = async () => {
     if (document.getElementById('groupName').value.trim() === '') {
       setErrorMessage('Please give the group a name')
       setShowError(true)
@@ -148,7 +148,7 @@ function CreateChatPopup(props) {
           <Button
             variant='outline-warning'
             size='lg'
-            onClick={() => CreateGroupChat()}
+            onClick={() => createGroupChat()}
             className='mt-3'
           >
             Create

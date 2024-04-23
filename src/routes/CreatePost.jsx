@@ -14,7 +14,7 @@ function CreatePost() {
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const SendPost = async () => {
+  const sendPost = async () => {
     if (document.querySelector('.title').value.trim() !== '') {
       try {
         if (document.querySelector('.title').value == '' || document.querySelector('.ql-editor').innerText == '') {
@@ -54,7 +54,7 @@ function CreatePost() {
     setImgList([])
     setIsSuccess(true)
   }
-  const ClearAll = async () => {
+  const clearAll = async () => {
     if (confirm('Are you sure you want to clear all fields?')) {
       const editor = document.querySelector('.ql-editor')
       editor.innerHTML = ''
@@ -72,12 +72,12 @@ function CreatePost() {
     }
   }
 
-  const AddImage = async () => {
+  const addImage = async () => {
     await setImgList(prevItems=>[...prevItems,document.getElementById('fileUpload').value])
     document.getElementById('fileUpload').value = ''
   }
   useEffect(()=>{
-    const GetForumData = async () =>{
+    const getForumData = async () =>{
       try {
         const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
           headers: {
@@ -104,7 +104,7 @@ function CreatePost() {
         setShowError(true)
       }
     }
-      GetForumData()
+      getForumData()
   },[])
   return (
     <>
@@ -131,14 +131,14 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 size='lg'
-                onClick={() => SendPost()}
+                onClick={() => sendPost()}
               >
                 Post
               </Button>
               <Button
                 variant='outline-danger'
                 size='lg'
-                onClick={() => ClearAll()}
+                onClick={() => clearAll()}
               >
                 Clear all
               </Button>
@@ -178,7 +178,7 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 className='custom-button'
-                onClick={() => AddImage()}
+                onClick={() => addImage()}
               >
                 Add
               </Button>
@@ -190,7 +190,7 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 size='lg'
-                onClick={() => SendPost()}
+                onClick={() => sendPost()}
                 className='mt-3'
               >
                 Post
@@ -198,7 +198,7 @@ function CreatePost() {
               <Button
                 variant='outline-danger'
                 size='lg'
-                onClick={() => ClearAll()}
+                onClick={() => clearAll()}
                 className='mt-3'
               >
                 Clear all

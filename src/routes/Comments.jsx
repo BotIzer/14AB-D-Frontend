@@ -76,7 +76,7 @@ const sendComment = async () =>{
 }
 useEffect(()=>{
   
-  const GetThreadData = async() => {
+  const getThreadData = async() => {
     try {
       const response = await axios.get(`/thread/${location.pathname.split('/')[4]}`,
       { headers: {
@@ -92,7 +92,7 @@ useEffect(()=>{
     }
   }
   getCommentData()
-  GetThreadData()
+  getThreadData()
 },[])
 return (
   <>

@@ -22,7 +22,7 @@ function Login() {
 
   
 
-  const HandleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setSuccess(true)
     try {
@@ -93,7 +93,7 @@ function Login() {
               style={{ overflow: 'auto', width: '60vw', maxWidth: '500px'}}
             >
               <h1>Sign in</h1>
-              <Form onSubmit={HandleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className='mb-3'>
                   <Form.Label htmlFor='email'>Email address</Form.Label>
                   <Form.Control

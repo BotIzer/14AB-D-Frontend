@@ -35,7 +35,7 @@ function EditUser() {
     setValidMatch(match)
   }, [password, matchPwd])
   useEffect(()=>{
-    const GetPreviewData = async () => {
+    const getPreviewData = async () => {
       try {
         const response = await axios.get(`/user/${location.pathname.split('/')[2]}`, {
           headers: {
@@ -58,7 +58,7 @@ function EditUser() {
         setShowError(true)
       }
     }
-    GetPreviewData()
+    getPreviewData()
   },[location.pathname])
   const SaveChanges = async () => {
     const username = document.getElementById('username').value.trim()
@@ -120,12 +120,12 @@ function EditUser() {
       setShowError(true)
     }
   }
-  const Cancel = async () => {
+  const cancel = async () => {
     if (confirm('Are you sure you want to cancel editing?')) {
       navigate(`/user/${location.pathname.split('/')[2]}`)
     }
   }
-  const DeleteProfile = async() => {
+  const deleteProfile = async() => {
     if (confirm('Are you sure you want to delete your account?')) {
       const password = prompt('Please enter your password to confirm deletion')
       if (password === null || !password.trim()) {
@@ -152,7 +152,7 @@ function EditUser() {
       }
     }
   }
-  const HandleSelect = (key) =>{
+  const handleSelect = (key) =>{
     if(key === 'preview'){
       setPreviewData({
         username: document.getElementById('username').value,
@@ -161,7 +161,7 @@ function EditUser() {
       })
     }
   }
-  const ChangePassword = async () => {
+  const changePassword = async () => {
     if(oldPassword.trim() == '' || password.trim() == '' || matchPwd.trim() == ''){
       setError('Complete all fields before sending data!')
       return
@@ -188,7 +188,7 @@ function EditUser() {
   }
 
 
-  const AddTag = async () => {
+  const addTag = async () => {
     if(document.getElementById('tagUpload').value.trim() !== '' && !tagList.includes(document.getElementById('tagUpload').value.trim())){
       await setTagList(prevItems=>[...prevItems,document.getElementById('tagUpload').value])
       document.getElementById('tagUpload').value = ''
@@ -197,7 +197,7 @@ function EditUser() {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()
-      AddTag()
+      addTag()
     }
   }
   const removeTag = (tag) =>{
@@ -217,7 +217,7 @@ function EditUser() {
     img.onerror = () => {
       setIsBannerValid(false)
     }
-  }, [previewData.profile_image,HandleSelect])
+  }, [previewData.profile_image,handleSelect])
   return (
     <>
       <Navigation></Navigation>
@@ -227,7 +227,7 @@ function EditUser() {
         className='d-flex mx-auto text-nowrap mb-4 justify-content-center'
         style={{ width: '40vw', borderBottom: 'none' }}
         justify
-        onSelect={HandleSelect}
+        onSelect={handleSelect}
       >
         <Tab eventKey='editUser' title='Edit' className='tab-size p-2 custom-border overflow-auto'>
 
@@ -285,7 +285,7 @@ function EditUser() {
                 <Button
                   variant='outline-warning'
                   className='custom-button w-25'
-                  onClick={() => AddTag()}
+                  onClick={() => addTag()}
                 >
                   Add
                 </Button>
@@ -331,7 +331,7 @@ function EditUser() {
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onClick={() => cancel()}
               className='mt-3'
             >
               Cancel
@@ -414,7 +414,7 @@ function EditUser() {
               variant='outline-warning'
               size='lg'
               onClick={() =>
-                ChangePassword()
+                changePassword()
               }
               className='mt-3'
             >
@@ -423,7 +423,7 @@ function EditUser() {
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onClick={() => cancel()}
               className='mt-3'
             >
               Cancel
@@ -438,7 +438,7 @@ function EditUser() {
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => DeleteProfile()}
+            onClick={() => deleteProfile()}
             className='mt-3'
           >
             Delete Profile

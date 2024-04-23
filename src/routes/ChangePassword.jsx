@@ -13,7 +13,7 @@ function ChangePassword() {
 
     useEffect(() => {
         const path = `${import.meta.env.VITE_PASSWORD_VERIFICATION}/${location.pathname.split('/')[2]}`
-        const VerifyChangePassword = async () => {
+        const verifyChangePassword = async () => {
            const response = await axios.get(path, {
                     headers: {
                       'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ function ChangePassword() {
                   })
                   setResponse(response.data)
         }
-        VerifyChangePassword()
+        verifyChangePassword()
     },[])
   return (
     <>

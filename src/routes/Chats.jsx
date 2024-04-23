@@ -70,14 +70,14 @@
           withCredentials: true,
         })
         setFriends(response.data.returnFriends)
-        DoNotShow()
-        ClearProps()
+        doNotShow()
+        clearProps()
       } catch (err) {
         setError(err)
       }
     }
 
-    const ShowChat = (action) => {
+    const showChat = (action) => {
       setShowData({
         showChat: true,
         showPopup: false,
@@ -86,7 +86,7 @@
         lastAction: action,
       })
     }
-    const ShowPopup = (action) => {
+    const showPopup = (action) => {
       setShowData({
         showChat: false,
         showPopup: true,
@@ -95,17 +95,17 @@
         lastAction: action,
       })
     }
-    const ShowCreate = () => {
+    const showCreate = () => {
       setShowData({ showChat: false, showPopup: false, showCreateChat: true, showMembers: false })
     }
-    const ShowMembers = (members) =>{
+    const showMembers = (members) =>{
       setMembers(members)
       setShowData({showChat: false, showPopup: false, showCreateChat: false, showMembers: true})
     }
-    const DoNotShow = () => {
+    const doNotShow = () => {
       setShowData({ showChat: false, showPopup: false, showCreateChat: false, showMembers: false })
     }
-    const ClearProps = () => {
+    const clearProps = () => {
       setProps({
         selectedChat: null,
         selectedFriend: null,
@@ -124,10 +124,10 @@
             props.selectedChat === chat._id &&
             showData.lastAction === 'context'
           ) {
-            DoNotShow()
-            ClearProps()
+            doNotShow()
+            clearProps()
           } else {
-            ShowPopup('context')
+            showPopup('context')
             setProps({
               selectedChat: chat._id,
               selectedChatType: 'direct',
@@ -146,8 +146,8 @@
             props.selectedChat === chat._id &&
             showData.lastAction === 'click'
           ) {
-            DoNotShow()
-            ClearProps()
+            doNotShow()
+            clearProps()
             return
           }
           const chatData = await axios.get(`/chat/${chat._id}/comments`, {
@@ -163,7 +163,7 @@
             selectedChatType: 'direct',
           }))
           setComments(chatData.data.comments)
-          ShowChat('click')
+          showChat('click')
           navigate(`/chats/${chat.friend_user_name}`)
           } catch (error) {
             setErrorMessage('Could not load chat')
@@ -186,10 +186,10 @@
           if (
             showData.lastAction === 'context'
           ) {
-            DoNotShow()
-            ClearProps()
+            doNotShow()
+            clearProps()
           } else {
-            ShowPopup('context')
+            showPopup('context')
           }
           setProps({
             selectedChat: null,
@@ -251,8 +251,8 @@
             if (
               showData.lastAction === 'click'
             ) {
-              DoNotShow()
-              ClearProps()
+              doNotShow()
+              clearProps()
               return
             }
             setProps({
@@ -284,10 +284,10 @@
               props.selectedChat == chat._id &&
               showData.lastAction === 'context'
             ) {
-              DoNotShow()
-              ClearProps()
+              doNotShow()
+              clearProps()
             } else {
-              ShowPopup('context')
+              showPopup('context')
               setProps({
                 selectedFriend: null,
                 selectedChat: chat._id,
@@ -303,8 +303,8 @@
                 props.selectedChat == chat._id &&
                 showData.lastAction === 'click'
               ) {
-                DoNotShow()
-                ClearProps()
+                doNotShow()
+                clearProps()
                 return
               }
               const chatData = await axios.get(`/chat/${chat._id}/comments`, {
@@ -321,7 +321,7 @@
                 displayName: chat.name,
               })
               setComments(chatData.data.comments)
-              ShowChat('click')
+              showChat('click')
               navigate(`/chats/${chat.name}`)
             } catch (error) {
               setErrorMessage('Could not load group')
@@ -358,7 +358,7 @@
         </Pagination.Item>
       )
     }
-    const GetDirectMessages = async () => {
+    const getDirectMessages = async () => {
       if (!localStorage.getItem('token')) {
         setError({
           response: {
@@ -398,7 +398,7 @@
     }
     useEffect(() => {
       
-      const GetFriends = async () =>{
+      const getFriends = async () =>{
         try {
           const response = await axios.get('friends',{
             headers: {
@@ -412,8 +412,8 @@
           setError(err)
         }
       }
-      GetFriends()
-      GetDirectMessages()
+      getFriends()
+      getDirectMessages()
     }, [])
     useEffect(() => {
       const SetOwner = async () => {
@@ -444,7 +444,7 @@
       SetOwner()
     }, [groups])
     useEffect(()=>{
-      DoNotShow()
+      doNotShow()
     },[activeKey])
     if (error != '') {
       return <ErrorPage errorStatus={error} />
@@ -506,7 +506,7 @@
                           'filter-gold')
                       }
                     >
-                      <div onClick={() => ShowCreate()}>
+                      <div onClick={() => showCreate()}>
                         <b>+</b>{' '}
                         <Image
                           id='addGroup'
@@ -527,12 +527,12 @@
                       type={props.selectedChatType}
                       friend={props.selectedFriend}
                       remove={()=>removeUpdate()}
-                      show={(member)=>ShowMembers(member)}
+                      show={(member)=>showMembers(member)}
                     />
                   ) : null}
                   {showData.showChat ? (
                     <ChatWindow
-                      close={() => DoNotShow()}
+                      close={() => doNotShow()}
                       type={props.selectedChatType}
                       chatData={comments}
                       selectedChat={props.selectedChat}
@@ -540,14 +540,14 @@
                   ) : null}
                   {showData.showCreateChat ? (
                     <CreateChatPopup
-                      close={() => DoNotShow()}
-                      getchats={()=>GetDirectMessages()}
+                      close={() => doNotShow()}
+                      getchats={()=>getDirectMessages()}
                       friends={friends}
                     />
                   ) : null}
                   {showData.showMembers ? (
                     <Row className='h-100 m-0 justify-content-center'>
-                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onClick={()=> DoNotShow() && ClearProps() }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
+                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onClick={()=> doNotShow() && clearProps() }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
                       {membersList}
                     </Row>
                   ): null}
@@ -586,12 +586,12 @@
                         type={props.selectedChatType}
                         friend={props.selectedFriend}
                         remove={()=>removeUpdate()}
-                        show={(member)=>ShowMembers(member)}
+                        show={(member)=>showMembers(member)}
                       />
                     ) : null}
                     {showData.showChat ? (
                       <ChatWindow
-                        close={() => DoNotShow()}
+                        close={() => doNotShow()}
                         type={props.selectedChatType}
                         chatData={comments}
                         selectedChat={props.selectedChat}

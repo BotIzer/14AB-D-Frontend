@@ -34,7 +34,7 @@ function UserPage() {
   const [isBannerValid, setIsBannerValid] = useState(true)
   const [showError, setShowError] = useState(false)
  
-  const SendFriendRequest = async () => {
+  const sendFriendRequest = async () => {
     try {
       if(!isLoggedIn){
         setError('Log in to send a friend request!')
@@ -60,7 +60,7 @@ function UserPage() {
     }
   }
 
-  const CloseChat = () => {
+  const closeChat = () => {
     setShowChat(false)
   }
   
@@ -79,9 +79,9 @@ function UserPage() {
   
 
   useEffect(() => {
-    const GetPageDetails = async () => {
+    const getPageDetails = async () => {
       try {
-        InitializeUserData()
+        initializeUserData()
         setIsSameUser(
           isLoggedIn && user === JSON.parse(localStorage.getItem('userInfo')).username
         )
@@ -93,7 +93,6 @@ function UserPage() {
             },
             withCredentials: true,
           })
-          // if we have ANY chats, we try to find the messages for the chat with the user we're viewing
           if (
             response.data.returnArray.length != 0 &&
             response.data.returnArray[0].friend_user_name === user
@@ -159,7 +158,7 @@ function UserPage() {
         setShowError(true)
       }
     }
-    const InitializeUserData = async () => {
+    const initializeUserData = async () => {
       try {
         const userResponse = await axios.get(
           `/user/${user}`,
@@ -173,7 +172,7 @@ function UserPage() {
         setShowError(true)
       }
     }
-    GetPageDetails()
+    getPageDetails()
   }, [user])
   useEffect(()=>{
     if(userData !== null){
@@ -199,7 +198,7 @@ function UserPage() {
         <Row className='m-0 border' style={{ height: '80vh' }}>
           <Offcanvas data-bs-theme='dark' show={showChat && !isSameUser}>
             <ChatWindow
-              close={CloseChat}
+              close={closeChat}
               type='friend'
               selectedChat={chatId}
               chatData={messages}
@@ -247,7 +246,7 @@ function UserPage() {
                 <Button
                   className='clear-button'
                   style={{ width: 'auto', height: 'auto' }}
-                  onClick={() => SendFriendRequest()}
+                  onClick={() => sendFriendRequest()}
                 >
                   <ReactImage
                     src={import.meta.env.VITE_ADD_FRIEND_BUTTON}

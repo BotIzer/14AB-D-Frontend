@@ -21,7 +21,7 @@ function EditPost() {
   const [showError, setShowError] = useState(false)
   const [error, setError] = useState('')
   const [isCreator, setIsCreator] = useState(false)
-  const SaveChanges = async () => {
+  const saveChangess = async () => {
     const name = document.getElementById('name').value.trim()
     const image_array = document.getElementById('fileUpload').value.trim()
     const content = document.getElementById('content').value.trim()
@@ -53,12 +53,12 @@ function EditPost() {
       return
     }
   }
-  const Cancel = async () => {
+  const cancel = async () => {
     if (confirm('Are you sure you want to cancel editing?')) {
       navigate(`/forums/${forum.forumName}/${forum.forumId}`)
     }
   }
-  const DeletePost = async() => {
+  const deletePost = async() => {
     if (confirm('Are you sure you want to delete this post?')) {
       try {
         await axios.delete(
@@ -79,7 +79,7 @@ function EditPost() {
     }
 
   }
-  const AddImage = async () => {
+  const addImage = async () => {
     if(document.getElementById('fileUpload').value.trim() !== '' && !imageList.includes(document.getElementById('fileUpload').value)){
       await setImageList(prevItems=>[...prevItems,document.getElementById('fileUpload').value])
       document.getElementById('fileUpload').value = ''
@@ -88,7 +88,7 @@ function EditPost() {
   const removeImage = async (image) => {
     setImageList(prevItems => prevItems.filter(item => item !== image))
   }
-  const HandleSelect = (key) =>{
+  const handleSelect = (key) =>{
     if(key === 'preview'){
       setPreviewData(prevData=>({...prevData,
       name: document.getElementById('name').value, 
@@ -97,7 +97,7 @@ function EditPost() {
     }
   }
   useEffect(()=>{
-    const GetThreadData = async() => {
+    const getThreadData = async() => {
     try {
       const response = await axios.get(`/thread/${location.pathname.split('/')[3]}`,
     { headers: {
@@ -106,18 +106,18 @@ function EditPost() {
     },
     withCredentials: true,
     })
-    await GetCreatorName(response.data._id.creator_id)
+    await getCreatorName(response.data._id.creator_id)
     document.getElementById('name').value = response.data.name
     document.getElementById('content').value = response.data.content
     setImageList(response.data.image_array)
     setPreviewData(response.data)
-    GetForum(response.data._id.forum_id)
+    getForum(response.data._id.forum_id)
     } catch (error) {
       setError('Could not get thread data')
       setShowError(true)
     }
     }
-    const GetCreatorName = async (creatorId) =>{
+    const getCreatorName = async (creatorId) =>{
       try {
         const response = await axios.get(`/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
        {
@@ -136,7 +136,7 @@ function EditPost() {
         setShowError(true)
       }
      } 
-    const GetForum = async(forumId) =>{
+    const getForum = async(forumId) =>{
       try {
         const response = await axios.get(`/forum/${forumId}`,
       {
@@ -152,7 +152,7 @@ function EditPost() {
         setShowError(true)
       }
     }
-    GetThreadData()
+    getThreadData()
   },[])
   return (
     <>
@@ -163,7 +163,7 @@ function EditPost() {
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
         style={{ width: '40vw', borderBottom: 'none' }}
         justify
-        onSelect={HandleSelect}
+        onSelect={handleSelect}
       >
         <Tab eventKey='editPost' title='Edit' className='border tab-size p-2'>
           <FormGroup
@@ -205,7 +205,7 @@ function EditPost() {
                 <Button
                   variant='outline-warning'
                   className='custom-button'
-                  onClick={() => AddImage()}
+                  onClick={() => addImage()}
                 >
                   Add
                 </Button>
@@ -229,7 +229,7 @@ function EditPost() {
               variant='outline-warning'
               size='lg'
               onClick={() =>
-                SaveChanges()
+                saveChangess()
               }
               className='mt-3'
             >
@@ -238,7 +238,7 @@ function EditPost() {
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onClick={() => cancel()}
               className='mt-3'
             >
               Cancel
@@ -253,7 +253,7 @@ function EditPost() {
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => DeletePost()}
+            onClick={() => deletePost()}
             className='mt-3'
           >
             Delete Post

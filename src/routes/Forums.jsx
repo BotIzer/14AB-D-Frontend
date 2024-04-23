@@ -49,7 +49,7 @@ function Forums() {
     }
   
   useEffect(() => {
-    const GetForums = async () => {
+    const getForums = async () => {
       try {
         
       const response = await axios.get(`/forum?page=${pageData.currentPage-1}`, {
@@ -89,7 +89,7 @@ function Forums() {
         setShowError(true)
       }
     }
-    GetForums()
+    getForums()
   }, [location])
 
   return (
