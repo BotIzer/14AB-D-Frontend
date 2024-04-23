@@ -131,8 +131,8 @@ function UserPage() {
             }
           )
           if (
-            (friendRequests.data.requests &&
-              friendRequests.data.requests.includes(user)) ||
+            (friendRequests.data.returnRequests &&
+              friendRequests.data.returnRequests.includes(user)) ||
             sentFriendRequests.data.sentRequests.includes(user)
           ) {
             setHasFriendRequest(true)

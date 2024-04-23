@@ -1,8 +1,10 @@
 import {Container, Row, Col} from 'react-bootstrap'
+import Navigation from '../components/Navigation'
 
 function Credits() {
     return(
         <>
+        <Navigation></Navigation>
         <Container>
             <h1 className='text-center m-5'>Credits to used images</h1>
             <Col>
