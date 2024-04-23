@@ -21,7 +21,6 @@ function EditPost() {
   const [showError, setShowError] = useState(false)
   const [error, setError] = useState('')
   const [isCreator, setIsCreator] = useState(false)
-
   const SaveChanges = async () => {
     const name = document.getElementById('name').value.trim()
     const image_array = document.getElementById('fileUpload').value.trim()
@@ -89,6 +88,15 @@ function EditPost() {
   const removeImage = async (image) => {
     setImageList(prevItems => prevItems.filter(item => item !== image))
   }
+  const HandleSelect = (key) =>{
+    if(key === 'preview'){
+      setPreviewData(prevData=>({...prevData,
+      name: document.getElementById('name').value, 
+      image_array: imageList,
+      content: document.getElementById('content').value}))
+    }
+    console.log(key)
+  }
   useEffect(()=>{
     const GetThreadData = async() => {
     try {
@@ -147,6 +155,9 @@ function EditPost() {
     }
     GetThreadData()
   },[])
+  useEffect(()=>{
+    console.log(imageList)
+  },[imageList])
   return (
     <>
       <Navigation></Navigation>
@@ -156,6 +167,7 @@ function EditPost() {
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
         style={{ width: '40vw', borderBottom: 'none' }}
         justify
+        onSelect={HandleSelect}
       >
         <Tab eventKey='editPost' title='Edit' className='border tab-size p-2'>
           <FormGroup
