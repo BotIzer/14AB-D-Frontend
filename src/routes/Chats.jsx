@@ -5,8 +5,9 @@
   import ChatWindow from '../components/ChatWindow'
   import axios from '../api/axios'
   import ErrorPage from '../error-page'
-  import { useLocation, useNavigate } from 'react-router-dom'
+  import { useLocation, useNavigate, Link } from 'react-router-dom'
   import { Button, Row, Col, Image, Pagination, Nav, Tab, Tooltip, OverlayTrigger } from 'react-bootstrap'
+
 
   function Chats() {
     const location = useLocation()
@@ -15,6 +16,7 @@
     const [directMessages, setDirectMessages] = useState([])
     const [groups, setGroups] = useState([])
     const [friends, setFriends] = useState([])
+
     const [comments, setComments] = useState([])
     const [error, setError] = useState('')
     const [props, setProps] = useState({
@@ -27,6 +29,7 @@
       showChat: false,
       showPopup: false,
       showCreateChat: false,
+      showMembers: false,
       lastAction: null,
     })
     const [owners, setOwners] = useState({})
@@ -440,6 +443,12 @@
       return <ErrorPage errorStatus={error} />
     }
 
+
+    const dummyMembers = ['Markneu', 'Lajtaib', 'BotIzer', 'Placeholder', 'Placeholder']
+    const membersList = dummyMembers.map((member) => {
+      return <div key={member} className='justify-content-center w-100 d-flex flex-row'><Link className='chat-name secondary' to={`/user/${member}`} style={{fontStyle: 'normal'}}><h6>{member}</h6></Link></div>
+    })
+
     return (
       <>
         <Navigation></Navigation>
@@ -502,7 +511,7 @@
                     </Button>
                   </Row>
                 </Col>
-                <Col className='m-0 p-0' style={{ maxWidth: '50vw' }}>
+                <Col className='m-0 p-0 overflow-auto' style={{ maxWidth: '50vw' , maxHeight:'80vh'}}>
                   {showData.showPopup ? (
                     <FriendPopupActions
                       users={users}
@@ -529,6 +538,12 @@
                       friends={friends}
                     />
                   ) : null}
+                  {showData.showMembers ? (
+                    <Row className='h-100 m-0 justify-content-center'>
+                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onClick={()=> setShowData(prevData => ({...prevData, showMembers: true})) }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
+                      {membersList}
+                    </Row>
+                  ): null}
                 </Col>
               </Row>
             </Tab.Pane>
