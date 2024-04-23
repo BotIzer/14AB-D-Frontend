@@ -16,6 +16,7 @@
     const [directMessages, setDirectMessages] = useState([])
     const [groups, setGroups] = useState([])
     const [friends, setFriends] = useState([])
+    const [members, setMembers] = useState([])
 
     const [comments, setComments] = useState([])
     const [error, setError] = useState('')
@@ -81,6 +82,7 @@
         showChat: true,
         showPopup: false,
         showCreateChat: false,
+        showMembers: false,
         lastAction: action,
       })
     }
@@ -89,14 +91,19 @@
         showChat: false,
         showPopup: true,
         showCreateChat: false,
+        showMembers: false,
         lastAction: action,
       })
     }
     const ShowCreate = () => {
-      setShowData({ showChat: false, showPopup: false, showCreateChat: true })
+      setShowData({ showChat: false, showPopup: false, showCreateChat: true, showMembers: false })
+    }
+    const ShowMembers = (members) =>{
+      setMembers(members)
+      setShowData({showChat: false, showPopup: false, showCreateChat: false, showMembers: true})
     }
     const DoNotShow = () => {
-      setShowData({ showChat: false, showPopup: false, showCreateChat: false })
+      setShowData({ showChat: false, showPopup: false, showCreateChat: false, showMembers: false })
     }
     const ClearProps = () => {
       setProps({
@@ -444,8 +451,7 @@
     }
 
 
-    const dummyMembers = ['Markneu', 'Lajtaib', 'BotIzer', 'Placeholder', 'Placeholder']
-    const membersList = dummyMembers.map((member) => {
+    const membersList = members.map((member) => {
       return <div key={member} className='justify-content-center w-100 d-flex flex-row'><Link className='chat-name secondary' to={`/user/${member}`} style={{fontStyle: 'normal'}}><h6>{member}</h6></Link></div>
     })
 
@@ -521,6 +527,7 @@
                       type={props.selectedChatType}
                       friend={props.selectedFriend}
                       remove={()=>removeUpdate()}
+                      show={(member)=>ShowMembers(member)}
                     />
                   ) : null}
                   {showData.showChat ? (
@@ -540,7 +547,7 @@
                   ) : null}
                   {showData.showMembers ? (
                     <Row className='h-100 m-0 justify-content-center'>
-                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onClick={()=> setShowData(prevData => ({...prevData, showMembers: true})) }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
+                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onClick={()=> DoNotShow() && ClearProps() }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
                       {membersList}
                     </Row>
                   ): null}
@@ -579,6 +586,7 @@
                         type={props.selectedChatType}
                         friend={props.selectedFriend}
                         remove={()=>removeUpdate()}
+                        show={(member)=>ShowMembers(member)}
                       />
                     ) : null}
                     {showData.showChat ? (

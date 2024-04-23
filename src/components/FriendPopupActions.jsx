@@ -44,11 +44,11 @@ function FriendPopupActions(props) {
         },
         withCredentials: true
       })
+      let tempMembers = []
       for (let index = 0; index < response.data.chat.users.length; index++) {
         const element = response.data.chat.users[index].user_id;
-        console.log(response.data.chat.users)
         try{
-          const response = await axios.get(`/user/${element}`,
+          const response = await axios.get(`/user/data/${element}`,
           {
             headers:{
               'Content-Type': 'application/json',
@@ -56,12 +56,22 @@ function FriendPopupActions(props) {
             },
             withCredentials: true
           })
-          console.log(response.data)
+          tempMembers.push(response.data.username)
         } catch(error){
           setShowError(true)
           setErrorMessage(error.response.message)
         }
       }
+      const creator = await axios.get(`/user/data/${response.data.chat.owner}`,
+          {
+            headers:{
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true
+          })
+      tempMembers.push(creator.data.username)
+      props.show(tempMembers)
     }
     catch(error){
       setShowError(true)

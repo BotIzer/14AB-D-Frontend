@@ -95,7 +95,6 @@ function EditPost() {
       image_array: imageList,
       content: document.getElementById('content').value}))
     }
-    console.log(key)
   }
   useEffect(()=>{
     const GetThreadData = async() => {
@@ -155,9 +154,6 @@ function EditPost() {
     }
     GetThreadData()
   },[])
-  useEffect(()=>{
-    console.log(imageList)
-  },[imageList])
   return (
     <>
       <Navigation></Navigation>
