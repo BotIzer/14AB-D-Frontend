@@ -105,11 +105,11 @@ const categoryList = dummyForum.tags.map((category,index) => (
         >
           {localStorage.getItem('userInfo') !== null ? !isSubscribed ?
           <Button 
-            className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>SubscribeToForum()}>Subscribe
+            className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>subscribeToForum()}>Subscribe
           </Button>
            :
           <Button 
-          className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}}  onClick={()=>UnsubscribeFromForum()}>Unsubscribe
+          className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}}  onClick={()=>unsubscribeFromForum()}>Unsubscribe
           </Button> 
           : 
           null}

@@ -17,7 +17,7 @@ function ChatWindow(currentChatData) {
   const [showError, setShowError] =  useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const SendMsg = async () => {
+  const sendMsg = async () => {
     event.preventDefault()
     const message = document.getElementById('sendMsg').value
     try {
@@ -98,10 +98,10 @@ function ChatWindow(currentChatData) {
     }
     
   }
-  const HandleKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()
-      SendMsg()
+      sendMsg()
     }
   }
   const AddToChat = async (friendname) =>{
@@ -124,7 +124,7 @@ function ChatWindow(currentChatData) {
       setErrorMessage(error.response.message)
     }
   }
-  const CloseChat = () => {
+  const closeChat = () => {
     currentChatData.close()
   }
   const friendList = friends.map((friend) => (
@@ -140,7 +140,7 @@ useEffect(()=>{
   setMessages(currentChatData.chatData)
 },[currentChatData])
 useEffect(() => {
-  const GetFriends = async () => {
+  const getFriends = async () => {
     try {
       const response = await axios.get('/friends', {
         headers: {
@@ -155,7 +155,7 @@ useEffect(() => {
       setErrorMessage(error.response.message)
     }
   }
-  GetFriends()
+  getFriends()
   setCurrentChat(currentChatData.selectedChat)
   if(process.env.NODE_ENV === 'development'){
     const socket = io('http://localhost:3000', {
@@ -194,7 +194,7 @@ useEffect(() => {
                 </DropdownButton>
               </Col> : null}
               <Col className='text-end p-0'>
-                <Button className='close-button ms-auto' onClick={() => CloseChat()} >
+                <Button className='close-button ms-auto' onClick={() => closeChat()} >
                   <img className='hover-filter-red' src={import.meta.env.VITE_CANCEL} alt='' />
                 </Button>
               </Col>
@@ -212,13 +212,13 @@ useEffect(() => {
             placeholder='Send message'
             className='w-75'
             autoFocus
-            onKeyDown={HandleKeyDown}
+            onKeyDown={handleKeyDown}
           ></Form.Control>
           <Button
             variant='outline-warning'
             className='custom-button w-25 p-0 overflow-hidden'
             type='submit'
-            onClick={() => SendMsg()}
+            onClick={() => sendMsg()}
           >
             Send
           </Button>

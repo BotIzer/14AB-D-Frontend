@@ -49,7 +49,7 @@ function Forums() {
     }
   
   useEffect(() => {
-    const GetForums = async () => {
+    const getForums = async () => {
       try {
         
       const response = await axios.get(`/forum?page=${pageData.currentPage-1}`, {
@@ -64,7 +64,8 @@ function Forums() {
         const updatedForums = response.data.forums.map(forum => {
           return {
             ...forum,
-            isSubscribed: false
+            isSubscribed: false,
+            isOwner: false
           }
         })
         setForums(updatedForums)
@@ -80,7 +81,8 @@ function Forums() {
       const updatedForums = response.data.forums.map(forum => {
         return {
           ...forum,
-          isSubscribed: Object.values(forum.users).some(user => user.user_id === userResponse.data.user._id)
+          isSubscribed: (Object.values(forum.users).some(user => user.user_id === userResponse.data.user._id) || userResponse.data.user._id === forum._id.creator_id),
+          isOwner: userResponse.data.user._id === forum._id.creator_id
         }
       })
       setForums(updatedForums)
@@ -89,7 +91,7 @@ function Forums() {
         setShowError(true)
       }
     }
-    GetForums()
+    getForums()
   }, [location])
 
   return (

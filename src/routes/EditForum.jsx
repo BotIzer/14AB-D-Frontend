@@ -19,7 +19,7 @@ function EditForum() {
   const [errorMessage, setErrorMessage] = useState('')
   const [isBannerValid, setIsBannerValid] = useState(true)
 
-  const SaveChanges = async () => {
+  const saveChanges = async () => {
     const title = document.getElementById('title').value.trim()
     const banner = document.getElementById('banner').value.trim()
     const description = document.getElementById('description').value.trim()
@@ -54,12 +54,12 @@ function EditForum() {
       setDisplayError(true)
     }
   }
-  const Cancel = async () => {
+  const cancel = async () => {
     if (confirm('Are you sure you want to stop editing?')) {
       navigate(`/forums/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}`)
     }
   }
-  const DeleteForum = async() => {
+  const deleteForum = async() => {
     if (confirm('Are you sure you want to delete this forum?')) {
       try {
         await axios.delete(
@@ -85,17 +85,17 @@ function EditForum() {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()
-      AddTag()
+      addTag()
     }
   }
 
-  const AddTag = async () => {
+  const addTag = async () => {
     if(document.getElementById('tagUpload').value.trim() !== ''){
       await setTagList(prevItems=>[...prevItems,document.getElementById('tagUpload').value])
       document.getElementById('tagUpload').value = ''
     }
   }
-  const HandleSelect = (key) =>{
+  const handleSelect = (key) =>{
     if(key === 'preview'){
       setPreviewData({
         title: document.getElementById('title').value,
@@ -124,7 +124,7 @@ useEffect(() => {
   if(localStorage.getItem('token') === null){
     navigate('/')
   }
-  const GetPreviewData = async () => {
+  const getPreviewData = async () => {
     try {
       const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`, {
         headers: {
@@ -133,26 +133,26 @@ useEffect(() => {
         },
         withCredentials: true,
       })
+      setPreviewData({
+        title: response.data[0].forum_name,
+        banner: response.data[0].banner,
+        description: response.data[0].description,
+      })
+      setTagList(response.data[0].tags)
+      document.getElementById('title').value = response.data[0].forum_name
+      document.getElementById('banner').value = response.data[0].banner
+      document.getElementById('description').value = response.data[0].description
     } catch (error) {
       setErrorMessage('Could not load forum data')
       setDisplayError(true)
     }
-    setPreviewData({
-      title: response.data[0].forum_name,
-      banner: response.data[0].banner,
-      description: response.data[0].description,
-    })
-    setTagList(response.data[0].tags)
-    document.getElementById('title').value = response.data[0].forum_name
-    document.getElementById('banner').value = response.data[0].banner
-    document.getElementById('description').value = response.data[0].description
   }
-  GetPreviewData()
+  getPreviewData()
 },[location.pathname])
 
 useEffect(()=>{
   const img = new Image()
-    img.src = previewData.profile_image
+    img.src = previewData.banner
     img.onload = ()=>{
       setIsBannerValid(true)
     }
@@ -161,7 +161,9 @@ useEffect(()=>{
     }
 },[previewData.banner])
 useEffect(()=>{
-  const GetForumData = async () =>{
+  const getForumData = async () =>{
+    let creator_id = ''
+    let user_id = ''
     try {
       const response = await axios.get(`/forum/${location.pathname.split('/')[3]}`,{
         headers: {
@@ -171,6 +173,7 @@ useEffect(()=>{
         },
         withCredentials: true,
       })
+      creator_id = response.data[0]._id.creator_id
     } catch (error) {
       setErrorMessage('Could not load forum data')
       setDisplayError(true)
@@ -184,16 +187,17 @@ useEffect(()=>{
         `Bearer ${localStorage.getItem('token')}` : 'Bearer null'}`
       },
     })
+    user_id = userResponse.data.user._id
     } catch (error) {
       setErrorMessage('Could not load user data')
       setDisplayError(true)
     }
-    if(response.data[0]._id.creator_id !== userResponse.data.user._id){
+    if(creator_id !== user_id){
       setDisplayError(true)
       setErrorMessage('You are not the owner of this forum')
     }
   }
-  GetForumData()
+  getForumData()
 },[])
 
   return (
@@ -204,7 +208,7 @@ useEffect(()=>{
         defaultActiveKey='editUser'
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
         style={{ width: '60vw', borderBottom: 'none' }}
-        onSelect={HandleSelect}
+        onSelect={handleSelect}
         justify
       >
         <Tab eventKey='editUser' title='Edit' className='tab-size p-2'>
@@ -231,7 +235,7 @@ useEffect(()=>{
                 >
                   {tagList.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                    <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                    <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onClick={()=>removeTag(item)} onMouseEnter={() =>            
                      {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
                       {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
                       variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src={import.meta.env.VITE_TRASH} alt='trash' /></Button></Col></Row>
@@ -247,7 +251,7 @@ useEffect(()=>{
                 <Button
                   variant='outline-warning'
                   className='custom-button w-25'
-                  onClick={() => AddTag()}
+                  onClick={() => addTag()}
                 >
                   Add
                 </Button>
@@ -286,7 +290,7 @@ useEffect(()=>{
               variant='outline-warning'
               size='lg'
               onClick={() =>
-                SaveChanges()
+                saveChanges()
               }
               className='mt-3'
             >
@@ -295,15 +299,12 @@ useEffect(()=>{
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onClick={() => cancel()}
               className='mt-3'
             >
               Cancel
             </Button>
           </div>
-        </Tab>
-        <Tab eventKey='blackList' title='Blacklist' className='tab-size p-2'>
-              <Blacklist></Blacklist>
         </Tab>
         <Tab
           eventKey='deleteForum'
@@ -313,7 +314,7 @@ useEffect(()=>{
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => DeleteForum()}
+            onClick={() => deleteForum()}
             className='mt-3'
           >
             Delete Forum

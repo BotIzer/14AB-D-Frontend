@@ -17,7 +17,7 @@ function Forum() {
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [userId, setUserId] = useState('')
-  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 0, 
+  const [pageData, setPageData] = useState({currentPage: parseInt(new URLSearchParams(location.search).get('page')) || 1, 
   pageCount: parseInt(new URLSearchParams(location.search).get('page')) || 1})
 
   const [showError, setShowError] = useState(false)
@@ -79,9 +79,8 @@ function Forum() {
     }
   },[data.forumData])
   useEffect(()=>{
-    // TODO: Block route to create post and edit forum!
     if(data.forumData.length !== 0){
-      const CheckIfIsOwner = async() =>{
+      const checkIfIsOwner = async() =>{
         try {
           const userResponse = await axios.get(
             `/user/${JSON.parse(localStorage.getItem('userInfo')).username}`,
@@ -96,8 +95,6 @@ function Forum() {
           else{
             setIsOwner(false)
           }
-          // TODO: IF YOU GO TO THE ROUTE, YOU SHOULD BE KICKED OFF
-          // WITH ERROR
           setIsSubscribed(data.forumData[0].users.some(user =>  user.user_id === userResponse.data.user._id) || 
           data.forumData[0]._id.creator_id === userResponse.data.user._id)
         } catch (error) {
@@ -105,11 +102,11 @@ function Forum() {
           setShowError(true)
         }
       }
-      CheckIfIsOwner()
+      checkIfIsOwner()
     }
   },[data])
   useEffect(()=>{
-    const GetForumData = async () => {
+    const getForumData = async () => {
       try {
       const [forumData, threads] =  await Promise.all([
         axios.get(`/forum/${forum_id}`,
@@ -131,14 +128,13 @@ function Forum() {
         forumData: forumData.data,
         threads: threads.data.threads
       })
-      console.log(threads.data.pagesCount)
       setPageData({currentPage: pageData.currentPage, pageCount: threads.data.pagesCount})
       } catch (error) {
         setError('Could not get forum data!')
         setShowError(true)
       }
   }
-     GetForumData()
+     getForumData()
   },[location])
   return (
     <>
@@ -195,7 +191,7 @@ function Forum() {
         {pages}
         <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
         <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
-        </Pagination> {/* TODO: Connect pagination to backend*/}
+        </Pagination>
       </Container>
     </>
   )

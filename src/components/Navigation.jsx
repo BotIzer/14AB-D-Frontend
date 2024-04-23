@@ -21,7 +21,7 @@ function Navigation(props) {
   const [timerOff, setTimerOff] = useState(false)
   const [showSearchResults, setShowSearchResults] = useState(false)
   const {forumData, setForumData} = useContext(NotificationContext)
-  //pass notifications data to notifdropdown
+
   const [notifications, setNotifications] = useState([])
   const [removeId, setRemoveId] = useState(props.removeId)
   
@@ -32,7 +32,7 @@ function Navigation(props) {
   }
   
 
-  const HandleKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     event.preventDefault()
     if(inputValue.trim() === ''){
       return
@@ -58,7 +58,7 @@ function Navigation(props) {
       for (let index = 0; index < response.data.length; index++) {
         if (response.data[index][0] !== undefined) {
           if(response.data[index][0].forum_name !== undefined){
-            navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}`)
+            navigate(`/forums/${response.data[index][0].forum_name}/${response.data[index][0]._id.forum_id}?page=1`)
             break
           }
           else if(response.data[index][0].username !== undefined){
@@ -134,7 +134,7 @@ function Navigation(props) {
   }, [inputValue])
 
   const HandleSearchNavigation = (route)=>{
-    navigate(route)
+    navigate(route + '?page=1')
   }
   useEffect(()=>{
     setRemoveId(props.removeId)
@@ -169,7 +169,6 @@ function Navigation(props) {
       GetNotifications()
     }
   }, [])
-
   return (
     <Navbar
       expand='lg'
@@ -191,14 +190,14 @@ function Navigation(props) {
               onClick={() => navigate('/chats')}
             >
               Chats
-            </Nav.Link> : <Nav.Link style={textStyle} className='mx-2 my-auto' onPointerDown={() =>navigate('/credits')}>Credits</Nav.Link>}
+            </Nav.Link> : <Nav.Link style={textStyle} className='mx-2 my-auto' onClick={() =>navigate('/credits')}>Credits</Nav.Link>}
               {isLoggedIn ? <NotifDropdown removeId={removeId} setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
             style={{ width: '100%' }}
             className='mx-auto justify-content-center'
           >
-            <Form className='custom-mw mx-2' onSubmit={HandleKeyDown}>
+            <Form className='custom-mw mx-2' onSubmit={handleKeyDown}>
               <Form.Control
                 type='text'
                 placeholder='Search'
@@ -212,10 +211,10 @@ function Navigation(props) {
             <Dropdown show={inputValue.trim() !== '' && showSearchResults}>
             <Dropdown.Menu className='custom-mw' ref={dropdownRef}>
       {searchResults.users.length > 0 && searchResults.users.map((item) => (
-        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/user/${item.name}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (user)` : `${item.name} (user)`}</Dropdown.Item>
+        <Dropdown.Item onClick={()=>HandleSearchNavigation(`/user/${item.name}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,13)}... (user)` : `${item.name} (user)`}</Dropdown.Item>
       ))}
       {searchResults.forums.length > 0 && searchResults.forums.map((item) => (
-        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,Math.floor(dropdownWidth/16))}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
+        <Dropdown.Item onClick={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,13)}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
       ))}
           {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item className='d-flex justify-content-center'  key='noResults'>No search results</Dropdown.Item>}
            </Dropdown.Menu>

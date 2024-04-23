@@ -22,7 +22,7 @@ function NotifDropdown(props) {
   ))
 
   useEffect(()=>{
-    const GetNotifications = async() => {
+    const getNotifications = async() => {
       try {
         const response = await axios.get('/notification',
         {
@@ -37,7 +37,7 @@ function NotifDropdown(props) {
         setNotifications('Could not retrieve notifications')
       }
     }
-    GetNotifications()
+    getNotifications()
   },[])
   useEffect(()=>{
     if(notifications.notifications && props.removeId !== ''){

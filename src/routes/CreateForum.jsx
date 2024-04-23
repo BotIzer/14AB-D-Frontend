@@ -5,7 +5,7 @@ import { useEffect, useState, } from 'react'
 import PostCard from '../components/PostCard'
 import { useNavigate } from 'react-router-dom'
 
-function CreateForum() {
+function createForum() {
 
   const navigate = useNavigate()
   const [previewData, setPreviewData] = useState({
@@ -48,7 +48,7 @@ function CreateForum() {
     </Row>
   ))
 
-  const CreateForum = async () => {
+  const createForum = async () => {
     const title = document.getElementById('title').value.trim()
     const banner = document.getElementById('banner').value.trim()
     const description = document.getElementById('description').value.trim()
@@ -91,12 +91,12 @@ function CreateForum() {
       setDisplayError(true)
     }
   }
-  const Cancel = async () => {
+  const cancel = async () => {
     if (confirm('Are you sure you want to cancel forum creation?')) {
       navigate('/forums')
     }
   }
-  const HandleSelect = async (eventKey) => {
+  const handleSelect = async (eventKey) => {
     if(eventKey === 'preview') {
       const title = document.getElementById('title').value.trim()
       const banner = document.getElementById('banner').value.trim()
@@ -110,7 +110,7 @@ function CreateForum() {
       })
     }
   }
-  const AddTag = () => {
+  const addTag = () => {
     if(document.getElementById('tagUpload').value.trim() === ''){
       document.getElementById('tagUpload').value = ''
       return
@@ -129,7 +129,7 @@ function CreateForum() {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()
-      AddTag()
+      addTag()
     }
   }
 
@@ -154,7 +154,7 @@ function CreateForum() {
         className='d-flex mb-5 mx-auto my-5 text-nowrap'
         style={{ width: '40vw', borderBottom: 'none' }}
         justify
-        onSelect={HandleSelect}
+        onSelect={handleSelect}
       >
         <Tab eventKey='forum' title='Create forum' className='border tab-size p-2'>
         <FormGroup
@@ -180,7 +180,7 @@ function CreateForum() {
                 >
                   {previewData.tags.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                      <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                      <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onClick={()=>removeTag(item)} onMouseEnter={() =>            
                        {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
                         {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
                         variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src={import.meta.env.VITE_TRASH} alt='trash' /></Button></Col></Row>
@@ -196,7 +196,7 @@ function CreateForum() {
                 <Button
                   variant='outline-warning'
                   className='custom-button'
-                  onClick={() => AddTag()}
+                  onClick={() => addTag()}
                 >
                   Add
                 </Button>
@@ -239,7 +239,7 @@ function CreateForum() {
               variant='outline-warning'
               size='lg'
               onClick={() =>
-                CreateForum()
+                createForum()
               }
               className='mt-3'
             >
@@ -248,7 +248,7 @@ function CreateForum() {
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onClick={() => cancel()}
               className='mt-3'
             >
               Cancel
@@ -301,4 +301,4 @@ function CreateForum() {
   )
 }
 
-export default CreateForum
+export default createForum

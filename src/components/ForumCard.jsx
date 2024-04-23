@@ -10,7 +10,7 @@ function ForumCard(forum) {
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const SubscribeToForum = async () =>{
+  const subscribeToForum = async () =>{
     try {
       await axios.post('/forum/subscribeToForum',
     {
@@ -73,9 +73,9 @@ function ForumCard(forum) {
             backgroundRepeat: 'no-repeat'
           }}
         >
-          {localStorage.getItem('userInfo') !== null ? !isSubscribed ?
+          {localStorage.getItem('userInfo') !== null && !forum.forum.isOwner ? !isSubscribed ?
           <Button 
-            className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>SubscribeToForum()}>Subscribe
+            className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>subscribeToForum()}>Subscribe
           </Button>
            :
           <Button 

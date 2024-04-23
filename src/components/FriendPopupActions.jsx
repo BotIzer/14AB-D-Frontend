@@ -9,7 +9,7 @@ function FriendPopupActions(props) {
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const RemoveFriend = async () =>{
+  const removeFriend = async () =>{
     try {
       await axios.delete(
         `/friend/${props.friend}`,
@@ -24,6 +24,7 @@ function FriendPopupActions(props) {
           withCredentials: true,
         }
       )
+      props.remove()
     } catch (error) {
       setShowError(true)
       setErrorMessage(error.response.message)
@@ -33,7 +34,48 @@ function FriendPopupActions(props) {
     navigate(`/user/${props.friend}`)
   }
   const ListMembers = async () =>{
-    //TODO: finish this
+    try{
+      const response = await axios.get(`/chat/${props.selectedChat}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true
+      })
+      let tempMembers = []
+      for (let index = 0; index < response.data.chat.users.length; index++) {
+        const element = response.data.chat.users[index].user_id;
+        try{
+          const response = await axios.get(`/user/data/${element}`,
+          {
+            headers:{
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true
+          })
+          tempMembers.push(response.data.username)
+        } catch(error){
+          setShowError(true)
+          setErrorMessage(error.response.message)
+        }
+      }
+      const creator = await axios.get(`/user/data/${response.data.chat.owner}`,
+          {
+            headers:{
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true
+          })
+      tempMembers.push(creator.data.username)
+      props.show(tempMembers)
+    }
+    catch(error){
+      setShowError(true)
+      setErrorMessage(error.response.message)
+    }
   }
   const LeaveChat = async () =>{
     try {
@@ -50,6 +92,7 @@ function FriendPopupActions(props) {
           withCredentials: true,
         }
       )
+      props.remove()
     } catch (error) {
       setShowError(true)
       setErrorMessage(error.response.message)
@@ -96,7 +139,17 @@ function FriendPopupActions(props) {
   return (
     <div data-bs-theme='dark' className='list-group list-group-flush h-100'>
       <p className='list-group-item secondary w-100 p-2 text-center mb-0' style={{borderBottom: '1px solid #e8cc80'}}>{props.name}</p>
-      {props.type == 'friend' ?
+      
+      {props.type == 'direct' && <React.Fragment>
+      <Button
+      className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
+      key={'Profile'}
+      onClick={()=> GoToProfile()}
+    >
+      Profile
+    </Button>
+      </React.Fragment>}
+      {props.type == 'friend' &&
         
       <React.Fragment>
       <Button
@@ -108,14 +161,13 @@ function FriendPopupActions(props) {
     </Button>
     <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
-      key='RemoveFriend'
-      onClick={()=> RemoveFriend()}
+      key='removeFriend'
+      onClick={()=> removeFriend()}
     >
       Remove Friend
     </Button>
-    </React.Fragment>
-    :
-    <React.Fragment>
+    </React.Fragment>}
+    {props.type != 'friend' && props.type != 'direct' && <React.Fragment>
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
