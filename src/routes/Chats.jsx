@@ -120,7 +120,7 @@
             ShowPopup('context')
             setProps({
               selectedChat: chat._id,
-              selectedChatType: 'friend',
+              selectedChatType: 'direct',
               displayName: chat.friend_user_name,
             })
           }
@@ -150,7 +150,7 @@
           setProps((prevProps) => ({
             ...prevProps,
             selectedChat: chat._id,
-            selectedChatType: 'friend',
+            selectedChatType: 'direct',
           }))
           setComments(chatData.data.comments)
           ShowChat('click')

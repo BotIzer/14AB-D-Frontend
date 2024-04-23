@@ -124,7 +124,17 @@ function FriendPopupActions(props) {
   return (
     <div data-bs-theme='dark' className='list-group list-group-flush h-100'>
       <p className='list-group-item secondary w-100 p-2 text-center mb-0' style={{borderBottom: '1px solid #e8cc80'}}>{props.name}</p>
-      {props.type == 'friend' ?
+      
+      {props.type == 'direct' && <React.Fragment>
+      <Button
+      className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
+      key={'Profile'}
+      onClick={()=> GoToProfile()}
+    >
+      Profile
+    </Button>
+      </React.Fragment>}
+      {props.type == 'friend' &&
         
       <React.Fragment>
       <Button
@@ -141,9 +151,8 @@ function FriendPopupActions(props) {
     >
       Remove Friend
     </Button>
-    </React.Fragment>
-    :
-    <React.Fragment>
+    </React.Fragment>}
+    {props.type != 'friend' && props.type != 'direct' && <React.Fragment>
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
