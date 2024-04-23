@@ -306,9 +306,6 @@ useEffect(()=>{
             </Button>
           </div>
         </Tab>
-        <Tab eventKey='blackList' title='Blacklist' className='tab-size p-2'>
-              <Blacklist></Blacklist>
-        </Tab>
         <Tab
           eventKey='deleteForum'
           title='Delete Forum'
