@@ -80,7 +80,7 @@ function PostCard(post) {
         <DropdownButton variant='outline-warning' drop='down-centered' title={<img className='filter-gold' src={import.meta.env.VITE_OPTIONS} alt='' />}>
         <Dropdown.Item
           className='list-group-item secondary text-center'
-          onClick={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
+          onPointerDown={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
         >
         Edit
     </Dropdown.Item>

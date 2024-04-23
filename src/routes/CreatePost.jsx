@@ -131,14 +131,14 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 size='lg'
-                onClick={() => SendPost()}
+                onPointerDown={() => SendPost()}
               >
                 Post
               </Button>
               <Button
                 variant='outline-danger'
                 size='lg'
-                onClick={() => ClearAll()}
+                onPointerDown={() => ClearAll()}
               >
                 Clear all
               </Button>
@@ -178,7 +178,7 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 className='custom-button'
-                onClick={() => AddImage()}
+                onPointerDown={() => AddImage()}
               >
                 Add
               </Button>
@@ -190,7 +190,7 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 size='lg'
-                onClick={() => SendPost()}
+                onPointerDown={() => SendPost()}
                 className='mt-3'
               >
                 Post
@@ -198,7 +198,7 @@ function CreatePost() {
               <Button
                 variant='outline-danger'
                 size='lg'
-                onClick={() => ClearAll()}
+                onPointerDown={() => ClearAll()}
                 className='mt-3'
               >
                 Clear all

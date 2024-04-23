@@ -75,11 +75,11 @@ function ForumCard(forum) {
         >
           {localStorage.getItem('userInfo') !== null ? !isSubscribed ?
           <Button 
-            className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>SubscribeToForum()}>Subscribe
+            className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}} onPointerDown={()=>SubscribeToForum()}>Subscribe
           </Button>
            :
           <Button 
-          className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}}  onClick={()=>UnsubscribeFromForum()}>Unsubscribe
+          className='custom-button text-outline' variant='outline-warning' style={{border: '1px solid gold'}}  onPointerDown={()=>UnsubscribeFromForum()}>Unsubscribe
           </Button> 
           : 
           null}
@@ -87,7 +87,7 @@ function ForumCard(forum) {
             {forum.forum.description}
           </Card.Title>
           <Button 
-            onClick={() => navigate(`/forums/${encodeURIComponent(forum.forum.forum_name)}/${forum.forum._id.forum_id}?page=1`)}
+            onPointerDown={() => navigate(`/forums/${encodeURIComponent(forum.forum.forum_name)}/${forum.forum._id.forum_id}?page=1`)}
             className='custom-button text-outline'
             variant='outline-warning'
           >

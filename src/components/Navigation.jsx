@@ -178,7 +178,7 @@ function Navigation(props) {
       sticky='top'
     >
       <Container fluid>
-        <Nav.Link style={textStyle} onClick={() => navigate('/')}>
+        <Nav.Link style={textStyle} onPointerDown={() => navigate('/')}>
           BlitzForFriends <Image src={import.meta.env.VITE_LOGO} style={{width: '64px', height: '64px'}}></Image>
         </Nav.Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -187,7 +187,7 @@ function Navigation(props) {
             {isLoggedIn ? <Nav.Link
               style={textStyle}
               className='mx-2 my-auto'
-              onClick={() => navigate('/chats')}
+              onPointerDown={() => navigate('/chats')}
             >
               Chats
             </Nav.Link> : <Nav.Link style={textStyle} className='mx-2 my-auto' onPointerDown={() =>navigate('/credits')}>Credits</Nav.Link>}
@@ -225,7 +225,7 @@ function Navigation(props) {
             <Nav.Link
               style={textStyle}
               className='mx-2 my-2'
-              onClick={() => navigate('/forums?page=1')}
+              onPointerDown={() => navigate('/forums?page=1')}
             >
               Forums
             </Nav.Link>
@@ -234,7 +234,7 @@ function Navigation(props) {
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
-                  onClick={() =>
+                  onPointerDown={() =>
                     navigate(
                       `/user/${
                         JSON.parse(localStorage.getItem('userInfo')).username
@@ -252,7 +252,7 @@ function Navigation(props) {
                   style={textStyle}
                   className='mx-2 my-2'
                   id='logoutBtn'
-                  onClick={() =>
+                  onPointerDown={() =>
                     window.confirm('Are you sure you want to log out?')
                       ? HandleLogout()
                       : null 
@@ -266,14 +266,14 @@ function Navigation(props) {
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
-                  onClick={() => navigate('/login')}
+                  onPointerDown={() => navigate('/login')}
                 >
                   Login
                 </Nav.Link>
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
-                  onClick={() => navigate('/register')}
+                  onPointerDown={() => navigate('/register')}
                 >
                   Register
                 </Nav.Link>

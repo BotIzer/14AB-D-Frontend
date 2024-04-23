@@ -148,7 +148,7 @@ function CreateChatPopup(props) {
           <Button
             variant='outline-warning'
             size='lg'
-            onClick={() => CreateGroupChat()}
+            onPointerDown={() => CreateGroupChat()}
             className='mt-3'
           >
             Create
@@ -158,7 +158,7 @@ function CreateChatPopup(props) {
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => CloseChat()}
+            onPointerDown={() => CloseChat()}
             className='mt-3'
           >
             Cancel

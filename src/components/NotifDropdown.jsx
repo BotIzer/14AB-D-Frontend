@@ -15,7 +15,7 @@ function NotifDropdown(props) {
     <Dropdown.Item
       key={notif.id}
       className='list-group-item secondary text-center'
-      onClick={() => navigate(`/notifications/${notif.id}`)}
+      onPointerDown={() => navigate(`/notifications/${notif.id}`)}
     >
       {`${notif.text.substring(0,Math.floor(dropdownWidth/16))}...`}
     </Dropdown.Item>
@@ -76,7 +76,7 @@ function NotifDropdown(props) {
         <Dropdown.Menu>
         <Dropdown.Item
           eventKey='4'
-          onClick={() =>
+          onPointerDown={() =>
             navigate('/notifications?page=1')
           }
           onMouseEnter={() =>

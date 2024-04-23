@@ -30,9 +30,9 @@ function VerifyEmail() {
       <Navigation />
       <Container className='text-center' fluid>
         {isVerified? <Row className='m-5 p-2 border border-success text-success' style={{ backgroundColor: '#4a4b4f' }}>
-          <h1>Verification successful!</h1> <p>You will be rerouted shortly!</p><Button onClick={() => navigate('/login')}>Login</Button>
+          <h1>Verification successful!</h1> <p>You will be rerouted shortly!</p><Button onPointerDown={() => navigate('/login')}>Login</Button>
         </Row>: <Row className='mt-5 p-2 border border-danger text-danger' style={{ backgroundColor: '#4a4b4f' }}>
-          <h1>Verification failed!</h1><p>Something went wrong! Try verifying again.</p> <Button onClick={() => navigate('/login')}>Login</Button>
+          <h1>Verification failed!</h1><p>Something went wrong! Try verifying again.</p> <Button onPointerDown={() => navigate('/login')}>Login</Button>
         </Row>}
       </Container>
     </>

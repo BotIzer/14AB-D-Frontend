@@ -131,7 +131,7 @@ function ChatWindow(currentChatData) {
     <Dropdown.Item
         className='list-group-item secondary text-center'
         key={friend}
-        onClick={() => AddToChat(friend.username)}>
+        onPointerDown={() => AddToChat(friend.username)}>
         {friend.username}
     </Dropdown.Item>
 ))
@@ -194,7 +194,7 @@ useEffect(() => {
                 </DropdownButton>
               </Col> : null}
               <Col className='text-end p-0'>
-                <Button className='close-button ms-auto' onClick={() => CloseChat()} >
+                <Button className='close-button ms-auto' onPointerDown={() => CloseChat()} >
                   <img className='hover-filter-red' src={import.meta.env.VITE_CANCEL} alt='' />
                 </Button>
               </Col>
@@ -218,7 +218,7 @@ useEffect(() => {
             variant='outline-warning'
             className='custom-button w-25 p-0 overflow-hidden'
             type='submit'
-            onClick={() => SendMsg()}
+            onPointerDown={() => SendMsg()}
           >
             Send
           </Button>

@@ -94,8 +94,8 @@ function Notifications() {
         <p className={seenNotifications.includes(notification.id) ? 'text-muted' : 'secondary'} >{notification.text}</p>
       </Row>
       <Row className=' justify-content-around'>
-        <Button style={{ width: '40%' }} variant='outline-warning px-0' disabled={seenNotifications.includes(notification.id)} onClick={() => SendSeen(notification.id)}>Seen</Button>
-        <Button style={{ width: '40%' }} variant='outline-danger px-0' onClick={() => DeleteNotification(notification.id)}>Delete</Button>
+        <Button style={{ width: '40%' }} variant='outline-warning px-0' disabled={seenNotifications.includes(notification.id)} onPointerDown={() => SendSeen(notification.id)}>Seen</Button>
+        <Button style={{ width: '40%' }} variant='outline-danger px-0' onPointerDown={() => DeleteNotification(notification.id)}>Delete</Button>
       </Row>
     </div>
   ))
@@ -153,7 +153,7 @@ function Notifications() {
       setShowError(true)
     }
   }
-  const handlePaginationClick = (pageNumber) =>{
+  const handlePaginationPointerDown = (pageNumber) =>{
     setPageData(prevState => ({
       ...prevState,
       currentPage: pageNumber
@@ -163,19 +163,19 @@ function Notifications() {
   let pages = []
   if(pageData.currentPage-1 > 0){
     pages.push(
-      <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
+      <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
         {pageData.currentPage-1}
       </Pagination.Item>
       )
   }
   pages.push(
-    <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage)} key={pageData.currentPage} active={true}>
+    <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage)} key={pageData.currentPage} active={true}>
       {pageData.currentPage}
     </Pagination.Item>
     )
     if (pageData.currentPage+1 <= pageData.pageCount) {
       pages.push(
-        <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
+        <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
           {pageData.currentPage+1}
         </Pagination.Item>
         )
@@ -247,11 +247,11 @@ function Notifications() {
                   {requestsList && requestsList.length <= 0 ? 'No friend requests.' : requestsList}
                   <Row>
                     <Pagination className='justify-content-center custom-pagination mb-5 mt-3'>
-                      <Pagination.First onClick={()=>handlePaginationClick(1)}/>
-                      <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
+                      <Pagination.First onPointerDown={()=>handlePaginationPointerDown(1)}/>
+                      <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
                         {pages}
-                      <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
-                      <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
+                      <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+                      <Pagination.Last onPointerDown={()=>handlePaginationPointerDown(pageData.pageCount)}/>
                     </Pagination>
                   </Row>
                 </Tab.Pane>
@@ -259,11 +259,11 @@ function Notifications() {
                   {listItems && listItems.length <= 0 ? 'No notifications.' : listItems}
                   <Row>
                     <Pagination className='justify-content-center custom-pagination mb-5 mt-3'>
-                      <Pagination.First onClick={()=>handlePaginationClick(1)}/>
-                      <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
+                      <Pagination.First onPointerDown={()=>handlePaginationPointerDown(1)}/>
+                      <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
                         {pages}
-                      <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
-                      <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
+                      <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+                      <Pagination.Last onPointerDown={()=>handlePaginationPointerDown(pageData.pageCount)}/>
                     </Pagination>
                   </Row>
                 </Tab.Pane>

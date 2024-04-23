@@ -23,7 +23,7 @@ function Forum() {
   const [showError, setShowError] = useState(false)
   const [error, setError] = useState('')
   
-  const handlePaginationClick = (pageNumber) =>{
+  const handlePaginationPointerDown = (pageNumber) =>{
     setPageData(prevState => ({
       ...prevState,
       currentPage: pageNumber
@@ -49,19 +49,19 @@ function Forum() {
   let pages = []
   if(pageData.currentPage-1 > 0){
     pages.push(
-      <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
+      <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
         {pageData.currentPage-1}
       </Pagination.Item>
       )
   }
   pages.push(
-    <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage)} key={pageData.currentPage} active={true}>
+    <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage)} key={pageData.currentPage} active={true}>
       {pageData.currentPage}
     </Pagination.Item>
     )
     if (pageData.currentPage+1 <= pageData.pageCount) {
       pages.push(
-        <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
+        <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
           {pageData.currentPage+1}
         </Pagination.Item>
         )
@@ -144,7 +144,7 @@ function Forum() {
         {localStorage.getItem('token') !== null && isSubscribed ? <Button
           className='clear-button fixed-bottom-right mb-4'
           style={{ backgroundColor: '#343a40' }}
-          onClick={() => navigate(`/forums/${data.forumData[0].forum_name}/${forum_id}/createpost/`)}
+          onPointerDown={() => navigate(`/forums/${data.forumData[0].forum_name}/${forum_id}/createpost/`)}
         >
           <img
             className='hover-filter-gold'
@@ -166,7 +166,7 @@ function Forum() {
           </h1>
           {localStorage.getItem('token') !== null && isOwner ? <Button className='position-absolute end-0 rounded-pill clear-button' 
                 style={{width: 'auto', height: 'auto'}} 
-                onClick={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
+                onPointerDown={()=>navigate(`/editforum/${encodeURIComponent(data.forumData[0].forum_name)}/${data.forumData[0]._id.forum_id}`)}>
                   <ReactImage src={import.meta.env.VITE_EDIT_BUTTON} className='hover-filter-gold'/>
           </Button> : null}
         </Row>
@@ -186,11 +186,11 @@ function Forum() {
           {postList}
         </Col>
         <Pagination className='justify-content-center custom-pagination'>
-        <Pagination.First onClick={()=>handlePaginationClick(1)}/>
-        <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
+        <Pagination.First onPointerDown={()=>handlePaginationPointerDown(1)}/>
+        <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
         {pages}
-        <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
-        <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
+        <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+        <Pagination.Last onPointerDown={()=>handlePaginationPointerDown(pageData.pageCount)}/>
         </Pagination>
       </Container>
     </>

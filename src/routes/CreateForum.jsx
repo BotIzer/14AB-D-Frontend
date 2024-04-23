@@ -196,7 +196,7 @@ function CreateForum() {
                 <Button
                   variant='outline-warning'
                   className='custom-button'
-                  onClick={() => AddTag()}
+                  onPointerDown={() => AddTag()}
                 >
                   Add
                 </Button>
@@ -238,7 +238,7 @@ function CreateForum() {
             <Button
               variant='outline-warning'
               size='lg'
-              onClick={() =>
+              onPointerDown={() =>
                 CreateForum()
               }
               className='mt-3'
@@ -248,7 +248,7 @@ function CreateForum() {
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onPointerDown={() => Cancel()}
               className='mt-3'
             >
               Cancel

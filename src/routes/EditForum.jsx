@@ -251,7 +251,7 @@ useEffect(()=>{
                 <Button
                   variant='outline-warning'
                   className='custom-button w-25'
-                  onClick={() => AddTag()}
+                  onPointerDown={() => AddTag()}
                 >
                   Add
                 </Button>
@@ -289,7 +289,7 @@ useEffect(()=>{
             <Button
               variant='outline-warning'
               size='lg'
-              onClick={() =>
+              onPointerDown={() =>
                 SaveChanges()
               }
               className='mt-3'
@@ -299,7 +299,7 @@ useEffect(()=>{
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onPointerDown={() => Cancel()}
               className='mt-3'
             >
               Cancel
@@ -314,7 +314,7 @@ useEffect(()=>{
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => DeleteForum()}
+            onPointerDown={() => DeleteForum()}
             className='mt-3'
           >
             Delete Forum

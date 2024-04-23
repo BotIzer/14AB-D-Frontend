@@ -209,7 +209,7 @@ function EditPost() {
                 <Button
                   variant='outline-warning'
                   className='custom-button'
-                  onClick={() => AddImage()}
+                  onPointerDown={() => AddImage()}
                 >
                   Add
                 </Button>
@@ -232,7 +232,7 @@ function EditPost() {
             <Button
               variant='outline-warning'
               size='lg'
-              onClick={() =>
+              onPointerDown={() =>
                 SaveChanges()
               }
               className='mt-3'
@@ -242,7 +242,7 @@ function EditPost() {
             <Button
               variant='outline-danger'
               size='lg'
-              onClick={() => Cancel()}
+              onPointerDown={() => Cancel()}
               className='mt-3'
             >
               Cancel
@@ -257,7 +257,7 @@ function EditPost() {
           <Button
             variant='outline-danger'
             size='lg'
-            onClick={() => DeletePost()}
+            onPointerDown={() => DeletePost()}
             className='mt-3'
           >
             Delete Post

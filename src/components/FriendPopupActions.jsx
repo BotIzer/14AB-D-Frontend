@@ -47,7 +47,15 @@ function FriendPopupActions(props) {
       for (let index = 0; index < response.data.chat.users.length; index++) {
         const element = response.data.chat.users[index].user_id;
         try{
-          await axios.get(`/user/null`)
+          const response = await axios.get(`/user/${element}`,
+          {
+            headers:{
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            withCredentials: true
+          })
+          console.log(response.data)
         } catch(error){
           setShowError(true)
           setErrorMessage(error.response.message)
@@ -126,7 +134,7 @@ function FriendPopupActions(props) {
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
-      onClick={()=> GoToProfile()}
+      onPointerDown={()=> GoToProfile()}
     >
       Profile
     </Button>
@@ -137,14 +145,14 @@ function FriendPopupActions(props) {
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
-      onClick={()=> GoToProfile()}
+      onPointerDown={()=> GoToProfile()}
     >
       Profile
     </Button>
     <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key='RemoveFriend'
-      onClick={()=> RemoveFriend()}
+      onPointerDown={()=> RemoveFriend()}
     >
       Remove Friend
     </Button>
@@ -153,21 +161,21 @@ function FriendPopupActions(props) {
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
-      onClick={()=> ListMembers()}
+      onPointerDown={()=> ListMembers()}
     >
       See members
     </Button>
     <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key='LeaveChat'
-      onClick={()=> LeaveChat()}
+      onPointerDown={()=> LeaveChat()}
     >
       Leave Chat
     </Button>
     {isOwner? <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key='DeleteChat'
-      onClick={()=> DeleteChat()}
+      onPointerDown={()=> DeleteChat()}
     >
       Delete Chat
     </Button> : null}

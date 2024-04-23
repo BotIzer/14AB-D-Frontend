@@ -133,7 +133,7 @@ function Login() {
                 </button>
               </Form>
               <button
-                  onClick={()=>navigate('/register')}
+                  onPointerDown={()=>navigate('/register')}
                   className='btn btn-warning'
                 >
                   Register
