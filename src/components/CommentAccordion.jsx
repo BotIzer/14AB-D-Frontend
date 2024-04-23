@@ -98,7 +98,7 @@ function CommentAccordion(props) {
               <Col className='text-nowrap p-0'>
                 <ContextAwareToggle eventKey='0'>+</ContextAwareToggle>
                 <i style={{ fontSize: 'small' }}>
-                  <Link className='chat-name secondary'>
+                  <Link className='chat-name secondary' to={`/user/${props.comment.creator}`}>
                     {props.comment.creator}
                   </Link>{' '}
                   - {DaysDifference(props.comment.creation_date, Date.now())}{' '}
