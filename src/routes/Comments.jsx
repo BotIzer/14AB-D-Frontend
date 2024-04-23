@@ -16,7 +16,7 @@ function Comments() {
 const ContextAwareToggle = ({ children, eventKey, callback }) => {
   const { activeEventKey } = useContext(AccordionContext)
 
-  const decoratedonPointerDown = useAccordionButton(
+  const decoratedonClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey)
   )
@@ -28,7 +28,7 @@ const ContextAwareToggle = ({ children, eventKey, callback }) => {
       style={{ width: '30px', height: '30px' }}
       className='m-2'
       type='button'
-      onPointerDown={decoratedonPointerDown}
+      onClick={decoratedonClick}
     >
       {isCurrentEventKey ? '-' : '+'}
     </button>
@@ -132,7 +132,7 @@ return (
                       variant='outline-warning'
                       className='custom-button mt-3'
                       style={{ fontSize: 'small', border: 'gold solid 1px' }}
-                      onPointerDown={()=>sendComment()}
+                      onClick={()=>sendComment()}
                     >
                       Add Comment
                     </Button>

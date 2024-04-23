@@ -268,7 +268,7 @@ function EditUser() {
                 >
                   {tagList.map((item,index) => (
                     <DropdownItem key={index} className='text-center' id={item}>
-                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} 
+                      <Row className='justify-content-around'><Col className='my-auto'>{item}</Col> <Col><Button onClick={()=>removeTag(item)} 
                       onMouseEnter={() => {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} 
                       onMouseLeave={() => {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
                       variant='outline-danger' className='p-0'>
@@ -285,7 +285,7 @@ function EditUser() {
                 <Button
                   variant='outline-warning'
                   className='custom-button w-25'
-                  onPointerDown={() => AddTag()}
+                  onClick={() => AddTag()}
                 >
                   Add
                 </Button>
@@ -321,7 +321,7 @@ function EditUser() {
             <Button
               variant='outline-warning'
               size='lg'
-              onPointerDown={() =>
+              onClick={() =>
                 SaveChanges()
               }
               className='mt-3'
@@ -331,7 +331,7 @@ function EditUser() {
             <Button
               variant='outline-danger'
               size='lg'
-              onPointerDown={() => Cancel()}
+              onClick={() => Cancel()}
               className='mt-3'
             >
               Cancel
@@ -413,7 +413,7 @@ function EditUser() {
             <Button
               variant='outline-warning'
               size='lg'
-              onPointerDown={() =>
+              onClick={() =>
                 ChangePassword()
               }
               className='mt-3'
@@ -423,7 +423,7 @@ function EditUser() {
             <Button
               variant='outline-danger'
               size='lg'
-              onPointerDown={() => Cancel()}
+              onClick={() => Cancel()}
               className='mt-3'
             >
               Cancel
@@ -438,7 +438,7 @@ function EditUser() {
           <Button
             variant='outline-danger'
             size='lg'
-            onPointerDown={() => DeleteProfile()}
+            onClick={() => DeleteProfile()}
             className='mt-3'
           >
             Delete Profile

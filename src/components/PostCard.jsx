@@ -80,7 +80,7 @@ function PostCard(post) {
         <DropdownButton variant='outline-warning' drop='down-centered' title={<img className='filter-gold' src={import.meta.env.VITE_OPTIONS} alt='' />}>
         <Dropdown.Item
           className='list-group-item secondary text-center'
-          onPointerDown={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
+          onClick={() => navigate(`/editpost/${encodeURIComponent(post.post.name)}/${post.post._id.thread_id}`)} 
         >
         Edit
     </Dropdown.Item>
@@ -138,7 +138,7 @@ function PostCard(post) {
           {post.isDisabled ? null : <Col xs={6} className='text-end'>
             <Button
               className='comments-button tertiary position-relative h-100'
-              onPointerDown={()=>navigate(
+              onClick={()=>navigate(
                 `/forums/${location.pathname.split('/')[2]}/${location.pathname.split('/')[3]}/${post.post._id.thread_id}/comments`)}
             >
               Comments

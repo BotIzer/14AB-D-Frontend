@@ -178,7 +178,7 @@ function Navigation(props) {
       sticky='top'
     >
       <Container fluid>
-        <Nav.Link style={textStyle} onPointerDown={() => navigate('/')}>
+        <Nav.Link style={textStyle} onClick={() => navigate('/')}>
           BlitzForFriends <Image src={import.meta.env.VITE_LOGO} style={{width: '64px', height: '64px'}}></Image>
         </Nav.Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -187,10 +187,10 @@ function Navigation(props) {
             {isLoggedIn ? <Nav.Link
               style={textStyle}
               className='mx-2 my-auto'
-              onPointerDown={() => navigate('/chats')}
+              onClick={() => navigate('/chats')}
             >
               Chats
-            </Nav.Link> : <Nav.Link style={textStyle} className='mx-2 my-auto' onPointerDown={() =>navigate('/credits')}>Credits</Nav.Link>}
+            </Nav.Link> : <Nav.Link style={textStyle} className='mx-2 my-auto' onClick={() =>navigate('/credits')}>Credits</Nav.Link>}
               {isLoggedIn ? <NotifDropdown removeId={removeId} setForumData={()=>setForumData({...forumData, hasSent: true})} notificationData={forumData}></NotifDropdown> : null}
           </Nav>
           <Nav
@@ -211,10 +211,10 @@ function Navigation(props) {
             <Dropdown show={inputValue.trim() !== '' && showSearchResults}>
             <Dropdown.Menu className='custom-mw' ref={dropdownRef}>
       {searchResults.users.length > 0 && searchResults.users.map((item) => (
-        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/user/${item.name}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,13)}... (user)` : `${item.name} (user)`}</Dropdown.Item>
+        <Dropdown.Item onClick={()=>HandleSearchNavigation(`/user/${item.name}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,13)}... (user)` : `${item.name} (user)`}</Dropdown.Item>
       ))}
       {searchResults.forums.length > 0 && searchResults.forums.map((item) => (
-        <Dropdown.Item onPointerDown={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,13)}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
+        <Dropdown.Item onClick={()=>HandleSearchNavigation(`/forums/${item.name}/${item.id}`)} className='d-flex justify-content-center'  key={item.name}>{item.name.length > 25 ? `${item.name.substring(0,13)}... (forum)` : `${item.name} (forum)`}</Dropdown.Item>
       ))}
           {searchResults.users.length == 0 && searchResults.forums.length == 0 && timerOff && <Dropdown.Item className='d-flex justify-content-center'  key='noResults'>No search results</Dropdown.Item>}
            </Dropdown.Menu>
@@ -225,7 +225,7 @@ function Navigation(props) {
             <Nav.Link
               style={textStyle}
               className='mx-2 my-2'
-              onPointerDown={() => navigate('/forums?page=1')}
+              onClick={() => navigate('/forums?page=1')}
             >
               Forums
             </Nav.Link>
@@ -234,7 +234,7 @@ function Navigation(props) {
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
-                  onPointerDown={() =>
+                  onClick={() =>
                     navigate(
                       `/user/${
                         JSON.parse(localStorage.getItem('userInfo')).username
@@ -252,7 +252,7 @@ function Navigation(props) {
                   style={textStyle}
                   className='mx-2 my-2'
                   id='logoutBtn'
-                  onPointerDown={() =>
+                  onClick={() =>
                     window.confirm('Are you sure you want to log out?')
                       ? HandleLogout()
                       : null 
@@ -266,14 +266,14 @@ function Navigation(props) {
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
-                  onPointerDown={() => navigate('/login')}
+                  onClick={() => navigate('/login')}
                 >
                   Login
                 </Nav.Link>
                 <Nav.Link
                   style={textStyle}
                   className='mx-2 my-2'
-                  onPointerDown={() => navigate('/register')}
+                  onClick={() => navigate('/register')}
                 >
                   Register
                 </Nav.Link>

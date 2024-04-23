@@ -14,7 +14,7 @@ function Forums() {
   const [showError, setShowError] = useState(false)
   const [error, setError] = useState('')
 
-  const handlePaginationPointerDown = (pageNumber) =>{
+  const handlePaginationClick = (pageNumber) =>{
     setPageData(prevState => ({
       ...prevState,
       currentPage: pageNumber
@@ -30,19 +30,19 @@ function Forums() {
   let pages = []
   if(pageData.currentPage-1 > 0){
     pages.push(
-      <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
+      <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage-1)} key={pageData.currentPage-1} active={false}>
         {pageData.currentPage-1}
       </Pagination.Item>
       )
   }
   pages.push(
-    <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage)} key={pageData.currentPage} active={true}>
+    <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage)} key={pageData.currentPage} active={true}>
       {pageData.currentPage}
     </Pagination.Item>
     )
     if (pageData.currentPage+1 <= pageData.pageCount) {
       pages.push(
-        <Pagination.Item onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
+        <Pagination.Item onClick={()=>handlePaginationClick(pageData.currentPage+1)} key={pageData.currentPage+1} active={false}>
           {pageData.currentPage+1}
         </Pagination.Item>
         )
@@ -100,7 +100,7 @@ function Forums() {
         {localStorage.getItem('token') !== null ? <Button
           className='mb-5 clear-button fixed-bottom-right'
           style={{ backgroundColor: '#343a40' }}
-          onPointerDown={() => navigate('/createforum')}
+          onClick={() => navigate('/createforum')}
         >
           <img
             className='hover-filter-gold'
@@ -117,11 +117,11 @@ function Forums() {
           </Col>
         </Row>
           <Pagination className='justify-content-center custom-pagination'>
-            <Pagination.First onPointerDown={()=>handlePaginationPointerDown(1)}/>
-            <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
+            <Pagination.First onClick={()=>handlePaginationClick(1)}/>
+            <Pagination.Prev onClick={()=>handlePaginationClick(pageData.currentPage-1 <= 0 ? pageData.pageCount : pageData.currentPage-1)}/>
             {pages}
-            <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
-            <Pagination.Last onPointerDown={()=>handlePaginationPointerDown(pageData.pageCount)}/>
+            <Pagination.Next onClick={()=>handlePaginationClick(pageData.currentPage+1 > pageData.pageCount ? 1 : pageData.currentPage+1)}/>
+            <Pagination.Last onClick={()=>handlePaginationClick(pageData.pageCount)}/>
           </Pagination>
       </Container>
     </>

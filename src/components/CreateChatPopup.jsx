@@ -19,7 +19,7 @@ function CreateChatPopup(props) {
   const addFriends = friendList.map((friend) => (
     <Row key={friend.username} className='border border-secondary text-nowrap w-100 mx-auto'>
       <Col className='p-2 text-start'>
-      <Button variant='outline-warning' onPointerDown={()=>groupMembers.includes(friend.username) ? setGroupMembers(groupMembers.filter(member => member !== friend.username))
+      <Button variant='outline-warning' onClick={()=>groupMembers.includes(friend.username) ? setGroupMembers(groupMembers.filter(member => member !== friend.username))
       : setGroupMembers([...groupMembers, friend.username])}>
         {groupMembers.includes(friend.username) ? '-' : '+'}</Button>{friend.username}
       </Col>
@@ -148,7 +148,7 @@ function CreateChatPopup(props) {
           <Button
             variant='outline-warning'
             size='lg'
-            onPointerDown={() => CreateGroupChat()}
+            onClick={() => CreateGroupChat()}
             className='mt-3'
           >
             Create
@@ -158,7 +158,7 @@ function CreateChatPopup(props) {
           <Button
             variant='outline-danger'
             size='lg'
-            onPointerDown={() => CloseChat()}
+            onClick={() => CloseChat()}
             className='mt-3'
           >
             Cancel

@@ -46,6 +46,7 @@ function FriendPopupActions(props) {
       })
       for (let index = 0; index < response.data.chat.users.length; index++) {
         const element = response.data.chat.users[index].user_id;
+        console.log(response.data.chat.users)
         try{
           const response = await axios.get(`/user/${element}`,
           {
@@ -134,7 +135,7 @@ function FriendPopupActions(props) {
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
-      onPointerDown={()=> GoToProfile()}
+      onClick={()=> GoToProfile()}
     >
       Profile
     </Button>
@@ -145,14 +146,14 @@ function FriendPopupActions(props) {
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
-      onPointerDown={()=> GoToProfile()}
+      onClick={()=> GoToProfile()}
     >
       Profile
     </Button>
     <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key='RemoveFriend'
-      onPointerDown={()=> RemoveFriend()}
+      onClick={()=> RemoveFriend()}
     >
       Remove Friend
     </Button>
@@ -161,21 +162,21 @@ function FriendPopupActions(props) {
       <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key={'Profile'}
-      onPointerDown={()=> ListMembers()}
+      onClick={()=> ListMembers()}
     >
       See members
     </Button>
     <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key='LeaveChat'
-      onPointerDown={()=> LeaveChat()}
+      onClick={()=> LeaveChat()}
     >
       Leave Chat
     </Button>
     {isOwner? <Button
       className='border rounded-0 list-group-item secondary h-100 w-100 p-2 custom-button'
       key='DeleteChat'
-      onPointerDown={()=> DeleteChat()}
+      onClick={()=> DeleteChat()}
     >
       Delete Chat
     </Button> : null}

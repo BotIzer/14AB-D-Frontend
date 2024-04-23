@@ -236,7 +236,7 @@ function UserPage() {
                 <Button
                   className='text-center clear-button fs-2 primary'
                   style={{ width: 'auto' }}
-                  onPointerDown={() => isLoggedIn && !isSameUser ? setShowChat(!showChat) : null}
+                  onClick={() => isLoggedIn && !isSameUser ? setShowChat(!showChat) : null}
                 >
                   {user}
                 </Button>
@@ -247,7 +247,7 @@ function UserPage() {
                 <Button
                   className='clear-button'
                   style={{ width: 'auto', height: 'auto' }}
-                  onPointerDown={() => SendFriendRequest()}
+                  onClick={() => SendFriendRequest()}
                 >
                   <ReactImage
                     src={import.meta.env.VITE_ADD_FRIEND_BUTTON}
@@ -261,7 +261,7 @@ function UserPage() {
                 <Button
                   className='rounded-pill custom-button'
                   style={{ width: 'auto', height: 'auto' }}
-                  onPointerDown={() => navigate(`/edituser/${user}`)}
+                  onClick={() => navigate(`/edituser/${user}`)}
                 >
                   <ReactImage
                     src={import.meta.env.VITE_EDIT_BUTTON}

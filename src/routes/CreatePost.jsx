@@ -131,14 +131,14 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 size='lg'
-                onPointerDown={() => SendPost()}
+                onClick={() => SendPost()}
               >
                 Post
               </Button>
               <Button
                 variant='outline-danger'
                 size='lg'
-                onPointerDown={() => ClearAll()}
+                onClick={() => ClearAll()}
               >
                 Clear all
               </Button>
@@ -162,7 +162,7 @@ function CreatePost() {
               >
                 {imgList.map((item,index) => (
                   <DropdownItem key={index} className='text-center' id={item}>
-                  <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onPointerDown={()=>removeTag(item)} onMouseEnter={() =>            
+                  <Row className='justify-content-around'><Col className='my-auto overflow-auto'>{item}</Col> <Col><Button onClick={()=>removeTag(item)} onMouseEnter={() =>            
                    {document.getElementById(item).className = 'text-center dropdown-item bg-danger'}} onMouseLeave={() => 
                     {document.getElementById(item).className = 'text-center dropdown-item'}} style={{border: 'none'}} 
                     variant='outline-danger' className='p-0'><img className='filter-red hover-filter-black' src={import.meta.env.VITE_TRASH} alt='trash' /></Button></Col></Row>
@@ -178,7 +178,7 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 className='custom-button'
-                onPointerDown={() => AddImage()}
+                onClick={() => AddImage()}
               >
                 Add
               </Button>
@@ -190,7 +190,7 @@ function CreatePost() {
               <Button
                 variant='outline-warning'
                 size='lg'
-                onPointerDown={() => SendPost()}
+                onClick={() => SendPost()}
                 className='mt-3'
               >
                 Post
@@ -198,7 +198,7 @@ function CreatePost() {
               <Button
                 variant='outline-danger'
                 size='lg'
-                onPointerDown={() => ClearAll()}
+                onClick={() => ClearAll()}
                 className='mt-3'
               >
                 Clear all

@@ -67,7 +67,7 @@ function FrontPage(params) {
     <Dropdown.Item
         className='list-group-item secondary text-center'
         key={friend}
-        onPointerDown={() => AddToChat(friend.username)}>
+        onClick={() => AddToChat(friend.username)}>
         {friend.username}
     </Dropdown.Item>
 ))
@@ -105,11 +105,11 @@ const categoryList = dummyForum.tags.map((category,index) => (
         >
           {localStorage.getItem('userInfo') !== null ? !isSubscribed ?
           <Button 
-            className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}} onPointerDown={()=>SubscribeToForum()}>Subscribe
+            className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}} onClick={()=>SubscribeToForum()}>Subscribe
           </Button>
            :
           <Button 
-          className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}}  onPointerDown={()=>UnsubscribeFromForum()}>Unsubscribe
+          className='custom-button text-outline' disabled variant='outline-warning' style={{border: '1px solid gold'}}  onClick={()=>UnsubscribeFromForum()}>Unsubscribe
           </Button> 
           : 
           null}
@@ -117,7 +117,7 @@ const categoryList = dummyForum.tags.map((category,index) => (
             {dummyForum.description}
           </Card.Title>
           <Button 
-            onPointerDown={() => navigate(`/forums/${encodeURIComponent(dummyForum.forum_name)}/${dummyForum._id.forum_id}?page=1`)}
+            onClick={() => navigate(`/forums/${encodeURIComponent(dummyForum.forum_name)}/${dummyForum._id.forum_id}?page=1`)}
             className='custom-button text-outline'
             variant='outline-warning'
             disabled
@@ -178,7 +178,7 @@ const categoryList = dummyForum.tags.map((category,index) => (
             className='custom-button w-25 p-0 overflow-hidden'
             type='submit'
             disabled
-            onPointerDown={() => SendMsg()}
+            onClick={() => SendMsg()}
           >
             Send
           </Button>

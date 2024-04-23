@@ -19,7 +19,7 @@ function MyCarousel(forums) {
         <div className='secondary'>
           <p className='text-outline'>{forum.description && forum.description}</p>
         </div>
-        <Button className='custom-button primary' style={{border: 'solid 1px gold'}} onPointerDown={()=>goToForum(forum.forum_name, forum._id.forum_id)}>Visit Forum</Button>
+        <Button className='custom-button primary' style={{border: 'solid 1px gold'}} onClick={()=>goToForum(forum.forum_name, forum._id.forum_id)}>Visit Forum</Button>
       </Carousel.Caption>
     </Carousel.Item>
   )) : forums.images && forums.images.map((image) => (

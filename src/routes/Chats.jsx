@@ -46,7 +46,7 @@
     const [showError, setShowError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
-    const handlePaginationPointerDown = (pageNumber, pageType) =>{
+    const handlePaginationClick = (pageNumber, pageType) =>{
       
       setPaginationPageData({
         dmCurrentPage: (pageType == 'dm'? pageNumber : paginationPageData.dmCurrentPage),
@@ -132,7 +132,7 @@
             selectedFriend: chat.friend_user_name,
           }))
         }}
-        onPointerDown={async (e) => {
+        onClick={async (e) => {
           try {
             e.preventDefault()
           if (
@@ -191,7 +191,7 @@
             displayName: friend.username,
           })
         }}
-        onPointerDown={async (e) => {
+        onClick={async (e) => {
           e.preventDefault()
           try {
             const response = await axios.post(
@@ -289,7 +289,7 @@
               })
             }
           }}
-          onPointerDown={async (e) => {
+          onClick={async (e) => {
             try {
               e.preventDefault()
               if (
@@ -330,7 +330,7 @@
     let dmPages = []
     for (let i = 1; i <= paginationPageData.dmPageCount; i++) {
       dmPages.push(
-        <Pagination.Item key={i} active={i === paginationPageData.dmCurrentPage} onPointerDown={()=>handlePaginationPointerDown(i, 'dm')}>
+        <Pagination.Item key={i} active={i === paginationPageData.dmCurrentPage} onClick={()=>handlePaginationClick(i, 'dm')}>
           {i}
         </Pagination.Item>
       )
@@ -338,7 +338,7 @@
     let groupPages = []
     for (let i = 1; i <= paginationPageData.groupPageCount; i++) {
       groupPages.push(
-        <Pagination.Item key={i} active={i === paginationPageData.groupCurrentPage} onPointerDown={()=>handlePaginationPointerDown(i, 'group')}>
+        <Pagination.Item key={i} active={i === paginationPageData.groupCurrentPage} onClick={()=>handlePaginationClick(i, 'group')}>
           {i}
         </Pagination.Item>
       )
@@ -346,7 +346,7 @@
     let friendsPages = []
     for (let i = 1; i <= paginationPageData.friendsPageCount; i++) {
       friendsPages.push(
-        <Pagination.Item key={i} active={i === paginationPageData.friendsCurrentPage} onPointerDown={()=>handlePaginationPointerDown(i, 'friends')}>
+        <Pagination.Item key={i} active={i === paginationPageData.friendsCurrentPage} onClick={()=>handlePaginationClick(i, 'friends')}>
           {i}
         </Pagination.Item>
       )
@@ -468,9 +468,9 @@
                     <Col className='overflow-auto'>
                       {directMessageList}
                       <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
-                        <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(paginationPageData.dmCurrentPage -1 <= 0 ? paginationPageData.dmPageCount : paginationPageData.dmCurrentPage - 1, 'dm')}/>
+                        <Pagination.Prev onClick={()=>handlePaginationClick(paginationPageData.dmCurrentPage -1 <= 0 ? paginationPageData.dmPageCount : paginationPageData.dmCurrentPage - 1, 'dm')}/>
                         {dmPages}
-                        <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(paginationPageData.dmCurrentPage +1 > paginationPageData.dmPageCount ? 1 : paginationPageData.dmCurrentPage + 1, 'dm')}/>
+                        <Pagination.Next onClick={()=>handlePaginationClick(paginationPageData.dmCurrentPage +1 > paginationPageData.dmPageCount ? 1 : paginationPageData.dmCurrentPage + 1, 'dm')}/>
                       </Pagination>{' '}
                     </Col>
                   </Row>
@@ -483,9 +483,9 @@
                       {groupList}
                       <Row>
                         <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
-                          <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(paginationPageData.groupCurrentPage -1 <= 0 ? paginationPageData.groupPageCount : paginationPageData.groupCurrentPage - 1, 'group')}/>
+                          <Pagination.Prev onClick={()=>handlePaginationClick(paginationPageData.groupCurrentPage -1 <= 0 ? paginationPageData.groupPageCount : paginationPageData.groupCurrentPage - 1, 'group')}/>
                           {groupPages}
-                          <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(paginationPageData.groupCurrentPage +1 > paginationPageData.groupPageCount ? 1 : paginationPageData.groupCurrentPage + 1, 'group')}/>
+                          <Pagination.Next onClick={()=>handlePaginationClick(paginationPageData.groupCurrentPage +1 > paginationPageData.groupPageCount ? 1 : paginationPageData.groupCurrentPage + 1, 'group')}/>
                         </Pagination>{' '}
                       </Row>
                     </Col>
@@ -500,7 +500,7 @@
                           'filter-gold')
                       }
                     >
-                      <div onPointerDown={() => ShowCreate()}>
+                      <div onClick={() => ShowCreate()}>
                         <b>+</b>{' '}
                         <Image
                           id='addGroup'
@@ -540,7 +540,7 @@
                   ) : null}
                   {showData.showMembers ? (
                     <Row className='h-100 m-0 justify-content-center'>
-                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onPointerDown={()=> setShowData(prevData => ({...prevData, showMembers: true})) }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
+                      <div className='w-100 d-flex flex-row justify-content-center' style={{borderBottom: 'solid 1px gold', alignItems: 'center'}}><h4 className='text-center' style={{width: 'fit-content'}}>List of members</h4><Button className='clear-button filter-red' onClick={()=> setShowData(prevData => ({...prevData, showMembers: true})) }><img src={import.meta.env.VITE_CANCEL} alt="" /></Button></div>
                       {membersList}
                     </Row>
                   ): null}
@@ -561,9 +561,9 @@
                     <Col className='overflow-auto'>
                       {friendList}
                       <Pagination className='justify-content-center p-0 m-0 custom-pagination'>
-                        <Pagination.Prev onPointerDown={()=>handlePaginationPointerDown(paginationPageData.friendsCurrentPage -1 <= 0 ? paginationPageData.friendsPageCount : paginationPageData.friendsCurrentPage - 1, 'friends')}/>
+                        <Pagination.Prev onClick={()=>handlePaginationClick(paginationPageData.friendsCurrentPage -1 <= 0 ? paginationPageData.friendsPageCount : paginationPageData.friendsCurrentPage - 1, 'friends')}/>
                         {friendsPages}
-                        <Pagination.Next onPointerDown={()=>handlePaginationPointerDown(paginationPageData.friendsCurrentPage +1 > paginationPageData.friendsPageCount ? 1 : paginationPageData.friendsCurrentPage + 1, 'friends')}/>
+                        <Pagination.Next onClick={()=>handlePaginationClick(paginationPageData.friendsCurrentPage +1 > paginationPageData.friendsPageCount ? 1 : paginationPageData.friendsCurrentPage + 1, 'friends')}/>
                       </Pagination>{' '}
                     </Col>
                   </Row>
@@ -604,7 +604,7 @@
                   style={{ maxWidth: 'fit-content' }}
                 >
                   <Nav.Item>
-                    <Nav.Link className='custom-tab secondary' eventKey='chats' onPointerDown={()=>setActiveKey('chats')}>
+                    <Nav.Link className='custom-tab secondary' eventKey='chats' onClick={()=>setActiveKey('chats')}>
                       Chats
                     </Nav.Link>
                   </Nav.Item>
@@ -614,7 +614,7 @@
                   style={{ maxWidth: 'fit-content' }}
                 >
                   <Nav.Item>
-                    <Nav.Link className='custom-tab secondary' eventKey='friends' onPointerDown={()=>setActiveKey('friends')}>
+                    <Nav.Link className='custom-tab secondary' eventKey='friends' onClick={()=>setActiveKey('friends')}>
                       Friend List
                     </Nav.Link>
                   </Nav.Item>

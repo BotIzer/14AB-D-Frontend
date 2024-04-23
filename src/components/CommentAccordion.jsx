@@ -24,7 +24,7 @@ function CommentAccordion(props) {
   const ContextAwareToggle = ({ children, eventKey, callback }) => {
     const { activeEventKey } = useContext(AccordionContext)
 
-    const decoratedonPointerDown = useAccordionButton(
+    const decoratedonClick = useAccordionButton(
       eventKey,
       () => callback && callback(eventKey)
     )
@@ -36,7 +36,7 @@ function CommentAccordion(props) {
         style={{ width: '30px', height: '30px' }}
         className='m-2'
         type='button'
-        onPointerDown={decoratedonPointerDown}
+        onClick={decoratedonClick}
       >
         {isCurrentEventKey ? '-' : '+'}
       </button>
@@ -121,7 +121,7 @@ function CommentAccordion(props) {
                       variant='outline-warning'
                       className='custom-button'
                       style={{ fontSize: 'small', border: 'gold solid 1px' }}
-                      onPointerDown={()=>setIsEditing(true)}
+                      onClick={()=>setIsEditing(true)}
                     >
                       Edit
                     </Button>
@@ -129,7 +129,7 @@ function CommentAccordion(props) {
                       variant='outline-warning'
                       className='custom-button'
                       style={{ fontSize: 'small', border: 'gold solid 1px', color: 'red'}}
-                      onPointerDown={()=>deleteComment()}
+                      onClick={()=>deleteComment()}
                     >
                       Delete
                     </Button> 
@@ -140,7 +140,7 @@ function CommentAccordion(props) {
                     variant='outline-warning'
                     className='custom-button'
                     style={{ fontSize: 'small', border: 'gold solid 1px' }}
-                    onPointerDown={()=>editComment()}
+                    onClick={()=>editComment()}
                   >
                     Save
                   </Button>
@@ -148,7 +148,7 @@ function CommentAccordion(props) {
                   variant='outline-warning'
                   className='custom-button'
                   style={{ fontSize: 'small', border: 'gold solid 1px' }}
-                  onPointerDown={()=>setIsEditing(false)}
+                  onClick={()=>setIsEditing(false)}
                 >
                   Close Editing
                 </Button>
